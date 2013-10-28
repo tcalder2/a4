@@ -1,8 +1,10 @@
 <?php
 
-namespace Application\Entity;
+namespace User\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Zend\Form\Annotation\Validator;
 use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
@@ -19,7 +21,6 @@ class User {
 
  function __construct()
  {
-  $this->is_parent = false;
  }
 
  public function toArray()
@@ -37,6 +38,19 @@ class User {
   throw new \Exception("Not used");
  }
 
+ /**
+  * @return \Zend\Validator\StringLength
+  */
+ public function getPasswordValidator()
+ {
+  $length_validator = new \Zend\Validator\StringLength(array('min'=> 3, 'max' => 6));
+  $length_validator->setMessages(array(
+   \Zend\Validator\StringLength::TOO_LONG => "The password can be have no more than 6 characters",
+   \Zend\Validator\StringLength::TOO_SHORT => "The password can have no fewer than 3 characters",
+  ));
+
+  return $length_validator;
+ }
 
  public function getInputFilter()
  {
@@ -101,10 +115,7 @@ class User {
   */
  protected $id;
 
- /** @ORM\Column(type="string", nullable=true) */
- protected $username;
-
- /** @ORM\Column(type="string", nullable=true) */
+ /** @ORM\Column(type="string", nullable=true, unique=true) */
  protected $fb_id;
 
  /** @ORM\Column(type="string", nullable=true) */
@@ -125,10 +136,15 @@ class User {
  /** @ORM\Column(type="string", nullable=true) */
  protected $question;
 
+ /** @ORM\Column(type="string", nullable=true) */
+ protected $answer;
+
  //A user must be able to choose between three skins on the Drill Mode. A skin is a look and feel and/or a theme for the interface. For example all the buttons/text/menus would have the same colour scheme in a particular skin. 3% of your final mark for acceptance testing will be based on the aesthetic appeal/creativity/originality of your skins. HINT: Java swing has a look and feel class to help. If you want to do some cool stuff, do a search on Java, "Look and Feel" for sample code. BUT LEAVE THIS TO THE END, make sure all the other stuff works first :-)
  /** @ORM\Column(type="string", nullable=true) */
  protected $skin;
 
+ /** @ORM\Column(type="string", nullable=true) */
+ protected $incorrect_password_attempts;
 
  public function exchangeArray($data)
  {
@@ -138,6 +154,166 @@ class User {
   $this->last_name = (isset($data['last_name'])) ? $data['last_name'] : null;
   $this->fb_id = (isset($data['id'])) ? $data['id'] : null;
   $this->fb_link = (isset($data['fb_link'])) ? $data['fb_link'] : null;
+ }
+
+ /**
+  * @param mixed $answer
+  */
+ public function setAnswer($answer)
+ {
+  $this->answer = $answer;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getAnswer()
+ {
+  return $this->answer;
+ }
+
+ /**
+  * @param mixed $fb_id
+  */
+ public function setFbId($fb_id)
+ {
+  $this->fb_id = $fb_id;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getFbId()
+ {
+  return $this->fb_id;
+ }
+
+ /**
+  * @param mixed $fb_link
+  */
+ public function setFbLink($fb_link)
+ {
+  $this->fb_link = $fb_link;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getFbLink()
+ {
+  return $this->fb_link;
+ }
+
+ /**
+  * @param mixed $first_name
+  */
+ public function setFirstName($first_name)
+ {
+  $this->first_name = $first_name;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getFirstName()
+ {
+  return $this->first_name;
+ }
+
+ /**
+  * @param mixed $id
+  */
+ public function setId($id)
+ {
+  $this->id = $id;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getId()
+ {
+  return $this->id;
+ }
+
+ /**
+  * @param mixed $incorrect_password_attempts
+  */
+ public function setIncorrectPasswordAttempts($incorrect_password_attempts)
+ {
+  $this->incorrect_password_attempts = $incorrect_password_attempts;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getIncorrectPasswordAttempts()
+ {
+  return $this->incorrect_password_attempts;
+ }
+
+ /**
+  * @param mixed $last_name
+  */
+ public function setLastName($last_name)
+ {
+  $this->last_name = $last_name;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getLastName()
+ {
+  return $this->last_name;
+ }
+
+ /**
+  * @param mixed $password
+  */
+ public function setPassword($password)
+ {
+  $this->password = $password;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getPassword()
+ {
+  return $this->password;
+ }
+
+ /**
+  * @param mixed $question
+  */
+ public function setQuestion($question)
+ {
+  $this->question = $question;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getQuestion()
+ {
+  return $this->question;
+ }
+
+ /**
+  * @param mixed $skin
+  */
+ public function setSkin($skin)
+ {
+  $this->skin = $skin;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getSkin()
+ {
+  return $this->skin;
  }
 
 

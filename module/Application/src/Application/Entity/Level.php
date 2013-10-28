@@ -101,8 +101,8 @@ class Level {
   */
  protected $id;
 
- /** @ORM\ManyToOne(targetEntity="Application\Entity\Child") */
- protected $child;
+ /** @ORM\ManyToOne(targetEntity="Application\Entity\Progeny") */
+ protected $progeny;
 
  /** @ORM\Column(type="boolean") */
  protected $is_deleted;

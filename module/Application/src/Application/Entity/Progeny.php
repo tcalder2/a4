@@ -12,7 +12,7 @@ use Zend\InputFilter\InputFilterInterface;
  * @ORM\Entity
  * @ORM\Table(name="child")
  */
-class Child {
+class Progeny {
 
  protected $inputFilter;
 
@@ -102,7 +102,7 @@ class Child {
  protected $id;
 
 
- /** @ORM\ManyToOne(targetEntity="Application\Entity\User") */
+ /** @ORM\ManyToOne(targetEntity="User\Entity\User") */
  protected $user;
 
 // /** @ORM\Column(type="string", nullable=true) */

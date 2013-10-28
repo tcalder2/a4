@@ -50,6 +50,16 @@ return array(
      ),
     ),
 
+    'test' => array(
+     'type' => 'Zend\Mvc\Router\Http\Literal',
+     'options' => array(
+      'route' => '/test',
+      'defaults' => array(
+       'controller' => 'Application\Controller\Index',
+       'action' => 'test',
+      ),
+     ),
+    ),
 
    ),
   ),

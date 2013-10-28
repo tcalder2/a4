@@ -14,6 +14,7 @@
         "doctrine/dbal": "2.4.*",
         "doctrine/orm": "2.4.*",
         "doctrine/doctrine-orm-module": "0.7.*",
-	"facebook/php-sdk": "dev-master"
+	"facebook/php-sdk": "dev-master",
+        "zendframework/zftool": "dev-master"
     }
 }
