@@ -26,8 +26,9 @@ class User {
  public function toArray()
  {
   return array(
-   'email' => $this->getEmail(),
-   'is_registered' => $this->getIsRegistered(),
+   'fb_id' => $this->getFbId(),
+   'first_name' => $this->getFirstName(),
+   'last_name' => $this->getLastName(),
   );
 
 
@@ -45,7 +46,7 @@ class User {
  {
   $length_validator = new \Zend\Validator\StringLength(array('min'=> 3, 'max' => 6));
   $length_validator->setMessages(array(
-   \Zend\Validator\StringLength::TOO_LONG => "The password can be have no more than 6 characters",
+   \Zend\Validator\StringLength::TOO_LONG => "The password can have no more than 6 characters",
    \Zend\Validator\StringLength::TOO_SHORT => "The password can have no fewer than 3 characters",
   ));
 

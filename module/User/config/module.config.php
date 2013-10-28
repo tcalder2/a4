@@ -41,6 +41,61 @@ return array(
     ),
    ),
 
+   'setanswer' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+     'route' => '/setanswer',
+     'defaults' => array(
+      'controller' => 'User\Controller\User',
+      'action' => 'setanswer',
+     ),
+    ),
+   ),
+
+   'getuser' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+     'route' => '/getuser',
+     'defaults' => array(
+      'controller' => 'User\Controller\User',
+      'action' => 'getuser',
+     ),
+    ),
+   ),
+
+   'checkanswer' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+     'route' => '/checkanswer',
+     'defaults' => array(
+      'controller' => 'User\Controller\User',
+      'action' => 'checkanswer',
+     ),
+    ),
+   ),
+
+   'setquestion' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+     'route' => '/setquestion',
+     'defaults' => array(
+      'controller' => 'User\Controller\User',
+      'action' => 'setquestion',
+     ),
+    ),
+   ),
+
+   'getquestions' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+     'route' => '/getquestions',
+     'defaults' => array(
+      'controller' => 'User\Controller\User',
+      'action' => 'getquestions',
+     ),
+    ),
+   ),
+
    'setpassword' => array(
     'type' => 'Zend\Mvc\Router\Http\Literal',
     'options' => array(

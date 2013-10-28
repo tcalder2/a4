@@ -17,9 +17,36 @@ class UserTable
 
  protected $fb_id;
 
+ protected $questions = array(
+  0 => 'What\'s your mother\'s maiden name?',
+  1 => 'What\'s the name of your favourite pet?',
+  2 => 'Other than CS2212, what is your favourite class/subject?',
+ );
+
  public function __construct(\Zend\ServiceManager\ServiceManager $sm)
  {
   $this->em = $sm->get('Doctrine\ORM\EntityManager');
+ }
+
+ public function setAnswer($answer)
+ {
+  $user = $this->getUser();
+  $user->setAnswer($answer);
+  $this->em->persist($user);
+  $this->em->flush();
+ }
+
+ public function setQuestion($question)
+ {
+  $user = $this->getUser();
+  $user->setQuestion($question);
+  $this->em->persist($user);
+  $this->em->flush();
+ }
+
+ public function getQuestions()
+ {
+  return $this->questions;
  }
 
  /**

@@ -43,6 +43,59 @@ class UserController extends AbstractActionController
 
  }
 
+ public function GetQuestionsAction()
+ {
+  return new JsonModel(array('success' => true, 'questions' => $this->getUserTable()->getQuestions()));
+ }
+
+ public function SetQuestionAction()
+ {
+  $question = $this->params()->fromQuery('question');
+
+  $validator_chain = new \Zend\Validator\ValidatorChain();
+  $validator_chain->attach(new \Zend\Validator\Digits());
+  $validator_chain->attach(new \Zend\Validator\Between(array('inclusive' => true, 'min' => 0, 'max' => 2)));
+
+  if (!$validator_chain->isValid($question))
+   return new JsonModel(array('success' => false, 'messages' => $validator_chain->getMessages()));
+
+  $this->getUserTable()->setQuestion(strtolower($question));
+
+  return new JsonModel(array('success' => true));
+ }
+
+ public function GetUserAction()
+ {
+  $user = $this->getUserTable()->getUser();
+
+  return new JsonModel(array('success' => true, 'user' => $user->toArray()));
+ }
+
+ public function CheckAnswerAction()
+ {
+  $answer = $this->params()->fromQuery('answer');
+
+  if (strtolower($this->getUserTable()->getUser()->getAnswer()) == strtolower($answer))
+   return new JsonModel(array('success' => true));
+
+  return new JsonModel(array('success' => false, 'message' => 'Could not verify answer'));
+ }
+
+ public function SetAnswerAction()
+ {
+  $answer = $this->params()->fromQuery('answer');
+
+  $validator_chain = new \Zend\Validator\ValidatorChain();
+  $validator_chain->attach(new \Zend\Validator\StringLength(array('min' => 1, 'max' => 30)));
+
+  if(!$validator_chain->isValid($answer))
+   return new JsonModel(array('success' => false, 'messages' => $validator_chain->getMessages()));
+
+  $this->getUserTable()->setAnswer($answer);
+
+  return new JsonModel(array('success' => true));
+ }
+
  public function SetPasswordAction()
  {
   $user = $this->getUserTable()->getUser();
@@ -56,7 +109,6 @@ class UserController extends AbstractActionController
 
   return new JsonModel(array('success' => true));
  }
-
 
  /**
   * Return a Facebook object

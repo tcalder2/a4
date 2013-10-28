@@ -35,6 +35,9 @@ class IndexController extends AbstractActionController
 
  public function testAction()
  {
+  if(!$this->getFbId())
+   return $this->redirect()->toRoute('loginfacebook');
+
   //Render the page /module/Application/view/application/index.phtml
   //That page requires the variables in the array to run
   return new ViewModel();
