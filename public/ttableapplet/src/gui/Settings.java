@@ -65,7 +65,7 @@ public class Settings extends BackgroundPanel {
 		Vector<Vector<String>> children = new Vector<Vector<String>>();
 		for (int i = 0; i <10; i++) {
 		Vector<String> v = new Vector<String>();
-		v.add("Cheese");
+		v.add("Wallace");
 		v.add("22");
 		v.add("September");
 		v.add("1963");
@@ -82,7 +82,6 @@ public class Settings extends BackgroundPanel {
 		children.add(v1);
 		}
 		
-		c.ipadx = 0;
 		DefaultTableModel tableModel = new DefaultTableModel(children, columnNames);
 		JTable table = new JTable(tableModel) {
 			public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -136,12 +135,6 @@ public class Settings extends BackgroundPanel {
 		add(addChild, c);
 		
 		JTextField nameInput = new JTextField("--Name--");
-		nameInput.addMouseListener(new MouseAdapter(){
-			@Override
-			public void mouseClicked(MouseEvent e){
-				nameInput.setText("");
-			}
-		});
 		c.insets = new Insets(0,75,0,0);
 		c.gridwidth = 2;
 		c.ipadx = 250;
@@ -301,6 +294,10 @@ public class Settings extends BackgroundPanel {
 		teststate.add(teston);
 		c.gridx = 2;
 		add(teston, c);
+		
+		JButton apply = new JButton("Apply");
+		c.gridx = 4;
+		add(apply, c);
 	}
 }
 
@@ -321,7 +318,4 @@ class toProgress implements ActionListener {
 		FGame menu = new FGame(controller/*, Progeny child*/);
 		controller.setScreen(menu);
 	}
-}
-class nameInputHandler implements ActionListener {
-	public void actionPerformed(
 }
