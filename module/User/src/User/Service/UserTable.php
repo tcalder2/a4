@@ -56,6 +56,7 @@ class UserTable
  {
   $user = $this->getUser();
   $user->setPassword(md5($password));
+  $user->setIncorrectPasswordAttempts(0);
   $this->em->persist($user);
   $this->em->flush();
  }

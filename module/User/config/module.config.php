@@ -63,13 +63,13 @@ return array(
     ),
    ),
 
-   'checkanswer' => array(
+   'resetpassword' => array(
     'type' => 'Zend\Mvc\Router\Http\Literal',
     'options' => array(
-     'route' => '/checkanswer',
+     'route' => '/resetpassword',
      'defaults' => array(
       'controller' => 'User\Controller\User',
-      'action' => 'checkanswer',
+      'action' => 'resetpassword',
      ),
     ),
    ),
@@ -122,9 +122,6 @@ return array(
   'invokables' => array(
    'User\Controller\User' => 'User\Controller\UserController'
   ),
- ),
- 'strategies' => array(
-  'ViewJsonStrategy',
  ),
 
  );

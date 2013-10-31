@@ -12,11 +12,47 @@ import json.Json.JSONFailureException;
 
 public class User {
 
-
-	public static boolean setQuestion(String question) throws JSONFailureException
+	private String firstName = "";
+	private String lastName = "";
+	private String fbId ="";
+	
+	public static User getUser() throws JSONFailureException
+	{
+		User user = new User();
+		
+		Json json = new Json();
+		
+		JSONObject json_obj = json.sendRequest("https://jbaron6.cs2212.ca/getuser");
+		
+		JSONObject user_obj = (JSONObject)json_obj.get("user");
+		
+		user.setFbId((String)user_obj.get("fb_id"));
+		user.setFirstName((String)user_obj.get("first_name"));
+		user.setLastName((String)user_obj.get("last_name"));
+		
+		return user;
+	}
+	
+	public static boolean setAnswer(String answer, String password) throws JSONFailureException
 	{
 		Json json = new Json();
-		json.sendRequest("https://jbaron6.cs2212.ca/setquestion?question=" + question);		
+		json.sendRequest("https://jbaron6.cs2212.ca/setanswer?answer=" + answer + "&password=" + password);
+		
+		return true;
+	}
+	
+	public static boolean resetPassword(String answer, String new_password) throws JSONFailureException
+	{
+		Json json = new Json();
+		json.sendRequest("https://jbaron6.cs2212.ca/resetpassword?answer=" + answer + "&new_password=" + new_password);
+		
+		return true;
+	}
+
+	public static boolean setQuestion(String question, String password) throws JSONFailureException
+	{
+		Json json = new Json();
+		json.sendRequest("https://jbaron6.cs2212.ca/setquestion?question=" + question + "&password=" + password);		
 		
 		return true;
 	}
@@ -39,11 +75,11 @@ public class User {
 		return questions;
 	}
 	
-	public boolean setPassword(String password) throws JSONFailureException
+	public boolean setPassword(String old_password, String new_password) throws JSONFailureException
 	{
 		Json json = new Json();
 		
-		json.sendRequest("https://jbaron6.cs2212.ca/setpassword?password=" + password);
+		json.sendRequest("https://jbaron6.cs2212.ca/setpassword?new_password=" + new_password + "&old_password=" + old_password);
 		
 		return true;
 	}
@@ -57,6 +93,29 @@ public class User {
 		
 		return true;
 	}
-	
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getFbId() {
+		return fbId;
+	}
+
+	public void setFbId(String fbId) {
+		this.fbId = fbId;
+	}
 	
 }

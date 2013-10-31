@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import json.Json;
 import json.Json.JSONFailureException;
 
 import org.json.simple.JSONObject;
@@ -69,6 +70,8 @@ public class Test extends JApplet {
 	}
 
 	public void beginTest() {
+		
+				
 		User user = new User();
 
 		int succeeded_count = 0;
@@ -121,7 +124,7 @@ public class Test extends JApplet {
 		messages = new ArrayList<String>();
 
 		try {
-			user.setPassword("something very long");
+			user.setPassword("cs2212", "something very long");
 		} catch (JSONFailureException e) {
 			messages = e.getMessages();
 			if (messages.get(0).compareTo(
@@ -147,7 +150,7 @@ public class Test extends JApplet {
 		messages = new ArrayList<String>();
 
 		try {
-			user.setPassword("s");
+			user.setPassword("cs2212", "s");
 		} catch (JSONFailureException e) {
 			messages = e.getMessages();
 			if (messages.get(0).compareTo(
@@ -173,7 +176,7 @@ public class Test extends JApplet {
 		messages = new ArrayList<String>();
 
 		try {
-			user.setPassword("group4");
+			user.setPassword("cs2212", "group4");
 			succeeded = true;
 			++succeeded_count;
 			appendTestMessage("TEST PASSED: CHPAS3");
@@ -209,7 +212,7 @@ public class Test extends JApplet {
 		messages = new ArrayList<String>();
 
 		try {
-			user.setPassword("cs2212");
+			user.setPassword("group4", "cs2212");
 			succeeded = true;
 			++succeeded_count;
 			appendTestMessage("TEST PASSED: CHPAS4");
@@ -220,6 +223,32 @@ public class Test extends JApplet {
 			++failed_count;
 		}
 
+		appendTestMessage("");
+
+		// TEST CHPAS2
+		appendTestMessage("CHPAS5: Attempting to set the password with incorrect old password.");
+		succeeded = false;
+		messages = new ArrayList<String>();
+
+		try {
+			user.setPassword("blah", "legal");
+			appendTestMessage("TEST FAILED: CHPAS5");
+			++failed_count;
+		} catch (JSONFailureException e) {
+			if (e.getMessages().get(0).compareTo("Password mismatch") == 0) {
+				++succeeded_count;
+				appendTestMessage("TEST PASSED: CHPAS5");
+			}
+			else
+			{
+				++failed_count;
+				appendTestMessage("TEST FAILED: CHPAS5");
+			}
+
+			appendTestMessages(e.getMessages());
+		}
+
+		
 		appendTestMessage("");
 
 		// TEST AUTH4
@@ -259,7 +288,7 @@ public class Test extends JApplet {
 		appendTestMessage("QUES2: Attempting to set the question to INVALID value \"4\"");
 		
 		try {
-			User.setQuestion("4");
+			User.setQuestion("4", "cs2212");
 			++failed_count;
 			appendTestMessage("TEST FAILED: QUES2");
 		} catch (JSONFailureException e) {
@@ -283,18 +312,18 @@ public class Test extends JApplet {
 		appendTestMessage("QUES3: Attempting to set the question to INVALID value \"-1\"");
 		
 		try {
-			User.setQuestion("-1");
+			User.setQuestion("-1", "cs2212");
 			++failed_count;
 			appendTestMessage("TEST FAILED: QUES3");
 		} catch (JSONFailureException e) {
 			if(e.getMessages().get(0).compareTo("The input is not between \u00270\u0027 and \u00272\u0027, inclusively") == 0)
 			{
-				appendTestMessage("TEST PASSED: QUES2");
+				appendTestMessage("TEST PASSED: QUES3");
 				++succeeded_count;
 			}
 			else
 			{
-				appendTestMessage("TEST FAILED: QUES2");
+				appendTestMessage("TEST FAILED: QUES3");
 				++failed_count;
 			}
 			
@@ -306,7 +335,7 @@ public class Test extends JApplet {
 		appendTestMessage("QUES4: Attempting to set the question to VALID value \"1\"");
 		
 		try {
-			User.setQuestion("1");
+			User.setQuestion("1", "cs2212");
 			++succeeded_count;
 			appendTestMessage("TEST PASSED: QUES4");
 		} catch (JSONFailureException e) {
@@ -315,7 +344,197 @@ public class Test extends JApplet {
 			++failed_count;
 		}
 
+		appendTestMessage("");
 
+		appendTestMessage("ANSW1: Attempting to set the answer to INVALID value \"\"");
+		
+		try {
+			User.setAnswer("", "cs2212");
+			++failed_count;
+			appendTestMessage("TEST FAILED: ANSW1");
+		} catch (JSONFailureException e) {
+			if (e.getMessages().get(0).compareTo("The input is less than 1 characters long") == 0)
+			{
+				appendTestMessage("TEST PASSED: ANSW1");
+				++succeeded_count;
+			}
+			else
+			{
+				appendTestMessage("TEST FAILED: ANSW1");
+				++failed_count;
+			}
+			
+			appendTestMessages(e.getMessages());
+			
+		}
+
+
+		appendTestMessage("");
+
+		appendTestMessage("ANSW2: Attempting to set the answer to INVALID value greater than 30 characters");
+		
+		try {
+			User.setAnswer("abcdefghijklmnopqrstuvwxyz12345", "cs2212");
+			++failed_count;
+			appendTestMessage("TEST FAILED: ANSW2");
+		} catch (JSONFailureException e) {
+			if (e.getMessages().get(0).compareTo("The input is more than 30 characters long") == 0)
+			{
+				appendTestMessage("TEST PASSED: ANSW2");
+				++succeeded_count;
+			}
+			else
+			{
+				appendTestMessage("TEST FAILED: ANSW1");
+				++failed_count;
+			}
+			
+			appendTestMessages(e.getMessages());
+			
+		}
+
+		appendTestMessage("");
+
+		appendTestMessage("ANSW3: Attempting to set the answer to VALID value \"Beer\"");
+		
+		try {
+			User.setAnswer("beer", "cs2212");
+			++succeeded_count;
+			appendTestMessage("TEST PASSED: ANSW3");
+		} catch (JSONFailureException e) {
+			++failed_count;
+			appendTestMessage("TEST FAILED: ANSW3");
+			appendTestMessages(e.getMessages());
+		}
+
+		appendTestMessage("");
+
+		appendTestMessage("RES1: Attempting to reset the password with \"whiskey\"");
+		
+		try {
+			User.resetPassword("whiskey", "blah");
+			++failed_count;
+			appendTestMessage("TEST FAILED: RES1");
+		} catch (JSONFailureException e) {
+			if(e.getMessages().get(0).compareTo("Could not verify answer") == 0)
+			{
+				++succeeded_count;
+				appendTestMessage("TEST PASSED: RES1");
+			}
+			else
+			{
+				++failed_count;
+				appendTestMessage("TEST FAILED: RES1");
+			}
+			appendTestMessages(e.getMessages());
+		}
+
+		appendTestMessage("");
+
+		appendTestMessage("RES2: Attempting to validate, case insensitively, the answer with \"beer\", set password to \"blah\"");
+		
+		try {
+			User.resetPassword("beer", "blah");
+			++succeeded_count;
+			appendTestMessage("TEST PASSED: RES2");
+		} catch (JSONFailureException e) {
+			appendTestMessage("TEST FAILED: RES2");
+			appendTestMessages(e.getMessages());
+		}
+
+		appendTestMessage("");
+		
+		// TEST AUTH1
+		appendTestMessage("AUTH5: Attempting to authenticate with VALID password \"blah\"");
+
+		try {
+			user.authenticate("blah");
+			++succeeded_count;
+			appendTestMessage("TEST PASSED: AUTH5");
+		} catch (JSONFailureException e) {
+			appendTestMessage("TEST FAILED: AUTH5");
+			appendTestMessages(e.getMessages());
+			++failed_count;
+		}
+
+		// blank line
+		appendTestMessage("");
+		
+		
+		// TEST CHPAS6
+		appendTestMessage("CHPAS6: Attempting to set the password to a legal password \"cs2212\".");
+		messages = new ArrayList<String>();
+
+		try {
+			user.setPassword("blah", "cs2212");
+			++succeeded_count;
+			appendTestMessage("TEST PASSED: CHPAS6");
+		} catch (JSONFailureException e) {
+			appendTestMessage("TEST FAILED: CHPAS6");
+			appendTestMessages(e.getMessages());
+			++failed_count;
+		}
+
+		appendTestMessage("");
+
+
+		// TEST AUTH1
+		appendTestMessage("AUTH6: Attempting to authenticate with VALID password \"blah\"");
+
+		try {
+			user.authenticate("cs2212");
+			++succeeded_count;
+			appendTestMessage("TEST PASSED: AUTH6");
+		} catch (JSONFailureException e) {
+			appendTestMessage("TEST FAILED: AUTH6");
+			appendTestMessages(e.getMessages());
+			++failed_count;
+		}
+
+		// blank line
+		appendTestMessage("");
+		
+
+		appendTestMessage("ANSW6: Attempting to validate, case insensitively, the answer with \"beer\"");
+		
+		try {
+			User.setAnswer("beer", "cs2212");
+			++succeeded_count;
+			appendTestMessage("TEST PASSED: ANSW5");
+		} catch (JSONFailureException e) {
+			appendTestMessage("TEST FAILED: ANSW5");
+			appendTestMessages(e.getMessages());
+		}
+		
+		appendTestMessage("");
+
+		appendTestMessage("USER1: Attempting to get user information");
+		
+		try {
+			User user_info = User.getUser();
+			if(
+					user_info.getFirstName().length() > 0 &&
+					user_info.getLastName().length() > 0 &&
+					user_info.getFbId().length() > 0)
+			{
+				++succeeded_count;
+				appendTestMessage("TEST PASSED: USER1");
+				appendTestMessage("First name: " + user_info.getFirstName());
+				appendTestMessage("Last name: " + user_info.getLastName());
+				appendTestMessage("Facebook ID: " + user_info.getFbId());
+			}
+			else
+			{
+				appendTestMessage("TEST FAILED: USER1");
+				++failed_count;
+			}
+		} catch (JSONFailureException e) {
+			appendTestMessage("TEST FAILED: USER1");
+			appendTestMessages(e.getMessages());
+		}
+		
+		
+		
 
 		test_label.setText("Tests Passed: " + succeeded_count
 				+ "  Tests Failed: " + failed_count);
