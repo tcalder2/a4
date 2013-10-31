@@ -43,7 +43,7 @@ class IndexController extends AbstractActionController
   return new ViewModel();
  }
 
- public function indexAction()
+ public function index($view)
  {
   //Create a new Facebook object
   //$facebook->getUser(); gets the Facebook user's ID
@@ -74,10 +74,22 @@ class IndexController extends AbstractActionController
    $user_table->newUser($user_profile);
   }
 
+  $vm = new ViewModel(array('facebook' => $facebook, 'user_profile' => $user_profile));
+  $vm->setTemplate('application/index/'.$view.'.phtml');
+
   //Render the page /module/Application/view/application/index.phtml
   //That page requires the variables in the array to run
-  return new ViewModel(array('facebook' => $facebook, 'user_profile' => $user_profile));
+  return $vm;
+
  }
+
+ public function yaqzanAction() { return $this->index("yaqzan"); }
+ public function jamesaAction() { return $this->index("jamesa"); }
+ public function jamesbAction() { return $this->index("jamesb"); }
+ public function frankAction() { return $this->index("frank"); }
+ public function taylorAction() { return $this->index("taylor"); }
+ public function indexAction() { return $this->index("index"); }
+
 
 
  /**

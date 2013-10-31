@@ -65,7 +65,7 @@ public class Settings extends BackgroundPanel {
 		Vector<Vector<String>> children = new Vector<Vector<String>>();
 		for (int i = 0; i <10; i++) {
 		Vector<String> v = new Vector<String>();
-		v.add("Wallace");
+		v.add("Cheese");
 		v.add("22");
 		v.add("September");
 		v.add("1963");
@@ -136,6 +136,12 @@ public class Settings extends BackgroundPanel {
 		add(addChild, c);
 		
 		JTextField nameInput = new JTextField("--Name--");
+		nameInput.addMouseListener(new MouseAdapter(){
+			@Override
+			public void mouseClicked(MouseEvent e){
+				nameInput.setText("");
+			}
+		});
 		c.insets = new Insets(0,75,0,0);
 		c.gridwidth = 2;
 		c.ipadx = 250;
@@ -315,4 +321,7 @@ class toProgress implements ActionListener {
 		FGame menu = new FGame(controller/*, Progeny child*/);
 		controller.setScreen(menu);
 	}
+}
+class nameInputHandler implements ActionListener {
+	public void actionPerformed(
 }

@@ -28,6 +28,62 @@ return array(
   'router' => array(
    'routes' => array(
 
+    'jamesa' => array(
+     'type' => 'Zend\Mvc\Router\Http\Literal',
+     'options' => array(
+      'route' => '/jamesa',
+      'defaults' => array(
+       'controller' => 'Application\Controller\Index',
+       'action' => 'jamesa',
+      ),
+     ),
+    ),
+
+    'jamesb' => array(
+     'type' => 'Zend\Mvc\Router\Http\Literal',
+     'options' => array(
+      'route' => '/jamesb',
+      'defaults' => array(
+       'controller' => 'Application\Controller\Index',
+       'action' => 'jamesb',
+      ),
+     ),
+    ),
+
+    'yaqzan' => array(
+     'type' => 'Zend\Mvc\Router\Http\Literal',
+     'options' => array(
+      'route' => '/yaqzan',
+      'defaults' => array(
+       'controller' => 'Application\Controller\Index',
+       'action' => 'yaqzan',
+      ),
+     ),
+    ),
+
+    'taylor' => array(
+     'type' => 'Zend\Mvc\Router\Http\Literal',
+     'options' => array(
+      'route' => '/taylor',
+      'defaults' => array(
+       'controller' => 'Application\Controller\Index',
+       'action' => 'taylor',
+      ),
+     ),
+    ),
+
+    'frank' => array(
+     'type' => 'Zend\Mvc\Router\Http\Literal',
+     'options' => array(
+      'route' => '/frank',
+      'defaults' => array(
+       'controller' => 'Application\Controller\Index',
+       'action' => 'frank',
+      ),
+     ),
+    ),
+
+
     'home' => array(
      'type' => 'Zend\Mvc\Router\Http\Literal',
      'options' => array(
