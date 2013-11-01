@@ -9,5 +9,5 @@
 	<classpathentry kind="lib" path="public/ttableapplet/taylor/json-simple-1.1.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="public/ttableapplet/src/json-simple-1.1.1.jar"/>
-	<classpathentry kind="output" path="public/ttableapplet/jamesc"/>
+	<classpathentry kind="output" path="public/ttableapplet/yaqzan"/>
 </classpath>
