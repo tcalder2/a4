@@ -12,23 +12,47 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
+/**
+ * The Class Json.
+ */
 public class Json {
 
+	/**
+	 * The Class JSONFailureException.
+	 */
 	public class JSONFailureException extends Exception {
 
+		/** The messages. */
 		private ArrayList<String> messages;
 
+		/**
+		 * Instantiates a new jSON failure exception.
+		 *
+		 * @param messages the messages
+		 */
 		public JSONFailureException(ArrayList<String> messages) {
 			super("JSON failure message occurred.");
 			this.messages = messages;
 		}
 
+		/**
+		 * Gets the messages.
+		 *
+		 * @return the messages
+		 */
 		public ArrayList<String> getMessages() {
 			return messages;
 		}
 
 	}
 
+	/**
+	 * Send request.
+	 *
+	 * @param url the url
+	 * @return the jSON object
+	 * @throws JSONFailureException the jSON failure exception
+	 */
 	public JSONObject sendRequest(String url) throws JSONFailureException {
 		String json_data = "";
 		URLConnection yc = null;
@@ -68,6 +92,12 @@ public class Json {
 		return data;
 	}
 
+	/**
+	 * Gets the messages.
+	 *
+	 * @param json the json
+	 * @return the messages
+	 */
 	public static ArrayList<String> getMessages(JSONObject json) {
 		ArrayList<String> messages = new ArrayList<String>();
 

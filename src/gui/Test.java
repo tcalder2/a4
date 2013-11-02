@@ -16,7 +16,7 @@ import json.Json.JSONFailureException;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-import user.User;
+import ttable.User;
 
 public class Test extends JApplet {
 
