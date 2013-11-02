@@ -29,7 +29,7 @@ public class StatsMenu extends BackgroundPanel {
 		
 		JTabbedPane tabs = new JTabbedPane();
 		JPanel tabFriends = new JPanel();
-	//	tabFriends.add
+    	//tabFriends.add
 		
 		
 	}
