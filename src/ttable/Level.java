@@ -1,4 +1,4 @@
-package tt;
+package ttable;
 
 /**
  * This class represents a level in the game
