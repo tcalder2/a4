@@ -79,7 +79,7 @@ public class StatsMenu extends BackgroundPanel {
 		tabFriends.add(new JLabel("Jim"), c);
 		c.gridy = 1;
 		c.gridx= 2;
-		tabFriends.add(new JLabel("Pam"), c);
+		tabFriends.add(new JLabel("Dwight"), c);
 	}
 
 
