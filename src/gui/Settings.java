@@ -9,6 +9,8 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -134,7 +136,13 @@ public class Settings extends BackgroundPanel {
 		c.gridx = 0;
 		add(addChild, c);
 		
-		JTextField nameInput = new JTextField("--Name--");
+		final JTextField nameInput = new JTextField("--Name--");
+		nameInput.addMouseListener(new MouseAdapter(){
+			@Override
+			public void mouseClicked(MouseEvent e){
+				nameInput.setText("");
+			}
+		});
 		c.insets = new Insets(0,75,0,0);
 		c.gridwidth = 2;
 		c.ipadx = 250;
