@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class LockScreen extends BackgroundPanel {
-
+	
 	public LockScreen(Controller controller) {
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -50,7 +50,7 @@ public class LockScreen extends BackgroundPanel {
 	}
 }
 class PressOk implements ActionListener {
-	
+	private int errors;
 	private Controller controller;
 	private JPasswordField pwdf;
 	
@@ -71,6 +71,7 @@ class PressOk implements ActionListener {
 		else {
 			LockScreen screen = new LockScreen(controller);
 			controller.setScreen(screen);
+
 		}
 	}
 }
