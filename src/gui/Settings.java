@@ -1,27 +1,15 @@
 package gui;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Insets;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.Vector;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
+import javax.swing.table.*;
 
 public class Settings extends BackgroundPanel {
 	
@@ -103,19 +91,9 @@ public class Settings extends BackgroundPanel {
 		table.setRowHeight(24);
 		table.setShowGrid(false);
 		table.getTableHeader().setDefaultRenderer(renderer);
-		
-		try {
-			URL url = new URL("http://jbaron6.cs2212.ca/fonts/GiddyupStd.otf");
-			URLConnection urlcon = url.openConnection();
-			urlcon.setDoInput(true);
-			urlcon.setUseCaches(false);
-			Font font = Font.createFont(Font.TRUETYPE_FONT, urlcon.getInputStream());
-			table.setFont(font.deriveFont(Font.BOLD, 18));
-			table.getTableHeader().setFont(font.deriveFont(Font.BOLD, 18));
-		} catch (FontFormatException | IOException e) {
-			table.setFont(new Font("Serif", Font.BOLD, 18));
-		}
-		
+		table.setFont(controller.getFont().deriveFont(Font.BOLD, 18));
+		table.getTableHeader().setFont(controller.getFont().deriveFont(Font.BOLD, 18));
+
 		JScrollPane scroll = new JScrollPane(table);
 		scroll.setOpaque(false);
 		scroll.getViewport().setOpaque(false);
@@ -136,13 +114,7 @@ public class Settings extends BackgroundPanel {
 		c.gridx = 0;
 		add(addChild, c);
 		
-		final JTextField nameInput = new JTextField("--Name--");
-		nameInput.addMouseListener(new MouseAdapter(){
-			@Override
-			public void mouseClicked(MouseEvent e){
-				nameInput.setText("");
-			}
-		});
+		JTextField nameInput = new JTextField("--Name--");
 		c.insets = new Insets(0,75,0,0);
 		c.gridwidth = 2;
 		c.ipadx = 250;
@@ -246,7 +218,7 @@ public class Settings extends BackgroundPanel {
 		add(remove, c);
 		
 		JButton stats = new JButton("Progress");
-		stats.addActionListener(new toProgress(childSelect, controller));
+		stats.addActionListener(new toProgress(childSelect, controller, this));
 		c.insets = new Insets(0,0,0,75);
 		c.gridx = 5;
 		add(stats, c);
@@ -313,17 +285,19 @@ class toProgress implements ActionListener {
 
 	private Controller controller;
 	private JComboBox<String> childnames;
+	private Settings settingsPane;
 	
-	public toProgress(JComboBox<String> childnames, Controller control) {
+	public toProgress(JComboBox<String> childnames, Controller controller, Settings settingsPane) {
 		super();
-		controller = control;
+		this.controller = controller;
 		this.childnames = childnames;
+		this.settingsPane = settingsPane;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		String name = new String(childnames.getSelectedItem().toString());
 		//Use name to lookup progeny
-		FGame menu = new FGame(controller/*, Progeny child*/);
-		controller.setScreen(menu);
+		ChildProgress screen = new ChildProgress(controller, settingsPane/*, Progeny child*/);
+		controller.setScreen(screen);
 	}
 }
