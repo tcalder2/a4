@@ -15,12 +15,12 @@ public class LockScreen extends BackgroundPanel {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(0,0,100,0);
-
+		c.weightx = 0.5;
+		c.gridx = 1;
+		c.gridy = 1;
+		
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/lock.png"));
-			c.weightx = 0.5;
-			c.gridx = 1;
-			c.gridy = 1;
 			add(new JLabel(new ImageIcon(img)), c);
 		} catch (IOException e) {
 			add(new JLabel("<html>Oops!<br>"
@@ -31,14 +31,24 @@ public class LockScreen extends BackgroundPanel {
 		c.gridy = 0;
 
 		JLabel pwdLabel = new JLabel("Password: ");
+		pwdLabel.setFont(controller.getFont().deriveFont(Font.BOLD, 60));
 		c.insets = new Insets(100,200,50,5);
 		c.gridx = 0;
 		add(pwdLabel, c);
 
 		JButton ok = new JButton("Ok");
+		ok.setContentAreaFilled(false);
+		ok.setBorderPainted(false);
+		ok.addActionListener(new toDrillMode(controller));
+		try {
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/ok.png"));
+			ok.setIcon(new ImageIcon(img));
+		} catch (IOException e) {
+			ok.setText("Ok");
+		}
 
 		JPasswordField passwordField = new JPasswordField("000000");
-		passwordField.addKeyListener(new PassEnter(ok));
+		passwordField.addKeyListener(new EnterListener(ok));
 		c.insets = new Insets(100,5,50,5);
 		c.gridx = 1;
 		add(passwordField, c);
@@ -72,29 +82,5 @@ class PressOk implements ActionListener {
 			LockScreen screen = new LockScreen(controller);
 			controller.setScreen(screen);
 		}
-	}
-}
-
-class PassEnter implements KeyListener {
-	
-	private JButton okButton;
-	
-	public PassEnter(JButton ok) {
-		super();
-		okButton = ok;
-	}
-	
-	public void keyTyped(KeyEvent e) {
-		if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-			okButton.doClick();
-		}
-	}
-
-	public void keyPressed(KeyEvent e) {
-		/*NULL BODY*/
-	}
-
-	public void keyReleased(KeyEvent e) {
-		/*NULL BODY*/
 	}
 }
