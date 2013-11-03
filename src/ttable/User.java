@@ -130,7 +130,7 @@ public class User {
 	 * @return true, if successful
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public boolean setPassword(String old_password, String new_password) throws JSONFailureException
+	public static boolean setPassword(String old_password, String new_password) throws JSONFailureException
 	{
 		Json json = new Json();
 		
@@ -146,7 +146,7 @@ public class User {
 	 * @return true, if successful
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public boolean authenticate(String password) throws JSONFailureException
+	public static boolean authenticate(String password) throws JSONFailureException
 	{
 		Json json = new Json();
 		
