@@ -41,6 +41,8 @@ public class StatsMenu extends BackgroundPanel {
 		JPanel tab2 = new JPanel();
 		JPanel tab3 = new JPanel();
 		tab1.setLayout(new GridBagLayout());
+		tab2.setLayout(new GridBagLayout());
+		tab3.setLayout(new GridBagLayout());
 		fillTabFriends(tab1, c);
 		fillTabAge(tab2, c);
 		fillTabLevels(tab3, c);
@@ -148,31 +150,31 @@ public class StatsMenu extends BackgroundPanel {
 		c.gridx = 3;
 		c.gridy = 2;
 		
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * ((20 - 3) + 1))))+" years old"), c);
+		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
 		c.gridy++;
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * ((20 - 3) + 1))))+" years old"), c);
+		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
 		c.gridy+=4;
 		
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * ((20 - 3) + 1))))+" years old"), c);
+		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
 		c.gridy++;
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * ((20 - 3) + 1))))+" years old"), c);
+		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
 		c.gridy++;
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * ((20 - 3) + 1))))+" years old"), c);
+		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
 		c.gridy+=3;
 
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * ((20 - 3) + 1))))+" years old"), c);
+		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
 		c.gridy+=5;
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * ((20 - 3) + 1))))+" years old"), c);
+		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
 		c.gridy++;
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * ((20 - 3) + 1))))+" years old"), c);
+		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
 		c.gridy+=4;
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * ((20 - 3) + 1))))+" years old"), c);
+		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
 		c.gridy++;
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * ((20 - 3) + 1))))+" years old"), c);
+		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
 		c.gridy++;
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * ((20 - 3) + 1))))+" years old"), c);
+		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
 		c.gridy++;
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * ((20 - 3) + 1))))+" years old"), c);
+		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
 		
 		//-------------------------------------------------------------------------------------------------		
 		// Level
@@ -226,7 +228,7 @@ public class StatsMenu extends BackgroundPanel {
 
 	private void fillTabLevels(JPanel tab, GridBagConstraints c){
 		c = new GridBagConstraints();
-		c.insets = new Insets(0,0,0,0);
+		c.insets = new Insets(0,10,0,10);
 		c.gridwidth = 1;
 		c.gridheight =1;
 		c.gridx = 1;
@@ -236,34 +238,217 @@ public class StatsMenu extends BackgroundPanel {
         //-------------------------------------------------------------------------------------------------	
 		//Level Combo Box
 		Vector<String> m = new Vector<String>();
-		m.add("1");
-		m.add("2");
-		m.add("3");
-		m.add("4");
-		m.add("5");
-		m.add("6");
-		m.add("7");
-		m.add("8");
-		m.add("9");
-		m.add("10");
-		m.add("11");
-		m.add("12");
+		
+		for(int i=1;i<13;i++){
+			m.add(Integer.toString(i));
+		}
 		JComboBox<String> levels = new JComboBox<String>(m);
 		c.gridx = 2;
 		tab.add(levels, c);
 		
+		//------------------------------------------------------------------------
+		//Rank		
 		c.gridx = 0;
 		c.gridy = 3;
 		for(int i =1;i<4;i++){
 			c.gridy+=2;
 			tab.add(new JLabel(Integer.toString(i)), c);
 		}
-		
-		
+		//------------------------------------------------------------------------
+		//Headers
+		c.gridx=1;
+		c.gridy=3;
+		tab.add(new JLabel("Friends"), c);
+		c.gridx=0;
+		tab.add(new JLabel("Rank"), c);
+		c.gridx =3;
+		tab.add(new JLabel("Child"), c);
+		c.gridx = 4;
+		tab.add(new JLabel("Age"), c);
+		c.gridx=5;
+		tab.add(new JLabel("Fastest Time"), c);
+		//------------------------------------------------------------------------
+		//Profile Pictures
+		c.insets = new Insets(0,5,0,5);
+		c.gridx = 1;
+		c.gridy=5;
+		c.gridheight =1;	
+		c.ipady = 30;
+		for(int i=1; i<4;i++){
+			
+			try	{
+				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/profilePictures/"+i+".jpg"));
+				JLabel pic = new JLabel(new ImageIcon(getScaledImage(img, 55,55)));
+				tab.add(pic, c);
+			} catch (IOException e) {
+				tab.add(new JLabel("Profile Picture"), c);
+			}
+			c.gridy+=2;
+		}
+		//------------------------------------------------------------------------
+		//Friends Names
+		c.gridx = 2;
+		c.gridy=5;
+		c.ipady = 0;
+		tab.add(new JLabel("James Baron"), c);
+		c.gridy+=2;
+		tab.add(new JLabel("James Anderson"), c);
+		c.gridy+=2;
+		tab.add(new JLabel("Chuhan Frank"), c);
+		//------------------------------------------------------------------------
+		//Child Names
+		c.gridx = 3;
+		c.gridy=5;
+		tab.add(new JLabel("Jim"), c);
+		c.gridy+=2;
+		tab.add(new JLabel("Lisa"), c);
+		c.gridy+=2;
+		tab.add(new JLabel("Leslie"), c);
+		//------------------------------------------------------------------------
+		//Ages
+		c.gridx = 4;
+		c.gridy=5;
+		tab.add(new JLabel("8"), c);
+		c.gridy+=2;
+		tab.add(new JLabel("7"), c);
+		c.gridy+=2;
+		tab.add(new JLabel("9"), c);
+		//------------------------------------------------------------------------
+		//Fastest Times
+		c.gridx = 5;
+		c.gridy=5;
+		tab.add(new JLabel("0:27"), c);
+		c.gridy+=2;
+		tab.add(new JLabel("0:35"), c);
+		c.gridy+=2;
+		tab.add(new JLabel("1:20"), c);
+		//-------------------------------------------------------------------------------------------------		
+		// Separators
+		c.insets = new Insets(0,0,0,0);
+	    c.gridwidth = 5;
+		c.gridx = 0;
+		c.gridy = 2;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		for(int i = 1; i<5;i++){
+			JSeparator sep = new JSeparator(JSeparator.HORIZONTAL);
+			sep.setPreferredSize(new Dimension(1,30));
+
+			tab.add(sep,c);
+					
+			c.gridy+=2;
+		}
+			
 	}
 	
 	private void fillTabAge(JPanel tab, GridBagConstraints c){
+		c = new GridBagConstraints();
+		c.insets = new Insets(0,10,0,10);
+		c.gridwidth = 1;
+		c.gridheight =1;
+		c.gridx = 1;
+		c.gridy = 0;
+		tab.add(new JLabel("Age "),c);
+		
+        //-------------------------------------------------------------------------------------------------	
+		//Level Combo Box
+		Vector<String> m = new Vector<String>();
+		for(int i=3;i<14;i++){
+			m.add(Integer.toString(i));
+		}
+		JComboBox<String> levels = new JComboBox<String>(m);
+		c.gridx = 2;
+		tab.add(levels, c);
+		//------------------------------------------------------------------------
+		//Rank		
+		c.gridx = 0;
+		c.gridy = 3;
+		for(int i =1;i<4;i++){
+			c.gridy+=2;
+			tab.add(new JLabel(Integer.toString(i)), c);
+		}
+		//------------------------------------------------------------------------
+		//Headers
+		c.gridx=1;
+		c.gridy=3;
+		tab.add(new JLabel("Friends"), c);
+		c.gridx=0;
+		tab.add(new JLabel("Rank"), c);
+		c.gridx =3;
+		tab.add(new JLabel("Child"), c);
+		c.gridx = 4;
+		tab.add(new JLabel("Age"), c);
+		c.gridx=5;
+		tab.add(new JLabel("Fastest Time"), c);
+		//------------------------------------------------------------------------
+		//Profile Pictures
+		c.insets = new Insets(0,5,0,5);
+		c.gridx = 1;
+		c.gridy=5;
+		c.gridheight =1;	
+		c.ipady = 30;
+		for(int i=1; i<4;i++){
+			
+			try	{
+				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/profilePictures/"+i+".jpg"));
+				JLabel pic = new JLabel(new ImageIcon(getScaledImage(img, 55,55)));
+				tab.add(pic, c);
+			} catch (IOException e) {
+				tab.add(new JLabel("Profile Picture"), c);
+			}
+			c.gridy+=2;
+		}
+		//------------------------------------------------------------------------
+		//Friends Names
+		c.gridx = 2;
+		c.gridy=5;
+		c.ipady = 0;
+		tab.add(new JLabel("James Baron"), c);
+		c.gridy+=2;
+		tab.add(new JLabel("James Anderson"), c);
+		c.gridy+=2;
+		tab.add(new JLabel("Chuhan Frank"), c);
+		//------------------------------------------------------------------------
+		//Child Names
+		c.gridx = 3;
+		c.gridy=5;
+		tab.add(new JLabel("Jim"), c);
+		c.gridy+=2;
+		tab.add(new JLabel("Lisa"), c);
+		c.gridy+=2;
+		tab.add(new JLabel("Leslie"), c);
+		//------------------------------------------------------------------------
+		//Ages
+		c.gridx = 4;
+		c.gridy=5;
+		tab.add(new JLabel("8"), c);
+		c.gridy+=2;
+		tab.add(new JLabel("7"), c);
+		c.gridy+=2;
+		tab.add(new JLabel("9"), c);
+		//------------------------------------------------------------------------
+		//Fastest Times
+		c.gridx = 5;
+		c.gridy=5;
+		tab.add(new JLabel("0:27"), c);
+		c.gridy+=2;
+		tab.add(new JLabel("0:35"), c);
+		c.gridy+=2;
+		tab.add(new JLabel("1:20"), c);
+		//-------------------------------------------------------------------------------------------------		
+		// Separators
+		c.insets = new Insets(0,0,0,0);
+	    c.gridwidth = 5;
+		c.gridx = 0;
+		c.gridy = 2;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		for(int i = 1; i<5;i++){
+			JSeparator sep = new JSeparator(JSeparator.HORIZONTAL);
+			sep.setPreferredSize(new Dimension(1,30));
 
+			tab.add(sep,c);
+					
+			c.gridy+=2;
+		}
 		
 	}
 // Resize ImageIcon
