@@ -1,14 +1,14 @@
 package ttable;
 
 import java.util.ArrayList;
+
 import java.util.Iterator;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 
 import json.Json;
-import json.Json.JSONFailureException;
+import json.JSONFailureException;
 
 /**
  * The User class represents the user of the application's current user
@@ -39,13 +39,13 @@ public class User {
 		
 		Json json = new Json();
 		
-		JSONObject json_obj = json.sendRequest("https://jbaron6.cs2212.ca/getuser");
+		JSONObject jsonObj = json.sendRequest("https://jbaron6.cs2212.ca/getuser");
 		
-		JSONObject user_obj = (JSONObject)json_obj.get("user");
+		JSONObject userObj = (JSONObject)jsonObj.get("user");
 		
-		user.setFbId((String)user_obj.get("fb_id"));
-		user.setFirstName((String)user_obj.get("first_name"));
-		user.setLastName((String)user_obj.get("last_name"));
+		user.setFbId((String)userObj.get("fb_id"));
+		user.setFirstName((String)userObj.get("first_name"));
+		user.setLastName((String)userObj.get("last_name"));
 		
 		return user;
 	}
@@ -70,14 +70,14 @@ public class User {
 	 * Reset the user's password.
 	 *
 	 * @param answer the answer
-	 * @param new_password the new_password
+	 * @param newPassword the new password
 	 * @return true, if successful
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static boolean resetPassword(String answer, String new_password) throws JSONFailureException
+	public static boolean resetPassword(String answer, String newPassword) throws JSONFailureException
 	{
 		Json json = new Json();
-		json.sendRequest("https://jbaron6.cs2212.ca/resetpassword?answer=" + answer + "&new_password=" + new_password);
+		json.sendRequest("https://jbaron6.cs2212.ca/resetpassword?answer=" + answer + "&new_password=" + newPassword);
 		
 		return true;
 	}
@@ -109,15 +109,15 @@ public class User {
 		ArrayList<String> questions = new ArrayList<String>();
 		
 		Json json = new Json();
-		JSONObject json_obj = json.sendRequest("https://jbaron6.cs2212.ca/getquestions");
+		JSONObject jsonObj = json.sendRequest("https://jbaron6.cs2212.ca/getquestions");
 		
 		
-		JSONArray questions_array = (JSONArray) json_obj.get("questions");
+		JSONArray questionsArray = (JSONArray) jsonObj.get("questions");
 		
-		Iterator<?> questions_it = questions_array.iterator();
+		Iterator<?> questionsIt = questionsArray.iterator();
 		
-		while(questions_it.hasNext())
-			questions.add((String)questions_it.next());
+		while(questionsIt.hasNext())
+			questions.add((String)questionsIt.next());
 		
 		return questions;
 	}
@@ -125,16 +125,16 @@ public class User {
 	/**
 	 * Sets the user's password.
 	 *
-	 * @param old_password the old_password
-	 * @param new_password the new_password
+	 * @param oldPassword the old password
+	 * @param newpassword the new password
 	 * @return true, if successful
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static boolean setPassword(String old_password, String new_password) throws JSONFailureException
+	public static boolean setPassword(String oldPassword, String newpassword) throws JSONFailureException
 	{
 		Json json = new Json();
 		
-		json.sendRequest("https://jbaron6.cs2212.ca/setpassword?new_password=" + new_password + "&old_password=" + old_password);
+		json.sendRequest("https://jbaron6.cs2212.ca/setpassword?new_password=" + newpassword + "&old_password=" + oldPassword);
 		
 		return true;
 	}

@@ -11,8 +11,16 @@ import javax.swing.*;
 
 import gui.Controller;
 
+/**
+ * The Class MainMenu.
+ */
 public class MainMenu extends BackgroundPanel {
 	
+	/**
+	 * Instantiates a new main menu.
+	 *
+	 * @param controller the controller
+	 */
 	public MainMenu(Controller controller) {
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();

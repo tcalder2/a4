@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.json.simple.JSONObject;
 
 import json.Json;
-import json.Json.JSONFailureException;
+import json.JSONFailureException;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -31,20 +31,20 @@ public class Progeny {
 	/**
 	 * Adds the progeny.
 	 *
-	 * @param first_name the first_name
+	 * @param firstName the first name
 	 * @param age the age
 	 * @return the progeny
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static Progeny addProgeny(String first_name, String age) throws JSONFailureException
+	public static Progeny addProgeny(String firstName, String age) throws JSONFailureException
 	{
 		Progeny progeny = new Progeny();
 		
 		Json json = new Json();
-		JSONObject json_user = (JSONObject)json.sendRequest("https://jbaron6.cs2212.ca/addchild?first_name=" + first_name + "&age=" + age);
+		JSONObject jsonUser = (JSONObject)json.sendRequest("https://jbaron6.cs2212.ca/addchild?first_name=" + firstName + "&age=" + age);
 	
 		// TODO: parse the array of the new progeny
-		json_user.get("");
+		jsonUser.get("");
 		
 		return progeny;
 	}
@@ -68,11 +68,11 @@ public class Progeny {
 	 * Change time allowed.
 	 *
 	 * @param progeny the progeny
-	 * @param time_allowed the time_allowed
+	 * @param timeAllowed the time allowed
 	 * @return true, if successful
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static boolean changeTimeAllowed(Progeny progeny, String time_allowed) throws JSONFailureException
+	public static boolean changeTimeAllowed(Progeny progeny, String timeAllowed) throws JSONFailureException
 	{
 		// TODO: Make server call
 		

@@ -9,22 +9,57 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Drill.
+ */
 public class Drill extends BackgroundPanel {
 	
+	/** The controller. */
 	private Controller controller;
+	
+	/** The level. */
 	private int level;
+	
+	/** The lives. */
 	private int lives;
+	
+	/** The correct. */
 	private int correct;
+	
+	/** The incorrect. */
 	private int incorrect;
+	
+	/** The timer. */
 	private JLabel timer;
+	
+	/** The incorr counter. */
 	private JLabel incorrCounter;
+	
+	/** The corr counter. */
 	private JLabel corrCounter;
+	
+	/** The mark img. */
 	private JLabel markImg;
+	
+	/** The solution. */
 	private JLabel solution;
+	
+	/** The next. */
 	private JButton next;
+	
+	/** The submit. */
 	private JButton submit;
+	
+	/** The clock. */
 	private Timer clock;
 	
+	/**
+	 * Instantiates a new drill.
+	 *
+	 * @param controller the controller
+	 * @param level the level
+	 */
 	public Drill(Controller controller, int level) {
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 		this.controller = controller;
@@ -124,6 +159,11 @@ public class Drill extends BackgroundPanel {
 		add(incorrCounter, c);
 	}
 	
+	/**
+	 * Sets the time.
+	 *
+	 * @param time the new time
+	 */
 	public void setTime(int time) {
 		timer.setText(time + "sec");
 		timer.setAlignmentX(SwingConstants.RIGHT);
@@ -137,6 +177,11 @@ public class Drill extends BackgroundPanel {
 	}
 	
 	
+	/**
+	 * Check answer.
+	 *
+	 * @param answer the answer
+	 */
 	public void checkAnswer(String answer) {
 		
 		int correctanswer = 12;

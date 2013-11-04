@@ -14,10 +14,20 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ChildProgress.
+ */
 public class ChildProgress extends BackgroundPanel {
 	
 	//private Progeny child;
 	
+	/**
+	 * Instantiates a new child progress.
+	 *
+	 * @param controller the controller
+	 * @param settingsPane the settings pane
+	 */
 	public ChildProgress(Controller controller, Settings settingsPane/*, Progeny child*/) {
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();

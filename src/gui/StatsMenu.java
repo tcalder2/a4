@@ -12,8 +12,16 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+/**
+ * The Class StatsMenu.
+ */
 public class StatsMenu extends BackgroundPanel {
 	
+	/**
+	 * Instantiates a new stats menu.
+	 *
+	 * @param controller the controller
+	 */
 	public StatsMenu(Controller controller) {
 		
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
@@ -63,6 +71,13 @@ public class StatsMenu extends BackgroundPanel {
 
 		
 	}
+	
+	/**
+	 * Fill tab friends.
+	 *
+	 * @param tab1 the tab1
+	 * @param c the c
+	 */
 	private void fillTabFriends(JPanel tab1, GridBagConstraints c){
 		// Headers	
 		
@@ -226,6 +241,12 @@ public class StatsMenu extends BackgroundPanel {
 			
 	}
 
+	/**
+	 * Fill tab levels.
+	 *
+	 * @param tab the tab
+	 * @param c the c
+	 */
 	private void fillTabLevels(JPanel tab, GridBagConstraints c){
 		c = new GridBagConstraints();
 		c.insets = new Insets(0,10,0,10);
@@ -340,6 +361,12 @@ public class StatsMenu extends BackgroundPanel {
 			
 	}
 	
+	/**
+	 * Fill tab age.
+	 *
+	 * @param tab the tab
+	 * @param c the c
+	 */
 	private void fillTabAge(JPanel tab, GridBagConstraints c){
 		c = new GridBagConstraints();
 		c.insets = new Insets(0,10,0,10);
@@ -452,7 +479,15 @@ public class StatsMenu extends BackgroundPanel {
 		
 	}
 // Resize ImageIcon
-	private Image getScaledImage(Image srcImg, int w, int h){
+	/**
+ * Gets the scaled image.
+ *
+ * @param srcImg the src img
+ * @param w the w
+ * @param h the h
+ * @return the scaled image
+ */
+private Image getScaledImage(Image srcImg, int w, int h){
 	    BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 	    Graphics2D g2 = resizedImg.createGraphics();
 	    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);

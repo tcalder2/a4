@@ -10,20 +10,30 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import json.Json;
-import json.Json.JSONFailureException;
-
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+import json.JSONFailureException;
 
 import ttable.User;
 
+/**
+ * The Class Test.
+ */
 public class Test extends JApplet {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1L;
+
+	/** The outer_panel. */
 	private JPanel outer_panel;
+	
+	/** The test_label. */
 	private JLabel test_label;
+	
+	/** The text_area. */
 	JTextArea text_area;
 
+	/* (non-Javadoc)
+	 * @see java.applet.Applet#init()
+	 */
 	public void init() {
 
 		// Panel layout in absolute form
@@ -56,10 +66,20 @@ public class Test extends JApplet {
 
 	}
 
+	/**
+	 * Append test message.
+	 *
+	 * @param message the message
+	 */
 	private void appendTestMessage(String message) {
 		text_area.append(message + "\n");
 	}
 
+	/**
+	 * Append test messages.
+	 *
+	 * @param messages the messages
+	 */
 	private void appendTestMessages(ArrayList<String> messages) {
 
 		Iterator<String> messages_it = messages.iterator();
@@ -69,6 +89,9 @@ public class Test extends JApplet {
 		}
 	}
 
+	/**
+	 * Begin test.
+	 */
 	public void beginTest() {
 		int succeeded_count = 0;
 		int failed_count = 0;

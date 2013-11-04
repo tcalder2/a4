@@ -4,8 +4,16 @@ import java.awt.Font;
 
 import javax.swing.*;
 
+/**
+ * The Class SecurityQ.
+ */
 public class SecurityQ extends BackgroundPanel {
 	
+	/**
+	 * Instantiates a new security q.
+	 *
+	 * @param controller the controller
+	 */
 	public SecurityQ(Controller controller) {
 		super("http://jbaron6.cs2212.ca/img/default_background.png");
 		

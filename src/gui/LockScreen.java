@@ -8,8 +8,16 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+/**
+ * The Class LockScreen.
+ */
 public class LockScreen extends BackgroundPanel {
 	
+	/**
+	 * Instantiates a new lock screen.
+	 *
+	 * @param controller the controller
+	 */
 	public LockScreen(Controller controller) {
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();

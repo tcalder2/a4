@@ -10,13 +10,24 @@ import java.net.URLConnection;
 import javax.swing.*;
 
 
+/**
+ * The Class Controller.
+ */
 public class Controller {
 	
+	/** The split pane. */
 	private JSplitPane splitPane;
+	
+	/** The font. */
 	private Font font;
+	
+	/** The current_progeny. */
 	private int current_progeny;
 	//private Progeny currentProgeny;
 	
+	/**
+	 * Instantiates a new controller.
+	 */
 	public Controller() {
 		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setDividerSize(0);
@@ -31,22 +42,47 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Sets the header.
+	 *
+	 * @param header the new header
+	 */
 	public void setHeader(JComponent header) {
 		splitPane.setTopComponent(header);
 	}
 	
+	/**
+	 * Sets the screen.
+	 *
+	 * @param screen the new screen
+	 */
 	public void setScreen(JComponent screen) {
 		splitPane.setBottomComponent(screen);
 	}
 	
+	/**
+	 * Gets the pane.
+	 *
+	 * @return the pane
+	 */
 	public JSplitPane getPane() {
 		return splitPane;
 	}
 	
+	/**
+	 * Sets the frame colour.
+	 *
+	 * @param colour the new frame colour
+	 */
 	public void setFrameColour(Color colour) {
 		splitPane.setBackground(colour);
 	}
 	
+	/**
+	 * Gets the font.
+	 *
+	 * @return the font
+	 */
 	public Font getFont() {
 		return font;
 	}

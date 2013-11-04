@@ -8,10 +8,19 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * The Class BackgroundPanel.
+ */
 public class BackgroundPanel extends JPanel {
 	
+	/** The background. */
 	private Image background;
 	
+	/**
+	 * Instantiates a new background panel.
+	 *
+	 * @param imgURL the img url
+	 */
 	public BackgroundPanel(String imgURL) {
 		try	{
 			Image img = ImageIO.read(new URL(imgURL));
@@ -30,6 +39,14 @@ public class BackgroundPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Instantiates a new background panel.
+	 *
+	 * @param imgURL the img url
+	 * @param width the width
+	 * @param height the height
+	 * @param layout the layout
+	 */
 	public BackgroundPanel(String imgURL, int width, int height, LayoutManager layout) {
 		
 		Dimension d = new Dimension(width, height);
@@ -50,12 +67,21 @@ public class BackgroundPanel extends JPanel {
 	    setLayout(layout);
 	}
 	
+	/**
+	 * Instantiates a new background panel.
+	 *
+	 * @param imgURL the img url
+	 * @param layout the layout
+	 */
 	public BackgroundPanel(String imgURL, LayoutManager layout) {
 		this(imgURL);
 		setLayout(layout);
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
 	public void paintComponent(Graphics g) {
 		g.drawImage(background, 0, 0, null);
 	}

@@ -8,10 +8,17 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+/**
+ * The Class TTApplet.
+ */
 public class TTApplet extends JApplet {
 	
+	/** The controller. */
 	Controller controller;
 	
+	/* (non-Javadoc)
+	 * @see java.applet.Applet#init()
+	 */
 	public void init() {
 		controller = new Controller();
 		

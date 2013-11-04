@@ -11,8 +11,17 @@ import javax.swing.*;
 
 import gui.Controller;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DrillMenu.
+ */
 public class DrillMenu extends BackgroundPanel {	
 
+	/**
+	 * Instantiates a new drill menu.
+	 *
+	 * @param controller the controller
+	 */
 	public DrillMenu(Controller controller) {
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
