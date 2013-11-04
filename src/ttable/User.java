@@ -1,7 +1,6 @@
 package ttable;
 
 import java.util.ArrayList;
-
 import java.util.Iterator;
 
 import org.json.simple.JSONArray;
@@ -18,86 +17,32 @@ import json.JSONFailureException;
 
 public class User {
 
+	/** The user's Facebook id. */
+	private String fbId ="";
+
 	/** The user's first name. */
 	private String firstName = "";
 	
 	/** The user's last name. */
 	private String lastName = "";
 	
-	/** The user's Facebook id. */
-	private String fbId ="";
-	
 	/**
-	 * Gets the current user.
+	 * Authenticate the user.
 	 *
-	 * @return the currently logged user
-	 * @throws JSONFailureException the jSON failure exception
-	 */
-	public static User getUser() throws JSONFailureException
-	{
-		User user = new User();
-		
-		Json json = new Json();
-		
-		JSONObject jsonObj = json.sendRequest("https://jbaron6.cs2212.ca/getuser");
-		
-		JSONObject userObj = (JSONObject)jsonObj.get("user");
-		
-		user.setFbId((String)userObj.get("fb_id"));
-		user.setFirstName((String)userObj.get("first_name"));
-		user.setLastName((String)userObj.get("last_name"));
-		
-		return user;
-	}
-	
-	/**
-	 * Sets the answer to the user's password recovery question.
-	 *
-	 * @param answer the answer
 	 * @param password the password
 	 * @return true, if successful
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static boolean setAnswer(String answer, String password) throws JSONFailureException
+	public static boolean authenticate(String password) throws JSONFailureException
 	{
 		Json json = new Json();
-		json.sendRequest("https://jbaron6.cs2212.ca/setanswer?answer=" + answer + "&password=" + password);
 		
-		return true;
-	}
-	
-	/**
-	 * Reset the user's password.
-	 *
-	 * @param answer the answer
-	 * @param newPassword the new password
-	 * @return true, if successful
-	 * @throws JSONFailureException the jSON failure exception
-	 */
-	public static boolean resetPassword(String answer, String newPassword) throws JSONFailureException
-	{
-		Json json = new Json();
-		json.sendRequest("https://jbaron6.cs2212.ca/resetpassword?answer=" + answer + "&new_password=" + newPassword);
+		//Will throw error if success fail.  That error will have messages.
+		json.sendRequest("https://jbaron6.cs2212.ca/authenticate?password=" + password);
 		
 		return true;
 	}
 
-	/**
-	 * Sets the user's password recovery question.
-	 *
-	 * @param question the question
-	 * @param password the password
-	 * @return true, if successful
-	 * @throws JSONFailureException the jSON failure exception
-	 */
-	public static boolean setQuestion(String question, String password) throws JSONFailureException
-	{
-		Json json = new Json();
-		json.sendRequest("https://jbaron6.cs2212.ca/setquestion?question=" + question + "&password=" + password);		
-		
-		return true;
-	}
-	
 	/**
 	 * Gets the current user's password recovery questions.
 	 *
@@ -123,6 +68,79 @@ public class User {
 	}
 	
 	/**
+	 * Gets the current user.
+	 *
+	 * @return the currently logged user
+	 * @throws JSONFailureException the jSON failure exception
+	 */
+	public static User getUser() throws JSONFailureException
+	{
+		User user = new User();
+		
+		Json json = new Json();
+		
+		JSONObject jsonObj = json.sendRequest("https://jbaron6.cs2212.ca/getuser");
+		
+		JSONObject userObj = (JSONObject)jsonObj.get("user");
+		
+		user.setFbId((String)userObj.get("fb_id"));
+		user.setFirstName((String)userObj.get("first_name"));
+		user.setLastName((String)userObj.get("last_name"));
+		
+		return user;
+	}
+	
+	/**
+	 * Reset the user's password.
+	 *
+	 * @param answer the answer
+	 * @param newPassword the new password
+	 * @return true, if successful
+	 * @throws JSONFailureException the jSON failure exception
+	 */
+	public static boolean resetPassword(String answer, String newPassword) throws JSONFailureException
+	{
+		Json json = new Json();
+		json.sendRequest("https://jbaron6.cs2212.ca/resetpassword?answer=" + answer + "&new_password=" + newPassword);
+		
+		return true;
+	}
+	
+	/**
+	 * Gets the progenies.
+	 *
+	 * @return the progenies
+	 * @throws JSONFailureException the jSON failure exception
+	 */
+	public static ArrayList<Progeny> getProgenies() throws JSONFailureException 
+	{
+		ArrayList<Progeny> progenies;
+		
+		// TODO: remove this line
+		progenies = new ArrayList<Progeny>();
+		
+		// TODO: make server call
+		
+		return progenies;
+	}
+	
+	/**
+	 * Sets the answer to the user's password recovery question.
+	 *
+	 * @param answer the answer
+	 * @param password the password
+	 * @return true, if successful
+	 * @throws JSONFailureException the jSON failure exception
+	 */
+	public static boolean setAnswer(String answer, String password) throws JSONFailureException
+	{
+		Json json = new Json();
+		json.sendRequest("https://jbaron6.cs2212.ca/setanswer?answer=" + answer + "&password=" + password);
+		
+		return true;
+	}
+
+	/**
 	 * Sets the user's password.
 	 *
 	 * @param oldPassword the old password
@@ -140,20 +158,32 @@ public class User {
 	}
 	
 	/**
-	 * Authenticate the user.
+	 * Sets the user's password recovery question.
 	 *
+	 * @param question the question
 	 * @param password the password
 	 * @return true, if successful
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static boolean authenticate(String password) throws JSONFailureException
+	public static boolean setQuestion(String question, String password) throws JSONFailureException
 	{
 		Json json = new Json();
-		
-		//Will throw error if success fail.  That error will have messages.
-		json.sendRequest("https://jbaron6.cs2212.ca/authenticate?password=" + password);
+		json.sendRequest("https://jbaron6.cs2212.ca/setquestion?question=" + question + "&password=" + password);		
 		
 		return true;
+	}
+		
+	/**
+	 * Accessors
+	 */
+	
+	/**
+	 * Gets the Facebook id of the current user.
+	 *
+	 * @return the Facebook id
+	 */
+	public String getFbId() {
+		return fbId;
 	}
 
 	/**
@@ -166,15 +196,6 @@ public class User {
 	}
 
 	/**
-	 * Sets the user's firstname
-	 * 
-	 * @param firstName the user's first name
-	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	/**
 	 * Gets the last name of the current user.
 	 *
 	 * @return the last name
@@ -184,30 +205,30 @@ public class User {
 	}
 
 	/**
-	 * Sets the user's lastname
-	 * 
-	 * @param firstName the user's last name
-	 */
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	/**
-	 * Gets the Facebook id of the current user.
-	 *
-	 * @return the Facebook id
-	 */
-	public String getFbId() {
-		return fbId;
-	}
-
-	/**
 	 * Set's the user's Facebook ID
 	 * 
 	 * @param fbId the Facebook ID
 	 */
 	public void setFbId(String fbId) {
 		this.fbId = fbId;
+	}
+	
+	/**
+	 * Sets the user's firstname
+	 * 
+	 * @param firstName the user's first name
+	 */
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	/**
+	 * Sets the user's lastname
+	 * 
+	 * @param firstName the user's last name
+	 */
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 	
 }
