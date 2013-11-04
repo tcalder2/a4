@@ -8,6 +8,10 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import json.JSONFailureException;
+
+import ttable.User;
+
 /**
  * The Class LockScreen.
  */
@@ -47,7 +51,6 @@ public class LockScreen extends BackgroundPanel {
 		JButton ok = new JButton("Ok");
 		ok.setContentAreaFilled(false);
 		ok.setBorderPainted(false);
-		ok.addActionListener(new toDrillMode(controller));
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/ok.png"));
 			ok.setIcon(new ImageIcon(img));
@@ -55,6 +58,10 @@ public class LockScreen extends BackgroundPanel {
 			ok.setText("Ok");
 		}
 
+		JButton reset = new JButton("Reset");
+		reset.setContentAreaFilled(false);
+		reset.setBorderPainted(false);
+		
 		JPasswordField passwordField = new JPasswordField("000000");
 		passwordField.addKeyListener(new EnterListener(ok));
 		c.insets = new Insets(100,5,50,5);
@@ -62,9 +69,15 @@ public class LockScreen extends BackgroundPanel {
 		add(passwordField, c);
 		
 		ok.addActionListener(new PressOk(controller, passwordField));
-		c.insets = new Insets(100,5,50,200);
+		c.insets = new Insets(100,5,50,20);
 		c.gridx = 2;
 		add(ok, c);
+		
+		reset.addActionListener(new PressReset(controller));
+		c.insets = new Insets(100,5,50,20);
+		c.gridx = 3;
+		add(reset, c);
+		
 	}
 }
 class PressOk implements ActionListener {
@@ -79,17 +92,41 @@ class PressOk implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent evt) {
-		char[] pwd = null;
-		pwd = pwdf.getPassword();
+		char[] pwd = pwdf.getPassword();
+		String pwds = new String(pwd);
 		
-		if (pwd[0] == 'c') {
-			Settings screen = new Settings(controller);
-			controller.setScreen(screen);
+		try {
+			if (User.authenticate(pwds) == true) {
+				Settings screen = new Settings(controller);
+				controller.setScreen(screen);
+			}
+			else {
+				//MainMenu menu = new MainMenu(controller);
+				//controller.setScreen(menu);
+			}
+	
+		} catch (JSONFailureException e) {
+			errors++;
+			if (errors >= 3) {
+				SecurityQ seq = new SecurityQ(controller);
+				controller.setScreen(seq);
+			}
 		}
-		else {
-			LockScreen screen = new LockScreen(controller);
-			controller.setScreen(screen);
+	}
+}
 
-		}
+class PressReset implements ActionListener {
+
+	private Controller controller;
+	
+	public PressReset(Controller control) {
+		super();
+		controller = control;
+	}
+	public void actionPerformed(ActionEvent evt) {
+	
+		PasswordReset reset = new PasswordReset(controller);
+		controller.setScreen(reset);
+		
 	}
 }
