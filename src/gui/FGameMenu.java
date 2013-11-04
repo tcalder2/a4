@@ -14,8 +14,16 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.*;
 
+/**
+ * The Class FGameMenu.
+ */
 public class FGameMenu extends BackgroundPanel {
 	
+	/**
+	 * Instantiates a new f game menu.
+	 *
+	 * @param controller the controller
+	 */
 	public FGameMenu(Controller controller) {
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -109,6 +117,7 @@ public class FGameMenu extends BackgroundPanel {
 		add(table,c);
 	}
 }
+
 
 class toFinal implements ActionListener {
 

@@ -8,7 +8,7 @@
 
 package ttable;
 
-import json.Json.JSONFailureException;
+import json.JSONFailureException;
 
 /**
  * The Class LevelProgeny.
@@ -41,11 +41,11 @@ public class LevelProgeny {
 
 
 	/**
-	 * Delete a level_progeny instance.
+	 * Delete a level progeny instance.
 	 *
-	 * @param level_progeny the level_progeny
+	 * @param levelProgeny the level progeny
 	 */
-	public static boolean deleteLevelProgeny(LevelProgeny level_progeny) throws JSONFailureException
+	public static boolean deleteLevelProgeny(LevelProgeny levelProgeny) throws JSONFailureException
 	{
 		// TODO: make server call
 		
@@ -55,9 +55,9 @@ public class LevelProgeny {
 	/**
 	 * Sets the age.
 	 *
-	 * @param level_progeny the new age
+	 * @param level progeny the new age
 	 */
-	public static boolean changeAge(LevelProgeny level_progeny) throws JSONFailureException
+	public static boolean changeAge(LevelProgeny levelProgeny) throws JSONFailureException
 	{
 		// TODO: make server call
 		

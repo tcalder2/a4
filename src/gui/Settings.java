@@ -11,8 +11,16 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.*;
 
+/**
+ * The Class Settings.
+ */
 public class Settings extends BackgroundPanel {
 	
+	/**
+	 * Instantiates a new settings.
+	 *
+	 * @param controller the controller
+	 */
 	public Settings(Controller controller) {
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();

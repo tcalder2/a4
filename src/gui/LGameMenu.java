@@ -9,8 +9,16 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+/**
+ * The Class LGameMenu.
+ */
 public class LGameMenu extends BackgroundPanel {
 	
+	/**
+	 * Instantiates a new l game menu.
+	 *
+	 * @param controller the controller
+	 */
 	public LGameMenu(Controller controller) {
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();

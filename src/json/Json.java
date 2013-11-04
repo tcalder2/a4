@@ -8,43 +8,15 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import json.JSONFailureException;
 
 /**
  * The Class Json.
  */
 public class Json {
 
-	/**
-	 * The Class JSONFailureException.
-	 */
-	public class JSONFailureException extends Exception {
-
-		/** The messages. */
-		private ArrayList<String> messages;
-
-		/**
-		 * Instantiates a new jSON failure exception.
-		 *
-		 * @param messages the messages
-		 */
-		public JSONFailureException(ArrayList<String> messages) {
-			super("JSON failure message occurred.");
-			this.messages = messages;
-		}
-
-		/**
-		 * Gets the messages.
-		 *
-		 * @return the messages
-		 */
-		public ArrayList<String> getMessages() {
-			return messages;
-		}
-
-	}
 
 	/**
 	 * Send request.
@@ -69,6 +41,10 @@ public class Json {
 		} catch (IOException e) {
 			// Custom exception message
 			throw new JSONFailureException(new ArrayList<String>() {
+
+				/** The Constant serialVersionUID. */
+				private static final long serialVersionUID = 1L;
+
 				{
 					add("Could not connect to server");
 				}
@@ -81,6 +57,10 @@ public class Json {
 
 		if (data == null)
 			throw new JSONFailureException(new ArrayList<String>() {
+
+				/** The Constant serialVersionUID. */
+				private static final long serialVersionUID = 1L;
+
 				{
 					add("Could not parse response");
 				}

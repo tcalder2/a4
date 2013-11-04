@@ -9,8 +9,16 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import gui.Controller;
 
+/**
+ * The Class TitlePanel.
+ */
 public class TitlePanel extends BackgroundPanel {	
 	
+	/**
+	 * Instantiates a new title panel.
+	 *
+	 * @param controller the controller
+	 */
 	public TitlePanel(Controller controller) {
 		
 		super("http://jbaron6.cs2212.ca/img/topbanner.png", 600, 100, new BorderLayout());
