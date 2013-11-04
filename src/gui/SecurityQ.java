@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -61,9 +63,9 @@ public class SecurityQ extends BackgroundPanel {
 		
 		c.gridy = 1;
 		
-		JTextField answer = new JTextField();
-		answer.setFont(controller.getFont().deriveFont(Font.BOLD, 30));
-		add(answer, c);
+		JTextField answer1 = new JTextField();
+		answer1.setFont(controller.getFont().deriveFont(Font.BOLD, 30));
+		add(answer1, c);
 		
 		c.gridy = 2;
 		add(q2, c);
@@ -95,7 +97,27 @@ public class SecurityQ extends BackgroundPanel {
 		c.insets = new Insets(15,200,15,200);
 		
 		JButton ok = new JButton("Ok");
+		ok.addActionListener(new okPress(controller, answer1, answer2, answer3));
 		add(ok, c);
+		
+	}
+}
+
+class okPress implements ActionListener {
+	
+	private Controller controller;
+	private JTextField answer1;
+	private JTextField answer2;
+	private JTextField answer3;
+	
+	public okPress(Controller controller, JTextField answer1, JTextField answer2, JTextField answer3) {
+		this.controller = controller;
+		this.answer1 = answer1;
+		this.answer2 = answer2;
+		this.answer3 = answer3;
+	}
+	
+	public void actionPerformed(ActionEvent e) {
 		
 	}
 }

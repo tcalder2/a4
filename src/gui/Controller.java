@@ -9,6 +9,10 @@ import java.net.URLConnection;
 
 import javax.swing.*;
 
+import json.JSONFailureException;
+import ttable.Progeny;
+import ttable.User;
+
 
 /**
  * The Class Controller.
@@ -21,14 +25,16 @@ public class Controller {
 	/** The font. */
 	private Font font;
 	
+	/** The current user. */
+	private User user;
+	
 	/** The current_progeny. */
-	private int current_progeny;
-	//private Progeny currentProgeny;
+	private Progeny currentProgeny;
 	
 	/**
 	 * Instantiates a new controller.
 	 */
-	public Controller() {
+	public Controller() throws JSONFailureException {
 		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setDividerSize(0);
 		try {
@@ -40,6 +46,8 @@ public class Controller {
 		} catch (FontFormatException | IOException e) {
 			font = new Font("Serif", Font.BOLD, 18);
 		}
+		user = User.getUser();
+		currentProgeny = null;
 	}
 	
 	/**
@@ -87,9 +95,31 @@ public class Controller {
 		return font;
 	}
 	
-	/*
+	/**
+	 * Gets the current user.
+	 *
+	 * @return the current user
+	 */
+	public User getUser() {
+		return user;
+	}
+	
+	/**
+	 * Sets the current progeny.
+	 *
+	 * @param the progeny to be set as current
+	 */
+	public void setCurrentProgeny(Progeny newCurrentProgeny) {
+		currentProgeny = newCurrentProgeny;
+	}
+	
+	/**
+	 * Gets the current progeny.
+	 *
+	 * @return the current progeny
+	 */
 	public Progeny getCurrentProgeny() {
 		return currentProgeny;
 	}
-	*/
+	
 }

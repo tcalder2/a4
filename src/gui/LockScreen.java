@@ -29,7 +29,7 @@ public class LockScreen extends BackgroundPanel {
 		c.insets = new Insets(0,0,100,0);
 		c.weightx = 0.5;
 		c.gridx = 1;
-		c.gridy = 1;
+		c.gridy = 2;
 		
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/lock.png"));
@@ -48,7 +48,7 @@ public class LockScreen extends BackgroundPanel {
 		c.gridx = 0;
 		add(pwdLabel, c);
 
-		JButton ok = new JButton("Ok");
+		JButton ok = new JButton();
 		ok.setContentAreaFilled(false);
 		ok.setBorderPainted(false);
 		try {
@@ -58,9 +58,15 @@ public class LockScreen extends BackgroundPanel {
 			ok.setText("Ok");
 		}
 
-		JButton reset = new JButton("Reset");
+		JButton reset = new JButton();
 		reset.setContentAreaFilled(false);
 		reset.setBorderPainted(false);
+		try {
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/reset.png"));
+			ok.setIcon(new ImageIcon(img));
+		} catch (IOException e) {
+			ok.setText("Reset...");
+		}
 		
 		JPasswordField passwordField = new JPasswordField("000000");
 		passwordField.addKeyListener(new EnterListener(ok));
@@ -101,8 +107,8 @@ class PressOk implements ActionListener {
 				controller.setScreen(screen);
 			}
 			else {
-				//MainMenu menu = new MainMenu(controller);
-				//controller.setScreen(menu);
+				LockScreen screen = new LockScreen(controller);
+				controller.setScreen(screen);
 			}
 	
 		} catch (JSONFailureException e) {
@@ -110,6 +116,17 @@ class PressOk implements ActionListener {
 			if (errors >= 3) {
 				SecurityQ seq = new SecurityQ(controller);
 				controller.setScreen(seq);
+			}
+			else {
+				JLabel message = new JLabel((3 - errors) + " attempts remaining");
+				message.setFont(controller.getFont().deriveFont(Font.PLAIN, 16));
+				message.setForeground(Color.RED);
+				LockScreen screen = new LockScreen(controller);
+				GridBagConstraints c = new GridBagConstraints();
+				c.gridx = 1;
+				c.gridy = 1;
+				screen.add(message);
+				controller.setScreen(screen);
 			}
 		}
 	}
@@ -119,9 +136,9 @@ class PressReset implements ActionListener {
 
 	private Controller controller;
 	
-	public PressReset(Controller control) {
+	public PressReset(Controller controller) {
 		super();
-		controller = control;
+		this.controller = controller;
 	}
 	public void actionPerformed(ActionEvent evt) {
 	
