@@ -48,7 +48,7 @@ public class FGameMenu extends BackgroundPanel {
 		c.insets = new Insets(10,150,0,150);
 		
 		JButton play = new JButton();
-		play.addActionListener(new toFinal(controller));
+		play.addActionListener(new StartFinal(controller));
 		play.setContentAreaFilled(false);
 		play.setBorderPainted(false);
 		try {
@@ -119,11 +119,11 @@ public class FGameMenu extends BackgroundPanel {
 }
 
 
-class toFinal implements ActionListener {
+class StartFinal implements ActionListener {
 
 	private Controller controller;
 	
-	public toFinal(Controller control) {
+	public StartFinal(Controller control) {
 		super();
 		controller = control;
 	}

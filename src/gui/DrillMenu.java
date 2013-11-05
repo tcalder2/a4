@@ -56,7 +56,7 @@ public class DrillMenu extends BackgroundPanel {
 				int level = (i * 3) + j;
 
 				JButton button = new JButton();
-				button.addActionListener(new toDrill(controller, level));
+				button.addActionListener(new StartDrill(controller, level));
 				button.setContentAreaFilled(false);
 				button.setBorderPainted(false);
 				try {
@@ -72,12 +72,12 @@ public class DrillMenu extends BackgroundPanel {
 	}
 }
 
-class toDrill implements ActionListener {
+class StartDrill implements ActionListener {
 
 	private Controller controller;
 	private int level;
 
-	public toDrill(Controller control, int level) {
+	public StartDrill(Controller control, int level) {
 		super();
 		controller = control;
 		this.level = level;

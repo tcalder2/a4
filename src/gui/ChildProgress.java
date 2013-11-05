@@ -41,7 +41,7 @@ public class ChildProgress extends BackgroundPanel {
 		JButton backArrow = new JButton();
 		backArrow.setContentAreaFilled(false);
 		backArrow.setBorderPainted(false);
-		backArrow.addActionListener(new backToSettings(controller, settingsPane));
+		backArrow.addActionListener(new BackToSettings(controller, settingsPane));
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/main/backarr.png"));
 			backArrow.setIcon(new ImageIcon(img));
@@ -115,12 +115,12 @@ public class ChildProgress extends BackgroundPanel {
 	}
 }
 
-class backToSettings implements ActionListener {
+class BackToSettings implements ActionListener {
 
 	private Controller controller;
 	private Settings settingsPane;
 	
-	public backToSettings(Controller controller, Settings settingsPane) {
+	public BackToSettings(Controller controller, Settings settingsPane) {
 		super();
 		this.controller = controller;
 		this.settingsPane = settingsPane;

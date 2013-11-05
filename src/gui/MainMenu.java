@@ -44,7 +44,7 @@ public class MainMenu extends BackgroundPanel {
 		JButton toDrill = new JButton();
 		toDrill.setContentAreaFilled(false);
 		toDrill.setBorderPainted(false);
-		toDrill.addActionListener(new toDrillMode(controller));
+		toDrill.addActionListener(new PressDrill(controller));
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/main/drills.png"));
 			toDrill.setIcon(new ImageIcon(img));
@@ -57,7 +57,7 @@ public class MainMenu extends BackgroundPanel {
 		JButton toLGame = new JButton();
 		toLGame.setContentAreaFilled(false);
 		toLGame.setBorderPainted(false);
-		toLGame.addActionListener(new toLGame(controller));
+		toLGame.addActionListener(new PressLGame(controller));
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/main/lgames_l.png"));
 			toLGame.setIcon(new ImageIcon(img));
@@ -70,7 +70,7 @@ public class MainMenu extends BackgroundPanel {
 		JButton toFGame = new JButton();
 		toFGame.setContentAreaFilled(false);
 		toFGame.setBorderPainted(false);
-		toFGame.addActionListener(new toFGame(controller));
+		toFGame.addActionListener(new PressFGame(controller));
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/main/fgame_l.png"));
 			toFGame.setIcon(new ImageIcon(img));
@@ -85,7 +85,7 @@ public class MainMenu extends BackgroundPanel {
 		JButton toStats = new JButton();
 		toStats.setContentAreaFilled(false);
 		toStats.setBorderPainted(false);
-		toStats.addActionListener(new toStats(controller));
+		toStats.addActionListener(new PressStats(controller));
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/main/scores&stats.png"));
 			toStats.setIcon(new ImageIcon(img));
@@ -97,11 +97,11 @@ public class MainMenu extends BackgroundPanel {
 	}	
 }
 
-class toDrillMode implements ActionListener {
+class PressDrill implements ActionListener {
 	
 	private Controller controller;
 	
-	public toDrillMode(Controller control) {
+	public PressDrill(Controller control) {
 		super();
 		controller = control;
 	}
@@ -112,11 +112,11 @@ class toDrillMode implements ActionListener {
 	}
 }
 
-class toLGame implements ActionListener {
+class PressLGame implements ActionListener {
 
 	private Controller controller;
 	
-	public toLGame(Controller control) {
+	public PressLGame(Controller control) {
 		super();
 		controller = control;
 	}
@@ -127,11 +127,11 @@ class toLGame implements ActionListener {
 	}
 }
 
-class toFGame implements ActionListener {
+class PressFGame implements ActionListener {
 
 	private Controller controller;
 	
-	public toFGame(Controller control) {
+	public PressFGame(Controller control) {
 		super();
 		controller = control;
 	}
@@ -142,11 +142,11 @@ class toFGame implements ActionListener {
 	}
 }
 
-class toStats implements ActionListener {
+class PressStats implements ActionListener {
 
 	private Controller controller;
 	
-	public toStats(Controller control) {
+	public PressStats(Controller control) {
 		super();
 		controller = control;
 	}

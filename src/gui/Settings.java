@@ -226,7 +226,7 @@ public class Settings extends BackgroundPanel {
 		add(remove, c);
 		
 		JButton stats = new JButton("Progress");
-		stats.addActionListener(new toProgress(childSelect, controller, this));
+		stats.addActionListener(new PressProgress(childSelect, controller, this));
 		c.insets = new Insets(0,0,0,75);
 		c.gridx = 5;
 		add(stats, c);
@@ -289,13 +289,13 @@ public class Settings extends BackgroundPanel {
 	}
 }
 
-class toProgress implements ActionListener {
+class PressProgress implements ActionListener {
 
 	private Controller controller;
 	private JComboBox<String> childnames;
 	private Settings settingsPane;
 	
-	public toProgress(JComboBox<String> childnames, Controller controller, Settings settingsPane) {
+	public PressProgress(JComboBox<String> childnames, Controller controller, Settings settingsPane) {
 		super();
 		this.controller = controller;
 		this.childnames = childnames;
