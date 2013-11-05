@@ -74,7 +74,7 @@ public class LockScreen extends BackgroundPanel {
 		ok.setContentAreaFilled(false);
 		ok.setBorderPainted(false);
 		try {
-			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/ok.png"));
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/buttons/ok.png"));
 			ok.setIcon(new ImageIcon(img));
 		} catch (IOException e) {
 			ok.setText("Ok");
@@ -84,7 +84,7 @@ public class LockScreen extends BackgroundPanel {
 		reset.setContentAreaFilled(false);
 		reset.setBorderPainted(false);
 		try {
-			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/reset.png"));
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/buttons/reset.png"));
 			ok.setIcon(new ImageIcon(img));
 		} catch (IOException e) {
 			ok.setText("Reset...");

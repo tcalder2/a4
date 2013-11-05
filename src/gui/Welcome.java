@@ -79,7 +79,7 @@ public class Welcome extends BackgroundPanel {
 			ok.setBorderPainted(false);
 			ok.addActionListener(new SelectProgeny(controller, nameSelector, progenies));
 			try {
-				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/ok.png"));
+				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/buttons/ok.png"));
 				ok.setIcon(new ImageIcon(img));
 			} catch (IOException e) {
 				ok.setText("Ok");
