@@ -4,12 +4,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import json.JSONFailureException;
-
 import ttable.User;
 
 /**
@@ -24,20 +25,35 @@ public class LockScreen extends BackgroundPanel {
 	 */
 	public LockScreen(Controller controller) {
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
+		this.setup(controller);
+		this.addImg(1);
+	}
+	
+	public LockScreen(Controller controller, ArrayList<String> errors) {
+		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
+		setup(controller);
+		int gridY = 2;
+		Iterator<String> error = errors.iterator();
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 1;
+		c.gridy = gridY;
+		add(new JLabel(error.toString()));
+		while (error.hasNext()) {
+			gridY++;
+			c.gridy = gridY;
+			JLabel label = new JLabel(error.next().toString());
+			label.setForeground(Color.RED);
+			label.setFont(controller.getFont().deriveFont(Font.PLAIN, 18));
+			add(label, c);
+		}
+		gridY++;
+		addImg(gridY);
+	}
+
+	public void setup(Controller controller) {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(0,0,100,0);
-		c.weightx = 0.5;
-		c.gridx = 1;
-		c.gridy = 2;
-		
-		try {
-			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/lock.png"));
-			add(new JLabel(new ImageIcon(img)), c);
-		} catch (IOException e) {
-			add(new JLabel("<html>Oops!<br>"
-					+ "It seems we are having trouble communicating!</html>"), c);
-		}			
+		c.insets = new Insets(0,0,100,0);			
 		c.weightx = 0;
 		c.weighty = 0;
 		c.gridy = 0;
@@ -83,9 +99,25 @@ public class LockScreen extends BackgroundPanel {
 		c.insets = new Insets(100,5,50,20);
 		c.gridx = 3;
 		add(reset, c);
+	}
+
+	public void addImg(int gridY) {
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(0,0,100,0);
+		c.gridx = 1;
+		c.gridy = gridY;
 		
+		try {
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/lock.png"));
+			add(new JLabel(new ImageIcon(img)), c);
+		} catch (IOException e) {
+			add(new JLabel("<html>Oops!<br>"
+					+ "It seems we are having trouble communicating!</html>"), c);
+		}
 	}
 }
+
 class PressOk implements ActionListener {
 	private int errors;
 	private Controller controller;
@@ -102,18 +134,11 @@ class PressOk implements ActionListener {
 		String pwds = new String(pwd);
 		
 		try {
-			if (User.authenticate(pwds) == true) {
-				Settings screen = new Settings(controller);
-				controller.setScreen(screen);
-			}
-			else {
-				LockScreen screen = new LockScreen(controller);
-				controller.setScreen(screen);
-			}
-	
+			User.authenticate(pwds);
+			Settings screen = new Settings(controller);
+			controller.setScreen(screen);
 		} catch (JSONFailureException e) {
-			errors++;
-			if (errors >= 3) {
+			if (e.getMessages().get(0).compareTo("Too many login attempts") == 0) {
 				SecurityQ seq = new SecurityQ(controller);
 				controller.setScreen(seq);
 			}

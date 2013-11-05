@@ -26,7 +26,7 @@ public class TitlePanel extends BackgroundPanel {
 		JButton toMain = new JButton();
 		toMain.setContentAreaFilled(false);
 		toMain.setBorderPainted(false);
-		toMain.addActionListener(new toMainMenu(controller));
+		toMain.addActionListener(new PressMain(controller));
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/back.png"));
 			toMain.setIcon(new ImageIcon(img));
@@ -35,17 +35,17 @@ public class TitlePanel extends BackgroundPanel {
 		}
 		add(toMain, BorderLayout.WEST);
 			
-		JButton toParentMode = new JButton();
-		toParentMode.setContentAreaFilled(false);
-		toParentMode.setBorderPainted(false);
-		toParentMode.addActionListener(new toParentMode(controller));
+		JButton toSettings = new JButton();
+		toSettings.setContentAreaFilled(false);
+		toSettings.setBorderPainted(false);
+		toSettings.addActionListener(new PressSettings(controller));
 		try {
 			Image img1 = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/settings.png"));
-			toParentMode.setIcon(new ImageIcon(img1));
+			toSettings.setIcon(new ImageIcon(img1));
 		} catch (IOException e) {
-			toParentMode.setText("setup");
+			toSettings.setText("setup");
 		}
-		add(toParentMode, BorderLayout.EAST);
+		add(toSettings, BorderLayout.EAST);
 			
 		try {
 			Image img2 = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/titles/apptitle.png"));
@@ -56,11 +56,11 @@ public class TitlePanel extends BackgroundPanel {
 	}
 }
 
-class toMainMenu implements ActionListener {
+class PressMain implements ActionListener {
 	
 	private Controller controller;
 	
-	public toMainMenu(Controller control) {
+	public PressMain(Controller control) {
 		super();
 		controller = control;
 	}
@@ -71,11 +71,11 @@ class toMainMenu implements ActionListener {
 	}
 }
 
-class toParentMode implements ActionListener {
+class PressSettings implements ActionListener {
 	
 	private Controller controller;
 	
-	public toParentMode(Controller control) {
+	public PressSettings(Controller control) {
 		super();
 		controller = control;
 	}

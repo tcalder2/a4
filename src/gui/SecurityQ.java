@@ -97,20 +97,20 @@ public class SecurityQ extends BackgroundPanel {
 		c.insets = new Insets(15,200,15,200);
 		
 		JButton ok = new JButton("Ok");
-		ok.addActionListener(new okPress(controller, answer1, answer2, answer3));
+		ok.addActionListener(new OkPress(controller, answer1, answer2, answer3));
 		add(ok, c);
 		
 	}
 }
 
-class okPress implements ActionListener {
+class OkPress implements ActionListener {
 	
 	private Controller controller;
 	private JTextField answer1;
 	private JTextField answer2;
 	private JTextField answer3;
 	
-	public okPress(Controller controller, JTextField answer1, JTextField answer2, JTextField answer3) {
+	public OkPress(Controller controller, JTextField answer1, JTextField answer2, JTextField answer3) {
 		this.controller = controller;
 		this.answer1 = answer1;
 		this.answer2 = answer2;

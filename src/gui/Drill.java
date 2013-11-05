@@ -191,7 +191,7 @@ public class Drill extends BackgroundPanel {
 		
 		if (answer.equals("" + correctanswer)) {
 			try {
-				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/faces/xface.png"));
+				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/faces/rface.png"));
 				markImg = new JLabel(new ImageIcon(img));
 			} catch (IOException e) {
 				markImg = new JLabel("CORRECT");
@@ -200,7 +200,7 @@ public class Drill extends BackgroundPanel {
 		}
 		else {
 			try {
-				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/faces/rface.png"));
+				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/faces/xface.png"));
 				markImg = new JLabel(new ImageIcon(img));
 			} catch (IOException e) {
 				markImg = new JLabel("WRONG");

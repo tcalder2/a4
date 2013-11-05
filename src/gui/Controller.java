@@ -6,6 +6,7 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -121,5 +122,4 @@ public class Controller {
 	public Progeny getCurrentProgeny() {
 		return currentProgeny;
 	}
-	
 }

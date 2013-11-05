@@ -53,7 +53,7 @@ public class LGameMenu extends BackgroundPanel {
 				int level = (i * 3) + j;
 
 				JButton button = new JButton();
-				button.addActionListener(new toGame(controller, level));
+				button.addActionListener(new SelectLGame(controller, level));
 				button.setContentAreaFilled(false);
 				button.setBorderPainted(false);
 				try {
@@ -69,12 +69,12 @@ public class LGameMenu extends BackgroundPanel {
 	}
 }
 
-class toGame implements ActionListener {
+class SelectLGame implements ActionListener {
 
 	private Controller controller;
 	private int level;
 	
-	public toGame(Controller control, int level) {
+	public SelectLGame(Controller control, int level) {
 		super();
 		controller = control;
 		this.level = level;
