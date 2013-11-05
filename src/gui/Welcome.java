@@ -72,7 +72,7 @@ public class Welcome extends BackgroundPanel {
 				JLabel label = new JLabel("Please click settings to add children to the game.");
 				label.setFont(controller.getFont().deriveFont(Font.PLAIN, 26));
 				add(label, c);
-				ok.setVisible(false);
+				//ok.setVisible(false);
 			}
 			
 			c.gridy = 2;
@@ -142,8 +142,8 @@ class SelectProgeny implements ActionListener {
 	 * @param the action event
 	 */
 	public void actionPerformed(ActionEvent e) {
-		int selection = progenySelector.getSelectedIndex();
-		controller.setCurrentProgeny(progenyList.get(selection));
+		//int selection = progenySelector.getSelectedIndex();
+		//controller.setCurrentProgeny(progenyList.get(selection));
 		controller.setScreen(new MainMenu(controller));
 	}
 }

@@ -64,8 +64,8 @@ public class LockScreen extends BackgroundPanel {
 		c.gridy = 0;
 
 		JLabel pwdLabel = new JLabel("Password: ");
-		pwdLabel.setFont(controller.getFont().deriveFont(Font.BOLD, 60));
-		c.insets = new Insets(100,50,50,0);
+		pwdLabel.setFont(controller.getFont().deriveFont(Font.BOLD, 40));
+		c.insets = new Insets(100,20,50,0);
 		c.gridx = 0;
 		add(pwdLabel, c);
 
@@ -77,16 +77,6 @@ public class LockScreen extends BackgroundPanel {
 			ok.setIcon(new ImageIcon(img));
 		} catch (IOException e) {
 			ok.setText("Ok");
-		}
-
-		JButton reset = new JButton();
-		reset.setContentAreaFilled(false);
-		reset.setBorderPainted(false);
-		try {
-			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/buttons/reset.png"));
-			ok.setIcon(new ImageIcon(img));
-		} catch (IOException e) {
-			ok.setText("Reset...");
 		}
 		
 		JPasswordField passwordField = new JPasswordField("000000");
@@ -100,6 +90,15 @@ public class LockScreen extends BackgroundPanel {
 		c.gridx = 2;
 		add(ok, c);
 		
+		JButton reset = new JButton();
+		reset.setContentAreaFilled(false);
+		reset.setBorderPainted(false);
+		try {
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/buttons/reset.png"));
+			ok.setIcon(new ImageIcon(img));
+		} catch (IOException e) {
+			ok.setText("Reset...");
+		}
 		reset.addActionListener(new PressReset(controller));
 		c.insets = new Insets(100,0,50,20);
 		c.gridx = 3;
@@ -132,7 +131,6 @@ public class LockScreen extends BackgroundPanel {
  * The Class PressOk.
  */
 class PressOk implements ActionListener {
-	private int errors;
 	private Controller controller;
 	private JPasswordField pwdf;
 	
@@ -167,14 +165,10 @@ class PressOk implements ActionListener {
 				controller.setScreen(seq);
 			}
 			else {
-				JLabel message = new JLabel((3 - errors) + " attempts remaining");
-				message.setFont(controller.getFont().deriveFont(Font.PLAIN, 16));
-				message.setForeground(Color.RED);
 				LockScreen screen = new LockScreen(controller, e.getMessages());
 				GridBagConstraints c = new GridBagConstraints();
 				c.gridx = 1;
 				c.gridy = 1;
-				screen.add(message);
 				controller.setScreen(screen);
 			}
 		}
