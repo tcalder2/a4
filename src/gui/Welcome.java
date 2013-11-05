@@ -52,6 +52,8 @@ public class Welcome extends BackgroundPanel {
 			add(new JLabel("Welcome!"), c);
 		}
 		
+		JButton ok = new JButton();
+		
 		c.gridy = 1;
 		c.insets = new Insets(25,100,0,100);
 		controller.getUser();
@@ -70,11 +72,11 @@ public class Welcome extends BackgroundPanel {
 				JLabel label = new JLabel("Please click settings to add children to the game.");
 				label.setFont(controller.getFont().deriveFont(Font.PLAIN, 26));
 				add(label, c);
+				ok.setVisible(false);
 			}
 			
 			c.gridy = 2;
 			c.insets = new Insets(0,100,0,100);
-			JButton ok = new JButton();
 			ok.setContentAreaFilled(false);
 			ok.setBorderPainted(false);
 			ok.addActionListener(new SelectProgeny(controller, nameSelector, progenies));
