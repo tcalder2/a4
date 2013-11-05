@@ -34,12 +34,16 @@ class UserController extends AbstractActionController
     'message' => "Facebook not connected",
    ));
 
+  //Check if the user password expired
   if ($this->getUserTable()->getUser()->getIncorrectPasswordAttempts() > 2)
    return new JsonModel(array('success' => false, 'message' => 'Too many login attempts'));
 
+  //match the password
   if ($this->getUserTable()->authenticate($this->params()->fromQuery('password')))
-   return new JsonModel(array('success' => true));
+   	//sweet, we're in
+  	return new JsonModel(array('success' => true));
   else
+   //bad, user.  slap on the hand.
    return new JsonModel(array(
     'success' => false,
     'message' => "Could not authenticate user",
@@ -49,6 +53,7 @@ class UserController extends AbstractActionController
 
  public function GetQuestionsAction()
  {
+  // dump the preset questions to the JSON response
   return new JsonModel(array('success' => true, 'questions' => $this->getUserTable()->getQuestions()));
  }
 
@@ -57,16 +62,20 @@ class UserController extends AbstractActionController
   $question = $this->params()->fromQuery('question');
   $password = $this->params()->fromQuery('password');
 
+  //validate that the question set matches something in the array
   $validator_chain = new \Zend\Validator\ValidatorChain();
   $validator_chain->attach(new \Zend\Validator\Digits());
   $validator_chain->attach(new \Zend\Validator\Between(array('inclusive' => true, 'min' => 0, 'max' => 2)));
 
+  //dump the error messages to the json array if the question wasn't in the array
   if (!$validator_chain->isValid($question))
    return new JsonModel(array('success' => false, 'messages' => $validator_chain->getMessages()));
 
-  if (md5($password) != $this->getUserTable()->getUser()->getPassword())
+  //check the password matched
+  if ($this->getUserTable()->authenticate($password))
    return new JsonModel(array('success' => false, 'message' => 'Password mismatch'));
 
+  //store the lower case version of the password
   $this->getUserTable()->setQuestion(strtolower($question));
 
   return new JsonModel(array('success' => true));
@@ -74,6 +83,7 @@ class UserController extends AbstractActionController
 
  public function GetUserAction()
  {
+  //get the user singleton and dump the fields to JSON
   $user = $this->getUserTable()->getUser();
 
   return new JsonModel(array('success' => true, 'user' => $user->toArray()));
@@ -85,14 +95,18 @@ class UserController extends AbstractActionController
   $new_password = $this->params()->fromQuery('new_password');
   $user = $this->getUserTable()->getUser();
 
+  //get the password validator
   $validator = $user->getPasswordValidator();
 
+  //check the lower case answer given is the same ast he actual lower case answer
   if (strtolower($this->getUserTable()->getUser()->getAnswer()) != strtolower($answer))
    return new JsonModel(array('success' => false, 'message' => 'Could not verify answer'));
 
+  //validate the answer
   if(!$validator->isValid($new_password))
    return new JsonModel(array('success' => false, 'messages' => $validator->getMessages()));
 
+  //set the answer
   $this->getUserTable()->setPassword($new_password);
 
   return new JsonModel(array('success' => true));
@@ -103,15 +117,19 @@ class UserController extends AbstractActionController
   $answer = $this->params()->fromQuery('answer');
   $password = $this->params()->fromQuery('password');
 
+  //we only need this validator once
   $validator_chain = new \Zend\Validator\ValidatorChain();
   $validator_chain->attach(new \Zend\Validator\StringLength(array('min' => 1, 'max' => 30)));
 
+  //validate the answer
   if(!$validator_chain->isValid($answer))
    return new JsonModel(array('success' => false, 'messages' => $validator_chain->getMessages()));
 
-  if (md5($password) != $this->getUserTable()->getUser()->getPassword())
+  //verify the password
+  if ($this->getUserTable()->authenticate($password))
    return new JsonModel(array('success' => false, 'message' => 'Password mismatch'));
 
+  //set the answer
   $this->getUserTable()->setAnswer($answer);
 
   return new JsonModel(array('success' => true));
@@ -124,12 +142,15 @@ class UserController extends AbstractActionController
   $new_password = $this->params()->fromQuery('new_password');
   $validator = $user->getPasswordValidator();
 
+  //validate the password
   if (!$validator->isValid($new_password))
    return new JsonModel(array('success' => false, 'messages' => $validator->getMessages()));
 
-  if(md5($old_password) != $user->getPassword())
+  //check the old password was correct
+  if(!$this->getUserTable()->authenticate($old_password))
    return new JsonModel(array('success' => false, 'message' => 'Password mismatch'));
 
+  //set the new password
   $this->getUserTable()->setPassword($new_password);
 
   return new JsonModel(array('success' => true));
