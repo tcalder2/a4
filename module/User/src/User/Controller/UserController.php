@@ -72,7 +72,7 @@ class UserController extends AbstractActionController
    return new JsonModel(array('success' => false, 'messages' => $validator_chain->getMessages()));
 
   //check the password matched
-  if ($this->getUserTable()->authenticate($password))
+  if (!$this->getUserTable()->authenticate($password))
    return new JsonModel(array('success' => false, 'message' => 'Password mismatch'));
 
   //store the lower case version of the password
@@ -126,7 +126,7 @@ class UserController extends AbstractActionController
    return new JsonModel(array('success' => false, 'messages' => $validator_chain->getMessages()));
 
   //verify the password
-  if ($this->getUserTable()->authenticate($password))
+  if (!$this->getUserTable()->authenticate($password))
    return new JsonModel(array('success' => false, 'message' => 'Password mismatch'));
 
   //set the answer
