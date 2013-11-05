@@ -138,8 +138,7 @@ class PressOk implements ActionListener {
 			Settings screen = new Settings(controller);
 			controller.setScreen(screen);
 		} catch (JSONFailureException e) {
-			errors++;
-			if (errors >= 3) {
+			if (e.getMessages().get(0).compareTo("Too many login attempts") == 0) {
 				SecurityQ seq = new SecurityQ(controller);
 				controller.setScreen(seq);
 			}

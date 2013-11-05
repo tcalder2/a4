@@ -26,8 +26,8 @@ public class TTApplet extends JApplet {
 			controller = new Controller();
 			TitlePanel titlePanel = new TitlePanel(controller);
 			controller.setHeader(titlePanel);
-			MainMenu mainMenu = new MainMenu(controller);
-			controller.setScreen(mainMenu);
+			Welcome welcome = new Welcome(controller);
+			controller.setScreen(welcome);
 			controller.setFrameColour(Color.black);
 			this.add(controller.getPane());
 		} catch (JSONFailureException e) {
