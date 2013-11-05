@@ -130,11 +130,11 @@ class PressOk implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent evt) {
-		char[] pwd = pwdf.getPassword();
-		String pwds = new String(pwd);
+		char[] pwds = pwdf.getPassword();
+		String pwd = pwds.toString();
 		
 		try {
-			User.authenticate(pwds);
+			User.authenticate(pwd);
 			Settings screen = new Settings(controller);
 			controller.setScreen(screen);
 		} catch (JSONFailureException e) {
@@ -146,7 +146,7 @@ class PressOk implements ActionListener {
 				JLabel message = new JLabel((3 - errors) + " attempts remaining");
 				message.setFont(controller.getFont().deriveFont(Font.PLAIN, 16));
 				message.setForeground(Color.RED);
-				LockScreen screen = new LockScreen(controller);
+				LockScreen screen = new LockScreen(controller, e.getMessages());
 				GridBagConstraints c = new GridBagConstraints();
 				c.gridx = 1;
 				c.gridy = 1;
