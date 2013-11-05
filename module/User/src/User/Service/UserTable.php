@@ -17,6 +17,7 @@ class UserTable
 
  protected $fb_id;
 
+ //Preset questions
  protected $questions = array(
   0 => 'What\'s your mother\'s maiden name?',
   1 => 'What\'s the name of your favourite pet?',
@@ -30,6 +31,7 @@ class UserTable
 
  public function setAnswer($answer)
  {
+  //persist answer
   $user = $this->getUser();
   $user->setAnswer($answer);
   $this->em->persist($user);
@@ -38,6 +40,7 @@ class UserTable
 
  public function setQuestion($question)
  {
+  //persist qustion array index
   $user = $this->getUser();
   $user->setQuestion($question);
   $this->em->persist($user);
@@ -46,6 +49,7 @@ class UserTable
 
  public function getQuestions()
  {
+  //return the questoins array
   return $this->questions;
  }
 
@@ -54,6 +58,7 @@ class UserTable
   */
  public function setPassword($password)
  {
+  //encrypt and persist the password
   $user = $this->getUser();
   $user->setPassword(md5($password));
   $user->setIncorrectPasswordAttempts(0);
@@ -67,14 +72,20 @@ class UserTable
   */
  public function authenticate($password)
  {
+  //encrypt the incomming password
   $user = $this->getUser();
+  
+  //challenge
   $authenticated = $user->getPassword() == md5($password);
 
   if($authenticated)
+   //reset password attemts to 0
    $user->setIncorrectPasswordAttempts(0);
   else
+   //slap the user's hand
    $user->setIncorrectPasswordAttempts($user->getIncorrectPasswordAttempts() + 1);
 
+  //persist the user to save the password attempt count
   $this->em->persist($user);
   $this->em->flush();
   return $authenticated;
@@ -82,6 +93,7 @@ class UserTable
 
  public function newUser($data)
  {
+  //create a new user from the incomming data
   $user = new User();
 
   $user->exchangeArray($data);
@@ -99,6 +111,7 @@ class UserTable
   */
  public function getUser()
  {
+  //get the singleton user
   return $this->em->getRepository('User\Entity\User')->findOneBy(array('fb_id' => $this->fb_id));
  }
 
@@ -107,6 +120,7 @@ class UserTable
   */
  public function saveUser(User $user)
  {
+  //persist the user in all its glory
   $this->em->persist($user);
  }
 
@@ -115,6 +129,8 @@ class UserTable
   */
  public function fetchAll()
  {
+  //return all user objects
+  //this will be important in the future
   return $this->em->getRepository('User\Entity\User')->findAll();
  }
 

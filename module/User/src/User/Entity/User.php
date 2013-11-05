@@ -25,6 +25,7 @@ class User {
 
  public function toArray()
  {
+  //return user information
   return array(
    'fb_id' => $this->getFbId(),
    'first_name' => $this->getFirstName(),
@@ -34,16 +35,12 @@ class User {
 
  }
 
- public function setInputFilter(InputFilterInterface $i)
- {
-  throw new \Exception("Not used");
- }
-
  /**
   * @return \Zend\Validator\StringLength
   */
  public function getPasswordValidator()
  {
+  //return the validator accordint the project specs 	
   $length_validator = new \Zend\Validator\StringLength(array('min'=> 3, 'max' => 6));
   $length_validator->setMessages(array(
    \Zend\Validator\StringLength::TOO_LONG => "The password can have no more than 6 characters",
@@ -53,61 +50,6 @@ class User {
   return $length_validator;
  }
 
- public function getInputFilter()
- {
-  if($this->inputFilter) return $this->inputFilter;
-
-  $inputFilter = new InputFilter();
-  $factory = new InputFactory();
-
-  //email
-  $inputFilter->add($factory->createInput(array(
-   'name' => 'email',
-   'required' => true,
-   'filters' => array(
-    array('name' => 'StripTags'),
-    array('name' => 'StringTrim'),
-   ),
-   'validators' => array(
-    array(
-     'name' => 'EmailAddress',
-    ),
-    array(
-     'name' => 'StringLength',
-     'options' => array(
-      'encoding' => 'UTF-8',
-      'min' => 1,
-      'max' => 255,
-     ),
-    ),
-   ),
-  )));
-
-  //password
-  $inputFilter->add($factory->createInput(array(
-   'name' => 'password',
-   'required' => true,
-   'filters' => array(
-    array('name' => 'StripTags'),
-    array('name' => 'StringTrim'),
-   ),
-   'validators' => array(
-    array(
-     'name' => 'StringLength',
-     'options' => array(
-      'encoding' => 'UTF-8',
-      'min' => 8,
-      'max' => 50,
-     ),
-    ),
-   ),
-  )));
-
-
-  $this->inputFilter = $inputFilter;
-
-  return $this->inputFilter;
- }
 
  /**
   * @ORM\Id
@@ -149,6 +91,7 @@ class User {
 
  public function exchangeArray($data)
  {
+  //swap incomming data into the user object
   $this->email = (isset($data['email'])) ? $data['email'] : null;
   $this->password = (isset($data['password'])) ? $data['password'] : null;
   $this->first_name = (isset($data['first_name'])) ? $data['first_name'] : null;

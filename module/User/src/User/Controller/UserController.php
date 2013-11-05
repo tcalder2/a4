@@ -67,6 +67,10 @@ class UserController extends AbstractActionController
   $validator_chain->attach(new \Zend\Validator\Digits());
   $validator_chain->attach(new \Zend\Validator\Between(array('inclusive' => true, 'min' => 0, 'max' => 2)));
 
+  //Check if the user password expired
+  if ($this->getUserTable()->getUser()->getIncorrectPasswordAttempts() > 2)
+  	return new JsonModel(array('success' => false, 'message' => 'Too many login attempts'));
+  
   //dump the error messages to the json array if the question wasn't in the array
   if (!$validator_chain->isValid($question))
    return new JsonModel(array('success' => false, 'messages' => $validator_chain->getMessages()));
@@ -121,6 +125,10 @@ class UserController extends AbstractActionController
   $validator_chain = new \Zend\Validator\ValidatorChain();
   $validator_chain->attach(new \Zend\Validator\StringLength(array('min' => 1, 'max' => 30)));
 
+  //Check if the user password expired
+  if ($this->getUserTable()->getUser()->getIncorrectPasswordAttempts() > 2)
+  	return new JsonModel(array('success' => false, 'message' => 'Too many login attempts'));
+  
   //validate the answer
   if(!$validator_chain->isValid($answer))
    return new JsonModel(array('success' => false, 'messages' => $validator_chain->getMessages()));
@@ -142,6 +150,10 @@ class UserController extends AbstractActionController
   $new_password = $this->params()->fromQuery('new_password');
   $validator = $user->getPasswordValidator();
 
+  //Check if the user password expired
+  if ($this->getUserTable()->getUser()->getIncorrectPasswordAttempts() > 2)
+  	return new JsonModel(array('success' => false, 'message' => 'Too many login attempts'));
+  
   //validate the password
   if (!$validator->isValid($new_password))
    return new JsonModel(array('success' => false, 'messages' => $validator->getMessages()));
