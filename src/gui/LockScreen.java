@@ -59,14 +59,13 @@ public class LockScreen extends BackgroundPanel {
 	public void setup(Controller controller) {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(0,0,100,0);			
 		c.weightx = 0;
 		c.weighty = 0;
 		c.gridy = 0;
 
 		JLabel pwdLabel = new JLabel("Password: ");
 		pwdLabel.setFont(controller.getFont().deriveFont(Font.BOLD, 60));
-		c.insets = new Insets(100,200,50,5);
+		c.insets = new Insets(100,50,50,0);
 		c.gridx = 0;
 		add(pwdLabel, c);
 
@@ -92,17 +91,17 @@ public class LockScreen extends BackgroundPanel {
 		
 		JPasswordField passwordField = new JPasswordField("000000");
 		passwordField.addKeyListener(new EnterListener(ok));
-		c.insets = new Insets(100,5,50,5);
+		c.insets = new Insets(100,0,50,0);
 		c.gridx = 1;
 		add(passwordField, c);
 		
 		ok.addActionListener(new PressOk(controller, passwordField));
-		c.insets = new Insets(100,5,50,20);
+		c.insets = new Insets(100,0,50,0);
 		c.gridx = 2;
 		add(ok, c);
 		
 		reset.addActionListener(new PressReset(controller));
-		c.insets = new Insets(100,5,50,20);
+		c.insets = new Insets(100,0,50,20);
 		c.gridx = 3;
 		add(reset, c);
 	}
