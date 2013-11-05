@@ -32,11 +32,11 @@ public class Welcome extends BackgroundPanel {
 		
 		c.gridy = 1;
 		c.insets = new Insets(25,100,0,100);
-		if (controller.getUser().getProgies().size() > 0) {
+		/*if (controller.getUser().getProgies().size() > 0) {
 			
 		}
 		else {
 			
-		}
+		}*/
 	}
 }
