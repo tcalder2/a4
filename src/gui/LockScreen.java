@@ -95,9 +95,9 @@ public class LockScreen extends BackgroundPanel {
 		reset.setBorderPainted(false);
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/buttons/reset.png"));
-			ok.setIcon(new ImageIcon(img));
+			reset.setIcon(new ImageIcon(img));
 		} catch (IOException e) {
-			ok.setText("Reset...");
+			reset.setText("Reset...");
 		}
 		reset.addActionListener(new PressReset(controller));
 		c.insets = new Insets(100,0,50,20);
