@@ -17,6 +17,9 @@ class UserTable
 
  protected $fb_id;
 
+ /** @var  \Zend */
+ protected $sm;
+
  //Preset questions
  protected $questions = array(
   0 => 'What\'s your mother\'s maiden name?',
@@ -40,7 +43,7 @@ class UserTable
 
  public function setQuestion($question)
  {
-  //persist qustion array index
+  //persist question array index
   $user = $this->getUser();
   $user->setQuestion($question);
   $this->em->persist($user);
@@ -49,7 +52,7 @@ class UserTable
 
  public function getQuestions()
  {
-  //return the questoins array
+  //return the questions array
   return $this->questions;
  }
 
