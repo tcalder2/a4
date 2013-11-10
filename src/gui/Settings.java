@@ -33,7 +33,6 @@ public class Settings extends BackgroundPanel {
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
-		c.gridwidth = GridBagConstraints.CENTER;
 		c.insets = new Insets(10,150,10,150);
 		c.weightx = 0;
 		c.gridx = 0;
@@ -56,7 +55,8 @@ public class Settings extends BackgroundPanel {
 	}
 
 	public JPanel childTab(Controller controller) {
-		JPanel childTab = new JPanel(new GridBagLayout());
+		JPanel panel= new JPanel(new GridBagLayout());
+		panel.setOpaque(false);
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.insets = new Insets(10,0,0,3);
@@ -66,12 +66,12 @@ public class Settings extends BackgroundPanel {
 
 		String[] sortOptions = {"Age","Name"};
 		JComboBox<String> sortMenu = new JComboBox<String>(sortOptions);
-		childTab.add(sortMenu, c);
+		panel.add(sortMenu, c);
 
 		c.insets = new Insets(10,0,0,75);
 		c.gridx = 5;
 		JButton sortButton = new JButton("Sort");
-		childTab.add(sortButton, c);
+		panel.add(sortButton, c);
 
 		String[] columnNames = {"Name"," ","Birthday"," ","Age","Level"};
 		try {
@@ -120,7 +120,7 @@ public class Settings extends BackgroundPanel {
 			c.gridy = 1;
 			c.gridx = 0;
 			c.ipady = 80;
-			childTab.add(scroll,c);
+			panel.add(scroll,c);
 
 			JLabel addChild = new JLabel("Add Child:");
 			JPanel adpanel = new JPanel();
@@ -130,7 +130,7 @@ public class Settings extends BackgroundPanel {
 			c.insets = new Insets(10,75,0,0);
 			c.gridy = 2;
 			c.gridx = 0;
-			childTab.add(addChild, c);
+			panel.add(addChild, c);
 
 			JButton add = new JButton("Add");
 
@@ -141,7 +141,7 @@ public class Settings extends BackgroundPanel {
 			c.ipadx = 250;
 			c.gridy = 3;
 			c.gridx = 0;
-			childTab.add(nameInput, c);
+			panel.add(nameInput, c);
 
 			Vector<String> d = new Vector<String>();
 			d.add("Day");
@@ -153,12 +153,12 @@ public class Settings extends BackgroundPanel {
 			c.ipadx = 0;
 			c.insets = new Insets(0,0,0,0);
 			c.gridx = 2;
-			childTab.add(days, c);
+			panel.add(days, c);
 
 			String[] months = {"Month","January","February","March","April","May","June","July","August","September","October","November","December"};
 			JComboBox<String> month = new JComboBox<String>(months);
 			c.gridx = 3;
-			childTab.add(month, c);
+			panel.add(month, c);
 
 			Vector<String> y = new Vector<String>();
 			y.add("Year");
@@ -167,18 +167,18 @@ public class Settings extends BackgroundPanel {
 			}
 			JComboBox<String> years = new JComboBox<String>(y);
 			c.gridx = 4;
-			childTab.add(years, c);
+			panel.add(years, c);
 
 			c.insets = new Insets(0,0,0,75);
 			c.gridx = 5;
-			childTab.add(add, c);
+			panel.add(add, c);
 
 			JLabel editChild = new JLabel("Review and Modify Child:");
 			c.insets = new Insets(20,75,0,0);
 			c.gridwidth = 2;
 			c.gridy = 4;
 			c.gridx = 0;
-			childTab.add(editChild, c);
+			panel.add(editChild, c);
 
 			Vector<String> childnames = new Vector<String>();
 			childnames.add("Wallace");
@@ -187,21 +187,21 @@ public class Settings extends BackgroundPanel {
 			c.insets = new Insets(0,75,0,0);
 			c.gridy = 5;
 			c.gridx = 0;
-			childTab.add(childSelect, c);
+			panel.add(childSelect, c);
 
 			JComboBox<String> days2 = new JComboBox<String>(d);
 			c.insets = new Insets(0,0,0,0);
 			c.gridwidth = 1;
 			c.gridx = 2;
-			childTab.add(days2, c);
+			panel.add(days2, c);
 
 			JComboBox<String> month2 = new JComboBox<String>(months);
 			c.gridx = 3;
-			childTab.add(month2, c);
+			panel.add(month2, c);
 
 			JComboBox<String> years2 = new JComboBox<String>(y);
 			c.gridx = 4;
-			childTab.add(years2, c);
+			panel.add(years2, c);
 
 			Vector<String> l = new Vector<String>();
 			for (int i = 1; i < 13; i++) {
@@ -210,25 +210,25 @@ public class Settings extends BackgroundPanel {
 			JComboBox<String> levels = new JComboBox<String>(l);
 			c.insets = new Insets(0,0,0,75);
 			c.gridx = 5;
-			childTab.add(levels, c);
+			panel.add(levels, c);
 
 			JButton update = new JButton("Update");
 			c.insets = new Insets(0,0,0,0);
 			c.gridy = 6;
 			c.gridx = 3;
-			childTab.add(update, c);
+			panel.add(update, c);
 
 			JButton remove = new JButton("Remove");
 			c.gridx = 4;
-			childTab.add(remove, c);
+			panel.add(remove, c);
 
 			JButton stats = new JButton("Progress");
 			stats.addActionListener(new PressProgress(childSelect, controller, this));
 			c.insets = new Insets(0,0,0,75);
 			c.gridx = 5;
-			childTab.add(stats, c);
+			panel.add(stats, c);
 
-			return childTab;
+			return panel;
 			
 		} catch(JSONFailureException e) {
 			JPanel errPanel = new JPanel(new GridBagLayout());
@@ -252,6 +252,7 @@ public class Settings extends BackgroundPanel {
 	
 	public JPanel levelSetTab(Controller controller) {
 		JPanel panel = new JPanel(new GridBagLayout());
+		panel.setOpaque(false);
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(0,25,0,0);
 		c.gridwidth = 2;
@@ -315,6 +316,7 @@ public class Settings extends BackgroundPanel {
 	
 	public JPanel securityTab(Controller controller) {
 		JPanel panel = new JPanel(new GridBagLayout());
+		panel.setOpaque(false);
 		GridBagConstraints c = new GridBagConstraints();
 		
 		
