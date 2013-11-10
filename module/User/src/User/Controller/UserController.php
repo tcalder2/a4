@@ -192,11 +192,7 @@ class UserController extends AbstractActionController
  public function getUserTable()
  {
   if ($this->userTable) return $this->userTable;
-
   $this->userTable = $this->getServiceLocator()->get('User\Service\UserTable');
-  $this->userTable->setFacebook($this->getFacebook());
-  $this->userTable->setFbId($this->getFbId());
-
   return $this->userTable;
  }
 
