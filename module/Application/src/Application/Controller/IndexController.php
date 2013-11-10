@@ -113,11 +113,7 @@ class IndexController extends AbstractActionController
  public function getUserTable()
  {
   if ($this->userTable) return $this->userTable;
-
   $this->userTable = $this->getServiceLocator()->get('User\Service\UserTable');
-  $this->userTable->setFacebook($this->getFacebook());
-  $this->userTable->setFbId($this->getFbId());
-
   return $this->userTable;
  }
 
@@ -129,18 +125,14 @@ class IndexController extends AbstractActionController
  public function getFacebook()
  {
   if ($this->facebook) return $this->facebook;
-
   $this->facebook = $this->getServiceLocator()->get('Application\Service\Facebook');
-
   return $this->facebook;
  }
 
  public function getFbId()
  {
   if ($this->fb_id) return $this->fb_id;
-
   $this->fb_id = $this->getServiceLocator()->get('Application\Service\FbId');
-
   return $this->fb_id;
  }
 }
