@@ -18,7 +18,7 @@ class UserTable
 
  /** @var \Zend\ServiceManager\ServiceManager $sms */
  protected $sm;
- 
+
  //Preset questions
  protected $questions = array(
   0 => 'What\'s your mother\'s maiden name?',
@@ -52,7 +52,7 @@ class UserTable
 
  public function getQuestions()
  {
-  //return the questions array
+  //return the questoins array
   return $this->questions;
  }
 

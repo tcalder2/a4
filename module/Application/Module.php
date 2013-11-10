@@ -9,7 +9,6 @@
 
 namespace Application;
 
-use Progeny\Service\Facebook;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
@@ -50,25 +49,18 @@ class Module
       return $facebook;
      },
 
-<<<<<<< HEAD
-    'Application\Service\FbId' => function ($sm)
-     {
-=======
     'Application\Service\FbId' => function ($sm) {
 
       if(array_key_exists('fb_test', $_GET) && $_GET['fb_test'])
        return '100001201459747';
 
 
->>>>>>> 5ffb0494015d93125e32a6c4f6133082cbee2f26
       /** @var \Facebook $facebook */
       $facebook = $sm->get('Application\Service\Facebook');
 
       $fb_id = $facebook->getUser();
 
       return $fb_id;
-<<<<<<< HEAD
-=======
      },
 
     'Application\Service\FacebookProfile' => function ($sm) {
@@ -93,7 +85,6 @@ class Module
       $fb_id = $sm->get('Application\Service\FbId');
 
       return $sm->get('Application\Service\Facebook')->api('/' . $fb_id, 'GET');
->>>>>>> 5ffb0494015d93125e32a6c4f6133082cbee2f26
      }
    )
   );
