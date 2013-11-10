@@ -153,8 +153,10 @@ class PressOk implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent evt) {
 		char[] pwds = pwdf.getPassword();
-		String pwd = pwds.toString();
-		
+		String pwd = "";
+  		for (int i=0; i < pwds.length; i++) {
+  			pwd += pwds[i];
+  		}
 		try {
 			User.authenticate(pwd);
 			Settings screen = new Settings(controller);

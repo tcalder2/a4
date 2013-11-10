@@ -28,6 +28,9 @@ public class Progeny {
 	/** The id. */
 	private String id;
 	
+	/** The birthday. */
+	private ArrayList<String> birthday;
+	
 	/**
 	 * Adds the progeny.
 	 *
@@ -155,16 +158,36 @@ public class Progeny {
 	public String getAge() {
 		return age;
 	}
-
+	
 	/**
 	 * Sets the age.
 	 *
 	 * @param age the new age
 	 */
+	/*
 	public void setAge(String age) {
 		this.age = age;
 	}
+	*/
+	
+	/**
+	 * Gets the Birthday.
+	 *
+	 * @return the birthday
+	 */
+	public ArrayList<String> getBirthday() {
+		return birthday;
+	}
 
+	/**
+	 * Sets the Birthday.
+	 *
+	 * @param birthday the new birthday
+	 */
+	public void setBirthday(ArrayList<String> birthday) {
+		this.birthday = birthday;
+	}
+	
 	/**
 	 * Gets the id.
 	 *
