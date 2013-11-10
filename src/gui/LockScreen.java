@@ -59,14 +59,13 @@ public class LockScreen extends BackgroundPanel {
 	public void setup(Controller controller) {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(0,0,100,0);			
 		c.weightx = 0;
 		c.weighty = 0;
 		c.gridy = 0;
 
 		JLabel pwdLabel = new JLabel("Password: ");
-		pwdLabel.setFont(controller.getFont().deriveFont(Font.BOLD, 60));
-		c.insets = new Insets(100,200,50,5);
+		pwdLabel.setFont(controller.getFont().deriveFont(Font.BOLD, 40));
+		c.insets = new Insets(100,20,50,0);
 		c.gridx = 0;
 		add(pwdLabel, c);
 
@@ -74,35 +73,34 @@ public class LockScreen extends BackgroundPanel {
 		ok.setContentAreaFilled(false);
 		ok.setBorderPainted(false);
 		try {
-			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/ok.png"));
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/buttons/ok.png"));
 			ok.setIcon(new ImageIcon(img));
 		} catch (IOException e) {
 			ok.setText("Ok");
 		}
-
-		JButton reset = new JButton();
-		reset.setContentAreaFilled(false);
-		reset.setBorderPainted(false);
-		try {
-			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/reset.png"));
-			ok.setIcon(new ImageIcon(img));
-		} catch (IOException e) {
-			ok.setText("Reset...");
-		}
 		
 		JPasswordField passwordField = new JPasswordField("000000");
 		passwordField.addKeyListener(new EnterListener(ok));
-		c.insets = new Insets(100,5,50,5);
+		c.insets = new Insets(100,0,50,0);
 		c.gridx = 1;
 		add(passwordField, c);
 		
 		ok.addActionListener(new PressOk(controller, passwordField));
-		c.insets = new Insets(100,5,50,20);
+		c.insets = new Insets(100,0,50,0);
 		c.gridx = 2;
 		add(ok, c);
 		
+		JButton reset = new JButton();
+		reset.setContentAreaFilled(false);
+		reset.setBorderPainted(false);
+		try {
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/buttons/reset.png"));
+			reset.setIcon(new ImageIcon(img));
+		} catch (IOException e) {
+			reset.setText("Reset...");
+		}
 		reset.addActionListener(new PressReset(controller));
-		c.insets = new Insets(100,5,50,20);
+		c.insets = new Insets(100,0,50,20);
 		c.gridx = 3;
 		add(reset, c);
 	}
@@ -133,7 +131,6 @@ public class LockScreen extends BackgroundPanel {
  * The Class PressOk.
  */
 class PressOk implements ActionListener {
-	private int errors;
 	private Controller controller;
 	private JPasswordField pwdf;
 	
@@ -168,14 +165,10 @@ class PressOk implements ActionListener {
 				controller.setScreen(seq);
 			}
 			else {
-				JLabel message = new JLabel((3 - errors) + " attempts remaining");
-				message.setFont(controller.getFont().deriveFont(Font.PLAIN, 16));
-				message.setForeground(Color.RED);
 				LockScreen screen = new LockScreen(controller, e.getMessages());
 				GridBagConstraints c = new GridBagConstraints();
 				c.gridx = 1;
 				c.gridy = 1;
-				screen.add(message);
 				controller.setScreen(screen);
 			}
 		}

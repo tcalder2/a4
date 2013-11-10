@@ -1,20 +1,5 @@
 <?php
- 
-/** @var \Facebook $facebook */
-$facebook = $this->facebook;
-
-$fb_uid = $facebook->getUser();
-
-if ($fb_uid == 0) {
- $login_url = $facebook->getLoginUrl();
- echo "<script type='text/javascript'>top.location.href = '$login_url';</script>";
- return;
-}
-
-
-
-$fb_login = $this->fb_login;
-
+$fb_id = $this->fb_id;
 $user_profile = $this->user_profile;
 ?>
 
@@ -35,5 +20,6 @@ $user_profile = $this->user_profile;
 
 
 </div>
+
 
 <a href="https://jbaron6.cs2212.ca/test"><h3>Test Project</h3></a>

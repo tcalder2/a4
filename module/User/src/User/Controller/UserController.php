@@ -176,11 +176,6 @@ class UserController extends AbstractActionController
  {
   if ($this->facebook) return $this->facebook;
   $this->facebook = new \Facebook(array('appId' => '654412204576554', 'secret' => 'bebd056f6d6ff934cc48e36536b58318'));
-
-  /** @var \Zend\ServiceManager\ServiceManager $sm */
-  $sm = $this->getServiceLocator();
-
-  $sm->setService('facebook', $this->facebook);
   return $this->facebook;
  }
 
@@ -188,11 +183,6 @@ class UserController extends AbstractActionController
  {
   if ($this->fb_id) return $this->fb_id;
   $this->fb_id = $this->getFacebook()->getUser();
-
-  /** @var \Zend\ServiceManager\ServiceManager $sm */
-  $sm = $this->getServiceLocator();
-
-  $sm->setService('facebook_id', $this->fb_id);
   return $this->fb_id;
  }
 
@@ -202,11 +192,7 @@ class UserController extends AbstractActionController
  public function getUserTable()
  {
   if ($this->userTable) return $this->userTable;
-
   $this->userTable = $this->getServiceLocator()->get('User\Service\UserTable');
-  $this->userTable->setFacebook($this->getFacebook());
-  $this->userTable->setFbId($this->getFbId());
-
   return $this->userTable;
  }
 

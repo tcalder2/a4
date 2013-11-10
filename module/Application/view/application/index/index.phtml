@@ -1,20 +1,4 @@
 <?php
-
-/** @var \Facebook $facebook */
-$facebook = $this->facebook;
-
-$fb_uid = $facebook->getUser();
-
-if ($fb_uid == 0) {
- $login_url = $facebook->getLoginUrl();
- echo "<script type='text/javascript'>top.location.href = '$login_url';</script>";
- return;
-}
-
-
-
-$fb_login = $this->fb_login;
-
 $user_profile = $this->user_profile;
 ?>
 

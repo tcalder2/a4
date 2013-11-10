@@ -12,14 +12,13 @@ class UserTable
  /** @var \Doctrine\ORM\EntityManager $userTable */
  protected $em;
 
- /** @var  \Facebook $facebook */
  protected $facebook;
 
  protected $fb_id;
 
- /** @var  \Zend */
+ /** @var \Zend\ServiceManager\ServiceManager $sms */
  protected $sm;
-
+ 
  //Preset questions
  protected $questions = array(
   0 => 'What\'s your mother\'s maiden name?',
@@ -29,7 +28,8 @@ class UserTable
 
  public function __construct(\Zend\ServiceManager\ServiceManager $sm)
  {
-  $this->em = $sm->get('Doctrine\ORM\EntityManager');
+  $this->sm = $sm;
+  $this->em = $this->sm->get('Doctrine\ORM\EntityManager');
  }
 
  public function setAnswer($answer)
@@ -43,7 +43,7 @@ class UserTable
 
  public function setQuestion($question)
  {
-  //persist question array index
+  //persist qustion array index
   $user = $this->getUser();
   $user->setQuestion($question);
   $this->em->persist($user);
@@ -115,7 +115,7 @@ class UserTable
  public function getUser()
  {
   //get the singleton user
-  return $this->em->getRepository('User\Entity\User')->findOneBy(array('fb_id' => $this->fb_id));
+  return $this->em->getRepository('User\Entity\User')->findOneBy(array('fb_id' => $this->getFbId()));
  }
 
  /**
@@ -137,19 +137,11 @@ class UserTable
   return $this->em->getRepository('User\Entity\User')->findAll();
  }
 
- public function setFbId($fb_id)
- {
-  $this->fb_id = $fb_id;
- }
-
  public function getFbId()
  {
+  if ($this->fb_id) return $this->fb_id;
+  $this->fb_id = $this->sm->get('Application\Service\FbId');
   return $this->fb_id;
- }
-
- public function setFacebook(\Facebook $facebook)
- {
-  $this->facebook = $facebook;
  }
 
  /**
@@ -158,6 +150,8 @@ class UserTable
   */
  public function getFacebook()
  {
+  if($this->facebook) return $this->facebook;
+  $this->facebook = $this->sm->get('Application\Service\Facebook');
   return $this->facebook;
  }
 

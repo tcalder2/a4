@@ -52,6 +52,8 @@ public class Welcome extends BackgroundPanel {
 			add(new JLabel("Welcome!"), c);
 		}
 		
+		JButton ok = new JButton();
+		
 		c.gridy = 1;
 		c.insets = new Insets(25,100,0,100);
 		controller.getUser();
@@ -70,16 +72,16 @@ public class Welcome extends BackgroundPanel {
 				JLabel label = new JLabel("Please click settings to add children to the game.");
 				label.setFont(controller.getFont().deriveFont(Font.PLAIN, 26));
 				add(label, c);
+				//ok.setVisible(false);
 			}
 			
 			c.gridy = 2;
 			c.insets = new Insets(0,100,0,100);
-			JButton ok = new JButton();
 			ok.setContentAreaFilled(false);
 			ok.setBorderPainted(false);
 			ok.addActionListener(new SelectProgeny(controller, nameSelector, progenies));
 			try {
-				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/ok.png"));
+				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/buttons/ok.png"));
 				ok.setIcon(new ImageIcon(img));
 			} catch (IOException e) {
 				ok.setText("Ok");
@@ -140,8 +142,8 @@ class SelectProgeny implements ActionListener {
 	 * @param the action event
 	 */
 	public void actionPerformed(ActionEvent e) {
-		int selection = progenySelector.getSelectedIndex();
-		controller.setCurrentProgeny(progenyList.get(selection));
+		//int selection = progenySelector.getSelectedIndex();
+		//controller.setCurrentProgeny(progenyList.get(selection));
 		controller.setScreen(new MainMenu(controller));
 	}
 }
