@@ -58,6 +58,7 @@ public class Settings extends BackgroundPanel {
 	public JPanel childTab(Controller controller) {
 		JPanel childTab = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
 		c.insets = new Insets(10,0,0,3);
 		c.gridx = 4;
 		c.gridy = 0;
