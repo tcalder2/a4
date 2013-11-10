@@ -69,10 +69,10 @@ class Module
 
       if(array_key_exists('fb_test', $_GET) && $_GET['fb_test'])
        return array(
-        "id" => "100001201459747",
-        "name" => "Bob Baron",
-        "first_name" => "Bob",
-        "last_name" => "Baron",
+        "id" => "508430727",
+        "name" => "Crystal Keenan",
+        "first_name" => "Crystal",
+        "last_name" => "Keenan",
         "link" => "https:\/\/www.facebook.com\/bluebaronca",
         "username" => "bluebaronca",
         "gender" => "male",
