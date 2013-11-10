@@ -55,7 +55,7 @@ class IndexController extends AbstractActionController
 
   //Get the user profile or die
   try {
-   $user_profile = $this->getServiceLocator()->get('Application\Service\FbId');
+   $user_profile = $this->getServiceLocator()->get('Application\Service\FacebookProfile');
   } catch (\Exception $e) {
    //Clear the Facebook identity
    //This fixes a condition where an error occurred if the user disconnected the app
