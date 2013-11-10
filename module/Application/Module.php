@@ -60,7 +60,7 @@ class Module
 
     'Application\Service\FacebookProfile' => function ($sm) {
 
-
+      /** @var \Zend\ServiceManager\ServiceManager $sm */
 
       if(array_key_exists('fb_test', $_GET) && $_GET['fb_test'])
        return json_decode('{"id":"100001201459747","name":"James Baron","first_name":"James","last_name":"Baron","link":"https:\/\/www.facebook.com\/bluebaronca","username":"bluebaronca","gender":"male","timezone":-5,"locale":"en_GB","verified":true,"updated_time":"2013-10-10T16:41:35+0000"}');
@@ -68,7 +68,7 @@ class Module
       /** @var \Facebook $facebook */
       $fb_id = $sm->get('Application\Service\FbId');
 
-      return $facebook->api('/' . $fb_uid, 'GET');
+      return $sm->get('Application\Service\Facebook')->api('/' . $fb_id, 'GET');
      }
    )
   );
