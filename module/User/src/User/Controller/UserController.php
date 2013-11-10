@@ -175,14 +175,14 @@ class UserController extends AbstractActionController
  public function getFacebook()
  {
   if ($this->facebook) return $this->facebook;
-  $this->facebook = new \Facebook(array('appId' => '654412204576554', 'secret' => 'bebd056f6d6ff934cc48e36536b58318'));
+  $this->facebook = $this->getServiceLocator()->get('Application\Service\Facebook');
   return $this->facebook;
  }
 
  public function getFbId()
  {
   if ($this->fb_id) return $this->fb_id;
-  $this->fb_id = $this->getFacebook()->getUser();
+  $this->fb_id = $this->getServiceLocator()->get('Application\Service\FbId');
   return $this->fb_id;
  }
 

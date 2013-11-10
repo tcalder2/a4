@@ -46,8 +46,6 @@ class IndexController extends AbstractActionController
  public function index($view)
  {
   //Create a new Facebook object
-  //$facebook->getUser(); gets the Facebook user's ID
-  $facebook = $this->getFacebook();
   $fb_uid = $this->getFbId();
 
   //If we're not logged in, redirect to the login page
@@ -59,7 +57,7 @@ class IndexController extends AbstractActionController
   } catch (\Exception $e) {
    //Clear the Facebook identity
    //This fixes a condition where an error occurred if the user disconnected the app
-   $facebook->destroySession();
+   $this->getFacebook()->destroySession();
 
    //Redirect to login again
    return $this->redirect()->toRoute('loginfacebook');
@@ -74,7 +72,7 @@ class IndexController extends AbstractActionController
    $user_table->newUser($user_profile);
   }
 
-  $vm = new ViewModel(array('facebook' => $facebook, 'user_profile' => $user_profile));
+  $vm = new ViewModel(array('user_profile' => $user_profile, 'fb_id' => $fb_uid));
   $vm->setTemplate('application/index/'.$view.'.phtml');
 
   //Render the page /module/Application/view/application/index.phtml
