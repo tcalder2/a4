@@ -146,6 +146,7 @@ class UserController extends AbstractActionController
  public function SetPasswordAction()
  {
   //blah
+  //booyah
  	
   $user = $this->getUserTable()->getUser();
   $old_password = $this->params()->fromQuery('old_password');
