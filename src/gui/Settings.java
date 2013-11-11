@@ -96,6 +96,7 @@ public class Settings extends BackgroundPanel {
 					return false;
 				}
 			};
+
 			DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 			renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
 			renderer.setOpaque(false);
@@ -105,6 +106,7 @@ public class Settings extends BackgroundPanel {
 				col.setCellRenderer(renderer);
 				//col.setWidth(100);
 			}
+			table.setAutoCreateRowSorter(true);
 			table.setOpaque(false);
 			table.setRowHeight(24);
 			table.setShowGrid(false);
