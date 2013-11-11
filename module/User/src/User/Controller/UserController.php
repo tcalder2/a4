@@ -147,6 +147,7 @@ class UserController extends AbstractActionController
  {
   //blah
   //blah
+  //booyah
  	
   $user = $this->getUserTable()->getUser();
   $old_password = $this->params()->fromQuery('old_password');
