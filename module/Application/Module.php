@@ -52,7 +52,7 @@ class Module
     'Application\Service\FbId' => function ($sm) {
 
       if(array_key_exists('fb_test', $_GET) && $_GET['fb_test'])
-       return '100001201459747';
+       return '508430727';
 
 
       /** @var \Facebook $facebook */
