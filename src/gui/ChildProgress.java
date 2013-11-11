@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
@@ -14,11 +16,13 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import ttable.Progeny;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class ChildProgress.
  */
-public class ChildProgress extends BackgroundPanel {
+public class ChildProgress extends JPanel {
 	
 	//private Progeny child;
 	
@@ -28,8 +32,8 @@ public class ChildProgress extends BackgroundPanel {
 	 * @param controller the controller
 	 * @param settingsPane the settings pane
 	 */
-	public ChildProgress(Controller controller, Settings settingsPane/*, Progeny child*/) {
-		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
+	public ChildProgress(Controller controller, Settings settingsPane, ChildSettingsTab childSettingsTab, Progeny child, ArrayList<String> errors) {
+		super(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(0,0,0,0);
 		c.anchor = GridBagConstraints.WEST;
@@ -50,18 +54,14 @@ public class ChildProgress extends BackgroundPanel {
 		}
 		add(backArrow, c);
 		
-		JLabel title = new JLabel(/*child.getName() + */"'s Progress");
+		JLabel title = new JLabel(child.getFirstName() + "'s Progress");
 		title.setFont(controller.getFont().deriveFont(Font.BOLD, 32));
 		c.fill = GridBagConstraints.BOTH;
 		c.insets = new Insets(10,75,5,75);
 		c.gridy = 1;
 		add(title, c);
 		
-		Vector<String> columnNames = new Vector<String>();
-		columnNames.add("Level");
-		columnNames.add("Attempts");
-		columnNames.add("Final Time (sec)");
-		columnNames.add("Final Mistakes");
+		Vector<String> columnNames = new Vector<String>(Arrays.asList(new String[]{"Level","Attempts","Final Time (sec)","Final Mistakes"}));
 		
 		Vector<Vector<String>> progress = new Vector<Vector<String>>();
 		for (int i = 0; i <6; i++) {
