@@ -1,7 +1,11 @@
 package ttable;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.json.simple.JSONObject;
 
@@ -30,7 +34,7 @@ public class Progeny {
 	private String id;
 	
 	/** The birthday. */
-	private ArrayList<String> birthday;
+	private Date birthday;
 	
 	/**
 	 * Adds the progeny.
@@ -156,27 +160,31 @@ public class Progeny {
 	 *
 	 * @return the age
 	 */
-	public String getAge() {
+	public int getAge() {
+		GregorianCalendar calPresent = new GregorianCalendar();
+		calPresent.setTime(new Date());
+		GregorianCalendar calBirth = new GregorianCalendar();
+		calBirth.setTime(birthday);
+		
+		int age = calPresent.get(Calendar.YEAR) - calBirth.get(Calendar.YEAR);
+		
+		if (calBirth.get(Calendar.MONTH) < calPresent.get(Calendar.MONTH)) {
+		      age--; 
+		}
+		else if (calBirth.get(Calendar.MONTH) == calPresent.get(Calendar.MONTH)) {
+			if (calBirth.get(Calendar.DAY_OF_MONTH) < calPresent.get(Calendar.DAY_OF_MONTH)) {
+				age--;
+			}
+		}
 		return age;
 	}
-	
-	/**
-	 * Sets the age.
-	 *
-	 * @param age the new age
-	 */
-	/*
-	public void setAge(String age) {
-		this.age = age;
-	}
-	*/
 	
 	/**
 	 * Gets the Birthday.
 	 *
 	 * @return the birthday
 	 */
-	public ArrayList<String> getBirthday() {
+	public Date getBirthday() {
 		return birthday;
 	}
 
@@ -185,8 +193,8 @@ public class Progeny {
 	 *
 	 * @param birthday the new birthday
 	 */
-	public void setBirthday(String day, String month, String year) {
-		this.birthday = new ArrayList<String>(Arrays.asList(new String[]{day,month,year}));
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
 	}
 	
 	/**
