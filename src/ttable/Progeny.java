@@ -1,6 +1,7 @@
 package ttable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.json.simple.JSONObject;
 
@@ -27,6 +28,9 @@ public class Progeny {
 	
 	/** The id. */
 	private String id;
+	
+	/** The birthday. */
+	private ArrayList<String> birthday;
 	
 	/**
 	 * Adds the progeny.
@@ -155,16 +159,36 @@ public class Progeny {
 	public String getAge() {
 		return age;
 	}
-
+	
 	/**
 	 * Sets the age.
 	 *
 	 * @param age the new age
 	 */
+	/*
 	public void setAge(String age) {
 		this.age = age;
 	}
+	*/
+	
+	/**
+	 * Gets the Birthday.
+	 *
+	 * @return the birthday
+	 */
+	public ArrayList<String> getBirthday() {
+		return birthday;
+	}
 
+	/**
+	 * Sets the Birthday.
+	 *
+	 * @param birthday the new birthday
+	 */
+	public void setBirthday(String day, String month, String year) {
+		this.birthday = new ArrayList<String>(Arrays.asList(new String[]{day,month,year}));
+	}
+	
 	/**
 	 * Gets the id.
 	 *
