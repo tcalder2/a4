@@ -3,11 +3,13 @@ package gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import json.JSONFailureException;
@@ -31,6 +33,7 @@ public class Controller {
 	
 	/** The current_progeny. */
 	private Progeny currentProgeny;
+
 	
 	/**
 	 * Instantiates a new controller.
