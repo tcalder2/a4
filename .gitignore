@@ -10,3 +10,5 @@ composer.lock
 vendor/bin
 /bin
 /gui
+/json
+/ttable

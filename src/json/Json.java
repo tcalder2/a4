@@ -30,6 +30,13 @@ public class Json {
 		URLConnection yc = null;
 		BufferedReader in = null;
 
+		if(settings.Settings.getFbTest())
+		{
+			if(url.contains("?"))
+				url += "&fb_test=true";
+			else
+				url += "?fb_test=true";
+		}
 		
 		try {
 			// Read in the data

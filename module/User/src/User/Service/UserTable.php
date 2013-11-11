@@ -154,5 +154,4 @@ class UserTable
   $this->facebook = $this->sm->get('Application\Service\Facebook');
   return $this->facebook;
  }
-
 }
