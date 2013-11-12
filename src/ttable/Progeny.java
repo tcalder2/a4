@@ -102,7 +102,7 @@ public class Progeny {
 	 * @return						true if successful, false otherwise
 	 * @throws JSONFailureException the JSON failure exception
 	 */
-	public static void setLevel(int level) throws JSONFailureException {
+	public static void setLevel(Progeny progeny, int level) throws JSONFailureException {
 		//TODO: Make server call, this should delete all level progeny for levels greater than the level set
 	}
 	

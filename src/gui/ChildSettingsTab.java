@@ -50,7 +50,7 @@ public class ChildSettingsTab extends JPanel {
 	public ChildSettingsTab(Controller controller, Settings settings) {
 		super(new GridBagLayout());  //Instantiate the JPanel with a GridBagLayout
 		setOpaque(false);  //Makes panel transparent
-		
+
 		//Create instance of grid bag constraints to control layout
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
@@ -193,7 +193,7 @@ public class ChildSettingsTab extends JPanel {
 			c.gridx = 0;
 			c.ipady = 80;
 			add(scroll,c); //Scroll pane contains table
-			
+
 			c.gridwidth = 2;
 			c.ipady = 0;
 			c.insets = new Insets(10,50,0,0);
@@ -213,10 +213,10 @@ public class ChildSettingsTab extends JPanel {
 			c.insets = new Insets(0,0,0,0);
 			c.gridx = 2;
 			add(year, c);  //Add: birth-year drop down
-			
+
 			c.gridx = 3;
 			add(month, c);  //Add: birth-month drop down
-			
+
 			c.gridx = 4;
 			add(day, c);  //Add: birth-day drop down
 
@@ -264,9 +264,9 @@ public class ChildSettingsTab extends JPanel {
 			c.insets = new Insets(15,0,25,50);
 			c.gridx = 5;
 			add(update, c);  //The button to update the selected child with selected details
-		
-		//Error thrown when there is trouble connecting to the server for some reason
-		//Causes panel with error messages to be displayed in stead
+
+			//Error thrown when there is trouble connecting to the server for some reason
+			//Causes panel with error messages to be displayed in stead
 		} catch(JSONFailureException e) {
 			ArrayList<String> errors = e.getMessages();
 			int gridY = 0;
@@ -374,13 +374,13 @@ class PressProgress implements ActionListener {
 
 	/** The controller. */
 	private Controller controller;
-	
+
 	/** The child selector combo box. */
 	private JComboBox<String> childSelector;
-	
+
 	/** The current instance of the settings pane. */
 	private Settings settingsPane;
-	
+
 	/** The current instance of the child settings tab. */
 	private ChildSettingsTab childSettingsTab;
 
@@ -438,10 +438,10 @@ class MonthSelected implements ActionListener {
 
 	/** The birth-year drop down. */
 	private JComboBox<String> year;
-	
+
 	/** The birth-month drop down. */
 	private JComboBox<String> month;
-	
+
 	/** The birth-day drop down. */
 	private JComboBox<String> day;
 
@@ -458,7 +458,7 @@ class MonthSelected implements ActionListener {
 		this.month = month;
 		this.day = day;
 	}
-	
+
 	/**
 	 * The action performed upon event.
 	 * Populates the days drop down menu with the current day range.
@@ -483,7 +483,7 @@ class YearSelected implements ActionListener {
 		this.month = month;
 		this.day = day;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (month.getItemCount() <= 1) {
@@ -545,78 +545,61 @@ class PressAdd implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String firstName = "";
 		year.setForeground(Color.RED);
-		
-		//Check each input field to ensure that input is valid, if not mark field by colour change
-		//Check name input
-		try {
+
+		//Check name input is valid
+		try {	
 			firstName = nameInput.getText();
-			if (firstName.contains("--")) {
+			if (!firstName.contains("--")) {
 				throw new Exception();
 			}
 			nameInput.setBackground(Color.WHITE);
 		} catch (Exception e1) {
 			nameInput.setBackground(Color.PINK);
 		}
-		
-		//Check birthday input, and create a string representation
-		String birthdayStr = "";
-		
-		//Check the day is valid and add to string
-		try {
-			DateFormat format = new SimpleDateFormat("d");
-			if (day.getItemCount() > 0) {
-				Date tmp = format.parse((String)day.getSelectedItem());
-				format = new SimpleDateFormat("dd");
-				birthdayStr += format.format(tmp) + "/";
-				day.setForeground(Color.BLACK);
-			}
-			else {
-				throw new Exception();
-			}
-		} catch (Exception e1) {
+
+		//Check the birth-day is valid and add to string
+		int dd = 0;
+		if (day.getItemCount() > 0 && day.getSelectedIndex() > -1) {
+			dd = day.getSelectedIndex() + 1;
+			day.setForeground(Color.BLACK);
+		}
+		else {
 			day.setForeground(Color.RED);
 		}
-		
-		//Check the month is valid and add to string
-		try {
-			if (month.getItemCount() > 0) {
-				DateFormat format = new SimpleDateFormat("MMMM");
-				Date tmp = format.parse((String)month.getSelectedItem());
-				format = new SimpleDateFormat("MM");
-				birthdayStr += format.format(tmp) + "/";
-				month.setForeground(Color.BLACK);
-			}
-			else {
-				throw new Exception();
-			}
-		} catch (Exception e1) {
+
+		//Check the birth-month is valid and add to string
+		int mm = 0;
+		if (month.getItemCount() > 0 && month.getSelectedIndex() > -1) {
+			mm = month.getSelectedIndex() + 1;
+			month.setForeground(Color.BLACK);
+		}
+		else {
 			month.setForeground(Color.RED);
 		}
-		
-		//Check the year is valid and add to string
+
+		//Check the birth-year is valid and add to string
+		int yyyy = 0;
 		try {
-			if (year.getItemCount() > 0) {
-				DateFormat format = new SimpleDateFormat("yyyy");
-				Date tmp = format.parse((String)year.getSelectedItem());
-				format = new SimpleDateFormat("yyyy");
-				birthdayStr += format.format(tmp);
+			if (year.getItemCount() > 0 && year.getSelectedIndex() > -1) {
+				yyyy = Integer.parseInt((String) year.getSelectedItem());
 				year.setForeground(Color.BLACK);
 			}
 			else {
-				throw new Exception();
+				year.setForeground(Color.RED);
 			}
-		} catch (Exception e1) {
+		} catch (NumberFormatException e1) {
 			year.setForeground(Color.RED);
 		}
-		
+
 		try {
 			//Create the final date instance
 			DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+			String birthdayStr = dd + "/" + mm + "/" + yyyy;
 			Date birthdate = format.parse(birthdayStr);
-			
+
 			//Actually add the new child
 			User.addProgeny(firstName, birthdate);
-			
+
 			//Read info from newly added progeny
 			ArrayList<Progeny> progenies = User.getProgeny();
 			Progeny newProgeny = null;
@@ -641,7 +624,7 @@ class PressAdd implements ActionListener {
 
 			v.add("" + newProgeny.getAge());
 			v.add("" + (Progeny.getLevels(newProgeny).size() + 1));
-			
+
 			//Update the child details table with details of newly added child
 			tableData.add(v);
 			tableModel.fireTableDataChanged();
@@ -665,7 +648,7 @@ class PressRemove implements ActionListener {
 		this.tableModel = tableModel;
 		this.tableData = tableData;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String firstName = (String) childSelect.getSelectedItem();
@@ -692,7 +675,7 @@ class PressRemove implements ActionListener {
 }
 
 class PressUpdate implements ActionListener {
-	
+
 	private JComboBox<String> childSelect;
 	private JComboBox<String> year;
 	private JComboBox<String> month;
@@ -700,7 +683,7 @@ class PressUpdate implements ActionListener {
 	private JComboBox<String> level;
 	private DefaultTableModel tableModel;
 	private Vector<Vector<String>> tableData;
-	
+
 	public PressUpdate(JComboBox<String> childSelect, JComboBox<String> year, JComboBox<String> month, JComboBox<String> day, JComboBox<String> level, DefaultTableModel tableModel, Vector<Vector<String>> tableData) {
 		super();
 		this.childSelect = childSelect;
@@ -711,9 +694,111 @@ class PressUpdate implements ActionListener {
 		this.tableModel = tableModel;
 		this.tableData = tableData;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//TODO
+		try {	
+			String name = (String) childSelect.getSelectedItem();
+			ArrayList<Progeny> children = User.getProgeny();
+			Progeny child = null;
+			for (int i = 0; i < children.size(); i++) {
+				if (children.get(i).getFirstName().equals(name)) {
+					child = children.get(i);
+					break;
+				}
+			}
+
+			//Check the birth-day is valid and add to string
+			int dd = 0;
+			if (day.getItemCount() > 0 && day.getSelectedIndex() > -1) {
+				dd = day.getSelectedIndex() + 1;
+				day.setForeground(Color.BLACK);
+			}
+			else {
+				day.setForeground(Color.RED);
+			}
+
+			//Check the birth-month is valid and add to string
+			int mm = 0;
+			if (month.getItemCount() > 0 && month.getSelectedIndex() > -1) {
+				mm = month.getSelectedIndex() + 1;
+				month.setForeground(Color.BLACK);
+			}
+			else {
+				month.setForeground(Color.RED);
+			}
+
+			//Check the birth-year is valid and add to string
+			int yyyy = 0;
+			try {
+				if (year.getItemCount() > 0 && year.getSelectedIndex() > -1) {
+					yyyy = Integer.parseInt((String) year.getSelectedItem());
+					year.setForeground(Color.BLACK);
+				}
+				else {
+					year.setForeground(Color.RED);
+				}
+			} catch (NumberFormatException e1) {
+				year.setForeground(Color.RED);
+			}
+
+			//Check the level is valid
+			int currentLevel = 1;
+			if (level.getSelectedIndex() > -1) {
+				currentLevel = level.getSelectedIndex() + 1;
+			}
+			else {
+				level.setForeground(Color.RED);
+			}
+
+			try {
+				//Create the final date instance and update progeny's birthday
+				DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+				String birthdayStr = dd + "/" + mm + "/" + yyyy;
+				Date birthdate = format.parse(birthdayStr);
+				child.setBirthday(birthdate);
+
+				//Update the progeny's level
+				Progeny.setLevel(child, currentLevel);
+
+				//Read info from newly updated progeny
+				ArrayList<Progeny> progenies = User.getProgeny();
+				Progeny newProgeny = null;
+				for (int i = 0; i < progenies.size(); i++) {
+					if (progenies.get(i).getFirstName().equals(name)) {
+						newProgeny = progenies.get(i);
+						break;
+					}
+				}
+				Vector<String> entry = null;
+				int entryNum = 0;
+				for (; entryNum < tableData.size(); entryNum++) {
+					if (tableData.get(entryNum).get(0).equals(name)) {
+						entry = tableData.get(entryNum);
+					}
+				}
+
+				Date birthday = newProgeny.getBirthday();
+				format = new SimpleDateFormat("d");
+				entry.set(1, format.format(birthday));
+
+				format = new SimpleDateFormat("MMMM");
+				entry.set(2, format.format(birthday));
+
+				format = new SimpleDateFormat("yyyy");
+				entry.set(3, format.format(birthday));
+
+				entry.set(4, "" + newProgeny.getAge());
+				entry.set(5, "" + (Progeny.getLevels(newProgeny).size() + 1));
+
+				//Update the child details table with details of newly updated child
+				tableData.set(entryNum, entry);
+				tableModel.fireTableDataChanged();
+			} catch (ParseException e1) {
+				return;
+			}
+		} catch (JSONFailureException e1) {
+			//TODO: add exception handling, perhaps a popup?
+		}
 	}
 }
