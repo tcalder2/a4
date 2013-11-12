@@ -29,76 +29,61 @@ public class Progeny {
 	/** The first name. */
 	private String firstName;
 	
-	/** The age. */
-	private String age;
-	
-	/** The id. */
+	/** The ID. */
 	private String id;
 	
 	/** The birthday. */
-	private String birthday;
+	private Date birthday;
+	
+	/** The progeny's final game high score. */
+	private int finalGameHighScore;
 	
 	/**
-	 * Adds the progeny.
-	 *
-	 * @param firstName the first name
-	 * @param age the age
-	 * @return the progeny
-	 * @throws JSONFailureException the jSON failure exception
+	 * Instantiates a Progeny instance.
+	 * 
+	 * @param firstName				the first name
+	 * @param birthday				the birthday
+	 * @param id					the ID
 	 */
-	public static Progeny addProgeny(String firstName, Date birthday) throws JSONFailureException
-	{
-		Progeny progeny = new Progeny();
-		progeny.setBirthday(birthday);
-		Json json = new Json();
-		JSONObject jsonUser = (JSONObject)json.sendRequest("https://jbaron6.cs2212.ca/addchild?first_name=" + firstName + "&birthday=" + progeny.birthday);
-	
-		// TODO: parse the array of the new progeny
-		jsonUser.get("");
-		
-		return progeny;
-	}
-	
-	/**
-	 * Change age.
-	 *
-	 * @param progeny the progeny
-	 * @param age the age
-	 * @return true, if successful
-	 * @throws JSONFailureException the jSON failure exception
-	 */
-	public static boolean changeAge(Progeny progeny, String age) throws JSONFailureException 
-	{
-		// TODO: Make server call
-
-		return true;
+	public Progeny(String firstName, Date birthday, String id) {
+		this.firstName = firstName;
+		this.id = id;
+		this.birthday = birthday;
 	}
 
 	/**
-	 * Change time allowed.
+	 * Set the time allowed per level.
 	 *
-	 * @param progeny the progeny
-	 * @param timeAllowed the time allowed
-	 * @return true, if successful
+	 * @param progeny 				the progeny
+	 * @param timeAllowed 			the time allowed per level
+	 * @return 						true if successful, false otherwise
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static boolean changeTimeAllowed(Progeny progeny, String timeAllowed) throws JSONFailureException
-	{
-		// TODO: Make server call
-		
-		return true;
+	public static void setTimeAllowed(Progeny progeny, String timeAllowed) throws JSONFailureException {
+		//TODO: Make server call
+	}
+	
+	/**
+	 * Gets the time allowed per level.
+	 * 
+	 * @param progeny				the progeny
+	 * @return						the time allowed per level
+	 * @throws JSONFailureException the JSON failure exception
+	 */
+	public static int getTimeAllowed(Progeny progeny) throws JSONFailureException {
+		//TODO: Make server call
+		return 0;
 	}
 
 	/**
-	 * Gets the levels.
+	 * Gets the level progeny.
 	 *
-	 * @param progeny the progeny
-	 * @return the levels
+	 * @param progeny				the progeny
+	 * @return 						the level progeny
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static ArrayList<Level> getLevels(Progeny progeny) throws JSONFailureException
-	{
-		ArrayList<Level> levels;
+	public static ArrayList<LevelProgeny> getLevels(Progeny progeny) throws JSONFailureException {
+		ArrayList<LevelProgeny> levels;
 		
 		// TODO: delete this line
 		levels = new ArrayList<>();
@@ -111,33 +96,36 @@ public class Progeny {
 	}
 
 	/**
-	 * Sets the level.
+	 * Sets the current level.
 	 *
-	 * @param level the level
-	 * @return true, if successful
-	 * @throws JSONFailureException the jSON failure exception
+	 * @param level					the level
+	 * @return						true if successful, false otherwise
+	 * @throws JSONFailureException the JSON failure exception
 	 */
-	public static boolean setLevel(Integer level) throws JSONFailureException
-	{
-		// TODO: Make server call
-		
-		return true;
+	public static void setLevel(int level) throws JSONFailureException {
+		//TODO: Make server call, this should delete all level progeny for levels greater than the level set
 	}
-
+	
 	/**
-	 * Delete progeny.
-	 *
-	 * @param progeny the progeny
-	 * @return true, if successful
-	 * @throws JSONFailureException the jSON failure exception
+	 * Gets the current level.
+	 * 
+	 * @param progeny				the progeny
+	 * @return						the current level
+	 * @throws JSONFailureException	the JSON failure exception
 	 */
-	public static boolean deleteProgeny(Progeny progeny) throws JSONFailureException
-	{
-		// TODO: Make server call
-		
-		return true;
+	public static int getLevel(Progeny progeny) throws JSONFailureException {
+		return Progeny.getLevels(progeny).size();
 	}
-
+	
+	/**
+	 * Adds a new level.
+	 * 
+	 * @param level					the level
+	 * @throws JSONFailureException the JSON failure exception
+	 */
+	public static void addLevel(LevelProgeny level) throws JSONFailureException {
+		//TODO: Make server call
+	}
 	
 	/**
 	 * Gets the first name.
@@ -149,15 +137,6 @@ public class Progeny {
 	}
 
 	/**
-	 * Sets the first name.
-	 *
-	 * @param firstName the new first name
-	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	/**
 	 * Gets the age.
 	 *
 	 * @return the age
@@ -166,7 +145,7 @@ public class Progeny {
 		GregorianCalendar calPresent = new GregorianCalendar();
 		calPresent.setTime(new Date());
 		GregorianCalendar calBirth = new GregorianCalendar();
-		calBirth.setTime(getBirthday());
+		calBirth.setTime(birthday);
 		
 		int age = calPresent.get(Calendar.YEAR) - calBirth.get(Calendar.YEAR);
 		
@@ -188,12 +167,7 @@ public class Progeny {
 	 * @throws ParseException 
 	 */
 	public Date getBirthday() {
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-		try {
-			return df.parse(birthday);
-		} catch (ParseException e) {
-			return new Date();
-		}
+		return birthday;
 	}
 
 	/**
@@ -202,27 +176,46 @@ public class Progeny {
 	 * @param birthday the new birthday
 	 */
 	public void setBirthday(Date birthday) {
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-		this.birthday = df.format(birthday);
+		//TODO: Make server call
+		this.birthday = birthday;
 	}
 	
 	/**
-	 * Gets the id.
+	 * Gets the ID.
 	 *
-	 * @return the id
+	 * @return the ID
 	 */
-	public String getId() {
+	public String getID() {
 		return id;
 	}
-
+	
 	/**
-	 * Sets the id.
-	 *
-	 * @param id the new id
+	 * Gets the final game high score
+	 * 
+	 * @param progeny				the progeny
+	 * @return						the progeny's final game high score
 	 */
-	public void setId(String id) {
-		this.id = id;
+	public int getFGameHighScore() {
+		return finalGameHighScore;
 	}
 	
+	/**
+	 * Updates the final game high score (ie. if the new score is greater than old high score then 
+	 * changes it, otherwise leaves it the same).
+	 * 
+	 * @param score					the new score achieved
+	 * @return						true if score is new high score, false otherwise
+	 * @throws JSONFailureException the JSON failure exception
+	 */
+	public boolean updateFGameScore(Progeny progeny, int score) throws JSONFailureException {
+		if (score > progeny.getFGameHighScore()) {
+			//TODO: Make server call
+			finalGameHighScore = score;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }
 

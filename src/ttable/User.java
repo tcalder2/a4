@@ -1,6 +1,7 @@
 package ttable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 import org.json.simple.JSONArray;
@@ -17,7 +18,7 @@ import json.JSONFailureException;
 
 public class User {
 
-	/** The user's Facebook id. */
+	/** The user's FaceBook id. */
 	private String fbId ="";
 
 	/** The user's first name. */
@@ -107,21 +108,63 @@ public class User {
 	}
 	
 	/**
-	 * Gets the progenies.
+	 * Gets an array of progeny.
 	 *
-	 * @return the progenies
+	 * @return an array of progeny
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static ArrayList<Progeny> getProgenies() throws JSONFailureException 
+	public static ArrayList<Progeny> getProgeny() throws JSONFailureException 
 	{
-		ArrayList<Progeny> progenies;
+		ArrayList<Progeny> progeny;
 		
 		// TODO: remove this line
-		progenies = new ArrayList<Progeny>();
+		progeny = new ArrayList<Progeny>();
 		
 		// TODO: make server call
 		
-		return progenies;
+		return progeny;
+	}
+	
+	/**
+	 * Adds a progeny.
+	 *
+	 * @param  firstName 			the first name
+	 * @param  age					the age
+	 * @return 						the progeny
+	 * @throws JSONFailureException the jSON failure exception
+	 */
+	public static Progeny addProgeny(String firstName, Date birthday) throws JSONFailureException {
+		Json json = new Json();
+		JSONObject jsonUser = (JSONObject)json.sendRequest("https://jbaron6.cs2212.ca/addchild?first_name=" + firstName + "&birthday=" + birthday);
+	
+		// TODO: parse the array of the new progeny
+		jsonUser.get("");
+		Progeny progeny = new Progeny(firstName, birthday, "" + 0); //TODO: replace this line with parsed info
+		return progeny;
+	}
+	
+	/**
+	 * Removes the specified progeny.
+	 * 
+	 * @param progeny				the progeny to be removed
+	 * @return						true if successful, false otherwise
+	 * @throws JSONFailureException the JSON failure exception
+	 */
+	public static boolean removeProgeny(Progeny progeny) throws JSONFailureException {
+		//TODO: code this
+		return false;
+	}
+	
+	/**
+	 * Gets an array of the levels (ie. global level settings).
+	 * 
+	 * @return 						an array of the levels 
+	 * @throws JSONFailureException	the JSON failure exception
+	 */
+	public static ArrayList<Level> getLevels() throws JSONFailureException {
+		ArrayList<Level> levels = new ArrayList<Level>();
+		//TODO: replace previous line with actual server call
+		return levels;
 	}
 	
 	/**
@@ -172,15 +215,11 @@ public class User {
 		
 		return true;
 	}
-		
+
 	/**
-	 * Accessors
-	 */
-	
-	/**
-	 * Gets the Facebook id of the current user.
+	 * Gets the FaceBook ID of the current user.
 	 *
-	 * @return the Facebook id
+	 * @return the FaceBook ID
 	 */
 	public String getFbId() {
 		return fbId;
@@ -205,27 +244,27 @@ public class User {
 	}
 
 	/**
-	 * Set's the user's Facebook ID
+	 * Set's the user's FaceBook ID
 	 * 
-	 * @param fbId the Facebook ID
+	 * @param fbId 		the FaceBook ID
 	 */
 	public void setFbId(String fbId) {
 		this.fbId = fbId;
 	}
 	
 	/**
-	 * Sets the user's firstname
+	 * Sets the user's first name.
 	 * 
-	 * @param firstName the user's first name
+	 * @param firstName 	the user's first name
 	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
 	/**
-	 * Sets the user's lastname
+	 * Sets the user's last name.
 	 * 
-	 * @param firstName the user's last name
+	 * @param firstName 	the user's last name
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;

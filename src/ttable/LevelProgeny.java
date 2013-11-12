@@ -1,35 +1,26 @@
-/**
- * 
- * 
- * Description: Handles a many-to-many join between Level and Progeny and provides settings for the game logic.
- * @author james
- * 
- */
-
 package ttable;
 
 import json.JSONFailureException;
 
 /**
  * The Class LevelProgeny.
+ * 
+ * Description: Handles a many-to-many join between Level and Progeny and provides settings for the game logic.
  */
 public class LevelProgeny {
 
-	/** The mistake count. */
-	private String mistakes;
+	/** The number of mistakes made. */
+	private int mistakes;
 	
-	/** The attempt count. */
-	private String attempts;
+	/** The number of attempts made. */
+	private int attempts;
 	
 	/** The final game high score. */
-	private String finalGameHighScore;
+	private int levelGameHighScore;
 	
 	/** The final completion time. */
-	private String finalCompletionTime;
-	
-	/** The age. */
-	private String age;
-	
+	private int finalCompletionTime;
+
 	/** The progeny. */
 	private Progeny progeny;
 	
@@ -39,53 +30,45 @@ public class LevelProgeny {
 	/** The id. */
 	private String id;
 
-
 	/**
-	 * Delete a level progeny instance.
-	 *
-	 * @param levelProgeny the level progeny
+	 * Instantiates a LevelProgeny instance.
+	 * 
+	 * @param level					the level
+	 * @param progeny				the progeny
+	 * @param id					the id
+	 * @param mistakes				the number of mistakes made
+	 * @param attempts				the number of attempts made
+	 * @param levelGameHighScore	the level game high score
+	 * @param finalCompletionTime	the time it took to complete the drill when completed
 	 */
-	public static boolean deleteLevelProgeny(LevelProgeny levelProgeny) throws JSONFailureException
-	{
-		// TODO: make server call
-		
-		return true;
+	public LevelProgeny(Level level, Progeny progeny, String id, int mistakes, int attempts, int levelGameHighScore, int finalCompletionTime) {
+		this.level = level;
+		this.progeny = progeny;
+		this.id = id;
+		this.mistakes = mistakes;
+		this.attempts = attempts;
+		this.levelGameHighScore = levelGameHighScore;
+		this.finalCompletionTime = finalCompletionTime;
 	}
 	
 	/**
-	 * Sets the age.
+	 * Gets the number of mistakes.
 	 *
-	 * @param level progeny the new age
+	 * @return the number of mistakes
 	 */
-	public static boolean changeAge(LevelProgeny levelProgeny) throws JSONFailureException
-	{
-		// TODO: make server call
-		
-		return true;
-	}
-
-	/**
-	 * Gets the mistakes.
-	 *
-	 * @return the mistakes
-	 */
-	public String getMistakes() throws JSONFailureException
-	{ 
-		// TODO: make server call
-		
-		return "0";
+	public int getMistakes() {
+		return mistakes;
 	}
 
 	/**
 	 * Sets the mistakes.
 	 *
 	 * @param mistakes the new mistakes
+	 * @throws JSONFailureException the JSON failure exception
 	 */
-	private boolean setMistakes(String mistakes) throws JSONFailureException 
-	{
-		// TODO: make server call
-		
-		return true;
+	private void setMistakes(int mistakes) throws JSONFailureException  {
+		// TODO: Make server call
+		this.mistakes = mistakes;
 	}
 
 	/**
@@ -93,23 +76,19 @@ public class LevelProgeny {
 	 *
 	 * @return the attempts
 	 */
-	public String getAttempts() throws JSONFailureException 
-	{ 
-		// TODO: make server call
-		
-		return "";
+	public int getAttempts() { 
+		return attempts;
 	}
 
 	/**
 	 * Sets the attempts.
 	 *
 	 * @param attempts the new attempts
+	 * @throws JSONFailureException the JSON failure exception
 	 */
-	private boolean setAttempts(String attempts) throws JSONFailureException 
-	{ 
-		// TODO: make server call
-		
-		return true;
+	private void setAttempts(int attempts) throws JSONFailureException  { 
+		// TODO: Make server call
+		this.attempts = attempts;
 	}
 
 	/**
@@ -117,23 +96,18 @@ public class LevelProgeny {
 	 *
 	 * @return the final game high score
 	 */
-	public String getFinalGameHighScore() throws JSONFailureException
-	{ 
-		// TODO: make server call
-		
-		return "";
+	public int getLevelGameHighScore() { 		
+		return levelGameHighScore;
 	}
 
 	/**
 	 * Sets the final game high score.
 	 *
 	 * @param finalGameHighScore the new final game high score
+	 * @throws JSONFailureException the JSON failure exception
 	 */
-	private boolean setFinalGameHighScore(String finalGameHighScore) throws JSONFailureException
-	{
+	private void setLevelGameHighScore(int finalGameHighScore) throws JSONFailureException {
 		// TODO: make server call
-		
-		return true;
 	}
 
 	/**
@@ -141,78 +115,45 @@ public class LevelProgeny {
 	 *
 	 * @return the final completion time
 	 */
-	public String getFinalCompletionTime() throws JSONFailureException
-	{
-		// TODO: make server call
-		
-		return "";
+	public int getFinalCompletionTime() {
+		return finalCompletionTime;
 	}
 
 	/**
 	 * Sets the final completion time.
 	 *
-	 * @param finalCompletionTime the new final completion time
+	 * @param finalCompletionTime 	the new final completion time
+	 * @throws JSONFailureException the JSON failure exception
 	 */
-	private boolean setFinalCompletionTime(String finalCompletionTime) throws JSONFailureException
-	{
-		// TODO: make server call
-		
-		return true;
+	private void setFinalCompletionTime(int finalCompletionTime) throws JSONFailureException {
+		// TODO: Make server call
+		this.finalCompletionTime = finalCompletionTime;
 	}
 
-	/**
-	 * Gets the age.
-	 *
-	 * @return the age
-	 */
-	public String getAge() { return this.age; }
-
-	/**
-	 * Sets the age.
-	 *
-	 * @param age the new age
-	 */
-	private void setAge(String age) { this.age = age; }
-	
 	/**
 	 * Gets the id.
 	 *
 	 * @return the id
 	 */
-	public String getId() { return this.id; }
-
-	/**
-	 * Sets the id.
-	 *
-	 * @param id the new id
-	 */
-	public void setId(String id) { this.id = id; }
+	public String getId() {
+		return id;
+	}
 	
 	/**
 	 * Gets the progeny.
 	 *
 	 * @return the progeny
 	 */
-	public Progeny getProgeny() { return this.progeny; }
-
-	/**
-	 * Sets the progeny.
-	 *
-	 * @param progeny the new progeny
-	 */
-	public void setProgeny(Progeny progeny) { this.progeny = progeny; }
+	public Progeny getProgeny() {
+		return progeny;
+	}
 
 	/**
 	 * Gets the level.
 	 *
 	 * @return the level
 	 */
-	public Level getLevel() { return this.level; }
-
-	/**
-	 * Sets the level.
-	 *
-	 * @param level the new level
-	 */
-	public void setLevel(Level level) { this.level = level; }
+	public Level getLevel() {
+		return level;
+	}
 }

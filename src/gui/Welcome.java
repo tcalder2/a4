@@ -58,7 +58,7 @@ public class Welcome extends BackgroundPanel {
 		c.insets = new Insets(25,100,0,100);
 		controller.getUser();
 		try {
-			ArrayList<Progeny> progenies = User.getProgenies();
+			ArrayList<Progeny> progenies = User.getProgeny();
 			Vector<String> names = new Vector<String>();
 			for (int i = 0; i < progenies.size(); i++) {
 				names.add(progenies.get(i).getFirstName());

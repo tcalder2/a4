@@ -1,31 +1,42 @@
 package gui;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import json.JSONFailureException;
+import sun.util.logging.PlatformLogger.Level;
+import ttable.LevelProgeny;
 import ttable.Progeny;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class ChildProgress.
+ * The ChildProgress class.
  */
+@SuppressWarnings("serial")
 public class ChildProgress extends JPanel {
-	
-	//private Progeny child;
-	
+
 	/**
 	 * Instantiates a new child progress.
 	 *
@@ -33,7 +44,10 @@ public class ChildProgress extends JPanel {
 	 * @param settingsPane the settings pane
 	 */
 	public ChildProgress(Controller controller, Settings settingsPane, ChildSettingsTab childSettingsTab, Progeny child, ArrayList<String> errors) {
-		super(new GridBagLayout());
+		super(new GridBagLayout());  //Create the panel with a GridBagLayout
+		setOpaque(false);  			 //Set the panel to be transparent
+
+		//Create instance of GridBagConstraints to control layout
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(0,0,0,0);
 		c.anchor = GridBagConstraints.WEST;
@@ -41,106 +55,144 @@ public class ChildProgress extends JPanel {
 		c.weightx = 0;
 		c.gridx = 0;
 		c.gridy = 0;
-		
-		JButton backArrow = new JButton();
-		backArrow.setContentAreaFilled(false);
-		backArrow.setBorderPainted(false);
-		backArrow.addActionListener(new BackToSettings(controller, settingsPane));
+
 		try {
-			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/main/backarr.png"));
-			backArrow.setIcon(new ImageIcon(img));
-		} catch (IOException e) {
-			backArrow.setText("<--");
-		}
-		add(backArrow, c);
-		
-		JLabel title = new JLabel(child.getFirstName() + "'s Progress");
-		title.setFont(controller.getFont().deriveFont(Font.BOLD, 32));
-		c.fill = GridBagConstraints.BOTH;
-		c.insets = new Insets(10,75,5,75);
-		c.gridy = 1;
-		add(title, c);
-		
-		Vector<String> columnNames = new Vector<String>(Arrays.asList(new String[]{"Level","Attempts","Final Time (sec)","Final Mistakes"}));
-		
-		Vector<Vector<String>> progress = new Vector<Vector<String>>();
-		for (int i = 0; i <6; i++) {
-			Vector<String> v = new Vector<String>();
-			v.add("1");
-			v.add("2");
-			v.add("23");
-			v.add("0");
-			progress.add(v);
-			Vector<String> v1 = new Vector<String>();
-			v1.add("2");
-			v1.add("5");
-			v1.add("26");
-			v1.add("2");
-			progress.add(v1);
+			//If errors exist then go to exception handling
+			if (errors.size() > 0) {
+				throw new JSONFailureException(errors);
+			}
+
+			//Create the back button (with back arrow graphic) to allow quick return to the child settings tab
+			JButton backArrow = new JButton();
+			backArrow.setContentAreaFilled(false);
+			backArrow.setBorderPainted(false);
+			backArrow.addActionListener(new BackToSettings(settingsPane, childSettingsTab));
+			try {
+				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/main/backarr.png"));
+				backArrow.setIcon(new ImageIcon(img));
+			} catch (IOException e) {
+				backArrow.setText("<--");
+			}
+			add(backArrow, c);
+
+			//Add a label to state the child whose progress is currently being displayed
+			JLabel title = new JLabel(child.getFirstName() + "'s Progress");
+			title.setFont(controller.getFont().deriveFont(Font.BOLD, 32));
+			c.fill = GridBagConstraints.BOTH;
+			c.insets = new Insets(10,75,5,75);
+			c.gridy = 1;
+			add(title, c);
+
+			//Create vector of column headers
+			Vector<String> columnNames = new Vector<String>(Arrays.asList(new String[]{"Level","Attempts","Final Time (sec)","Final Mistakes"}));
+
+			//Create a vector structure containing the child's progress details
+			Vector<Vector<String>> progress = new Vector<Vector<String>>();
+			ArrayList<LevelProgeny> levels;
+			levels = Progeny.getLevels(child);
+			for (int i = 0; i < levels.size(); i++) {
+				Vector<String> v = new Vector<String>();
+				v.add("" + levels.get(i).getLevel());
+				v.add("" + levels.get(i).getAttempts());
+				v.add("" + levels.get(i).getFinalCompletionTime());
+				v.add("" + levels.get(i).getMistakes());
+				progress.add(v);
+				Vector<String> v1 = new Vector<String>();
+				v1.add("2");
+				v1.add("5");
+				v1.add("26");
+				v1.add("2");
+				progress.add(v1);
+			}
+
+			//Create and populate table showing details of child progress
+			DefaultTableModel tableModel = new DefaultTableModel(progress, columnNames);
+			tableModel.setNumRows(12);
+			JTable table = new JTable(tableModel) {
+				public boolean isCellEditable(int rowIndex, int colIndex) {
+					return false;
+				}
+			};
+
+			//Set table appearance attributes
+			DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+			renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+			renderer.setOpaque(false);
+			TableColumn col = null;
+			for (int i = 0; i < table.getColumnCount(); i++) {
+				col = table.getColumnModel().getColumn(i);
+				col.setCellRenderer(renderer);
+				col.setWidth(100);
+			}
+			table.setOpaque(false);
+			table.setRowHeight(24);
+			table.setShowGrid(false);
+			table.getTableHeader().setDefaultRenderer(renderer);
+			table.setFont(controller.getFont().deriveFont(Font.BOLD, 18));
+			table.getTableHeader().setFont(controller.getFont().deriveFont(Font.BOLD, 18));
+
+			//Embed the table in a scroll pane and add to panel.
+			JScrollPane scroll = new JScrollPane(table);
+			scroll.setOpaque(false);
+			scroll.getViewport().setOpaque(false);
+			c.insets = new Insets(0,75,0,75);
+			c.gridwidth = 1;
+			c.gridy = 2;
+			c.ipady = 300;
+			c.ipadx = 500;
+			add(scroll,c);
+
+			//If there is a communication error, display a panel detailing errors instead
+		} catch (JSONFailureException e) {
+			ArrayList<String> errors2 = e.getMessages();
+			int gridY = 0;
+			Iterator<String> error = errors2.iterator();
+			c.gridx = 0;
+			c.gridy = gridY;
+			add(new JLabel(error.toString()));
+			while (error.hasNext()) {
+				gridY++;
+				c.gridy = gridY;
+				JLabel label = new JLabel(error.next().toString());
+				label.setForeground(Color.RED);
+				label.setFont(controller.getFont().deriveFont(Font.PLAIN, 18));
+				add(label, c);
+			}
 		}
 
-		DefaultTableModel tableModel = new DefaultTableModel(progress, columnNames);
-		tableModel.setNumRows(12);
-		JTable table = new JTable(tableModel) {
-			public boolean isCellEditable(int rowIndex, int colIndex) {
-				return false;
-			}
-		};
-		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-		renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
-		renderer.setOpaque(false);
-		TableColumn col = null;
-		for (int i = 0; i < table.getColumnCount(); i++) {
-			col = table.getColumnModel().getColumn(i);
-			col.setCellRenderer(renderer);
-			col.setWidth(100);
-		}
-		table.setOpaque(false);
-		table.setRowHeight(24);
-		table.setShowGrid(false);
-		table.getTableHeader().setDefaultRenderer(renderer);
-		
-		table.setFont(controller.getFont().deriveFont(Font.BOLD, 18));
-		table.getTableHeader().setFont(controller.getFont().deriveFont(Font.BOLD, 18));
-		
-		JScrollPane scroll = new JScrollPane(table);
-		scroll.setOpaque(false);
-		scroll.getViewport().setOpaque(false);
-		c.insets = new Insets(0,75,0,75);
-		c.gridwidth = 1;
-		c.gridy = 2;
-		c.ipady = 300;
-		c.ipadx = 500;
-		add(scroll,c);
 	}
 }
 
 /**
- * The Class BackToSettings.
+ * The BackToSettings class.
  */
 class BackToSettings implements ActionListener {
 
-	private Controller controller;
+	/** The current settings pane instance. */
 	private Settings settingsPane;
-	
+
+	/** The current child settings tab instance. */
+	private ChildSettingsTab childSettingsTab;
+
 	/**
 	 * Instantiates a new BackToSettings listener.
 	 * 
-	 * @param the controller
-	 * @param the settingsPane
+	 * @param settingsPane		the current settings pane instance
+	 * @param childSettingsTab	the current child settings tab instance
 	 */
-	public BackToSettings(Controller controller, Settings settingsPane) {
+	public BackToSettings(Settings settingsPane, ChildSettingsTab childSettingsTab) {
 		super();
-		this.controller = controller;
 		this.settingsPane = settingsPane;
+		this.childSettingsTab = childSettingsTab;
 	}
-	
+
 	/**
 	 * Performs the action on event.
+	 * Changes the screen back to the child settings tab
 	 * 
-	 * @param the action event
+	 * @param e		the action event
 	 */
 	public void actionPerformed(ActionEvent e) {
-		controller.setScreen(settingsPane);
+		settingsPane.changeTabContent(0, childSettingsTab);
 	}
 }

@@ -4,15 +4,24 @@ package ttable;
  * The Class Level.
  */
 public class Level{
-	
-	// Instance Variables
-	
+		
 	/** The level from 1 to 12. */
 	private int level;
 	
 	/** The mistakes allowed. */
 	private int mistakesAllowed;
-
+	
+	/**
+	 * Instantiates a level instance.
+	 * 
+	 * @param level				the level
+	 * @param mistakesAllowed	the number of mistakes allowed
+	 */
+	public Level(int level, int mistakesAllowed) {
+		this.level = level;
+		this.mistakesAllowed = mistakesAllowed;
+	}
+	
 	/**
 	 * Gets the level.
 	 *
@@ -32,7 +41,7 @@ public class Level{
 	}
 
 	/**
-	 * Gets the mistakes allowed.
+	 * Gets the number of mistakes allowed.
 	 *
 	 * @return the mistakes allowed
 	 */
@@ -41,7 +50,7 @@ public class Level{
 	}
 
 	/**
-	 * Sets the mistakes allowed.
+	 * Sets the number of mistakes allowed.
 	 *
 	 * @param mistakesAllowed the new mistakes allowed
 	 */
