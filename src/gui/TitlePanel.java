@@ -80,8 +80,14 @@ class PressMain implements ActionListener {
 	 * @param the action event
 	 */
 	public void actionPerformed(ActionEvent e) {
-		MainMenu menu = new MainMenu(controller);
-		controller.setScreen(menu);
+		if (controller.getCurrentProgeny() != null) {
+			MainMenu screen = new MainMenu(controller);
+			controller.setScreen(screen);
+		}
+		else {
+			Welcome screen = new Welcome(controller);
+			controller.setScreen(screen);
+		}
 	}
 }
 
