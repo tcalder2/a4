@@ -1,5 +1,7 @@
 package ttable;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +36,7 @@ public class Progeny {
 	private String id;
 	
 	/** The birthday. */
-	private Date birthday;
+	private String birthday;
 	
 	/**
 	 * Adds the progeny.
@@ -44,12 +46,12 @@ public class Progeny {
 	 * @return the progeny
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static Progeny addProgeny(String firstName, String age) throws JSONFailureException
+	public static Progeny addProgeny(String firstName, Date birthday) throws JSONFailureException
 	{
 		Progeny progeny = new Progeny();
-		
+		progeny.setBirthday(birthday);
 		Json json = new Json();
-		JSONObject jsonUser = (JSONObject)json.sendRequest("https://jbaron6.cs2212.ca/addchild?first_name=" + firstName + "&age=" + age);
+		JSONObject jsonUser = (JSONObject)json.sendRequest("https://jbaron6.cs2212.ca/addchild?first_name=" + firstName + "&birthday=" + progeny.birthday);
 	
 		// TODO: parse the array of the new progeny
 		jsonUser.get("");
@@ -129,7 +131,7 @@ public class Progeny {
 	 * @return true, if successful
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public boolean deleteProgeny(Progeny progeny) throws JSONFailureException
+	public static boolean deleteProgeny(Progeny progeny) throws JSONFailureException
 	{
 		// TODO: Make server call
 		
@@ -164,7 +166,7 @@ public class Progeny {
 		GregorianCalendar calPresent = new GregorianCalendar();
 		calPresent.setTime(new Date());
 		GregorianCalendar calBirth = new GregorianCalendar();
-		calBirth.setTime(birthday);
+		calBirth.setTime(getBirthday());
 		
 		int age = calPresent.get(Calendar.YEAR) - calBirth.get(Calendar.YEAR);
 		
@@ -183,9 +185,15 @@ public class Progeny {
 	 * Gets the Birthday.
 	 *
 	 * @return the birthday
+	 * @throws ParseException 
 	 */
 	public Date getBirthday() {
-		return birthday;
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		try {
+			return df.parse(birthday);
+		} catch (ParseException e) {
+			return new Date();
+		}
 	}
 
 	/**
@@ -194,7 +202,8 @@ public class Progeny {
 	 * @param birthday the new birthday
 	 */
 	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		this.birthday = df.format(birthday);
 	}
 	
 	/**
