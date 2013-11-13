@@ -17,6 +17,7 @@ public class FGame extends BackgroundPanel {
 	 * @param controller	the controller
 	 */
 	public FGame(Controller controller) {
+		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 	}
 }

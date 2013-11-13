@@ -28,7 +28,7 @@ public class Progeny {
 	private Date birthday;
 
 	/** Array of progeny's top five final game scores. */
-	private int[] finalGameHighScore;
+	private int[] finalGameHighScores;
 
 	/**
 	 * Instantiates a Progeny instance.
@@ -41,7 +41,7 @@ public class Progeny {
 		this.firstName = firstName;
 		this.id = id;
 		this.birthday = birthday;
-		this.finalGameHighScore = new int[]{0,0,0,0,0};
+		this.finalGameHighScores = new int[]{0,0,0,0,0};
 	}
 
 	/**
@@ -183,29 +183,28 @@ public class Progeny {
 	}
 
 	/**
-	 * Gets the final game high score
+	 * Gets the final game high scores
 	 * 
 	 * @param progeny				the progeny
 	 * @return						the progeny's final game high score
 	 */
-	public int[] getFGameHighScore() {
-		return finalGameHighScore;
+	public int[] getFGameHighScores() {
+		return finalGameHighScores;
 	}
 
 	/**
-	 * Updates the final game high score (ie. if the new score is greater than old high score then 
-	 * changes it, otherwise leaves it the same).
+	 * Updates the final game high scores with new score (if it is actually a high score, else no change)
 	 * 
 	 * @param score					the new score achieved
 	 * @return						true if score is new high score, false otherwise
 	 * @throws JSONFailureException the JSON failure exception
 	 */
-	public boolean updateFGameScore(Progeny progeny, int score) throws JSONFailureException {
+	public boolean updateFGameScores(Progeny progeny, int score) throws JSONFailureException {
 		int[] tmp = new int[5];
 		int i = 0;
 		for (int j = 0; j < 5; j++) {
-			if (score < finalGameHighScore[j] && i < 5) {
-				tmp[i] = finalGameHighScore[j];
+			if (score < finalGameHighScores[j] && i < 5) {
+				tmp[i] = finalGameHighScores[j];
 				i++;
 			}
 			else if (i < 5) {
@@ -213,7 +212,7 @@ public class Progeny {
 				score = -1;
 				i++;
 				if (i < 5) {
-					tmp[i] = finalGameHighScore[j];
+					tmp[i] = finalGameHighScores[j];
 					i++;
 				}
 			}
@@ -222,7 +221,7 @@ public class Progeny {
 			}
 		}
 		//TODO: Make server call
-		finalGameHighScore = tmp;
+		finalGameHighScores = tmp;
 		if (score < 0) {
 			return true;
 		}
