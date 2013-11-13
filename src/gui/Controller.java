@@ -37,6 +37,8 @@ public class Controller {
 	
 	/**
 	 * Instantiates a Controller instance.
+	 * 
+	 * @throws JSONFailureException		the JSON failure exception
 	 */
 	public Controller() throws JSONFailureException {
 		
@@ -83,7 +85,7 @@ public class Controller {
 	/**
 	 * Gets the split pane.
 	 *
-	 * @return the split pane
+	 * @return	the split pane
 	 */
 	public JSplitPane getPane() {
 		return splitPane;
@@ -101,7 +103,7 @@ public class Controller {
 	/**
 	 * Gets the font.
 	 *
-	 * @return the font
+	 * @return	the font
 	 */
 	public Font getFont() {
 		return font;
@@ -110,7 +112,7 @@ public class Controller {
 	/**
 	 * Gets the current user.
 	 *
-	 * @return the current user
+	 * @return	the current user
 	 */
 	public User getUser() {
 		return user;
@@ -128,7 +130,7 @@ public class Controller {
 	/**
 	 * Gets the current progeny.
 	 *
-	 * @return the current progeny
+	 * @return 	the current progeny
 	 */
 	public Progeny getCurrentProgeny() {
 		return currentProgeny;

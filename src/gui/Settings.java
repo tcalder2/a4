@@ -1,136 +1,79 @@
 package gui;
 
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Vector;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.table.*;
-
-import json.JSONFailureException;
-import ttable.Progeny;
-import ttable.User;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 /**
- * The Class Settings.
+ * The class Settings, a populated BackgroundPanel.
+ * 
+ * @author James Anderson
+ *
  */
+@SuppressWarnings("serial")
 public class Settings extends BackgroundPanel {
 
+	/** The tab pane component. */
 	private JTabbedPane tabPane;
 	
 	/**
-	 * Instantiates a new settings.
+	 * Instantiates a Settings instance.
 	 *
-	 * @param controller the controller
+	 * @param controller	the controller
 	 */
 	public Settings(Controller controller) {
+		
+		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
+		
+		//Create a new GridBagLayout instance to control the layout
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.insets = new Insets(10,150,10,150);
-		c.weightx = 0;
 		c.gridx = 0;
 		c.gridy = 0;
 
 		try	{
+			//Load and add the settings title graphic
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/titles/settings.png"));
 			add(new JLabel(new ImageIcon(img)), c);
+			
 		} catch (IOException e) {
+			
+			//If there is a communication error, add a text placeholder to display
 			add(new JLabel("Settings"), c);
 		}
-
+		
+		//Create a new tab pane
+		JTabbedPane tabPane = new JTabbedPane();
+		
+		//Populate the tabs
+		tabPane.add("Child Settings", new ChildSettingsTab(controller, this));
+		tabPane.add("Level Settings", new LevelSettingsTab(controller));
+		tabPane.add("Security Settings", new SecurityTab());
+		
+		//Add the tab pane to the view
 		c.gridy = 1;
 		c.insets = new Insets(0,50,0,50);
-		JTabbedPane tabPane = new JTabbedPane();
-		tabPane.add("Child Settings", new ChildSettingsTab(controller, this));
-		tabPane.add("Level Settings", levelSetTab(controller));
-		tabPane.add("Security Settings", securityTab(controller));
 		add(tabPane, c);
 	}
 	
+	/**
+	 * Swaps the content of the specified tab for the new panel specified.
+	 * 
+	 * @param index			the index of the tab to change
+	 * @param newContent	the new content pane to swap in
+	 */
 	public void changeTabContent(int index, JPanel newContent) {
 		tabPane.setComponentAt(index, newContent);
-	}
-	
-	public JPanel levelSetTab(Controller controller) {
-		JPanel panel = new JPanel(new GridBagLayout());
-		panel.setOpaque(false);
-		GridBagConstraints c = new GridBagConstraints();
-		c.insets = new Insets(0,25,0,0);
-		c.gridwidth = 2;
-		c.gridy = 1;
-		c.gridx = 0;
-		panel.add(new JLabel("Drill Settings:"), c);
-
-		c.gridwidth = 1;
-		c.gridy = 2;
-		panel.add(new JLabel("Time per question:"), c);
-
-		Vector<String> t = new Vector<String>();
-		for (int i = 5; i <= 120; i += 5) {
-			t.add(i + " sec");
-		}
-		JComboBox<String> time = new JComboBox<String>(t);
-		c.insets = new Insets(0,0,0,0);
-		c.gridx = 1;
-		panel.add(time, c);
-
-		c.gridwidth = 2;
-		c.gridx = 2;
-		panel.add(new JLabel("Number of Errors per Level:"), c);
-
-		Vector<String> err = new Vector<String>();
-		for (int i = 0; i < 10; i++) {
-			err.add("" + i);
-		}
-		JComboBox<String> errors = new JComboBox<String>(err);
-		c.gridwidth = 1;
-		c.insets = new Insets(0,0,0,75);
-		c.gridx = 4;
-		panel.add(errors, c);
-
-		c.insets = new Insets(0,75,0,0);
-		c.gridx = 0;
-		c.gridy = 3;
-		panel.add(new JLabel("Testing mode:"), c);
-
-		ButtonGroup teststate = new ButtonGroup();
-
-		JRadioButton testoff = new JRadioButton("Off");
-		teststate.add(testoff);
-		c.gridwidth = 1;
-		c.insets = new Insets(0,0,0,0);
-		c.gridx = 1;
-		panel.add(testoff, c);
-
-		JRadioButton teston = new JRadioButton("On");
-		teststate.add(teston);
-		c.gridx = 2;
-		panel.add(teston, c);
-
-		JButton apply = new JButton("Apply");
-		c.gridy = 4;
-		c.gridx = 4;
-		panel.add(apply, c);
-		
-		return panel;
-	}
-	
-	public JPanel securityTab(Controller controller) {
-		JPanel panel = new JPanel(new GridBagLayout());
-		panel.setOpaque(false);
-		GridBagConstraints c = new GridBagConstraints();
-		
-		
-		
-		return panel;
 	}
 }

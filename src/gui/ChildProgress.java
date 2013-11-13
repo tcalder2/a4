@@ -46,8 +46,12 @@ public class ChildProgress extends JPanel {
 	 * @param settingsPane the settings pane
 	 */
 	public ChildProgress(Controller controller, Settings settingsPane, ChildSettingsTab childSettingsTab, Progeny child, ArrayList<String> errors) {
-		super(new GridBagLayout());  //Create the panel with a GridBagLayout
-		setOpaque(false);  			 //Set the panel to be transparent
+		
+		//Create the panel with a GridBagLayout
+		super(new GridBagLayout());
+		
+		//Set the panel to be transparent
+		setOpaque(false);
 
 		//Create instance of GridBagConstraints to control layout
 		GridBagConstraints c = new GridBagConstraints();
@@ -59,7 +63,7 @@ public class ChildProgress extends JPanel {
 		c.gridy = 0;
 
 		try {
-			//If errors exist then go to exception handling
+			//If errors list is populated then go to exception handling
 			if (errors.size() > 0) {
 				throw new JSONFailureException(errors);
 			}
@@ -144,8 +148,8 @@ public class ChildProgress extends JPanel {
 			c.ipadx = 500;
 			add(scroll,c);
 
-			//If there is a communication error, display a panel detailing errors instead
 		} catch (JSONFailureException e) {
+			//If there is a communication error, display a panel detailing errors instead
 			ArrayList<String> errors2 = e.getMessages();
 			int gridY = 0;
 			Iterator<String> error = errors2.iterator();

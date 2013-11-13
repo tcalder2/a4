@@ -45,6 +45,37 @@ public class User {
 		
 		return true;
 	}
+	
+	/**
+	 * Returns if this is the first login attempt or not.
+	 * 
+	 * @return						true if this is the first login, false otherwise
+	 * @throws JSONFailureException	the JSON failure exception
+	 */
+	public static boolean isFirstLogin() throws JSONFailureException {
+		//TODO: server call
+		return false;
+	}
+	
+	/**
+	 * Returns whether test mode is on or not.
+	 * 
+	 * @return						true if test mode is on, false otherwise
+	 * @throws JSONFailureException the JSON failure exception
+	 */
+	public static boolean isTestMode() throws JSONFailureException {
+		//TODO: server call
+		return false;
+	}
+	
+	/**
+	 * Toggles whether test mode is on or not (i.e. if it is on then turns it off, and vice versa)
+	 * 
+	 * @throws JSONFailureException
+	 */
+	public static void toggleTestMode() throws JSONFailureException {
+		//TODO: server call
+	}
 
 	/**
 	 * Gets the current user's password recovery questions.
@@ -112,19 +143,18 @@ public class User {
 	/**
 	 * Gets an array of progeny.
 	 *
-	 * @return an array of progeny
+	 * @return 						an array of progeny
 	 * @throws JSONFailureException the jSON failure exception
 	 */
 	public static ArrayList<Progeny> getProgeny() throws JSONFailureException 
 	{
-		ArrayList<Progeny> progeny;
+		ArrayList<Progeny> progenyList;
+
+		progenyList = new ArrayList<Progeny>();
 		
-		// TODO: remove this line
-		progeny = new ArrayList<Progeny>();
+		// TODO: make server call and parse list
 		
-		// TODO: make server call
-		
-		return progeny;
+		return progenyList;
 	}
 	
 	/**
@@ -132,14 +162,14 @@ public class User {
 	 *
 	 * @param  firstName 			the first name
 	 * @param  age					the age
-	 * @return 						the progeny
+	 * @return 						the newly added progeny
 	 * @throws JSONFailureException the jSON failure exception
 	 */
 	public static Progeny addProgeny(String firstName, Date birthday) throws JSONFailureException {
 		Json json = new Json();
 		JSONObject jsonUser = (JSONObject)json.sendRequest("https://jbaron6.cs2212.ca/addchild?first_name=" + firstName + "&birthday=" + birthday);
 	
-		// TODO: parse the array of the new progeny
+		// TODO: parse the new progeny
 		jsonUser.get("");
 		Progeny progeny = new Progeny(firstName, birthday, "" + 0); //TODO: replace this line with parsed info
 		return progeny;
@@ -164,8 +194,7 @@ public class User {
 	 * @throws JSONFailureException	the JSON failure exception
 	 */
 	public static ArrayList<Level> getLevels() throws JSONFailureException {
-		ArrayList<Level> levels = new ArrayList<Level>();
-		//TODO: replace previous line with actual server call
+		ArrayList<Level> levels = new ArrayList<Level>();  //TODO: replace line with actual server call
 		return levels;
 	}
 	

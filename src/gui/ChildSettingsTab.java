@@ -30,6 +30,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.text.AbstractDocument;
 
 import json.JSONFailureException;
 import ttable.Progeny;
@@ -51,8 +52,12 @@ public class ChildSettingsTab extends JPanel {
 	 * @param settings		the settings pane
 	 */
 	public ChildSettingsTab(Controller controller, Settings settings) {
-		super(new GridBagLayout());  //Instantiate the JPanel with a GridBagLayout
-		setOpaque(false);  //Makes panel transparent
+		
+		//Instantiate the JPanel with a GridBagLayout
+		super(new GridBagLayout());
+		
+		//Makes panel transparent
+		setOpaque(false);
 
 		//Create instance of grid bag constraints to control layout
 		GridBagConstraints c = new GridBagConstraints();
@@ -78,11 +83,11 @@ public class ChildSettingsTab extends JPanel {
 			Vector<String> columnNames = new Vector<String>(Arrays.asList(new String[]{"Name"," ","Birthday"," ","Age","Level"}));
 
 			//Create vector structure containing table data
-			ArrayList<Progeny> progeny = User.getProgeny();
+			ArrayList<Progeny> progenyList = User.getProgeny();
 			Vector<Vector<String>> tableData = new Vector<Vector<String>>();
-			for (int i = 0; i < progeny.size(); i++) {
+			for (int i = 0; i < progenyList.size(); i++) {
 				Vector<String> v = new Vector<String>();
-				Progeny p = progeny.get(i);
+				Progeny p = progenyList.get(i);
 				v.add(p.getFirstName());
 
 				Date birthday = p.getBirthday();
@@ -130,18 +135,18 @@ public class ChildSettingsTab extends JPanel {
 			scroll.setOpaque(false);
 			scroll.getViewport().setOpaque(false);
 
-			//Create data to populate JComboBoxes
+			//CREATE DATA TO POPULATE JCOMBOBOXES
+			
 			//List of potential birth years
 			Vector<String> y = new Vector<String>();
 			for (int i = (new GregorianCalendar().get(Calendar.YEAR)); i > 1980; i--) {
 				y.add("" + i);
 			}
 
-			//List of child names
-			ArrayList<Progeny> progenies = User.getProgeny();
+			//Create List of child names
 			Vector<String> childNames = new Vector<String>();
-			for (int i = 0; i < progenies.size(); i++) {
-				childNames.add(progenies.get(i).getFirstName());
+			for (int i = 0; i < progenyList.size(); i++) {
+				childNames.add(progenyList.get(i).getFirstName());
 			}
 
 			//List of months (full name)
@@ -170,13 +175,22 @@ public class ChildSettingsTab extends JPanel {
 			JComboBox<String> year2 = new JComboBox<String>(y);
 			JComboBox<String> month2 = new JComboBox<String>(m);
 			JComboBox<String> day2 = new JComboBox<String>();
-			updateDaysInMonth(year2, month2, day2);					//Populates the months drop-down with correct number of days
 			JComboBox<String> level = new JComboBox<String>();
-			populateLevelList(childSelect, level); 					//Populates the months list according to selected child
-			setSelections(childSelect, year, month, day, level);	//Sets the default selections to the current values for selected child
 			JButton progress = new JButton("View Progress");
 			JButton remove = new JButton("Remove");
 			JButton update = new JButton("Update");
+
+			//Limit the number of characters that can be input into the name input field
+			((AbstractDocument) nameInput.getDocument()).setDocumentFilter(new DocumentLengthFilter(20));
+			
+			//Populate the months drop-down with correct number of days
+			updateDaysInMonth(year2, month2, day2);
+			
+			//Populates the months list according to selected child
+			populateLevelList(childSelect, level);
+
+			//Sets the default selections to the current values for selected child
+			setSelections(childSelect, year, month, day, level);
 
 			//Add action listeners
 			nameInput.addKeyListener(new EnterListener(add));
@@ -269,9 +283,8 @@ public class ChildSettingsTab extends JPanel {
 			c.gridx = 5;
 			add(update, c);  //The button to update the selected child with selected details
 
-			//Error thrown when there is trouble connecting to the server for some reason
-			//Causes panel with error messages to be displayed in stead
 		} catch(JSONFailureException e) {
+			//If communication error occurs, panel with error messages is displayed instead
 			ArrayList<String> errors = e.getMessages();
 			int gridY = 0;
 			Iterator<String> error = errors.iterator();
@@ -296,18 +309,24 @@ public class ChildSettingsTab extends JPanel {
 	 * @param level			the level selection combo box to be populated
 	 */
 	public static void populateLevelList(JComboBox<String> childSelect, JComboBox<String> level) {
+		
+		//Determine the max range for the level drop down list
 		int maxLevel = 1;
 		try {
 			if (User.getProgeny().size() > 0) {
 				maxLevel = Progeny.getLevels(User.getProgeny().get(childSelect.getSelectedIndex())).size();
 			}
 		} catch (JSONFailureException e) {
-			/*NULL BODY*/
+			//TODO: add exception handling, popup?
 		}
+		
+		//Create the vector for use populating the level drop down
 		Vector<String> l = new Vector<String>();
 		for (int i = 1; i <= maxLevel; i++) {
 			l.add("Level " + i);
 		}
+		
+		//Populate the level drop down
 		level.setModel(new DefaultComboBoxModel<String>(l));
 	}
 
@@ -323,16 +342,24 @@ public class ChildSettingsTab extends JPanel {
 	 */
 	public static void setSelections(JComboBox<String> childSelect, JComboBox<String> year, JComboBox<String> month, JComboBox<String> day, JComboBox<String> level) {
 		try {
+			//Get the currently selected child's birthday
 			Date birth = User.getProgeny().get(childSelect.getSelectedIndex()).getBirthday();
+			
+			//Set the year, month and day fields to the current birthday values
 			DateFormat f = new SimpleDateFormat("yyyy");
 			year.setSelectedItem(f.format(birth));
 			f = new SimpleDateFormat("MMMM");
 			month.setSelectedItem(f.format(birth));
 			f = new SimpleDateFormat("d");
 			day.setSelectedItem(f.format(birth));
+			
+			//Get the current level achieved by the child and set the level drop down to it
 			level.setSelectedIndex(level.getItemCount() - 1);
-		} catch (JSONFailureException | ArrayIndexOutOfBoundsException e) {
+			
+		} catch (ArrayIndexOutOfBoundsException e) {
 			/*NULL BODY*/
+		} catch (JSONFailureException e) {
+			//TODO: add exception handling, popup?
 		}
 	}
 
@@ -344,27 +371,28 @@ public class ChildSettingsTab extends JPanel {
 	 * @param day		the birth-day drop down
 	 */
 	public static void updateDaysInMonth(JComboBox<String> year, JComboBox<String> month, JComboBox<String> day) {
-		DateFormat yFormat = new SimpleDateFormat("yyyy");
-		DateFormat mFormat = new SimpleDateFormat("MMMM");
-		String yStr = (String)year.getSelectedItem();
-		String mStr = (String)month.getSelectedItem();
-		GregorianCalendar yCal = new GregorianCalendar();
-		GregorianCalendar mCal = new GregorianCalendar();
-		try {
-			yCal.setTime(yFormat.parse(yStr));;
-			mCal.setTime(mFormat.parse(mStr));;
-		} catch (ParseException e1) {
-			//TODO: add exception handling
-		}
-		GregorianCalendar cal = new GregorianCalendar(yCal.get(Calendar.YEAR),mCal.get(Calendar.MONTH),1);
+		
+		//Calculate the year selected
+		GregorianCalendar nowCal = new GregorianCalendar();
+		int yr = nowCal.get(Calendar.YEAR) - year.getSelectedIndex();
+		
+		//Get the last day of the month for the month and year selected
+		GregorianCalendar cal = new GregorianCalendar(yr,(month.getSelectedIndex() + 1),1);
 		int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
+		//Create the list of days
 		Vector<String> d = new Vector<String>();
 		for (int i = 1; i <= lastDay; i++) {
 			d.add("" + i);
 		}
+		
+		//Save the currently selected index
 		int index = day.getSelectedIndex();
+		
+		//Update the list of days with the new list
 		day.setModel(new DefaultComboBoxModel<String>(d));
+		
+		//If the old selection is in the new range and was in fact a selection, set the selection back to that day
 		if (index < day.getItemCount()  && index >= 0) {
 			day.setSelectedIndex(index);
 		}
@@ -413,24 +441,28 @@ class PressProgress implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			String selected = new String(childSelector.getSelectedItem().toString());
+			//Create an ArrayList to hold errors if an exception is thrown so they can be passed to the next display
 			ArrayList<String> errors = new ArrayList<String>();
+			
 			Progeny child = null;
 			try {
-				ArrayList<Progeny> progeny = User.getProgeny();
-				for (int i = 0; i < progeny.size(); i++) {
-					String name = progeny.get(i).getFirstName();
-					if (name.equals(selected)) {
-						child = progeny.get(i);
-					}
-				}
+				//Get the list of current user's progeny
+				ArrayList<Progeny> progenyList = User.getProgeny();
+				
+				//Get the selected child's progeny instance
+				child = progenyList.get(childSelector.getSelectedIndex());
+				
 			} catch (JSONFailureException e1) {
+				//Get error messages to pass to next display
 				errors = e1.getMessages();
 			}
+			
+			//Create a new ChildProgress screen and swap it for the current tab
 			ChildProgress screen = new ChildProgress(controller, settingsPane, childSettingsTab, child, errors);
 			settingsPane.changeTabContent(0, screen);
+			
 		} catch (NullPointerException e1) {
-			/*NULL BODY*/
+			/*NULL BODY*/		//If there is no child selected, do nothing
 		}
 	}
 }
@@ -471,6 +503,8 @@ class MonthSelected implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		//Update the list of days in the day drop down to match the date range for the selected month
 		ChildSettingsTab.updateDaysInMonth(year,month,day);
 	}
 }
@@ -512,6 +546,8 @@ class YearSelected implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		//If the month drop down is not populated, populate it
 		if (month.getItemCount() <= 1) {
 			Vector<String> m = new Vector<String>();
 			for (int i = 0; i < 12; i++) {
@@ -519,8 +555,14 @@ class YearSelected implements ActionListener {
 			}
 			month.setModel(new DefaultComboBoxModel<String>(m));
 		}
+		
+		//If the month drop down is populated
 		else {
-			ChildSettingsTab.updateDaysInMonth(year, month, day);
+			// and February is selected
+			if (month.getSelectedIndex() == 1) {
+				//Update the days in the month incase it is a leap year
+				ChildSettingsTab.updateDaysInMonth(year, month, day);
+			}
 		}
 	}
 }
@@ -572,7 +614,11 @@ class ChildSelected implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		//Populate the level drop down with a range matching selected child
 		ChildSettingsTab.populateLevelList(childSelect, level);
+		
+		//Set the default selections to the current values for selected child
 		ChildSettingsTab.setSelections(childSelect, year, month, day, level);
 	}
 }
@@ -687,11 +733,11 @@ class PressAdd implements ActionListener {
 			User.addProgeny(firstName, birthdate);
 
 			//Read info from newly added progeny
-			ArrayList<Progeny> progenies = User.getProgeny();
+			ArrayList<Progeny> progenyList = User.getProgeny();
 			Progeny newProgeny = null;
-			for (int i = 0; i < progenies.size(); i++) {
-				if (progenies.get(i).getFirstName().equals(firstName)) {
-					newProgeny = progenies.get(i);
+			for (int i = 0; i < progenyList.size(); i++) {
+				if (progenyList.get(i).getFirstName().equals(firstName)) {
+					newProgeny = progenyList.get(i);
 					break;
 				}
 			}
@@ -715,9 +761,8 @@ class PressAdd implements ActionListener {
 			tableData.add(v);
 			tableModel.fireTableDataChanged();
 		} catch (ParseException e1) {
-			return;
-		} catch (JSONFailureException e2) {
-			System.out.print("Error");
+			//TODO: add exception handling, popup?
+		} catch (JSONFailureException e1) {
 			//TODO: add exception handling, popup??
 		}
 	}
@@ -759,23 +804,23 @@ class PressRemove implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String firstName = (String) childSelect.getSelectedItem();
+		
+		//Get the selected child index
+		int index = childSelect.getSelectedIndex();
+		
 		try {
-			ArrayList<Progeny> progenies = User.getProgeny();
-			for (int i = 0; i < progenies.size(); i++) {
-				String name = progenies.get(i).getFirstName();
-				if (name.equals(firstName)) {
-					User.removeProgeny(progenies.get(i));
-					break;
-				}
-			}
-			for (int i = 0; i < tableData.size(); i++) {
-				if (tableData.get(i).get(0).equals(firstName)) {
-					tableData.remove(i);
-					break;
-				}
-			}
+			//Get the list of progeny
+			ArrayList<Progeny> progenyList = User.getProgeny();
+			
+			//Remove the selected child's entry in the database
+			User.removeProgeny(progenyList.get(index));
+			
+			//Remove the selected child's entry in the table
+			tableData.remove(index);
+			
+			//Update the table display
 			tableModel.fireTableDataChanged();
+			
 		} catch (JSONFailureException e1) {
 			// TODO: add exception handling, popup??
 		}
@@ -839,16 +884,16 @@ class PressUpdate implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		try {	
-			String name = (String) childSelect.getSelectedItem();
-			ArrayList<Progeny> children = User.getProgeny();
-			Progeny child = null;
-			for (int i = 0; i < children.size(); i++) {
-				if (children.get(i).getFirstName().equals(name)) {
-					child = children.get(i);
-					break;
-				}
-			}
+		try {
+			
+			//Get the list of progeny
+			ArrayList<Progeny> progenyList = User.getProgeny();
+			
+			//Get index of selected child
+			int index = childSelect.getSelectedIndex();
+			
+			//Get the progeny instance for the selected child
+			Progeny child = progenyList.get(index);
 
 			//Check the birth-day is valid and add to string
 			int dd = 0;
@@ -902,24 +947,20 @@ class PressUpdate implements ActionListener {
 
 				//Update the progeny's level
 				Progeny.setLevel(child, currentLevel);
-
+				
 				//Read info from newly updated progeny
-				ArrayList<Progeny> progenies = User.getProgeny();
+				ArrayList<Progeny> progenyListUpdated = User.getProgeny();
+				String name = (String) childSelect.getSelectedItem();
 				Progeny newProgeny = null;
-				for (int i = 0; i < progenies.size(); i++) {
-					if (progenies.get(i).getFirstName().equals(name)) {
-						newProgeny = progenies.get(i);
+				for (int i = 0; i < progenyListUpdated.size(); i++) {
+					if (progenyListUpdated.get(i).getFirstName().equals(name)) {
+						newProgeny = progenyListUpdated.get(i);
 						break;
 					}
 				}
-				Vector<String> entry = null;
-				int entryNum = 0;
-				for (; entryNum < tableData.size(); entryNum++) {
-					if (tableData.get(entryNum).get(0).equals(name)) {
-						entry = tableData.get(entryNum);
-					}
-				}
-
+				
+				//Create new entry to replace old in table
+				Vector<String> entry = new Vector<String>();
 				Date birthday = newProgeny.getBirthday();
 				format = new SimpleDateFormat("d");
 				entry.set(1, format.format(birthday));
@@ -933,8 +974,8 @@ class PressUpdate implements ActionListener {
 				entry.set(4, "" + newProgeny.getAge());
 				entry.set(5, "" + (Progeny.getLevels(newProgeny).size() + 1));
 
-				//Update the child details table with details of newly updated child
-				tableData.set(entryNum, entry);
+				//Replace the old entry in the table with the new one
+				tableData.set(index, entry);
 				tableModel.fireTableDataChanged();
 			} catch (ParseException e1) {
 				return;

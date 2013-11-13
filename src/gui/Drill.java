@@ -9,7 +9,9 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import json.JSONFailureException;
 import ttable.Level;
+import ttable.Progeny;
 
 /**
  * The class Drill, a populated BackgroundPanel.
@@ -55,6 +57,9 @@ public class Drill extends BackgroundPanel {
 	
 	/** The submit. */
 	private JButton submit;
+	
+	/** The answer field. */
+	private JTextField answerField;
 	
 	/** The clock. */
 	private Timer clock;
@@ -110,7 +115,7 @@ public class Drill extends BackgroundPanel {
 		
 		submit = new JButton("Submit");
 		
-		JTextField answerField = new JTextField();
+		answerField = new JTextField();
 		answerField.setFont(controller.getFont().deriveFont(Font.BOLD, 60));
 		answerField.addKeyListener(new EnterListener(submit));
 		c.anchor = GridBagConstraints.WEST;
@@ -126,7 +131,7 @@ public class Drill extends BackgroundPanel {
 		c.insets = new Insets(50,0,0,50);
 		add(submit, c);
 		
-		clock = new Timer(1000, new TimerAction(this, answerField, submit));
+		clock = new Timer(1000, new TimerAction(controller, this));
 		clock.start();
 		JLabel markImg = new JLabel(" ");
 		c.ipady = 60;
@@ -187,14 +192,13 @@ public class Drill extends BackgroundPanel {
 	 *
 	 * @param answer the answer
 	 */
-	public void checkAnswer(String answer) {
+	public void checkAnswer() {
 		
 		int correctanswer = 12;
-		
 		submit.setVisible(false);
 		clock.stop();
 		
-		if (answer.equals("" + correctanswer)) {
+		if (answerField.getText().equals("" + correctanswer)) {
 			try {
 				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/faces/rface.png"));
 				markImg = new JLabel(new ImageIcon(img));
@@ -245,10 +249,12 @@ public class Drill extends BackgroundPanel {
  *
  */
 class TimerAction implements ActionListener {
+		
+	/** The drill. */
 	private Drill drill;
-	private JButton submit;
-	private int timeLimit = 10;
-	private int count;
+	
+	/** The the number of seconds remaining. */
+	private int timeRemaining;
 
 	/**
 	 * Instantiates the Timer Action.
@@ -257,11 +263,15 @@ class TimerAction implements ActionListener {
 	 * @param answer	the answer text field
 	 * @param submit	the submit button
 	 */
-	public TimerAction(Drill drill, JTextField answer, JButton submit) {
+	public TimerAction(Controller controller, Drill drill) {
 		this.drill = drill;
-		this.submit = submit;
-		int time = (timeLimit - count);
-		drill.setTime(time);
+		try {
+			this.timeRemaining = Progeny.getTimeAllowed(controller.getCurrentProgeny());
+		} catch (JSONFailureException e) {
+			// TODO: add exception handling
+			this.timeRemaining = 30;
+		}
+		drill.setTime(timeRemaining);
 	}
 
 	/*
@@ -270,13 +280,12 @@ class TimerAction implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (count < timeLimit) {
-			count++;
-			int time = (timeLimit - count);
-			drill.setTime(time);
+		if (timeRemaining > 0) {
+			timeRemaining--;
+			drill.setTime(timeRemaining);
 		}
 		else {
-			submit.doClick();
+			drill.checkAnswer();
 		}
 	}
 }
@@ -292,9 +301,6 @@ class Submit implements ActionListener {
 	/** The drill. */
 	private Drill drill;
 	
-	/** The answer field. */
-	private JTextField answer;
-	
 	/**
 	 * Instantiates a Submit instance.
 	 * 
@@ -303,7 +309,6 @@ class Submit implements ActionListener {
 	 */
 	public Submit(Drill drill, JTextField answer) {
 		this.drill = drill;
-		this.answer = answer;
 	}
 	
 	/*
@@ -312,6 +317,6 @@ class Submit implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		drill.checkAnswer(new String(answer.getText()));
+		drill.checkAnswer();
 	}
 }
