@@ -37,6 +37,9 @@ import ttable.User;
 
 /**
  * The Class ChildSettingsTab.
+ * 
+ * @author James Anderson
+ * 
  */
 @SuppressWarnings("serial")
 public class ChildSettingsTab extends JPanel {
@@ -59,6 +62,7 @@ public class ChildSettingsTab extends JPanel {
 		c.gridy = 0;
 		c.gridwidth = 1;
 
+		//TODO: remove once sure it is not necessary
 		/* TO BE REMOVED AFTER TESTING OF COLUMN HEADER SORT (NEED PROGENY CLASS FILLED OUT FIRST)
 		String[] sortOptions = {"Age","Name"};
 		JComboBox<String> sortMenu = new JComboBox<String>(sortOptions);
@@ -369,6 +373,8 @@ public class ChildSettingsTab extends JPanel {
 
 /**
  * The Class PressProgress, an Action Listener.
+ * 
+ * @author James Anderson
  */
 class PressProgress implements ActionListener {
 
@@ -400,11 +406,9 @@ class PressProgress implements ActionListener {
 		this.childSettingsTab = childSettingsTab;
 	}
 
-	/**
-	 * The action performed upon event.
-	 * Switches the tab to display the progress of the selected child
-	 * 
-	 * @param e		the action event
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -433,6 +437,8 @@ class PressProgress implements ActionListener {
 
 /**
  * The Class MonthSelected, and Action Listener.
+ * 
+ * @author James Anderson
  */
 class MonthSelected implements ActionListener {
 
@@ -459,11 +465,9 @@ class MonthSelected implements ActionListener {
 		this.day = day;
 	}
 
-	/**
-	 * The action performed upon event.
-	 * Populates the days drop down menu with the current day range.
-	 * 
-	 * @param e		the action event
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -471,12 +475,30 @@ class MonthSelected implements ActionListener {
 	}
 }
 
+/**
+ * The class YearSelected, an action listener.
+ * 
+ * @author James Anderson
+ * 
+ */
 class YearSelected implements ActionListener {
 
+	/** The birth-year drop down. */
 	private JComboBox<String> year;
+	
+	/** The birth-month drop down. */
 	private JComboBox<String> month;
+	
+	/** The birth-day drop down. */
 	private JComboBox<String> day;
 
+	/**
+	 * Instantiates an instance of the YearSelected action listener.
+	 * 
+	 * @param year		the birth-year drop down
+	 * @param month		the birth-month drop down
+	 * @param day		the birth-day drop down
+	 */
 	public YearSelected(JComboBox<String> year, JComboBox<String> month, JComboBox<String> day) {
 		super();
 		this.year = year;
@@ -484,6 +506,10 @@ class YearSelected implements ActionListener {
 		this.day = day;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (month.getItemCount() <= 1) {
@@ -499,14 +525,38 @@ class YearSelected implements ActionListener {
 	}
 }
 
+/**
+ * The class ChildSelected, an action listener.
+ * 
+ * @author James Anderson
+ *
+ */
 class ChildSelected implements ActionListener {
 
+	/** The child selection drop down. */
 	private JComboBox<String> childSelect;
+	
+	/** The birth-year drop down. */
 	private JComboBox<String> year;
+	
+	/** The month-year drop down. */
 	private JComboBox<String> month;
+	
+	/** The day-year drop down.*/
 	private JComboBox<String> day;
+	
+	/** The current level drop down. */
 	private JComboBox<String> level;
 
+	/**
+	 * Instantiates a ChildSelected instance.
+	 * 
+	 * @param childSelect	the child selection drop down
+	 * @param year			the birth-year drop down
+	 * @param month			the birth-month drop down
+	 * @param day			the birth-day drop down
+	 * @param level			the current level drop down
+	 */
 	public ChildSelected(JComboBox<String> childSelect, JComboBox<String> year, JComboBox<String> month, JComboBox<String> day, JComboBox<String> level) {
 		super();
 		this.childSelect = childSelect;
@@ -516,6 +566,10 @@ class ChildSelected implements ActionListener {
 		this.level = level;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		ChildSettingsTab.populateLevelList(childSelect, level);
@@ -523,14 +577,42 @@ class ChildSelected implements ActionListener {
 	}
 }
 
+/**
+ * The class PressAdd, an action listener.
+ * 
+ * @author James Anderson
+ *
+ */
 class PressAdd implements ActionListener {
+	
+	/** The name input field. */
 	private JTextField nameInput;
+	
+	/** The birth-year drop down. */
 	private JComboBox<String> year;
+	
+	/** The birth-month drop down. */
 	private JComboBox<String> month;
+	
+	/** The birth-day drop down. */
 	private JComboBox<String> day;
+	
+	/** The child details for the table. */
 	private Vector<Vector<String>> tableData;
+	
+	/** The table model. */
 	private DefaultTableModel tableModel;
 
+	/**
+	 * Instantiates a PressAdd instance.
+	 * 
+	 * @param nameInput		the name input field
+	 * @param year			the birth-year drop down
+	 * @param month			the birth-month drop down
+	 * @param day			the birth-day drop down
+	 * @param tableData		the child details for the table
+	 * @param tableModel	the table model
+	 */
 	public PressAdd(JTextField nameInput, JComboBox<String> year, JComboBox<String> month, JComboBox<String> day, Vector<Vector<String>> tableData, DefaultTableModel tableModel) {
 		super();
 		this.nameInput = nameInput;
@@ -541,6 +623,10 @@ class PressAdd implements ActionListener {
 		this.tableModel = tableModel;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String firstName = "";
@@ -637,18 +723,40 @@ class PressAdd implements ActionListener {
 	}
 }
 
+/**
+ * The class PressRemove, an action listener.
+ * 
+ * @author James Anderson
+ *
+ */
 class PressRemove implements ActionListener {
 
+	/** The child selection drop down. */
 	private JComboBox<String> childSelect;
+	
+	/** The table model. */
 	private DefaultTableModel tableModel;
+	
+	/** The child details for the table. */
 	private Vector<Vector<String>> tableData;
 
+	/**
+	 * Instantiates a PressRemove instance.
+	 * 
+	 * @param childSelect	the child selection drop down
+	 * @param tableModel	the child details for the table
+	 * @param tableData		the table model
+	 */
 	public PressRemove(JComboBox<String> childSelect, DefaultTableModel tableModel, Vector<Vector<String>> tableData) {
 		this.childSelect = childSelect;
 		this.tableModel = tableModel;
 		this.tableData = tableData;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String firstName = (String) childSelect.getSelectedItem();
@@ -674,16 +782,46 @@ class PressRemove implements ActionListener {
 	}
 }
 
+/**
+ * The class PressUpdate, an action listener.
+ * 
+ * @author James Anderson
+ *
+ */
 class PressUpdate implements ActionListener {
 
+	/** The child selection drop down. */
 	private JComboBox<String> childSelect;
+	
+	/** The birth-year drop down. */
 	private JComboBox<String> year;
+	
+	/** The birth-month drop down. */
 	private JComboBox<String> month;
+	
+	/** The birth-day drop down. */
 	private JComboBox<String> day;
+	
+	/** The current level drop down. */
 	private JComboBox<String> level;
+	
+	/** The table model. */
 	private DefaultTableModel tableModel;
+	
+	/** The child details for the table. */
 	private Vector<Vector<String>> tableData;
 
+	/**
+	 * Instantiates a PressUpdate instance.
+	 * 
+	 * @param childSelect		the child selection drop down
+	 * @param year				the birth-year drop down
+	 * @param month				the birth-month drop down
+	 * @param day				the birth-day drop down
+	 * @param level				the current level drop down
+	 * @param tableModel		the table model
+	 * @param tableData			the child details for the table
+	 */
 	public PressUpdate(JComboBox<String> childSelect, JComboBox<String> year, JComboBox<String> month, JComboBox<String> day, JComboBox<String> level, DefaultTableModel tableModel, Vector<Vector<String>> tableData) {
 		super();
 		this.childSelect = childSelect;
@@ -695,6 +833,10 @@ class PressUpdate implements ActionListener {
 		this.tableData = tableData;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {	

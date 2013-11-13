@@ -16,6 +16,9 @@ import javax.swing.JPanel;
 
 /**
  * The BackgroundPanel class.
+ * 
+ * @author James Anderson
+ * 
  */
 @SuppressWarnings("serial")
 public class BackgroundPanel extends JPanel {
@@ -85,10 +88,9 @@ public class BackgroundPanel extends JPanel {
 		setLayout(layout);
 	}
 	
-	/**
-	 * Paints the components graphic background
-	 * 
-	 * @param g		the graphic
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
 	@Override
 	public void paintComponent(Graphics g) {

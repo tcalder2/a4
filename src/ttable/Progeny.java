@@ -1,28 +1,20 @@
 package ttable;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.json.simple.JSONObject;
-
-import json.Json;
 import json.JSONFailureException;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-
-import ttable.Level;
-import ttable.Progeny;
-
 /**
- * The Class Progeny.
+ * The class Progeny.
+ * 
+ * @author James Baron
+ * @author James Anderson
+ * @author Chuhan Qin
+ * 
  */
 public class Progeny {
 

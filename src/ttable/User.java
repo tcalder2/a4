@@ -4,18 +4,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
+import json.JSONFailureException;
+import json.Json;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import json.Json;
-import json.JSONFailureException;
-
 /**
- * The User class represents the user of the application's current user
+ * The class User.
  * 
- * @author CS2212 Group 4
+ * @author James Baron
+ * @author James Anderson
+ * @author Chuhan Qin
+ * 
  */
-
 public class User {
 
 	/** The user's FaceBook id. */

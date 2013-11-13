@@ -1,7 +1,11 @@
 package ttable;
 
 /**
- * The Class Level.
+ * The class Level.
+ * 
+ * @author James Baron
+ * @author James Anderson
+ *
  */
 public class Level{
 		

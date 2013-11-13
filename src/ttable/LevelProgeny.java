@@ -3,9 +3,11 @@ package ttable;
 import json.JSONFailureException;
 
 /**
- * The Class LevelProgeny.
+ * The class LevelProgeny.
  * 
- * Description: Handles a many-to-many join between Level and Progeny and provides settings for the game logic.
+ * @author James Anderson
+ * @author Chuhan Qin
+ *
  */
 public class LevelProgeny {
 

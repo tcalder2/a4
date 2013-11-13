@@ -27,12 +27,14 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import json.JSONFailureException;
-import sun.util.logging.PlatformLogger.Level;
 import ttable.LevelProgeny;
 import ttable.Progeny;
 
 /**
  * The ChildProgress class.
+ * 
+ * @author James Anderson
+ * 
  */
 @SuppressWarnings("serial")
 public class ChildProgress extends JPanel {
@@ -164,7 +166,10 @@ public class ChildProgress extends JPanel {
 }
 
 /**
- * The BackToSettings class.
+ * The BackToSettings class, an action listener.
+ * 
+ * @author James Anderson
+ * 
  */
 class BackToSettings implements ActionListener {
 
@@ -186,12 +191,11 @@ class BackToSettings implements ActionListener {
 		this.childSettingsTab = childSettingsTab;
 	}
 
-	/**
-	 * Performs the action on event.
-	 * Changes the screen back to the child settings tab
-	 * 
-	 * @param e		the action event
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		settingsPane.changeTabContent(0, childSettingsTab);
 	}
