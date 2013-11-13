@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -18,10 +17,14 @@ import javax.swing.text.AbstractDocument;
 public class SecurityTab extends JPanel {
 	
 	public SecurityTab() {
+		
+		//Call the super constructor with a Gridbag
 		super(new GridBagLayout());
-		setLayout(new GridBagLayout());
+		
+		//Make the panel transparent
 		setOpaque(false);
 		
+		//Create the components
 		JLabel oldLabel = new JLabel("Old password: ");
 		JLabel newLabel = new JLabel("New password: ");
 		JLabel retypeLabel = new JLabel("Retype password: ");
@@ -39,6 +42,7 @@ public class SecurityTab extends JPanel {
 		((AbstractDocument) retypeField.getDocument()).setDocumentFilter(new DocumentLengthFilter(6));
 		((AbstractDocument) answerField.getDocument()).setDocumentFilter(new DocumentLengthFilter(30));
 
+		//Add the components to the view
 		GridBagConstraints c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.EAST;
 		c.insets = new Insets(25,50,0,0);

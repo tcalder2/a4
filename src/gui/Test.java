@@ -290,7 +290,7 @@ public class Test extends JApplet {
 		appendTestMessage("QUES1: Getting questions");
 
 		try {
-			ArrayList<String> questions = User.getQuestions();
+			ArrayList<String> questions = User.getSecurityQuestions();
 			++succeededCount;
 			appendTestMessage("TEST PASSED: QUES1");
 			appendTestMessages(questions);

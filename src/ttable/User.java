@@ -83,7 +83,7 @@ public class User {
 	 * @return the questions
 	 * @throws JSONFailureException the jSON failure exception
 	 */	
-	public static ArrayList<String> getQuestions() throws JSONFailureException
+	public static ArrayList<String> getSecurityQuestions() throws JSONFailureException
 	{
 		ArrayList<String> questions = new ArrayList<String>();
 		
@@ -99,6 +99,21 @@ public class User {
 			questions.add((String)questionsIt.next());
 		
 		return questions;
+	}
+	
+	/**
+	 * Get the users security question number.
+	 * 
+	 * @return						the users security question number
+	 * @throws JSONFailureException	the JSON failure exception
+	 */
+	public static int getSecurityQuestionNumber() throws JSONFailureException {
+		//TODO: add server call
+		return 1;
+	}
+	
+	public static void testSecurityQuestion(String answer) throws JSONFailureException {
+		//TODO: add server call
 	}
 	
 	/**

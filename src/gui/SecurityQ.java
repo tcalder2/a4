@@ -1,123 +1,125 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.text.AbstractDocument;
 
 import json.JSONFailureException;
 import ttable.User;
 
 /**
- * The Class SecurityQ.
+ * The class SecurityQ, a populated BackgroundPanel.
+ * 
+ * @author James Anderson
+ *
  */
+@SuppressWarnings("serial")
 public class SecurityQ extends BackgroundPanel {
 
 	/**
-	 * Instantiates a new security q.
+	 * Instantiates a SecurityQ instance.
 	 * 
-	 * @param controller
-	 *            the controller
+	 * @param controller	the controller
 	 */
 	public SecurityQ(Controller controller) {
 
+		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 		
+		try{
+		//Create components
+		JLabel chooseQ = new JLabel("Please answer the following security question: ");
+		JLabel question = new JLabel(User.getSecurityQuestions().get(User.getSecurityQuestionNumber()));
+		JTextField answerField = new JTextField("-- Answer --");
+		JButton update = new JButton("Update");
+		
+		//Add action listeners
+		update.addActionListener(new PressUpdate2(controller, answerField));
+		
+		//Limit the number of characters that can be input into each field
+		((AbstractDocument) answerField.getDocument()).setDocumentFilter(new DocumentLengthFilter(30));
+
+
+		//Add the components to the view
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(0, 0, 100, 0);
-		c.weightx = 0.5;
-		c.gridx = 3;
-		c.gridy = 3;
-
-		JLabel q1, q2, q3;
-		
-		try {
-			ArrayList<String> questions = User.getQuestions();
-			q1 = new JLabel (questions.get(0));
-			q2 = new JLabel (questions.get(1));
-			q3 = new JLabel (questions.get(2));
-		} 
-		catch (JSONFailureException e) {
-			q1 = new JLabel ("Opps!");
-			q2 = new JLabel ("We couldn't retrieve your security questions.");
-			q3 = new JLabel (":(");
-		}
-
-		c.weightx = 0;
-		c.weighty = 0;
+		c.insets = new Insets(50,50,0,50);
+		c.gridx = 0;
 		c.gridy = 0;
-
-		c.insets = new Insets(15,15,15,15);
-		add(q1, c);
+		add(chooseQ, c);
 		
+		c.insets = new Insets(5,50,0,50);
 		c.gridy = 1;
-		
-		JTextField answer1 = new JTextField();
-		answer1.setFont(controller.getFont().deriveFont(Font.BOLD, 30));
-		add(answer1, c);
+		add(question, c);
 		
 		c.gridy = 2;
-		add(q2, c);
-
+		add(answerField, c);
+		
+		c.insets = new Insets(0,50,50,50);
+		c.fill = GridBagConstraints.NONE;
 		c.gridy = 3;
-		
-		JTextField answer2 = new JTextField();
-		answer2.setFont(controller.getFont().deriveFont(Font.BOLD, 30));
-		add(answer2, c);
-		
-		c.gridy = 4;
-		add(q3, c);
-		
-		c.gridy = 5;
-		
-		JTextField answer3 = new JTextField();
-		answer3.setFont(controller.getFont().deriveFont(Font.BOLD, 30));
-		add(answer3, c);
-
-		q1.setFont(controller.getFont().deriveFont(Font.BOLD, 30));
-		q2.setFont(controller.getFont().deriveFont(Font.BOLD, 30));
-		q3.setFont(controller.getFont().deriveFont(Font.BOLD, 30));
-		
-
-		c.gridy = 6;
-		
-		c.weightx = 0.2;
-
-		c.insets = new Insets(15,200,15,200);
-		
-		JButton ok = new JButton("Ok");
-		ok.addActionListener(new OkPress(controller, answer1, answer2, answer3));
-		add(ok, c);
-		
+		add(update, c);
+		} catch (JSONFailureException e) {
+			JPanel screen = new JPanel(new GridBagLayout());
+			GridBagConstraints c = new GridBagConstraints();
+			int gridY = 1;
+			ArrayList<String> errors = e.getMessages();
+			c.gridx = 0;
+			c.gridy = gridY;
+			for (int i = 0; i < errors.size(); i++) {
+				c.gridy = gridY;
+				JLabel label = new JLabel(errors.get(i).toString());
+				label.setForeground(Color.RED);
+				label.setFont(controller.getFont().deriveFont(Font.PLAIN, 18));
+				screen.add(label, c);
+				gridY++;
+			}
+			controller.setScreen(screen);
+		}
 	}
 }
 
-class OkPress implements ActionListener {
+class PressUpdate2 implements ActionListener {
 	
+	/** The controller. */
 	private Controller controller;
-	private JTextField answer1;
-	private JTextField answer2;
-	private JTextField answer3;
 	
-	public OkPress(Controller controller, JTextField answer1, JTextField answer2, JTextField answer3) {
+	/** The answer field. */
+	private JTextField answerField;
+	
+	/**
+	 * Instantiates a PressUpdate2 instance.
+	 * 
+	 * @param controller		the controller
+	 * @param answerField		the answer field
+	 */
+	public PressUpdate2(Controller controller, JTextField answerField) {
 		this.controller = controller;
-		this.answer1 = answer1;
-		this.answer2 = answer2;
-		this.answer3 = answer3;
+		this.answerField = answerField;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		try {
+			User.testSecurityQuestion(answerField.getText());
+			controller.setScreen(new Settings(controller));
+		} catch (JSONFailureException e1) {
+			//TODO: add exception handling
+		}
 	}
 }
