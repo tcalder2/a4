@@ -86,9 +86,9 @@ public class User {
 		
 		JSONObject userObj = (JSONObject)jsonObj.get("user");
 		
-		user.setFbId((String)userObj.get("fb_id"));
-		user.setFirstName((String)userObj.get("first_name"));
-		user.setLastName((String)userObj.get("last_name"));
+		user.fbId = ((String)userObj.get("fb_id"));
+		user.firstName = ((String)userObj.get("first_name"));
+		user.lastName = ((String)userObj.get("last_name"));
 		
 		return user;
 	}
@@ -244,32 +244,4 @@ public class User {
 	public String getLastName() {
 		return lastName;
 	}
-
-	/**
-	 * Set's the user's FaceBook ID
-	 * 
-	 * @param fbId 		the FaceBook ID
-	 */
-	public void setFbId(String fbId) {
-		this.fbId = fbId;
-	}
-	
-	/**
-	 * Sets the user's first name.
-	 * 
-	 * @param firstName 	the user's first name
-	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	/**
-	 * Sets the user's last name.
-	 * 
-	 * @param firstName 	the user's last name
-	 */
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-	
 }

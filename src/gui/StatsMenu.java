@@ -1,29 +1,44 @@
 package gui;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTabbedPane;
 
 /**
- * The Class StatsMenu.
+ * The class StatsMenu, a populated BackgroundPanel.
+ * 
+ * @author James Anderson
+ * @author Chuhan Qin
+ * @author Taylor Calder
+ *
  */
+@SuppressWarnings("serial")
 public class StatsMenu extends BackgroundPanel {
-	
+
 	/**
-	 * Instantiates a new stats menu.
+	 * Instantiates a StatsMenu instance.
 	 *
 	 * @param controller the controller
 	 */
 	public StatsMenu(Controller controller) {
-		
+
+		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		//-------------------------------------------------------------------------------------------------		
@@ -34,7 +49,7 @@ public class StatsMenu extends BackgroundPanel {
 		c.weightx = 0;
 		c.gridx = 0;
 		c.gridy = 0;
-		
+
 		try	{
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/titles/stats.png"));
 			add(new JLabel(new ImageIcon(img)), c);
@@ -54,7 +69,7 @@ public class StatsMenu extends BackgroundPanel {
 		fillTabFriends(tab1, c);
 		fillTabAge(tab2, c);
 		fillTabLevels(tab3, c);
-		
+
 		// Add the tabs
 		tabs.addTab("Friends", tab1);
 		tabs.addTab("By Age", tab2);
@@ -69,9 +84,9 @@ public class StatsMenu extends BackgroundPanel {
 		add(tabs, c);
 
 
-		
+
 	}
-	
+
 	/**
 	 * Fill tab friends.
 	 *
@@ -80,7 +95,7 @@ public class StatsMenu extends BackgroundPanel {
 	 */
 	private void fillTabFriends(JPanel tab1, GridBagConstraints c){
 		// Headers	
-		
+
 		c.insets = new Insets(5,5,5,10);
 		c.gridx = 0;
 		c.gridwidth = 2;
@@ -100,7 +115,7 @@ public class StatsMenu extends BackgroundPanel {
 		c.gridy=2;
 		c.gridheight =4;	
 		for(int i=1; i<6;i++){
-			
+
 			try	{
 				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/profilePictures/"+i+".jpg"));
 				JLabel pic = new JLabel(new ImageIcon(getScaledImage(img, 55,55)));
@@ -136,7 +151,7 @@ public class StatsMenu extends BackgroundPanel {
 		c.gridy++;
 		tab1.add(new JLabel("Bart"), c);
 		c.gridy+=4;
-		
+
 		tab1.add(new JLabel("Troy"), c);
 		c.gridy++;
 		tab1.add(new JLabel("Abed"), c);
@@ -157,19 +172,19 @@ public class StatsMenu extends BackgroundPanel {
 		tab1.add(new JLabel("Michael"), c);
 		c.gridy++;
 		tab1.add(new JLabel("Pam"), c);
-		
-		
+
+
 		//-------------------------------------------------------------------------------------------------	
 		// Age
 		c.insets = new Insets(0,10,0,10);
 		c.gridx = 3;
 		c.gridy = 2;
-		
+
 		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
 		c.gridy++;
 		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
 		c.gridy+=4;
-		
+
 		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
 		c.gridy++;
 		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
@@ -190,17 +205,17 @@ public class StatsMenu extends BackgroundPanel {
 		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
 		c.gridy++;
 		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
-		
+
 		//-------------------------------------------------------------------------------------------------		
 		// Level
 		c.gridx = 4;
 		c.gridy = 2;
-		
+
 		tab1.add(new JLabel(("Level "+Integer.toString(1 + (int)(Math.random() * 12)))), c);
 		c.gridy++;
 		tab1.add(new JLabel(("Level "+Integer.toString(1 + (int)(Math.random() * 12)))), c);
 		c.gridy+=4;
-		
+
 		tab1.add(new JLabel(("Level "+Integer.toString(1 + (int)(Math.random() * 12)))), c);
 		c.gridy++;
 		tab1.add(new JLabel(("Level "+Integer.toString(1 + (int)(Math.random() * 12)))), c);
@@ -226,7 +241,7 @@ public class StatsMenu extends BackgroundPanel {
 		c.insets = new Insets(0,0,0,0);
 		//c.fill = GridBagConstraints.HORIZONTAL;
 		//c.weightx = 1;
-	    c.gridwidth = 5;
+		c.gridwidth = 5;
 		c.gridheight =1;
 		c.gridx = 0;
 		c.gridy = 1;
@@ -235,10 +250,10 @@ public class StatsMenu extends BackgroundPanel {
 			sep.setPreferredSize(new Dimension(1,30));
 
 			tab1.add(sep,c);
-					
+
 			c.gridy+=5;
 		}
-			
+
 	}
 
 	/**
@@ -255,18 +270,18 @@ public class StatsMenu extends BackgroundPanel {
 		c.gridx = 1;
 		c.gridy = 0;
 		tab.add(new JLabel("Level "),c);
-		
-        //-------------------------------------------------------------------------------------------------	
+
+		//-------------------------------------------------------------------------------------------------	
 		//Level Combo Box
 		Vector<String> m = new Vector<String>();
-		
+
 		for(int i=1;i<13;i++){
 			m.add(Integer.toString(i));
 		}
 		JComboBox<String> levels = new JComboBox<String>(m);
 		c.gridx = 2;
 		tab.add(levels, c);
-		
+
 		//------------------------------------------------------------------------
 		//Rank		
 		c.gridx = 0;
@@ -296,7 +311,7 @@ public class StatsMenu extends BackgroundPanel {
 		c.gridheight =1;	
 		c.ipady = 30;
 		for(int i=1; i<4;i++){
-			
+
 			try	{
 				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/profilePictures/"+i+".jpg"));
 				JLabel pic = new JLabel(new ImageIcon(getScaledImage(img, 55,55)));
@@ -346,7 +361,7 @@ public class StatsMenu extends BackgroundPanel {
 		//-------------------------------------------------------------------------------------------------		
 		// Separators
 		c.insets = new Insets(0,0,0,0);
-	    c.gridwidth = 5;
+		c.gridwidth = 5;
 		c.gridx = 0;
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -355,12 +370,12 @@ public class StatsMenu extends BackgroundPanel {
 			sep.setPreferredSize(new Dimension(1,30));
 
 			tab.add(sep,c);
-					
+
 			c.gridy+=2;
 		}
-			
+
 	}
-	
+
 	/**
 	 * Fill tab age.
 	 *
@@ -375,8 +390,8 @@ public class StatsMenu extends BackgroundPanel {
 		c.gridx = 1;
 		c.gridy = 0;
 		tab.add(new JLabel("Age "),c);
-		
-        //-------------------------------------------------------------------------------------------------	
+
+		//-------------------------------------------------------------------------------------------------	
 		//Level Combo Box
 		Vector<String> m = new Vector<String>();
 		for(int i=3;i<14;i++){
@@ -414,7 +429,7 @@ public class StatsMenu extends BackgroundPanel {
 		c.gridheight =1;	
 		c.ipady = 30;
 		for(int i=1; i<4;i++){
-			
+
 			try	{
 				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/profilePictures/"+i+".jpg"));
 				JLabel pic = new JLabel(new ImageIcon(getScaledImage(img, 55,55)));
@@ -464,7 +479,7 @@ public class StatsMenu extends BackgroundPanel {
 		//-------------------------------------------------------------------------------------------------		
 		// Separators
 		c.insets = new Insets(0,0,0,0);
-	    c.gridwidth = 5;
+		c.gridwidth = 5;
 		c.gridx = 0;
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -473,26 +488,26 @@ public class StatsMenu extends BackgroundPanel {
 			sep.setPreferredSize(new Dimension(1,30));
 
 			tab.add(sep,c);
-					
+
 			c.gridy+=2;
 		}
-		
+
 	}
-// Resize ImageIcon
+	// Resize ImageIcon
 	/**
- * Gets the scaled image.
- *
- * @param srcImg the src img
- * @param w the w
- * @param h the h
- * @return the scaled image
- */
-private Image getScaledImage(Image srcImg, int w, int h){
-	    BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-	    Graphics2D g2 = resizedImg.createGraphics();
-	    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-	    g2.drawImage(srcImg, 0, 0, w, h, null);
-	    g2.dispose();
-	    return resizedImg;
+	 * Gets the scaled image.
+	 *
+	 * @param srcImg	the source image
+	 * @param w			the width
+	 * @param h			the height
+	 * @return 			the scaled image
+	 */
+	private Image getScaledImage(Image srcImg, int w, int h){
+		BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g2 = resizedImg.createGraphics();
+		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		g2.drawImage(srcImg, 0, 0, w, h, null);
+		g2.dispose();
+		return resizedImg;
 	}
 }
