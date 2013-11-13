@@ -15,14 +15,18 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 /**
- * The Class FGameMenu.
+ * The class FGameMenu, a populated BackgroundPanel.
+ * 
+ * @author James Anderson
+ *
  */
+@SuppressWarnings("serial")
 public class FGameMenu extends BackgroundPanel {
 	
 	/**
-	 * Instantiates a new f game menu.
+	 * Instantiates a FGame instance.
 	 *
-	 * @param controller the controller
+	 * @param controller	the controller
 	 */
 	public FGameMenu(Controller controller) {
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
@@ -119,17 +123,31 @@ public class FGameMenu extends BackgroundPanel {
 }
 
 /**
- * The Class StartFinal.
+ * The class StartFinal, an action listener.
+ * 
+ * @author James Anderson
+ *
  */
 class StartFinal implements ActionListener {
 
+	/** The controller. */
 	private Controller controller;
 	
+	/**
+	 * Instantiates a StartFinal instance.
+	 * 
+	 * @param control
+	 */
 	public StartFinal(Controller control) {
 		super();
 		controller = control;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		FGame menu = new FGame(controller);
 		controller.setScreen(menu);

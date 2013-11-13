@@ -6,25 +6,20 @@ import java.awt.event.KeyListener;
 import javax.swing.JButton;
 
 /**
- * The listener interface for receiving enter events.
- * The class that is interested in processing a enter
- * event implements this interface, and the object created
- * with that class is registered with a component using the
- * component's <code>addEnterListener<code> method. When
- * the enter event occurs, that object's appropriate
- * method is invoked.
+ * The class EnterListener, a key listener.
+ * 
+ * @author James Anderson
  *
- * @see EnterEvent
  */
 public class EnterListener implements KeyListener {
 	
-	/** The button. */
+	/** The button to act on. */
 	private JButton button;
 	
 	/**
-	 * Instantiates a new enter listener.
+	 * Instantiates an EnterListener instance.
 	 *
-	 * @param button the button
+	 * @param button	the button
 	 */
 	public EnterListener(JButton button) {
 		super();
@@ -40,16 +35,20 @@ public class EnterListener implements KeyListener {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
 	 */
+	@Override
 	public void keyPressed(KeyEvent e) {
 		/*NULL BODY*/
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
 	 */
+	@Override
 	public void keyReleased(KeyEvent e) {
 		/*NULL BODY*/
 	}

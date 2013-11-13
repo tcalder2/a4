@@ -3,22 +3,22 @@ package gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JSplitPane;
 
 import json.JSONFailureException;
 import ttable.Progeny;
 import ttable.User;
 
-
 /**
- * The Class Controller.
+ * The class Controller.
+ * 
+ * @author James Anderson
+ *
  */
 public class Controller {
 	
@@ -31,16 +31,20 @@ public class Controller {
 	/** The current user. */
 	private User user;
 	
-	/** The current_progeny. */
+	/** The current progeny. */
 	private Progeny currentProgeny;
 
 	
 	/**
-	 * Instantiates a new controller.
+	 * Instantiates a Controller instance.
 	 */
 	public Controller() throws JSONFailureException {
+		
+		//Create the split pane
 		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setDividerSize(0);
+		
+		//Download and set the font, if download fails set to a standard backup font
 		try {
 			URL url = new URL("http://jbaron6.cs2212.ca/fonts/GiddyupStd.otf");
 			URLConnection urlcon = url.openConnection();
@@ -50,32 +54,36 @@ public class Controller {
 		} catch (FontFormatException | IOException e) {
 			font = new Font("Serif", Font.BOLD, 18);
 		}
+		
+		//Get the current user
 		user = User.getUser();
+		
+		//Set the current progeny to null to be set at a later date
 		currentProgeny = null;
 	}
 	
 	/**
-	 * Sets the header.
+	 * Sets the banner pane.
 	 *
-	 * @param header the new header
+	 * @param banner	the new banner
 	 */
-	public void setHeader(JComponent header) {
-		splitPane.setTopComponent(header);
+	public void setBanner(JComponent banner) {
+		splitPane.setTopComponent(banner);
 	}
 	
 	/**
-	 * Sets the screen.
+	 * Sets the main screen panel.
 	 *
-	 * @param screen the new screen
+	 * @param screen	the new screen panel
 	 */
 	public void setScreen(JComponent screen) {
 		splitPane.setBottomComponent(screen);
 	}
 	
 	/**
-	 * Gets the pane.
+	 * Gets the split pane.
 	 *
-	 * @return the pane
+	 * @return the split pane
 	 */
 	public JSplitPane getPane() {
 		return splitPane;
@@ -84,7 +92,7 @@ public class Controller {
 	/**
 	 * Sets the frame colour.
 	 *
-	 * @param colour the new frame colour
+	 * @param colour	the new frame colour
 	 */
 	public void setFrameColour(Color colour) {
 		splitPane.setBackground(colour);
@@ -111,7 +119,7 @@ public class Controller {
 	/**
 	 * Sets the current progeny.
 	 *
-	 * @param the progeny to be set as current
+	 * @param newCurrentProgeny		the progeny to be set as active
 	 */
 	public void setCurrentProgeny(Progeny newCurrentProgeny) {
 		currentProgeny = newCurrentProgeny;

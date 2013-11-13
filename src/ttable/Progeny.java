@@ -20,16 +20,16 @@ public class Progeny {
 
 	/** The first name. */
 	private String firstName;
-	
+
 	/** The ID. */
 	private String id;
-	
+
 	/** The birthday. */
 	private Date birthday;
-	
-	/** The progeny's final game high score. */
-	private int finalGameHighScore;
-	
+
+	/** Array of progeny's top five final game scores. */
+	private int[] finalGameHighScore;
+
 	/**
 	 * Instantiates a Progeny instance.
 	 * 
@@ -41,6 +41,7 @@ public class Progeny {
 		this.firstName = firstName;
 		this.id = id;
 		this.birthday = birthday;
+		this.finalGameHighScore = new int[]{0,0,0,0,0};
 	}
 
 	/**
@@ -54,7 +55,7 @@ public class Progeny {
 	public static void setTimeAllowed(Progeny progeny, String timeAllowed) throws JSONFailureException {
 		//TODO: Make server call
 	}
-	
+
 	/**
 	 * Gets the time allowed per level.
 	 * 
@@ -76,14 +77,14 @@ public class Progeny {
 	 */
 	public static ArrayList<LevelProgeny> getLevels(Progeny progeny) throws JSONFailureException {
 		ArrayList<LevelProgeny> levels;
-		
+
 		// TODO: delete this line
 		levels = new ArrayList<>();
-		
+
 		//TODO: make server call
-		
+
 		//TODO: parse the array
-		
+
 		return levels;
 	}
 
@@ -97,7 +98,7 @@ public class Progeny {
 	public static void setLevel(Progeny progeny, int level) throws JSONFailureException {
 		//TODO: Make server call, this should delete all level progeny for levels greater than the level set
 	}
-	
+
 	/**
 	 * Gets the current level.
 	 * 
@@ -108,7 +109,7 @@ public class Progeny {
 	public static int getLevel(Progeny progeny) throws JSONFailureException {
 		return Progeny.getLevels(progeny).size();
 	}
-	
+
 	/**
 	 * Adds a new level.
 	 * 
@@ -118,7 +119,7 @@ public class Progeny {
 	public static void addLevel(LevelProgeny level) throws JSONFailureException {
 		//TODO: Make server call
 	}
-	
+
 	/**
 	 * Gets the first name.
 	 *
@@ -138,11 +139,11 @@ public class Progeny {
 		calPresent.setTime(new Date());
 		GregorianCalendar calBirth = new GregorianCalendar();
 		calBirth.setTime(birthday);
-		
+
 		int age = calPresent.get(Calendar.YEAR) - calBirth.get(Calendar.YEAR);
-		
+
 		if (calBirth.get(Calendar.MONTH) < calPresent.get(Calendar.MONTH)) {
-		      age--; 
+			age--; 
 		}
 		else if (calBirth.get(Calendar.MONTH) == calPresent.get(Calendar.MONTH)) {
 			if (calBirth.get(Calendar.DAY_OF_MONTH) < calPresent.get(Calendar.DAY_OF_MONTH)) {
@@ -151,7 +152,7 @@ public class Progeny {
 		}
 		return age;
 	}
-	
+
 	/**
 	 * Gets the Birthday.
 	 *
@@ -171,7 +172,7 @@ public class Progeny {
 		//TODO: Make server call
 		this.birthday = birthday;
 	}
-	
+
 	/**
 	 * Gets the ID.
 	 *
@@ -180,17 +181,17 @@ public class Progeny {
 	public String getID() {
 		return id;
 	}
-	
+
 	/**
 	 * Gets the final game high score
 	 * 
 	 * @param progeny				the progeny
 	 * @return						the progeny's final game high score
 	 */
-	public int getFGameHighScore() {
+	public int[] getFGameHighScore() {
 		return finalGameHighScore;
 	}
-	
+
 	/**
 	 * Updates the final game high score (ie. if the new score is greater than old high score then 
 	 * changes it, otherwise leaves it the same).
@@ -200,9 +201,29 @@ public class Progeny {
 	 * @throws JSONFailureException the JSON failure exception
 	 */
 	public boolean updateFGameScore(Progeny progeny, int score) throws JSONFailureException {
-		if (score > progeny.getFGameHighScore()) {
-			//TODO: Make server call
-			finalGameHighScore = score;
+		int[] tmp = new int[5];
+		int i = 0;
+		for (int j = 0; j < 5; j++) {
+			if (score < finalGameHighScore[j] && i < 5) {
+				tmp[i] = finalGameHighScore[j];
+				i++;
+			}
+			else if (i < 5) {
+				tmp[i] = score;
+				score = -1;
+				i++;
+				if (i < 5) {
+					tmp[i] = finalGameHighScore[j];
+					i++;
+				}
+			}
+			else {
+				break;
+			}
+		}
+		//TODO: Make server call
+		finalGameHighScore = tmp;
+		if (score < 0) {
 			return true;
 		}
 		else {

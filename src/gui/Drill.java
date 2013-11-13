@@ -9,25 +9,30 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-// TODO: Auto-generated Javadoc
+import ttable.Level;
+
 /**
- * The Class Drill.
+ * The class Drill, a populated BackgroundPanel.
+ * 
+ * @author James Anderson
+ *
  */
+@SuppressWarnings("serial")
 public class Drill extends BackgroundPanel {
 	
 	/** The controller. */
 	private Controller controller;
 	
 	/** The level. */
-	private int level;
+	private Level level;
 	
-	/** The lives. */
+	/** The number of lives remaining. */
 	private int lives;
 	
-	/** The correct. */
+	/** The number of questions answered correctly. */
 	private int correct;
 	
-	/** The incorrect. */
+	/** The number of questions answered incorrectly. */
 	private int incorrect;
 	
 	/** The timer. */
@@ -60,7 +65,7 @@ public class Drill extends BackgroundPanel {
 	 * @param controller the controller
 	 * @param level the level
 	 */
-	public Drill(Controller controller, int level) {
+	public Drill(Controller controller, Level level) {
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 		this.controller = controller;
 		this.level = level;
@@ -234,7 +239,10 @@ public class Drill extends BackgroundPanel {
 }
 
 /**
- * The Class TimerAction.
+ * The class TimerAction, an action listener.
+ * 
+ * @author James Anderson
+ *
  */
 class TimerAction implements ActionListener {
 	private Drill drill;
@@ -245,9 +253,9 @@ class TimerAction implements ActionListener {
 	/**
 	 * Instantiates the Timer Action.
 	 * 
-	 * @param the drill pane
-	 * @param the answer text field
-	 * @param the submit button
+	 * @param drill		the drill pane
+	 * @param answer	the answer text field
+	 * @param submit	the submit button
 	 */
 	public TimerAction(Drill drill, JTextField answer, JButton submit) {
 		this.drill = drill;
@@ -256,11 +264,11 @@ class TimerAction implements ActionListener {
 		drill.setTime(time);
 	}
 
-	/**
-	 * Performs the action on event.
-	 * 
-	 * @param the action event
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (count < timeLimit) {
 			count++;
@@ -274,28 +282,35 @@ class TimerAction implements ActionListener {
 }
 
 /**
- * The Class Submit.
+ * The class Submit, an action listener.
+ * 
+ * @author James Anderson
+ *
  */
 class Submit implements ActionListener {
+	
+	/** The drill. */
 	private Drill drill;
+	
+	/** The answer field. */
 	private JTextField answer;
 	
 	/**
-	 * Instantiates the Submit listener.
+	 * Instantiates a Submit instance.
 	 * 
-	 * @param the drill pane
-	 * @param the answer field
+	 * @param drill		the drill pane
+	 * @param answer	the answer field
 	 */
 	public Submit(Drill drill, JTextField answer) {
 		this.drill = drill;
 		this.answer = answer;
 	}
 	
-	/**
-	 * Performs action on event.
-	 * 
-	 * @param the action event
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		drill.checkAnswer(new String(answer.getText()));
 	}
