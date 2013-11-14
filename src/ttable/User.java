@@ -147,10 +147,10 @@ public class User {
 	 * @return true, if successful
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static boolean resetPassword(String answer, String newPassword) throws JSONFailureException
+	public static boolean resetPassword(String oldPassword, String newPassword) throws JSONFailureException
 	{
 		Json json = new Json();
-		json.sendRequest("https://jbaron6.cs2212.ca/resetpassword?answer=" + answer + "&new_password=" + newPassword);
+		json.sendRequest("https://jbaron6.cs2212.ca/resetpassword?answer=" + oldPassword + "&new_password=" + newPassword);
 		
 		return true;
 	}
