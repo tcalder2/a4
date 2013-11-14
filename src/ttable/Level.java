@@ -3,7 +3,6 @@ package ttable;
 /**
  * The class Level.
  * 
- * @author James Baron
  * @author James Anderson
  *
  */
@@ -33,15 +32,6 @@ public class Level{
 	 */
 	public int getLevel() {
 		return level;
-	}
-
-	/**
-	 * Sets the level.
-	 *
-	 * @param level the new level
-	 */
-	public void setLevel(int level) {
-		this.level = level;
 	}
 
 	/**

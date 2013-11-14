@@ -186,7 +186,7 @@ public class User {
 	
 		// TODO: parse the new progeny
 		jsonUser.get("");
-		Progeny progeny = new Progeny(firstName, birthday, "" + 0); //TODO: replace this line with parsed info
+		Progeny progeny = new Progeny(firstName, birthday, "" + 0, 30); //TODO: replace this line with parsed info
 		return progeny;
 	}
 	
@@ -200,6 +200,15 @@ public class User {
 	public static boolean removeProgeny(Progeny progeny) throws JSONFailureException {
 		//TODO: code this
 		return false;
+	}
+	
+	/**
+	 * 
+	 * @param progeny				the progeny to 
+	 * @throws JSONFailureException	the JSON failure exception
+	 */
+	public static void updateProgeny(Progeny progeny) throws JSONFailureException {
+		//TODO: server request
 	}
 	
 	/**
@@ -287,5 +296,25 @@ public class User {
 	 */
 	public String getLastName() {
 		return lastName;
+	}
+	
+	/**
+	 * Sets the number of mistakes allowed for a specified level.
+	 *
+	 * @param mistakesAllowed the new mistakes allowed
+	 */
+	public static void setMistakesAllowed(int level, int mistakesAllowed) throws JSONFailureException {
+		User.getLevels().get(level - 1).setMistakesAllowed(mistakesAllowed);
+		//TODO:  server call to update
+	}
+	
+	/**
+	 * 
+	 * @param id					the id of the progeny to be updated
+	 * @param progeny				the updated progeny to be sent to server
+	 * @throws JSONFailureException	the JSON failure exception
+	 */
+	public static void updateProgeny(int id, Progeny progeny) throws JSONFailureException {
+		//TODO:  server call to update
 	}
 }

@@ -1,17 +1,14 @@
 package ttable;
 
-import json.JSONFailureException;
-
 /**
  * The class LevelProgeny.
  * 
  * @author James Anderson
- * @author Chuhan Qin
  *
  */
 public class LevelProgeny {
 
-	/** The number of mistakes made. */
+	/** The number of mistakes made on latest play-through. */
 	private int mistakes;
 	
 	/** The number of attempts made. */
@@ -63,18 +60,16 @@ public class LevelProgeny {
 	}
 
 	/**
-	 * Sets the mistakes.
+	 * Sets the number of mistakes made on the latest play through.
 	 *
-	 * @param mistakes the new mistakes
-	 * @throws JSONFailureException the JSON failure exception
+	 * @param mistakes		the new mistakes
 	 */
-	private void setMistakes(int mistakes) throws JSONFailureException  {
-		// TODO: Make server call
+	private void setMistakesMade(int mistakes) {
 		this.mistakes = mistakes;
 	}
 
 	/**
-	 * Gets the attempts.
+	 * Gets the number of attempts.
 	 *
 	 * @return the attempts
 	 */
@@ -83,33 +78,31 @@ public class LevelProgeny {
 	}
 
 	/**
-	 * Sets the attempts.
+	 * Sets the number of attempts.
 	 *
-	 * @param attempts the new attempts
-	 * @throws JSONFailureException the JSON failure exception
+	 * @param attempts		the new attempts
 	 */
-	private void setAttempts(int attempts) throws JSONFailureException  { 
-		// TODO: Make server call
+	private void setAttempts(int attempts)  { 
 		this.attempts = attempts;
 	}
 
 	/**
-	 * Gets the final game high score.
+	 * Gets the level game high score.
 	 *
-	 * @return the final game high score
+	 * @return the level game high score
 	 */
 	public int getLevelGameHighScore() { 		
 		return levelGameHighScore;
 	}
 
 	/**
-	 * Sets the final game high score.
+	 * Sets the level game high score.
 	 *
-	 * @param finalGameHighScore the new final game high score
+	 * @param levelGameHighScore	the new level game high score
 	 * @throws JSONFailureException the JSON failure exception
 	 */
-	private void setLevelGameHighScore(int finalGameHighScore) throws JSONFailureException {
-		// TODO: make server call
+	private void setLevelGameHighScore(int levelGameHighScore) {
+		this.levelGameHighScore = levelGameHighScore;
 	}
 
 	/**
@@ -122,13 +115,12 @@ public class LevelProgeny {
 	}
 
 	/**
-	 * Sets the final completion time.
+	 * Sets the drill completion time on the attempt when they completed the level.
 	 *
 	 * @param finalCompletionTime 	the new final completion time
 	 * @throws JSONFailureException the JSON failure exception
 	 */
-	private void setFinalCompletionTime(int finalCompletionTime) throws JSONFailureException {
-		// TODO: Make server call
+	private void setFinalCompletionTime(int finalCompletionTime) {
 		this.finalCompletionTime = finalCompletionTime;
 	}
 

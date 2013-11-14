@@ -6,8 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import json.JSONFailureException;
-
 /**
  * The class Progeny.
  * 
@@ -29,6 +27,12 @@ public class Progeny {
 
 	/** Array of progeny's top five final game scores. */
 	private int[] finalGameHighScores;
+	
+	/** The time allowed to complete drill level. */
+	private int timeAllowed;
+	
+	/** Array of progeny's level data. */
+	private ArrayList<LevelProgeny> levels;
 
 	/**
 	 * Instantiates a Progeny instance.
@@ -37,87 +41,72 @@ public class Progeny {
 	 * @param birthday				the birthday
 	 * @param id					the ID
 	 */
-	public Progeny(String firstName, Date birthday, String id) {
+	public Progeny(String firstName, Date birthday, String id, int timeAllowed) {
 		this.firstName = firstName;
 		this.id = id;
 		this.birthday = birthday;
 		this.finalGameHighScores = new int[]{0,0,0,0,0};
+		this.timeAllowed = timeAllowed;
 	}
 
 	/**
 	 * Set the time allowed per level.
 	 *
-	 * @param progeny 				the progeny
 	 * @param timeAllowed 			the time allowed per level
-	 * @return 						true if successful, false otherwise
-	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static void setTimeAllowed(Progeny progeny, String timeAllowed) throws JSONFailureException {
-		//TODO: Make server call
+	public void setTimeAllowed(int timeAllowed) {
+		this.timeAllowed = timeAllowed;
 	}
 
 	/**
 	 * Gets the time allowed per level.
 	 * 
-	 * @param progeny				the progeny
-	 * @return						the time allowed per level
-	 * @throws JSONFailureException the JSON failure exception
+	 * @return		the time allowed per level
 	 */
-	public static int getTimeAllowed(Progeny progeny) throws JSONFailureException {
-		//TODO: Make server call
-		return 0;
+	public int getTimeAllowed() {
+		return timeAllowed;
 	}
 
 	/**
 	 * Gets the level progeny.
 	 *
-	 * @param progeny				the progeny
-	 * @return 						the level progeny
-	 * @throws JSONFailureException the jSON failure exception
+	 * @return 		the level progeny
 	 */
-	public static ArrayList<LevelProgeny> getLevels(Progeny progeny) throws JSONFailureException {
-		ArrayList<LevelProgeny> levels;
-
-		// TODO: delete this line
-		levels = new ArrayList<>();
-
-		//TODO: make server call
-
-		//TODO: parse the array
-
+	public ArrayList<LevelProgeny> getLevels() {
 		return levels;
 	}
 
 	/**
-	 * Sets the current level.
+	 * Sets the current level, removing all levels above current level.
 	 *
-	 * @param level					the level
-	 * @return						true if successful, false otherwise
-	 * @throws JSONFailureException the JSON failure exception
+	 * @param level		the level
 	 */
-	public static void setLevel(Progeny progeny, int level) throws JSONFailureException {
-		//TODO: Make server call, this should delete all level progeny for levels greater than the level set
+	public void setLevel(int level) {
+		while (true) {
+			try {
+			levels.remove(level);
+			} catch (IndexOutOfBoundsException e) {
+				break;
+			}
+		}
 	}
 
 	/**
 	 * Gets the current level.
 	 * 
-	 * @param progeny				the progeny
-	 * @return						the current level
-	 * @throws JSONFailureException	the JSON failure exception
+	 * @return		the current level
 	 */
-	public static int getLevel(Progeny progeny) throws JSONFailureException {
-		return Progeny.getLevels(progeny).size();
+	public int getLevel() {
+		return (levels.size() + 1);
 	}
 
 	/**
 	 * Adds a new level.
 	 * 
-	 * @param level					the level
-	 * @throws JSONFailureException the JSON failure exception
+	 * @param level		the level
 	 */
-	public static void addLevel(LevelProgeny level) throws JSONFailureException {
-		//TODO: Make server call
+	public void addLevel(LevelProgeny level) {
+		levels.add(level);
 	}
 
 	/**
@@ -169,7 +158,6 @@ public class Progeny {
 	 * @param birthday the new birthday
 	 */
 	public void setBirthday(Date birthday) {
-		//TODO: Make server call
 		this.birthday = birthday;
 	}
 
@@ -197,9 +185,8 @@ public class Progeny {
 	 * 
 	 * @param score					the new score achieved
 	 * @return						true if score is new high score, false otherwise
-	 * @throws JSONFailureException the JSON failure exception
 	 */
-	public boolean updateFGameScores(Progeny progeny, int score) throws JSONFailureException {
+	public boolean updateFGameScores(int score) {
 		int[] tmp = new int[5];
 		int i = 0;
 		for (int j = 0; j < 5; j++) {
@@ -220,7 +207,6 @@ public class Progeny {
 				break;
 			}
 		}
-		//TODO: Make server call
 		finalGameHighScores = tmp;
 		if (score < 0) {
 			return true;
