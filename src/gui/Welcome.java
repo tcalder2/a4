@@ -90,20 +90,18 @@ public class Welcome extends BackgroundPanel {
 			
 			
 		} catch (JSONFailureException e) {
-			JPanel screen = new JPanel();
+			JPanel screen = new JPanel(new GridBagLayout());
 			int gridY = 1;
 			ArrayList<String> errors = e.getMessages();
-			Iterator<String> error = errors.iterator();
-			c.gridx = 1;
+			c.gridx = 0;
 			c.gridy = gridY;
-			screen.add(new JLabel(error.toString()));
-			while (error.hasNext()) {
-				gridY++;
+			for (int i = 0; i < errors.size(); i++) {
 				c.gridy = gridY;
-				JLabel label = new JLabel(error.next().toString());
+				JLabel label = new JLabel(errors.get(i).toString());
 				label.setForeground(Color.RED);
 				label.setFont(controller.getFont().deriveFont(Font.PLAIN, 18));
 				screen.add(label, c);
+				gridY++;
 			}
 			controller.setScreen(screen);
 		}
