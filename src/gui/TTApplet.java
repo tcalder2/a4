@@ -6,8 +6,6 @@ import javax.swing.JApplet;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import json.JSONFailureException;
-
 /**
  * The class TTApplet, a JApplet.
  * 

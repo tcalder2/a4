@@ -4,16 +4,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 
@@ -24,6 +19,7 @@ import ttable.User;
  * The class PasswordReset, a populated BackgroundPanel.
  * 
  * @author James Anderson
+ * @author Taylor Calder
  *
  */
 @SuppressWarnings("serial")
@@ -63,18 +59,18 @@ public class PasswordReset extends BackgroundPanel {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
-		add(instruct, c);
+		add(instruct, c);		//Label with instructions for the user
 
 		c.insets = new Insets(0,50,0,0);
 		c.anchor = GridBagConstraints.EAST;
 		c.gridy = 1;
-		add(oldLabel, c);
+		add(oldLabel, c);		//Label for the old password field
 
 		c.gridy = 2;
-		add(newLabel, c);
+		add(newLabel, c);		//Label for the new password field
 
 		c.gridy = 3;
-		add(retypeLabel, c);
+		add(retypeLabel, c);	//Label for the field to retype the password
 
 		c.insets = new Insets(25,0,0,50);
 		c.anchor = GridBagConstraints.WEST;
@@ -82,20 +78,20 @@ public class PasswordReset extends BackgroundPanel {
 		c.gridwidth = 2;
 		c.gridx = 1;
 		c.gridy = 1;
-		add(oldField, c);
+		add(oldField, c);		//The old password field
 
 		c.insets = new Insets(0,0,0,50);
 		c.gridy = 2;
-		add(newField, c);
+		add(newField, c);		//The new password field
 
 		c.gridy = 3;
-		add(retypeField, c);
+		add(retypeField, c);	//The field to retype the new password to confirm
 
 		c.insets = new Insets(0,0,0,50);
 		c.gridwidth = 1;
 		c.gridx = 2;
 		c.gridy = 4;
-		add(update, c);
+		add(update, c);			//The update button
 
 		//Loop through the error messages and print them to screen
 		c.gridx = 0;
@@ -113,12 +109,34 @@ public class PasswordReset extends BackgroundPanel {
 	}
 }
 
+/**
+ * The class PressUpdate3, an action listener.
+ * 
+ * @author James Anderson
+ *
+ */
 class PressUpdate3 implements ActionListener {
+	
+	/** The controller. */
 	private Controller controller;
+	
+	/** The old password field. */
 	private JPasswordField oldField;
+	
+	/** The new password field. */
 	private JPasswordField newField;
+	
+	/** The field to retype the new password to confirm. */
 	private JPasswordField retypeField;
 
+	/**
+	 * Instantiates a PressUpdate3 instance.
+	 * 
+	 * @param controller	the controller
+	 * @param oldField		the field to enter the old password
+	 * @param newField		the field to enter the new password
+	 * @param retypeField	the field to re-enter the new password to confirm
+	 */
 	public PressUpdate3(Controller controller, JPasswordField oldField, JPasswordField newField, JPasswordField retypeField) {
 		super();
 		this.controller = controller;
@@ -127,32 +145,45 @@ class PressUpdate3 implements ActionListener {
 		this.retypeField = retypeField;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
 	public void actionPerformed(ActionEvent evt) {
+		
+		//Create character arrays to hold passwords
 		char[] oldPwd = oldField.getPassword();
 		char[] newPwd = newField.getPassword();
 		char[] retypePwd = retypeField.getPassword();
 
+		//Convert the passwords to strings and zero out the old arrays
 		String oldPwdS = "";
 		for (int i = 0; i < oldPwd.length; i++) {
 			oldPwdS += oldPwd[i];
+			oldPwd[i] = 0;
 		}
 
 		String newPwdS = "";
 		for (int i = 0; i < newPwd.length; i++) {
 			newPwdS += newPwd[i];
+			newPwd[i] = 0;
 		}
 
 		String retypePwdS = "";
 		for (int i = 0; i < retypePwd.length; i++) {
 			retypePwdS += retypePwd[i];
+			retypePwd[i] = 0;
 		}
 
+		// Create an array to hold the error messages to be passed on exception to the new screen
 		ArrayList<String> errors = new ArrayList<String>();
 		if (newPwdS.equals(retypePwdS)) {
 			try {
 				User.resetPassword(oldPwdS, newPwdS);
 				controller.setScreen(new MainMenu(controller));
 			} catch (JSONFailureException e) {
+				errors = e.getMessages();
 				controller.setScreen(new PasswordReset(controller, errors));
 			}
 

@@ -15,7 +15,10 @@ import json.JSONFailureException;
 import ttable.User;
 
 /**
- * The Class Test.
+ * The class Test, a JApplet.
+ * 
+ * @author James Baron
+ *
  */
 public class Test extends JApplet {
 
@@ -34,6 +37,7 @@ public class Test extends JApplet {
 	/* (non-Javadoc)
 	 * @see java.applet.Applet#init()
 	 */
+	@Override
 	public void init() {
 
 		// Panel layout in absolute form
@@ -90,7 +94,8 @@ public class Test extends JApplet {
 	}
 
 	/**
-	 * Begin test.
+	 * Function responsible for running the actual tests.
+	 * 
 	 */
 	public void beginTest() {
 		int succeededCount = 0;

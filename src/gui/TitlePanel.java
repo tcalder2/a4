@@ -7,17 +7,22 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
 import gui.Controller;
 
 /**
- * The Class TitlePanel.
+ * The class TitlePanel, a populated BackgroundPanel.
+ * 
+ * @author James Anderson
+ *
  */
+@SuppressWarnings("serial")
 public class TitlePanel extends BackgroundPanel {	
 	
 	/**
-	 * Instantiates a new title panel.
+	 * Instantiates a TitlePanel instance.
 	 *
-	 * @param controller the controller
+	 * @param controller	the controller
 	 */
 	public TitlePanel(Controller controller) {
 		

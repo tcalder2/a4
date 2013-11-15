@@ -99,7 +99,6 @@ public class LevelProgeny {
 	 * Sets the level game high score.
 	 *
 	 * @param levelGameHighScore	the new level game high score
-	 * @throws JSONFailureException the JSON failure exception
 	 */
 	private void setLevelGameHighScore(int levelGameHighScore) {
 		this.levelGameHighScore = levelGameHighScore;
@@ -118,7 +117,6 @@ public class LevelProgeny {
 	 * Sets the drill completion time on the attempt when they completed the level.
 	 *
 	 * @param finalCompletionTime 	the new final completion time
-	 * @throws JSONFailureException the JSON failure exception
 	 */
 	private void setFinalCompletionTime(int finalCompletionTime) {
 		this.finalCompletionTime = finalCompletionTime;

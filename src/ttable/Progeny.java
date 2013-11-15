@@ -1,6 +1,5 @@
 package ttable;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,7 +8,6 @@ import java.util.GregorianCalendar;
 /**
  * The class Progeny.
  * 
- * @author James Baron
  * @author James Anderson
  * 
  */
@@ -145,7 +143,6 @@ public class Progeny {
 	 * Gets the Birthday.
 	 *
 	 * @return the birthday
-	 * @throws ParseException 
 	 */
 	public Date getBirthday() {
 		return birthday;
@@ -172,8 +169,8 @@ public class Progeny {
 	/**
 	 * Gets the final game high scores
 	 * 
-	 * @param progeny				the progeny
-	 * @return						the progeny's final game high score
+	 * @param progeny		the progeny
+	 * @return				the progeny's final game high score
 	 */
 	public int[] getFGameHighScores() {
 		return finalGameHighScores;
@@ -182,8 +179,8 @@ public class Progeny {
 	/**
 	 * Updates the final game high scores with new score (if it is actually a high score, else no change)
 	 * 
-	 * @param score					the new score achieved
-	 * @return						true if score is new high score, false otherwise
+	 * @param score			the new score achieved
+	 * @return				true if score is new high score, false otherwise
 	 */
 	public boolean updateFGameScores(int score) {
 		int[] tmp = new int[5];
