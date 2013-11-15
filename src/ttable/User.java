@@ -186,7 +186,7 @@ public class User {
 	 * @return 						the newly added progeny
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static Progeny addProgeny(Progeny progeny) throws JSONFailureException {
+	public static Progeny addProgeny(String firstName, Date birthday) throws JSONFailureException {
 		
 		// TODO: server request
 		Progeny result = new Progeny("Name", new Date(), "" + 0, 30); //TODO: replace this line with parsed info

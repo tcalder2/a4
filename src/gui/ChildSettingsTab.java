@@ -101,7 +101,7 @@ public class ChildSettingsTab extends JPanel {
 				v.add(format.format(birthday));
 
 				v.add("" + p.getAge());
-				v.add("" + (Progeny.getLevels(p).size() + 1));
+				v.add("" + (p.getLevel()));
 				tableData.add(v);
 			}
 
@@ -313,8 +313,9 @@ public class ChildSettingsTab extends JPanel {
 		//Determine the max range for the level drop down list
 		int maxLevel = 1;
 		try {
-			if (User.getProgeny().size() > 0) {
-				maxLevel = Progeny.getLevels(User.getProgeny().get(childSelect.getSelectedIndex())).size();
+			ArrayList<Progeny> progeny = User.getProgeny();
+			if (progeny.size() > 0) {
+				maxLevel = progeny.get(childSelect.getSelectedIndex()).getLevel();
 			}
 		} catch (JSONFailureException e) {
 			//TODO: add exception handling, popup?
@@ -755,7 +756,7 @@ class PressAdd implements ActionListener {
 			v.add(format.format(birthday));
 
 			v.add("" + newProgeny.getAge());
-			v.add("" + (Progeny.getLevels(newProgeny).size() + 1));
+			v.add("" + newProgeny.getLevel());
 
 			//Update the child details table with details of newly added child
 			tableData.add(v);
@@ -946,7 +947,7 @@ class PressUpdate implements ActionListener {
 				child.setBirthday(birthdate);
 
 				//Update the progeny's level
-				Progeny.setLevel(child, currentLevel);
+				child.setLevel(currentLevel);
 				
 				//Read info from newly updated progeny
 				ArrayList<Progeny> progenyListUpdated = User.getProgeny();
@@ -972,7 +973,7 @@ class PressUpdate implements ActionListener {
 				entry.set(3, format.format(birthday));
 
 				entry.set(4, "" + newProgeny.getAge());
-				entry.set(5, "" + (Progeny.getLevels(newProgeny).size() + 1));
+				entry.set(5, "" + newProgeny.getLevel());
 
 				//Replace the old entry in the table with the new one
 				tableData.set(index, entry);

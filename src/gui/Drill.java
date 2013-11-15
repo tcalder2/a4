@@ -9,9 +9,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import json.JSONFailureException;
 import ttable.Level;
-import ttable.Progeny;
 
 /**
  * The class Drill, a populated BackgroundPanel.
@@ -21,49 +19,49 @@ import ttable.Progeny;
  */
 @SuppressWarnings("serial")
 public class Drill extends BackgroundPanel {
-	
+
 	/** The controller. */
 	private Controller controller;
-	
+
 	/** The level. */
 	private Level level;
-	
+
 	/** The number of lives remaining. */
 	private int lives;
-	
+
 	/** The number of questions answered correctly. */
 	private int correct;
-	
+
 	/** The number of questions answered incorrectly. */
 	private int incorrect;
-	
+
 	/** The timer. */
 	private JLabel timer;
-	
+
 	/** The incorr counter. */
 	private JLabel incorrCounter;
-	
+
 	/** The corr counter. */
 	private JLabel corrCounter;
-	
+
 	/** The mark img. */
 	private JLabel markImg;
-	
+
 	/** The solution. */
 	private JLabel solution;
-	
+
 	/** The next. */
 	private JButton next;
-	
+
 	/** The submit. */
 	private JButton submit;
-	
+
 	/** The answer field. */
 	private JTextField answerField;
-	
+
 	/** The clock. */
 	private Timer clock;
-	
+
 	/**
 	 * Instantiates a new drill.
 	 *
@@ -77,7 +75,7 @@ public class Drill extends BackgroundPanel {
 		lives = 5;
 		correct = 0;
 		incorrect = 0;
-		
+
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.gridwidth = 1;
@@ -86,7 +84,7 @@ public class Drill extends BackgroundPanel {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.anchor = GridBagConstraints.WEST;
-		
+
 		JLabel livesCount = new JLabel();
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/drill/heart.png"));
@@ -97,14 +95,14 @@ public class Drill extends BackgroundPanel {
 		}
 		livesCount.setFont(controller.getFont().deriveFont(Font.BOLD, 35));
 		add(livesCount);
-		
+
 		timer = new JLabel("", SwingConstants.RIGHT);
 		timer.setFont(controller.getFont().deriveFont(Font.BOLD, 35));
 		setTime(10);
 		c.gridx = 4;
 		c.anchor = GridBagConstraints.EAST;
 		add(timer, c);
-		
+
 		JLabel question = new JLabel("1 x 12 = ");
 		question.setFont(controller.getFont().deriveFont(Font.BOLD, 60));
 		c.gridy = 1;
@@ -112,9 +110,9 @@ public class Drill extends BackgroundPanel {
 		c.gridwidth = 1;
 		c.insets = new Insets(50,50,0,0);
 		add(question, c);
-		
+
 		submit = new JButton("Submit");
-		
+
 		answerField = new JTextField();
 		answerField.setFont(controller.getFont().deriveFont(Font.BOLD, 60));
 		answerField.addKeyListener(new EnterListener(submit));
@@ -124,13 +122,13 @@ public class Drill extends BackgroundPanel {
 		c.gridx = 2;
 		c.insets = new Insets(50,0,0,0);
 		add(answerField, c);
-				
+
 		submit.addActionListener(new Submit(this, answerField));
 		c.gridx = 3;
 		c.ipadx = 0;
 		c.insets = new Insets(50,0,0,50);
 		add(submit, c);
-		
+
 		clock = new Timer(1000, new TimerAction(controller, this));
 		clock.start();
 		JLabel markImg = new JLabel(" ");
@@ -139,18 +137,18 @@ public class Drill extends BackgroundPanel {
 		c.gridy = 2;
 		c.insets = new Insets(0,0,0,0);
 		add(markImg, c);
-		
+
 		solution = new JLabel(" ");
 		solution.setFont(controller.getFont().deriveFont(Font.BOLD, 35));
 		c.ipady = 50;
 		c.gridy = 3;
 		add(solution, c);
-		
+
 		next = new JButton("Next");
 		next.setVisible(false);
 		c.gridy = 4;
 		add(next, c);
-		
+
 		corrCounter = new JLabel("" + correct);
 		corrCounter.setForeground(Color.GREEN);
 		corrCounter.setFont(controller.getFont().deriveFont(Font.BOLD, 35));
@@ -160,7 +158,7 @@ public class Drill extends BackgroundPanel {
 		c.gridy = 5;
 		c.insets = new Insets(0,50,0,50);
 		add(corrCounter, c);
-		
+
 		incorrCounter = new JLabel("" + incorrect);
 		incorrCounter.setForeground(Color.RED);
 		incorrCounter.setFont(controller.getFont().deriveFont(Font.BOLD, 35));
@@ -168,7 +166,7 @@ public class Drill extends BackgroundPanel {
 		c.gridx = 4;
 		add(incorrCounter, c);
 	}
-	
+
 	/**
 	 * Sets the time.
 	 *
@@ -185,19 +183,19 @@ public class Drill extends BackgroundPanel {
 		c.gridy = 0;
 		add(timer, c);
 	}
-	
-	
+
+
 	/**
 	 * Check answer.
 	 *
 	 * @param answer the answer
 	 */
 	public void checkAnswer() {
-		
+
 		int correctanswer = 12;
 		submit.setVisible(false);
 		clock.stop();
-		
+
 		if (answerField.getText().equals("" + correctanswer)) {
 			try {
 				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/faces/rface.png"));
@@ -223,21 +221,21 @@ public class Drill extends BackgroundPanel {
 		c.gridx = 2;
 		c.gridy = 2;
 		add(markImg, c);
-		
+
 		c.gridy = 3;
 		add(solution, c);
-		
+
 		c.anchor = GridBagConstraints.SOUTH;
 		c.gridx = 0;
 		c.gridy = 5;
 		c.insets = new Insets(0,50,0,50);
 		corrCounter.setText("" + correct);
 		add(corrCounter, c);
-		
+
 		c.gridx = 4;
 		incorrCounter.setText("" + incorrect);
 		add(incorrCounter, c);
-		
+
 		next.setVisible(true);
 	}
 }
@@ -249,10 +247,10 @@ public class Drill extends BackgroundPanel {
  *
  */
 class TimerAction implements ActionListener {
-		
+
 	/** The drill. */
 	private Drill drill;
-	
+
 	/** The the number of seconds remaining. */
 	private int timeRemaining;
 
@@ -265,12 +263,7 @@ class TimerAction implements ActionListener {
 	 */
 	public TimerAction(Controller controller, Drill drill) {
 		this.drill = drill;
-		try {
-			this.timeRemaining = Progeny.getTimeAllowed(controller.getCurrentProgeny());
-		} catch (JSONFailureException e) {
-			// TODO: add exception handling
-			this.timeRemaining = 30;
-		}
+		this.timeRemaining = controller.getCurrentProgeny().getTimeAllowed();
 		drill.setTime(timeRemaining);
 	}
 
@@ -297,10 +290,10 @@ class TimerAction implements ActionListener {
  *
  */
 class Submit implements ActionListener {
-	
+
 	/** The drill. */
 	private Drill drill;
-	
+
 	/**
 	 * Instantiates a Submit instance.
 	 * 
@@ -310,7 +303,7 @@ class Submit implements ActionListener {
 	public Submit(Drill drill, JTextField answer) {
 		this.drill = drill;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
