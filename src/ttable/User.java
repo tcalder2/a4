@@ -69,19 +69,20 @@ public class User {
 	}
 	
 	/**
-	 * Toggles whether test mode is on or not (i.e. if it is on then turns it off, and vice versa)
+	 * Set whether test mode is on or not.
 	 * 
-	 * @throws JSONFailureException
+	 * @param testMode				the test mode boolean containing whether test mode is activated
+	 * @throws JSONFailureException	the JSON failure exception
 	 */
-	public static void toggleTestMode() throws JSONFailureException {
+	public static void setTestMode(boolean testMode) throws JSONFailureException {
 		//TODO: server call
 	}
 
 	/**
 	 * Gets the current user's password recovery questions.
 	 *
-	 * @return the questions
-	 * @throws JSONFailureException the jSON failure exception
+	 * @return the questions		the array of security questions
+	 * @throws JSONFailureException the JSON failure exception
 	 */	
 	public static ArrayList<String> getSecurityQuestions() throws JSONFailureException
 	{
@@ -112,6 +113,12 @@ public class User {
 		return 1;
 	}
 	
+	/**
+	 * Tests the security question answer for validity.
+	 * 
+	 * @param answer				the answer input by the user to be authenticated
+	 * @throws JSONFailureException	the JSON failure exception
+	 */
 	public static void testSecurityQuestion(String answer) throws JSONFailureException {
 		//TODO: add server call
 	}
@@ -142,9 +149,9 @@ public class User {
 	/**
 	 * Reset the user's password.
 	 *
-	 * @param answer the answer
-	 * @param newPassword the new password
-	 * @return true, if successful
+	 * @param oldPassword			the old password
+	 * @param newPassword			the new password
+	 * @return 						true, if successful
 	 * @throws JSONFailureException the jSON failure exception
 	 */
 	public static boolean resetPassword(String oldPassword, String newPassword) throws JSONFailureException
@@ -175,19 +182,15 @@ public class User {
 	/**
 	 * Adds a progeny.
 	 *
-	 * @param  firstName 			the first name
-	 * @param  age					the age
+	 * @param  progeny				the progeny to add
 	 * @return 						the newly added progeny
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static Progeny addProgeny(String firstName, Date birthday) throws JSONFailureException {
-		Json json = new Json();
-		JSONObject jsonUser = (JSONObject)json.sendRequest("https://jbaron6.cs2212.ca/addchild?first_name=" + firstName + "&birthday=" + birthday);
-	
-		// TODO: parse the new progeny
-		jsonUser.get("");
-		Progeny progeny = new Progeny(firstName, birthday, "" + 0, 30); //TODO: replace this line with parsed info
-		return progeny;
+	public static Progeny addProgeny(Progeny progeny) throws JSONFailureException {
+		
+		// TODO: server request
+		Progeny result = new Progeny("Name", new Date(), "" + 0, 30); //TODO: replace this line with parsed info
+		return result;
 	}
 	
 	/**
@@ -198,7 +201,7 @@ public class User {
 	 * @throws JSONFailureException the JSON failure exception
 	 */
 	public static boolean removeProgeny(Progeny progeny) throws JSONFailureException {
-		//TODO: code this
+		//TODO: code this, perhaps use progeny id to refer to the progeny
 		return false;
 	}
 	
@@ -208,7 +211,7 @@ public class User {
 	 * @throws JSONFailureException	the JSON failure exception
 	 */
 	public static void updateProgeny(Progeny progeny) throws JSONFailureException {
-		//TODO: server request
+		//TODO: server request to push the new progeny
 	}
 	
 	/**

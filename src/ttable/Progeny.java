@@ -11,7 +11,6 @@ import java.util.GregorianCalendar;
  * 
  * @author James Baron
  * @author James Anderson
- * @author Chuhan Qin
  * 
  */
 public class Progeny {
