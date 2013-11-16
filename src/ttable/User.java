@@ -180,6 +180,65 @@ public class User {
 	}
 	
 	/**
+	 * Gets the users friends list
+	 *
+	 * @return 						an array of friends
+	 * @throws JSONFailureException the jSON failure exception
+	 */
+	public static ArrayList<String> getFriends() throws JSONFailureException 
+	{
+		ArrayList<String> friendList;
+
+		friendList = new ArrayList<String>();
+		
+		// TODO: make server call and parse list
+		
+		return friendList;
+	}
+	
+	
+	//			**		 NOTE			**		 //
+	/**
+	 * This is a dummy method that emulates how getFriends will work
+	 * I'm including it in lieu of just creating a string array in the StatsMenu2 file
+	 *
+	 * @return 						an array of friends
+	 * @throws JSONFailureException the jSON failure exception
+	 */
+	public static ArrayList<String> getFriendsTest() throws JSONFailureException 
+	{
+		ArrayList<String> friendList = new ArrayList<String>();
+		
+		friendList.add("James Anderson;http://jbaron6.cs2212.ca/img/profilePictures/1.jpg");
+		friendList.add("Yaqzan Ali;http://jbaron6.cs2212.ca/img/profilePictures/2.jpg");
+		friendList.add("Chuhann Frank;http://jbaron6.cs2212.ca/img/profilePictures/3.jpg");
+		friendList.add("Taylor Joseph;http://jbaron6.cs2212.ca/img/profilePictures/4.jpg");
+		friendList.add("James Baron;http://jbaron6.cs2212.ca/img/profilePictures/5.jpg");
+		
+		
+		// TODO: make server call and parse list
+		
+		return friendList;
+	}
+	
+	/**
+	 * Gets a friend's progeny.
+	 *
+	 * @return 						an array of progeny
+	 * @throws JSONFailureException the jSON failure exception
+	 */
+	public static ArrayList<Progeny> getFriendProgeny() throws JSONFailureException 
+	{
+		ArrayList<Progeny> progenyList;
+
+		progenyList = new ArrayList<Progeny>();
+		
+		// TODO: make server call and parse list
+		
+		return progenyList;
+	}
+	
+	/**
 	 * Adds a progeny.
 	 *
 	 * @param  progeny				the progeny to add
@@ -241,6 +300,24 @@ public class User {
 		return true;
 	}
 
+	/**
+	 * Posts a message to Facebook to indicate a child's score
+	 *
+	 * @param name	the child's name
+	 * @param score	the score
+	 * @param level	the level
+	 * @return true, if successful
+	 * @throws JSONFailureException the jSON failure exception
+	 */
+	public static boolean postMessage(String name, int score, int level) throws JSONFailureException
+	{
+		Json json = new Json();
+		String message = (name + " just reached a score of " + score + " on level " + level + "!");
+		json.sendRequest("https://jbaron6.cs2212.ca/postmessage?message=" + message);
+		
+		return true;
+	}
+	
 	/**
 	 * Sets the user's password.
 	 *
