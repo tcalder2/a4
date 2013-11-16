@@ -10,7 +10,7 @@ import javax.swing.JPanel;
  * The class TTApplet, a JApplet.
  * 
  * @author James Anderson
- *
+ * @version 1.6
  */
 @SuppressWarnings("serial")
 public class TTApplet extends JApplet {

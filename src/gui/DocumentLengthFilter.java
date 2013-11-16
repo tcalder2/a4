@@ -10,7 +10,7 @@ import javax.swing.text.DocumentFilter;
  * The class DocumentLengthFilter, a document filter to limit number of characters entered.
  * 
  * @author James Anderson
- *
+ * @version 1.0
  */
 class DocumentLengthFilter extends DocumentFilter {
 	private int numCharAllowed;

@@ -11,7 +11,7 @@ import javax.swing.text.AbstractDocument;
  * The class SecurityTab, a populated BackgroundPanel.
  * 
  * @author James Anderson
- *
+ * @version 2.0
  */
 @SuppressWarnings("serial")
 public class SecurityTab extends JPanel {

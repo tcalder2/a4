@@ -18,7 +18,7 @@ import ttable.User;
  * The class Test, a JApplet.
  * 
  * @author James Baron
- *
+ * @version 1.1
  */
 public class Test extends JApplet {
 

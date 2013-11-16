@@ -18,7 +18,7 @@ import ttable.User;
  * The class Controller.
  * 
  * @author James Anderson
- *
+ * @version 1.3
  */
 public class Controller {
 	

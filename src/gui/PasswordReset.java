@@ -20,7 +20,7 @@ import ttable.User;
  * 
  * @author James Anderson
  * @author Taylor Calder
- *
+ * @version 2.0
  */
 @SuppressWarnings("serial")
 public class PasswordReset extends BackgroundPanel {

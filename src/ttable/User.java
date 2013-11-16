@@ -16,7 +16,7 @@ import org.json.simple.JSONObject;
  * @author James Baron
  * @author James Anderson
  * @author Chuhan Qin
- * 
+ * @version 2.0
  */
 public class User {
 

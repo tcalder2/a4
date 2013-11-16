@@ -29,7 +29,7 @@ import ttable.User;
  * The class Welcome, a populated BackgroundPanel.
  * 
  * @author James Anderson
- *
+ * @version 1.1
  */
 @SuppressWarnings("serial")
 public class Welcome extends BackgroundPanel {

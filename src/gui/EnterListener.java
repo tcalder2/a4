@@ -9,7 +9,7 @@ import javax.swing.JButton;
  * The class EnterListener, a key listener.
  * 
  * @author James Anderson
- *
+ * @version 1.0
  */
 public class EnterListener implements KeyListener {
 	

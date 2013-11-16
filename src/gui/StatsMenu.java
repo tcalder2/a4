@@ -26,7 +26,7 @@ import javax.swing.JTabbedPane;
  * @author James Anderson
  * @author Chuhan Qin
  * @author Taylor Calder
- *
+ * @version 1.0
  */
 @SuppressWarnings("serial")
 public class StatsMenu extends BackgroundPanel {

@@ -15,7 +15,7 @@ import gui.Controller;
  * The class MainMenu, a populated BackgroundPanel.
  * 
  * @author James Anderson
- *
+ * @version 1.0
  */
 @SuppressWarnings("serial")
 public class MainMenu extends BackgroundPanel {

@@ -9,7 +9,7 @@ import java.util.GregorianCalendar;
  * The class Progeny.
  * 
  * @author James Anderson
- * 
+ * @version 2.0
  */
 public class Progeny {
 

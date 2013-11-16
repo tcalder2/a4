@@ -4,7 +4,7 @@ package ttable;
  * The class LevelProgeny.
  * 
  * @author James Anderson
- *
+ * @version 2.0
  */
 public class LevelProgeny {
 

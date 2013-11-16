@@ -14,6 +14,9 @@ import json.JSONFailureException;
 
 /**
  * The Class Json.
+ * 
+ * @author James Baron
+ * @version 1.0
  */
 public class Json {
 

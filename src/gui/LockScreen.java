@@ -27,7 +27,7 @@ import ttable.User;
  * The class LockScreen, a populated BackgroundPanel.
  * 
  * @author James Anderson
- *
+ * @version 1.1
  */
 @SuppressWarnings("serial")
 public class LockScreen extends BackgroundPanel {

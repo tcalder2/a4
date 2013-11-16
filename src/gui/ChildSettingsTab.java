@@ -40,7 +40,7 @@ import ttable.User;
  * The Class ChildSettingsTab.
  * 
  * @author James Anderson
- * 
+ * @version 2.0
  */
 @SuppressWarnings("serial")
 public class ChildSettingsTab extends JPanel {
@@ -404,6 +404,7 @@ public class ChildSettingsTab extends JPanel {
  * The Class PressProgress, an Action Listener.
  * 
  * @author James Anderson
+ * @version 1.0
  */
 class PressProgress implements ActionListener {
 
@@ -472,6 +473,7 @@ class PressProgress implements ActionListener {
  * The Class MonthSelected, and Action Listener.
  * 
  * @author James Anderson
+ * @version 1.0
  */
 class MonthSelected implements ActionListener {
 
@@ -514,7 +516,7 @@ class MonthSelected implements ActionListener {
  * The class YearSelected, an action listener.
  * 
  * @author James Anderson
- * 
+ * @version 1.0
  */
 class YearSelected implements ActionListener {
 
@@ -572,7 +574,7 @@ class YearSelected implements ActionListener {
  * The class ChildSelected, an action listener.
  * 
  * @author James Anderson
- *
+ * @version 1.0
  */
 class ChildSelected implements ActionListener {
 
@@ -628,7 +630,7 @@ class ChildSelected implements ActionListener {
  * The class PressAdd, an action listener.
  * 
  * @author James Anderson
- *
+ * @version 1.0
  */
 class PressAdd implements ActionListener {
 	
@@ -773,7 +775,7 @@ class PressAdd implements ActionListener {
  * The class PressRemove, an action listener.
  * 
  * @author James Anderson
- *
+ * @version 1.0
  */
 class PressRemove implements ActionListener {
 
@@ -832,7 +834,7 @@ class PressRemove implements ActionListener {
  * The class PressUpdate, an action listener.
  * 
  * @author James Anderson
- *
+ * @version 1.0
  */
 class PressUpdate implements ActionListener {
 

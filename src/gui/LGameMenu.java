@@ -18,7 +18,7 @@ import javax.swing.JLabel;
  * The class LGameMenu, a populated BackgroundPanel.
  * 
  * @author James Anderson
- *
+ * @version 1.1
  */
 @SuppressWarnings("serial")
 public class LGameMenu extends BackgroundPanel {
@@ -91,7 +91,7 @@ public class LGameMenu extends BackgroundPanel {
  * The class SelectLGame, an action listener.
  * 
  * @author James Anderson
- *
+ * @version 1.0
  */
 class SelectLGame implements ActionListener {
 

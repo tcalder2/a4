@@ -15,7 +15,7 @@ import ttable.Level;
  * The class Drill, a populated BackgroundPanel.
  * 
  * @author James Anderson
- *
+ * @version 1.0
  */
 @SuppressWarnings("serial")
 public class Drill extends BackgroundPanel {
@@ -244,7 +244,7 @@ public class Drill extends BackgroundPanel {
  * The class TimerAction, an action listener.
  * 
  * @author James Anderson
- *
+ * @version 1.0
  */
 class TimerAction implements ActionListener {
 
@@ -287,7 +287,7 @@ class TimerAction implements ActionListener {
  * The class Submit, an action listener.
  * 
  * @author James Anderson
- *
+ * @version 1.0
  */
 class Submit implements ActionListener {
 

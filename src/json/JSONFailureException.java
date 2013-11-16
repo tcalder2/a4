@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 /**
  * The Class JSONFailureException.
+ * 
+ * @author James Baron
+ * @version 1.0
  */
 public class JSONFailureException extends Exception {
 

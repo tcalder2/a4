@@ -25,7 +25,7 @@ import javax.swing.table.TableColumn;
  * The class FGameMenu, a populated BackgroundPanel.
  * 
  * @author James Anderson
- *
+ * @version 1.1
  */
 @SuppressWarnings("serial")
 public class FGameMenu extends BackgroundPanel {
@@ -137,7 +137,7 @@ public class FGameMenu extends BackgroundPanel {
  * The class StartFinal, an action listener.
  * 
  * @author James Anderson
- *
+ * @version 1.0
  */
 class StartFinal implements ActionListener {
 

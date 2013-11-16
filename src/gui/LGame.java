@@ -9,7 +9,7 @@ import ttable.LevelProgeny;
  * 
  * @author James Anderson
  * @author Yaqzan Ali
- *
+ * @version 0.1
  */
 @SuppressWarnings("serial")
 public class LGame extends BackgroundPanel {

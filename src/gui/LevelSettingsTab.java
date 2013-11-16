@@ -16,7 +16,7 @@ import javax.swing.JRadioButton;
  * The class LevelSettingsTab, a populated JPanel.
  * 
  * @author James Anderson
- *
+ * @version 2.0
  */
 @SuppressWarnings("serial")
 public class LevelSettingsTab extends JPanel {
@@ -36,9 +36,9 @@ public class LevelSettingsTab extends JPanel {
 			t.add(i + " sec");
 		}
 		
-		//Creates a list of numbers from 0 to 10 for populating allowable errors drop down
+		//Creates a list of numbers from 0 to 5 for populating allowable errors drop down
 		Vector<String> err = new Vector<String>();
-		for (int i = 0; i <= 10; i++) {
+		for (int i = 0; i <= 5; i++) {
 			err.add("" + i);
 		}
 		

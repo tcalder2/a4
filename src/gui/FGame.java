@@ -6,7 +6,7 @@ import java.awt.GridBagLayout;
  * The class FGame, a populated BackgroundPanel.
  * 
  * @author James Anderson
- *
+ * @version 0.1
  */
 @SuppressWarnings("serial")
 public class FGame extends BackgroundPanel {

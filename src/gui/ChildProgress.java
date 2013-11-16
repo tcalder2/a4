@@ -34,7 +34,7 @@ import ttable.Progeny;
  * The ChildProgress class.
  * 
  * @author James Anderson
- * 
+ * @version 1.1
  */
 @SuppressWarnings("serial")
 public class ChildProgress extends JPanel {
@@ -172,7 +172,7 @@ public class ChildProgress extends JPanel {
  * The BackToSettings class, an action listener.
  * 
  * @author James Anderson
- * 
+ * @version 1.0
  */
 class BackToSettings implements ActionListener {
 

@@ -18,7 +18,7 @@ import javax.swing.JPanel;
  * The BackgroundPanel class.
  * 
  * @author James Anderson
- * 
+ * @version 1.0
  */
 @SuppressWarnings("serial")
 public class BackgroundPanel extends JPanel {

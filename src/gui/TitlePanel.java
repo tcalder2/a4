@@ -14,7 +14,7 @@ import gui.Controller;
  * The class TitlePanel, a populated BackgroundPanel.
  * 
  * @author James Anderson
- *
+ * @version 1.1
  */
 @SuppressWarnings("serial")
 public class TitlePanel extends BackgroundPanel {	
@@ -26,7 +26,7 @@ public class TitlePanel extends BackgroundPanel {
 	 */
 	public TitlePanel(Controller controller) {
 		
-		super("http://jbaron6.cs2212.ca/img/topbanner.png", 600, 100, new BorderLayout());
+		super("http://jbaron6.cs2212.ca/img/topbanner.png", new BorderLayout());
 
 		JButton toMain = new JButton();
 		toMain.setContentAreaFilled(false);

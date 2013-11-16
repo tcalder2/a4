@@ -21,7 +21,7 @@ import ttable.User;
  * The class DrillMenu, a populated BackgroundPanel.
  * 
  * @author James Anderson
- *
+ * @version 1.1
  */
 @SuppressWarnings("serial")
 public class DrillMenu extends BackgroundPanel {	
@@ -94,7 +94,7 @@ public class DrillMenu extends BackgroundPanel {
  * The class StartDrill, an action listener.
  * 
  * @author James Anderson
- *
+ * @version 1.0
  */
 class StartDrill implements ActionListener {
 
