@@ -99,7 +99,7 @@ public class ChildProgress extends JPanel {
 				Vector<String> v = new Vector<String>();
 				v.add("" + levels.get(i).getLevel());
 				v.add("" + levels.get(i).getAttempts());
-				v.add("" + levels.get(i).getFinalCompletionTime());
+				v.add("" + levels.get(i).getCompletionTime());
 				v.add("" + levels.get(i).getMistakes());
 				progress.add(v);
 				Vector<String> v1 = new Vector<String>();
