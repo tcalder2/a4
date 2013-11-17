@@ -45,6 +45,7 @@ public class SecurityQ extends BackgroundPanel {
 		JButton update = new JButton("Update");
 		
 		//Add action listeners
+		answerField.addMouseListener(new SelectAllTextOnClick(answerField));
 		update.addActionListener(new PressUpdate2(controller, answerField));
 		
 		//Limit the number of characters that can be input into each field
@@ -117,9 +118,15 @@ class PressUpdate2 implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		try {
 			User.testSecurityQuestion(answerField.getText());
-			controller.setScreen(new Settings(controller));
+			controller.setScreen(new PasswordReset(controller));
 		} catch (JSONFailureException e1) {
-			//TODO: add exception handling
+			ArrayList<String> errors = e1.getMessages();
+			if (errors.get(0).equals("Could not verify answer")) {
+				
+			}
+			else {
+				//TODO: add exception handling, popup?
+			}
 		}
 	}
 }

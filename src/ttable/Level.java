@@ -137,4 +137,19 @@ public class Level {
 			throw new IllegalArgumentException("Mistakes Allowed must be between 0 and 5 inclusive.");
 		}
 	}
+	
+	/**
+	 * Compares the class variables to the class variables of the level passed as an argument.
+	 * 
+	 * @param level		the level object to be compared with.
+	 * @return			true if the objects are equal, false if they are not.
+	 */
+	public boolean equals(Level level) {
+		if (getLevel() == level.getLevel()) {
+			if (getMistakesAllowed() == level.getMistakesAllowed()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

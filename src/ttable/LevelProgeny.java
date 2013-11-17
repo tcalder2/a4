@@ -273,4 +273,25 @@ public class LevelProgeny {
 					+ "inclusive");
 		}
 	}
+	
+	/**
+	 * Compares the class variables to the class variables of the level progeny passed as an argument.
+	 * 
+	 * @param level		the level progeny object to be compared with.
+	 * @return			true if the objects are equal, false if they are not.
+	 */
+	public boolean equals(LevelProgeny level) {
+		if (getLevel() == level.getLevel()) {
+			if (getMistakes() == level.getMistakes()) {
+				if (getAttempts() == level.getAttempts()) {
+					if (getLevelHighScore() == level.getLevelHighScore()) {
+						if (getCompletionTime() == level.getCompletionTime()) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
 }
