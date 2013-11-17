@@ -17,7 +17,7 @@ use Zend\InputFilter\InputFilterInterface;
 class User {
 
  protected $inputFilter;
-
+ protected static $user_validator;
 
  function __construct()
  {
@@ -38,16 +38,16 @@ class User {
  /**
   * @return \Zend\Validator\StringLength
   */
- public function getPasswordValidator()
+ public static function getPasswordValidator()
  {
   //return the validator accordint the project specs 	
-  $length_validator = new \Zend\Validator\StringLength(array('min'=> 3, 'max' => 6));
-  $length_validator->setMessages(array(
+  User::$user_validator = new \Zend\Validator\StringLength(array('min'=> 3, 'max' => 6));
+  User::$user_validator->setMessages(array(
    \Zend\Validator\StringLength::TOO_LONG => "The password can have no more than 6 characters",
    \Zend\Validator\StringLength::TOO_SHORT => "The password can have no fewer than 3 characters",
   ));
 
-  return $length_validator;
+  return User::$user_validator;
  }
 
 

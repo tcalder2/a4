@@ -1,6 +1,7 @@
 <?php
 
 namespace Progeny\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Zend\InputFilter\Factory as InputFactory;
@@ -12,10 +13,25 @@ use Zend\InputFilter\InputFilterInterface;
  * @ORM\Entity
  * @ORM\Table(name="child")
  */
-class Progeny {
+class Progeny
+{
 
  protected $inputFilter;
+ protected static $birth_date_validator;
+ protected static $first_name_validator;
 
+ /**
+  * @return \Zend\Validator\Date
+  */
+ public static function getBirthDateValidator()
+ {
+  return (Progeny::$birth_date_validator = new \Zend\Validator\Date());
+ }
+
+ public static function getFirstNameValidator()
+ {
+  return (Progeny::$first_name_validator = new \Zend\Validator\StringLength(array('min' => 1, 'max' => 20)));
+ }
 
  function __construct()
  {
@@ -25,7 +41,8 @@ class Progeny {
  {
   return array(
    'first_name' => $this->getFirstName(),
-   'birthdate' => $this
+   'birth_date' => $this->birth_date(),
+   'id' => $this->getId(),
   );
 
 
@@ -57,7 +74,7 @@ class Progeny {
  protected $first_name;
 
  /** @ORM\Column(type="date") */
- protected $birthdate;
+ protected $birth_date;
 
  //A Facebook user must be able to delete his/her children
  /** @ORM\Column(type="boolean") */
@@ -82,12 +99,8 @@ class Progeny {
 
  public function exchangeArray($data)
  {
-  $this->email = (isset($data['email'])) ? $data['email'] : null;
-  $this->password = (isset($data['password'])) ? $data['password'] : null;
   $this->first_name = (isset($data['first_name'])) ? $data['first_name'] : null;
-  $this->last_name = (isset($data['last_name'])) ? $data['last_name'] : null;
-  $this->fb_id = (isset($data['id'])) ? $data['id'] : null;
-  $this->fb_link = (isset($data['fb_link'])) ? $data['fb_link'] : null;
+  $this->birth_date = (isset($data['birth_date'])) ? $data['birth_date'] : null;
  }
 
  /**

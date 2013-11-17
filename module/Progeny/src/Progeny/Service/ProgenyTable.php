@@ -17,9 +17,25 @@ class ProgenyTable
 
  protected $fb_id;
 
+ /** @var \Zend\ServiceManager\ServiceManager $sm */
+ protected $sm;
+
  public function __construct(\Zend\ServiceManager\ServiceManager $sm)
  {
-  $this->em = $sm->get('Doctrine\ORM\EntityManager');
+  $this->sm = $sm;
+  $this->em = $this->sm->get('Doctrine\ORM\EntityManager');
+ }
+
+ public function checkFirstNameUnique($first_name)
+ {
+  $qb = $this->em->createQueryBuilder();
+
+  /** @var \User\Entity\User $user */
+  $user = $this->sm->get('\User\Entity\User');
+
+  return !$qb->select('p')
+   ->from('\Progeny\Entity\Progeny', 'p')
+   ->where(array('user' => $user, 'first_name' => $first_name));
  }
 
  public function newProgeny($data)
@@ -57,6 +73,24 @@ class ProgenyTable
  public function fetchAll()
  {
   return $this->em->getRepository('Progeny\Entity\Progeny')->findAll();
+ }
+
+
+ public function getProgeniesArray()
+ {
+  /** @var \User\Entity\User $user */
+  $user = $this->sm->get('User\Entity\User');
+  $progenies = $this->em->getRepository('User\Entity\User')->findBy(array('user' => $user));
+
+  $results = Array();
+
+  foreach ($progenies as $progeny)
+  {
+   /** @var \Progeny\Entity\Progeny $progeny */
+   array_push($results, $progeny->toArray());
+  }
+
+  return $results;
  }
 
  public function setFbId($fb_id)

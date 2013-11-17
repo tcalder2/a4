@@ -2,6 +2,8 @@
 
 namespace Progeny\Controller;
 
+use Progeny\Entity\Progeny;
+use Zend\Config\Writer\Json;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 
@@ -18,14 +20,30 @@ class ProgenyController extends AbstractActionController
  public function AddProgenyAction()
  {
   $first_name = $this->params()->fromQuery('first_name');
-  $last_name = $this->params()->fromQuery('last_name');
-  $age = $this->params()->fromQuery('age');
+  $birth_date = $this->params()->fromQuery('birth_date');
 
-  $data = array('first_name' => $first_name, 'last_name' => $last_name, 'age' => $age);
+  $birth_date_validator = Progeny::getBirthDateValidator();
+  $first_name_validator = Progeny::getFirstNameValidator();
+
+  if ($birth_date_validator->isValid($birth_date))
+   return new JsonModel(array('success' => false, 'messages' => $birth_date_validator->getMessages()));
+
+  if($first_name_validator->isValid($first_name))
+   return new JsonModel(array('success' => false, 'messages' => $first_name_validator->getMessages()));
+
+  if (!$this->getProgenyTable()->checkFirstNameUnique($first_name))
+   return new JsonModel(array('success' => false, 'message' => 'You have already added a child with this name'));
+
+  $data = array('first_name' => $first_name, 'birth_date' => $birth_date);
 
   $progeny = $this->getProgenyTable()->newProgeny($data);
 
-  return new JsonModel(array('success' => true));
+  return new JsonModel(array('success' => true, $progeny->toArray()));
+ }
+
+ public function getProgeniesAction()
+ {
+  return new JsonModel(array('success' => true, $this->getProgenyTable()->getProgeniesArray()));
  }
 
  public function getProgenyAction()
@@ -61,8 +79,6 @@ class ProgenyController extends AbstractActionController
   if ($this->progenyTable) return $this->progenyTable;
 
   $this->progenyTable = $this->getServiceLocator()->get('Progeny\Service\ProgenyTable');
-  $this->progenyTable->setFacebook($this->getFacebook());
-  $this->progenyTable->setFbId($this->getFbId());
 
   return $this->progenyTable;
  }
