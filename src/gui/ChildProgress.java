@@ -45,7 +45,7 @@ public class ChildProgress extends JPanel {
 	 * @param controller the controller
 	 * @param settingsPane the settings pane
 	 */
-	public ChildProgress(Controller controller, Settings settingsPane, ChildSettingsTab childSettingsTab, Progeny child, ArrayList<String> errors) {
+	public ChildProgress(Settings settingsPane, ChildSettingsTab childSettingsTab, Progeny child, ArrayList<String> errors) {
 		
 		//Create the panel with a GridBagLayout
 		super(new GridBagLayout());
@@ -83,7 +83,7 @@ public class ChildProgress extends JPanel {
 
 			//Add a label to state the child whose progress is currently being displayed
 			JLabel title = new JLabel(child.getFirstName() + "'s Progress");
-			title.setFont(controller.getFont().deriveFont(Font.BOLD, 32));
+			title.setFont(Controller.getFont().deriveFont(Font.BOLD, 32));
 			c.fill = GridBagConstraints.BOTH;
 			c.insets = new Insets(10,75,5,75);
 			c.gridy = 1;
@@ -94,7 +94,7 @@ public class ChildProgress extends JPanel {
 
 			//Create a vector structure containing the child's progress details
 			Vector<Vector<String>> progress = new Vector<Vector<String>>();
-			ArrayList<LevelProgeny> levels = controller.getCurrentProgeny().getLevels();
+			ArrayList<LevelProgeny> levels = Controller.getCurrentProgeny().getLevels();
 			for (int i = 0; i < levels.size(); i++) {
 				Vector<String> v = new Vector<String>();
 				v.add("" + levels.get(i).getLevel());
@@ -133,8 +133,8 @@ public class ChildProgress extends JPanel {
 			table.setRowHeight(24);
 			table.setShowGrid(false);
 			table.getTableHeader().setDefaultRenderer(renderer);
-			table.setFont(controller.getFont().deriveFont(Font.BOLD, 18));
-			table.getTableHeader().setFont(controller.getFont().deriveFont(Font.BOLD, 18));
+			table.setFont(Controller.getFont().deriveFont(Font.BOLD, 18));
+			table.getTableHeader().setFont(Controller.getFont().deriveFont(Font.BOLD, 18));
 
 			//Embed the table in a scroll pane and add to panel.
 			JScrollPane scroll = new JScrollPane(table);
@@ -160,7 +160,7 @@ public class ChildProgress extends JPanel {
 				c.gridy = gridY;
 				JLabel label = new JLabel(error.next().toString());
 				label.setForeground(Color.RED);
-				label.setFont(controller.getFont().deriveFont(Font.PLAIN, 18));
+				label.setFont(Controller.getFont().deriveFont(Font.PLAIN, 18));
 				add(label, c);
 			}
 		}

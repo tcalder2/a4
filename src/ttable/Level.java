@@ -1,7 +1,8 @@
 package ttable;
 
 /**
- * The class Level.
+ * The class responsible for holding user specific level settings that are shared for
+ * all children playing on that users account.
  * 
  * @author James Anderson
  * @version 2.0

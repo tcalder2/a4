@@ -216,7 +216,7 @@ class PressOk implements ActionListener {
 			Services.authenticate(pwd);
 
 			//On first successful login go to the screen to change password and the security question
-			if (Services.isFirstLogin()) {
+			if (Services.getFirstLogin()) {
 				BackgroundPanel screen = new BackgroundPanel("http://jbaron6.cs2212.ca/img/default_background.png",
 						new BorderLayout());
 				

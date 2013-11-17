@@ -40,7 +40,7 @@ public class Services {
 	 * @return						true if this is the first login, false otherwise
 	 * @throws JSONFailureException	the JSON failure exception
 	 */
-	public static boolean isFirstLogin() throws JSONFailureException {
+	public static boolean getFirstLogin() throws JSONFailureException {
 		//TODO: server call
 		return false;
 	}
@@ -51,7 +51,7 @@ public class Services {
 	 * @return						true if test mode is on, false otherwise
 	 * @throws JSONFailureException the JSON failure exception
 	 */
-	public static boolean isTestMode() throws JSONFailureException {
+	public static boolean getTestMode() throws JSONFailureException {
 		//TODO: server call
 		return false;
 	}

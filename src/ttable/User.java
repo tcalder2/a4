@@ -20,20 +20,43 @@ public class User {
 	/** The user's last name. */
 	private String lastName;
 	
+	/** Whether or not this is the user's first login. */
 	private boolean firstLogin;
 	
+	/** Status of test mode activation. */
 	private boolean testMode;
 	
+	/** The array of progeny. */
 	private ArrayList<Progeny> progenyList;
 	
+	/** The array of levels. */
 	private ArrayList<Level> levels;
 	
-	public User(int id, String firstName, String lastName, boolean firstLogin, boolean testMode, ArrayList<Progeny> progeny, ArrayList<Level> levels) {
-		
+	public User(int id, String firstName, String lastName, boolean firstLogin, boolean testMode,
+			ArrayList<Progeny> progenyList, ArrayList<Level> levels) {
+		setID(id);
+		setFirstName(firstName);
+		setLastName(lastName);
+		setTestMode(testMode);
+		setProgenyList(progenyList);
+		setLevels(levels);
+		setFirstLogin(firstLogin);
 	}
 	
 	public User(int id, String firstName, String lastName) {
 		this(id, firstName, lastName, true, false, new ArrayList<Progeny>(), new ArrayList<Level>());
+		for (int i = 0; i < 12; i++) {
+			levels.add(new Level(i));
+		}
+	}
+	
+	/**
+	 * Gets the FaceBook ID of the current user.
+	 *
+	 * @return the FaceBook ID
+	 */
+	public int getID() {
+		return id;
 	}
 	
 	public void setID(int id) throws IllegalArgumentException {
@@ -41,8 +64,19 @@ public class User {
 		this.id = id;
 	}
 	
-	public void validateID(int id) throws IllegalArgumentException {
-		
+	private void validateID(int id) throws IllegalArgumentException {
+		if (id < 0) {
+			throw new IllegalArgumentException("Child's ID must be a positive number.");
+		}
+	}
+	
+	/**
+	 * Gets the first name of the user.
+	 *
+	 * @return the first name
+	 */
+	public String getFirstName() {
+		return firstName;
 	}
 	
 	public void setFirstName(String firstName) throws IllegalArgumentException {
@@ -50,8 +84,17 @@ public class User {
 		this.firstName = firstName;
 	}
 	
-	public void validateFirstName(String firstName) throws IllegalArgumentException {
-		
+	private void validateFirstName(String firstName) throws IllegalArgumentException {
+		//TODO
+	}
+	
+	/**
+	 * Gets the last name of the current user.
+	 *
+	 * @return the last name
+	 */
+	public String getLastName() {
+		return lastName;
 	}
 	
 	public void setLastName(String lastName) throws IllegalArgumentException {
@@ -59,8 +102,8 @@ public class User {
 		this.lastName = lastName;
 	}
 	
-	public void validateLastName(String lastName) throws IllegalArgumentException {
-		
+	private void validateLastName(String lastName) throws IllegalArgumentException {
+		//TODO
 	}
 	
 	/**
@@ -70,6 +113,17 @@ public class User {
 	 */
 	public boolean isFirstLogin() {
 		return firstLogin;
+	}
+	
+	public void setFirstLogin(boolean firstLogin) throws IllegalArgumentException {
+		validateFirstLogin(firstLogin);
+		this.firstLogin = firstLogin;
+	}
+	
+	public void validateFirstLogin(boolean firstLogin) throws IllegalArgumentException {
+		if (progenyList.size() > 0 && firstLogin == true) {
+			throw new IllegalArgumentException("First Login set as true is proven invalid by existence of other data.");
+		}
 	}
 	
 	/**
@@ -86,8 +140,8 @@ public class User {
 	 * 
 	 * @param testMode				the test mode boolean containing whether test mode is activated
 	 */
-	public void setTestMode(boolean testMode) throws IllegalArgumentException {
-		this.testMode = testMode;
+	public void setTestMode(boolean testMode) {
+		this.testMode = testMode; //This boolean can not be invalid
 	}
 	
 	/**
@@ -95,8 +149,17 @@ public class User {
 	 *
 	 * @return 						an array of progeny
 	 */
-	public ArrayList<Progeny> getProgeny() {			
+	public ArrayList<Progeny> getProgenyList() {			
 		return progenyList;
+	}
+	
+	public void setProgenyList(ArrayList<Progeny> progenyList) throws IllegalArgumentException {
+		validateProgenyList(progenyList);
+		this.progenyList = progenyList;
+	}
+	
+	public void validateProgenyList(ArrayList<Progeny> progenyList) throws IllegalArgumentException {
+		//TODO
 	}
 	
 	/**
@@ -105,8 +168,18 @@ public class User {
 	 * @param  progeny				the progeny to add
 	 * @return 						the newly added progeny
 	 */
-	public static Progeny addProgeny(String firstName, Date birthdate) throws IllegalArgumentException {
+	public Progeny addProgeny(String firstName, Date birthdate) throws IllegalArgumentException {
 		return new Progeny(0, firstName, birthdate);
+	}
+	
+	public int findProgeny(Progeny progeny) {
+		int id = progeny.getID();
+		for (int i = 0; i < progenyList.size(); i++) {
+			if (progenyList.get(i).getID() == id) {
+				return i;
+			}
+		}
+		return (-1);
 	}
 	
 	/**
@@ -122,14 +195,13 @@ public class User {
 		return result;
 	}
 	
-	public int findProgeny(Progeny progeny) {
-		int id = progeny.getID();
-		for (int i = 0; i < progenyList.size(); i++) {
-			if (progenyList.get(i).getID() == id) {
-				return i;
-			}
-		}
-		return (-1);
+	/**
+	 * 
+	 * @param id					the id of the progeny to be updated
+	 * @param progeny				the updated progeny to be sent to server
+	 */
+	public void updateProgeny(Progeny progeny) {
+		progenyList.set(findProgeny(progeny), progeny);
 	}
 	
 	/**
@@ -140,40 +212,13 @@ public class User {
 	public ArrayList<Level> getLevels() {
 		return levels;
 	}
-
-	/**
-	 * Gets the FaceBook ID of the current user.
-	 *
-	 * @return the FaceBook ID
-	 */
-	public int getID() {
-		return id;
-	}
-
-	/**
-	 * Gets the first name of the user.
-	 *
-	 * @return the first name
-	 */
-	public String getFirstName() {
-		return firstName;
-	}
-
-	/**
-	 * Gets the last name of the current user.
-	 *
-	 * @return the last name
-	 */
-	public String getLastName() {
-		return lastName;
+	
+	public void setLevels(ArrayList<Level> levels) throws IllegalArgumentException {
+		validateLevels(levels);
+		this.levels = levels;
 	}
 	
-	/**
-	 * 
-	 * @param id					the id of the progeny to be updated
-	 * @param progeny				the updated progeny to be sent to server
-	 */
-	public void updateProgeny(Progeny progeny) {
-		progenyList.set(findProgeny(progeny), progeny);
+	public void validateLevels(ArrayList<Level> levels) throws IllegalArgumentException {
+		//TODO
 	}
 }

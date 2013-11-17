@@ -14,7 +14,6 @@ import json.JSONFailureException;
 import ttable.Progeny;
 import ttable.Services;
 import ttable.User;
-
 /**
  * The class Controller.
  * 
@@ -24,16 +23,16 @@ import ttable.User;
 public class Controller {
 	
 	/** The split pane. */
-	private JSplitPane splitPane;
+	private static JSplitPane splitPane;
 	
 	/** The font. */
-	private Font font;
+	private static Font font;
 	
 	/** The current user. */
-	private User user;
+	private static User user;
 	
 	/** The current progeny. */
-	private Progeny currentProgeny;
+	private static Progeny currentProgeny;
 
 	
 	/**
@@ -70,7 +69,7 @@ public class Controller {
 	 *
 	 * @param banner	the new banner
 	 */
-	public void setBanner(JComponent banner) {
+	public static void setBanner(JComponent banner) {
 		splitPane.setTopComponent(banner);
 	}
 	
@@ -79,7 +78,7 @@ public class Controller {
 	 *
 	 * @param screen	the new screen panel
 	 */
-	public void setScreen(JComponent screen) {
+	public static void setScreen(JComponent screen) {
 		splitPane.setBottomComponent(screen);
 	}
 	
@@ -88,7 +87,7 @@ public class Controller {
 	 *
 	 * @return	the split pane
 	 */
-	public JSplitPane getPane() {
+	public static JSplitPane getPane() {
 		return splitPane;
 	}
 	
@@ -97,7 +96,7 @@ public class Controller {
 	 *
 	 * @param colour	the new frame colour
 	 */
-	public void setFrameColour(Color colour) {
+	public static void setFrameColour(Color colour) {
 		splitPane.setBackground(colour);
 	}
 	
@@ -106,7 +105,7 @@ public class Controller {
 	 *
 	 * @return	the font
 	 */
-	public Font getFont() {
+	public static Font getFont() {
 		return font;
 	}
 	
@@ -115,7 +114,7 @@ public class Controller {
 	 *
 	 * @return	the current user
 	 */
-	public User getUser() {
+	public static User getUser() {
 		return user;
 	}
 	
@@ -124,7 +123,7 @@ public class Controller {
 	 *
 	 * @param newCurrentProgeny		the progeny to be set as active
 	 */
-	public void setCurrentProgeny(Progeny newCurrentProgeny) {
+	public static void setCurrentProgeny(Progeny newCurrentProgeny) {
 		currentProgeny = newCurrentProgeny;
 	}
 	
@@ -133,7 +132,7 @@ public class Controller {
 	 *
 	 * @return 	the current progeny
 	 */
-	public Progeny getCurrentProgeny() {
+	public static Progeny getCurrentProgeny() {
 		return currentProgeny;
 	}
 }

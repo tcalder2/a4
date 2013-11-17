@@ -19,6 +19,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 import ttable.Progeny;
+import ttable.User;
 
 /**
  * The class Welcome, a populated BackgroundPanel.
@@ -52,7 +53,7 @@ public class Welcome extends BackgroundPanel {
 		c.gridy = 1;
 		c.insets = new Insets(25,100,0,100);
 		controller.getUser();
-		ArrayList<Progeny> progenyList = controller.getUser().getProgeny();
+		ArrayList<Progeny> progenyList = controller.getUser().getProgenyList();
 		Vector<String> names = new Vector<String>();
 		if (progenyList != null) {
 			for (int i = 0; i < progenyList.size(); i++) {

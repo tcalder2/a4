@@ -1,7 +1,8 @@
 package ttable;
 
 /**
- * The class LevelProgeny.
+ * The class responsible for holding child specific level settings and data.  In other words
+ * the childs progress details and the level settings that are set for that child alone.
  * 
  * @author James Anderson
  * @version 2.0

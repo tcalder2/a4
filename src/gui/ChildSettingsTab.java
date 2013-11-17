@@ -34,7 +34,6 @@ import javax.swing.text.AbstractDocument;
 import json.JSONFailureException;
 import ttable.Progeny;
 import ttable.Services;
-import ttable.User;
 
 /**
  * The Class ChildSettingsTab.
@@ -48,10 +47,10 @@ public class ChildSettingsTab extends JPanel {
 	/**
 	 * Instantiates an ChildSettingsTab instance.
 	 * 
-	 * @param controller	the controller
+	 * @param Controller	the Controller
 	 * @param settings		the settings pane
 	 */
-	public ChildSettingsTab(Controller controller, Settings settings) {
+	public ChildSettingsTab(Settings settings) {
 
 		//Instantiate the JPanel with a GridBagLayout
 		super(new GridBagLayout());
@@ -82,7 +81,7 @@ public class ChildSettingsTab extends JPanel {
 		Vector<String> columnNames = new Vector<String>(Arrays.asList(new String[]{"Name"," ","Date of Birth"," ","Age","Level"}));
 
 		//Create vector structure containing table data
-		ArrayList<Progeny> progenyList = controller.getUser().getProgeny();
+		ArrayList<Progeny> progenyList = Controller.getUser().getProgenyList();
 		Vector<Vector<String>> tableData = new Vector<Vector<String>>();
 		for (int i = 0; i < progenyList.size(); i++) {
 			Vector<String> v = new Vector<String>();
@@ -126,8 +125,8 @@ public class ChildSettingsTab extends JPanel {
 		table.setRowHeight(24);
 		table.setShowGrid(false);
 		table.getTableHeader().setDefaultRenderer(renderer);
-		table.setFont(controller.getFont().deriveFont(Font.BOLD, 18));
-		table.getTableHeader().setFont(controller.getFont().deriveFont(Font.BOLD, 18));
+		table.setFont(Controller.getFont().deriveFont(Font.BOLD, 18));
+		table.getTableHeader().setFont(Controller.getFont().deriveFont(Font.BOLD, 18));
 
 		//Put the table into a scroll pane to allow scrolling when the table is too large to fit
 		JScrollPane scroll = new JScrollPane(table);
@@ -186,10 +185,10 @@ public class ChildSettingsTab extends JPanel {
 		updateDaysInMonth(year2, month2, day2);
 
 		//Populates the months list according to selected child
-		populateLevelList(controller, childSelect, level);
+		populateLevelList(childSelect, level);
 
 		//Sets the default selections to the current values for selected child
-		setSelections(controller, childSelect, year, month, day, level);
+		setSelections(childSelect, year, month, day, level);
 
 		//Add action listeners
 		nameInput.addKeyListener(new EnterListener(add));
@@ -197,12 +196,12 @@ public class ChildSettingsTab extends JPanel {
 		year.addActionListener(new YearSelected(year, month, day));
 		month.addActionListener(new MonthSelected(year, month, day));
 		add.addActionListener(new PressAdd(nameInput, year, month, day, tableData, tableModel));
-		childSelect.addActionListener(new ChildSelected(controller, childSelect, year2, month2, day2, level));
+		childSelect.addActionListener(new ChildSelected(childSelect, year2, month2, day2, level));
 		year2.addActionListener(new YearSelected(year2, month2, day2));
 		month2.addActionListener(new MonthSelected(year2, month2, day2));
-		progress.addActionListener(new PressProgress(childSelect, controller, settings, this));
-		remove.addActionListener(new PressRemove(controller, childSelect, tableModel, tableData));
-		update.addActionListener(new PressUpdate(controller, childSelect, year2, month2, day2, level, tableModel, tableData));
+		progress.addActionListener(new PressProgress(childSelect,settings, this));
+		remove.addActionListener(new PressRemove(childSelect, tableModel, tableData));
+		update.addActionListener(new PressUpdate(childSelect, year2, month2, day2, level, tableModel, tableData));
 
 		//Add components to panel
 		c.insets = new Insets(25,50,0,50);
@@ -290,11 +289,11 @@ public class ChildSettingsTab extends JPanel {
 	 * @param childSelect	the child selection combo box
 	 * @param level			the level selection combo box to be populated
 	 */
-	public static void populateLevelList(Controller controller, JComboBox<String> childSelect, JComboBox<String> level) {
+	public static void populateLevelList(JComboBox<String> childSelect, JComboBox<String> level) {
 
 		//Determine the max range for the level drop down list
 		int maxLevel = 1;
-		ArrayList<Progeny> progeny = controller.getUser().getProgeny();
+		ArrayList<Progeny> progeny = Controller.getUser().getProgenyList();
 		if (progeny.size() > 0) {
 			maxLevel = progeny.get(childSelect.getSelectedIndex()).getLevelNumber();
 		}
@@ -319,10 +318,10 @@ public class ChildSettingsTab extends JPanel {
 	 * @param day			the birth-day drop down
 	 * @param level			the current level drop down
 	 */
-	public static void setSelections(Controller controller, JComboBox<String> childSelect, JComboBox<String> year, JComboBox<String> month, JComboBox<String> day, JComboBox<String> level) {
+	public static void setSelections(JComboBox<String> childSelect, JComboBox<String> year, JComboBox<String> month, JComboBox<String> day, JComboBox<String> level) {
 		try {
 			//Get the currently selected child's birthday
-			Date birth = controller.getUser().getProgeny().get(childSelect.getSelectedIndex()).getDateOfBirth();
+			Date birth = Controller.getUser().getProgenyList().get(childSelect.getSelectedIndex()).getDateOfBirth();
 
 			//Set the year, month and day fields to the current birthday values
 			DateFormat f = new SimpleDateFormat("yyyy");
@@ -384,9 +383,6 @@ public class ChildSettingsTab extends JPanel {
  */
 class PressProgress implements ActionListener {
 
-	/** The controller. */
-	private Controller controller;
-
 	/** The child selector combo box. */
 	private JComboBox<String> childSelector;
 
@@ -400,13 +396,11 @@ class PressProgress implements ActionListener {
 	 * Instantiates a new PressProgress action listener.
 	 * 
 	 * @param childSelector		the child selection drop down
-	 * @param controller		the controller
 	 * @param settingsPane		the current settings panes instance
 	 * @param childSettingsTab	the current child settings tab instance
 	 */
-	public PressProgress(JComboBox<String> childSelector, Controller controller, Settings settingsPane, ChildSettingsTab childSettingsTab) {
+	public PressProgress(JComboBox<String> childSelector, Settings settingsPane, ChildSettingsTab childSettingsTab) {
 		super();
-		this.controller = controller;
 		this.childSelector = childSelector;
 		this.settingsPane = settingsPane;
 		this.childSettingsTab = childSettingsTab;
@@ -424,13 +418,13 @@ class PressProgress implements ActionListener {
 
 			Progeny child = null;
 			//Get the list of current user's progeny
-			ArrayList<Progeny> progenyList = controller.getUser().getProgeny();
+			ArrayList<Progeny> progenyList = Controller.getUser().getProgenyList();
 
 			//Get the selected child's progeny instance
 			child = progenyList.get(childSelector.getSelectedIndex());
 
 			//Create a new ChildProgress screen and swap it for the current tab
-			ChildProgress screen = new ChildProgress(controller, settingsPane, childSettingsTab, child, errors);
+			ChildProgress screen = new ChildProgress(settingsPane, childSettingsTab, child, errors);
 			settingsPane.changeTabContent(0, screen);
 
 		} catch (NullPointerException e1) {
@@ -548,9 +542,6 @@ class YearSelected implements ActionListener {
  */
 class ChildSelected implements ActionListener {
 
-	/** The controller. */
-	private Controller controller;
-
 	/** The child selection drop down. */
 	private JComboBox<String> childSelect;
 
@@ -569,16 +560,14 @@ class ChildSelected implements ActionListener {
 	/**
 	 * Instantiates a ChildSelected instance.
 	 * 
-	 * @controller			the controller
 	 * @param childSelect	the child selection drop down
 	 * @param year			the birth-year drop down
 	 * @param month			the birth-month drop down
 	 * @param day			the birth-day drop down
 	 * @param level			the current level drop down
 	 */
-	public ChildSelected(Controller controller, JComboBox<String> childSelect, JComboBox<String> year, JComboBox<String> month, JComboBox<String> day, JComboBox<String> level) {
+	public ChildSelected(JComboBox<String> childSelect, JComboBox<String> year, JComboBox<String> month, JComboBox<String> day, JComboBox<String> level) {
 		super();
-		this.controller = controller;
 		this.childSelect = childSelect;
 		this.year = year;
 		this.month = month;
@@ -594,10 +583,10 @@ class ChildSelected implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		//Populate the level drop down with a range matching selected child
-		ChildSettingsTab.populateLevelList(controller, childSelect, level);
+		ChildSettingsTab.populateLevelList(childSelect, level);
 
 		//Set the default selections to the current values for selected child
-		ChildSettingsTab.setSelections(controller, childSelect, year, month, day, level);
+		ChildSettingsTab.setSelections(childSelect, year, month, day, level);
 	}
 }
 
@@ -637,7 +626,8 @@ class PressAdd implements ActionListener {
 	 * @param tableData		the child details for the table
 	 * @param tableModel	the table model
 	 */
-	public PressAdd(JTextField nameInput, JComboBox<String> year, JComboBox<String> month, JComboBox<String> day, Vector<Vector<String>> tableData, DefaultTableModel tableModel) {
+	public PressAdd(JTextField nameInput, JComboBox<String> year, JComboBox<String> month,
+			JComboBox<String> day, Vector<Vector<String>> tableData, DefaultTableModel tableModel) {
 		super();
 		this.nameInput = nameInput;
 		this.year = year;
@@ -708,7 +698,7 @@ class PressAdd implements ActionListener {
 			Date birthdate = format.parse(birthdayStr);
 
 			//Actually add the new child
-			User.addProgeny(firstName, birthdate);
+			Controller.getUser().addProgeny(firstName, birthdate);
 
 			//Read info from newly added progeny
 			ArrayList<Progeny> progenyList = Services.getProgeny();
@@ -754,9 +744,6 @@ class PressAdd implements ActionListener {
  */
 class PressRemove implements ActionListener {
 
-	/** The controller. */
-	private Controller controller;
-
 	/** The child selection drop down. */
 	private JComboBox<String> childSelect;
 
@@ -769,13 +756,12 @@ class PressRemove implements ActionListener {
 	/**
 	 * Instantiates a PressRemove instance.
 	 * 
-	 * @param controller	the controller
+	 * @param Controller	the Controller
 	 * @param childSelect	the child selection drop down
 	 * @param tableModel	the child details for the table
 	 * @param tableData		the table model
 	 */
-	public PressRemove(Controller controller, JComboBox<String> childSelect, DefaultTableModel tableModel, Vector<Vector<String>> tableData) {
-		this.controller = controller;
+	public PressRemove(JComboBox<String> childSelect, DefaultTableModel tableModel, Vector<Vector<String>> tableData) {
 		this.childSelect = childSelect;
 		this.tableModel = tableModel;
 		this.tableData = tableData;
@@ -792,10 +778,10 @@ class PressRemove implements ActionListener {
 		int index = childSelect.getSelectedIndex();
 
 		//Get the list of progeny
-		ArrayList<Progeny> progenyList = controller.getUser().getProgeny();
+		ArrayList<Progeny> progenyList = Controller.getUser().getProgenyList();
 
 		//Remove the selected child's entry in the database
-		controller.getUser().removeProgeny(progenyList.get(index));
+		Controller.getUser().removeProgeny(progenyList.get(index));
 
 		//Remove the selected child's entry in the table
 		tableData.remove(index);
@@ -812,9 +798,6 @@ class PressRemove implements ActionListener {
  * @version 1.0
  */
 class PressUpdate implements ActionListener {
-
-	/** The controller. */
-	private Controller controller;
 
 	/** The child selection drop down. */
 	private JComboBox<String> childSelect;
@@ -840,7 +823,7 @@ class PressUpdate implements ActionListener {
 	/**
 	 * Instantiates a PressUpdate instance.
 	 * 
-	 * @param controller		the controller
+	 * @param Controller		the Controller
 	 * @param childSelect		the child selection drop down
 	 * @param year				the birth-year drop down
 	 * @param month				the birth-month drop down
@@ -849,9 +832,10 @@ class PressUpdate implements ActionListener {
 	 * @param tableModel		the table model
 	 * @param tableData			the child details for the table
 	 */
-	public PressUpdate(Controller controller, JComboBox<String> childSelect, JComboBox<String> year, JComboBox<String> month, JComboBox<String> day, JComboBox<String> level, DefaultTableModel tableModel, Vector<Vector<String>> tableData) {
+	public PressUpdate(JComboBox<String> childSelect, JComboBox<String> year,
+			JComboBox<String> month, JComboBox<String> day, JComboBox<String> level,
+			DefaultTableModel tableModel, Vector<Vector<String>> tableData) {
 		super();
-		this.controller = controller;
 		this.childSelect = childSelect;
 		this.year = year;
 		this.month = month;
@@ -870,7 +854,7 @@ class PressUpdate implements ActionListener {
 		try {
 
 			//Get the list of progeny
-			ArrayList<Progeny> progenyList = controller.getUser().getProgeny();
+			ArrayList<Progeny> progenyList = Controller.getUser().getProgenyList();
 
 			//Get index of selected child
 			int index = childSelect.getSelectedIndex();
@@ -931,7 +915,7 @@ class PressUpdate implements ActionListener {
 			child.changeLevel(currentLevel);
 
 			//Read info from newly updated progeny
-			ArrayList<Progeny> progenyListUpdated = controller.getUser().getProgeny();
+			ArrayList<Progeny> progenyListUpdated = Controller.getUser().getProgenyList();
 			String name = (String) childSelect.getSelectedItem();
 			Progeny newProgeny = null;
 			for (int i = 0; i < progenyListUpdated.size(); i++) {
