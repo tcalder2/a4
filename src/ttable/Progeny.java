@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+// TODO: Auto-generated Javadoc
 /**
  * The class Progeny.
  * 
@@ -33,87 +34,13 @@ public class Progeny {
 
 	/**
 	 * Instantiates a Progeny instance.
-	 * 
-	 * @param firstName				the first name
-	 * @param birthday				the birthday
-	 * @param id					the ID
-	 */
-	public Progeny(String firstName, Date birthday, String id, int timeAllowed) {
-		this.firstName = firstName;
-		this.id = id;
-		this.birthday = birthday;
-		this.finalGameHighScores = new int[]{0,0,0,0,0};
-		this.timeAllowed = timeAllowed;
-	}
-
-	/**
-	 * Set the time allowed per level.
 	 *
-	 * @param timeAllowed 			the time allowed per level
+	 * @param firstName 			the first name
+	 * @param birthday 			the birthday
+	 * @param id 				the ID
+	 * @param timeAllowed the time allowed
 	 */
-	public void setTimeAllowed(int timeAllowed) {
-		this.timeAllowed = timeAllowed;
-	}
-
-	/**
-	 * Gets the time allowed per level.
-	 * 
-	 * @return		the time allowed per level
-	 */
-	public int getTimeAllowed() {
-		return timeAllowed;
-	}
-
-	/**
-	 * Gets the level progeny.
-	 *
-	 * @return 		the level progeny
-	 */
-	public ArrayList<LevelProgeny> getLevels() {
-		return levels;
-	}
-
-	/**
-	 * Sets the current level, removing all levels above current level.
-	 *
-	 * @param level		the level
-	 */
-	public void setLevel(int level) {
-		while (true) {
-			try {
-			levels.remove(level);
-			} catch (IndexOutOfBoundsException e) {
-				break;
-			}
-		}
-	}
-
-	/**
-	 * Gets the current level.
-	 * 
-	 * @return		the current level
-	 */
-	public int getLevel() {
-		return (levels.size() + 1);
-	}
-
-	/**
-	 * Adds a new level.
-	 * 
-	 * @param level		the level
-	 */
-	public void addLevel(LevelProgeny level) {
-		levels.add(level);
-	}
-
-	/**
-	 * Gets the first name.
-	 *
-	 * @return the first name
-	 */
-	public String getFirstName() {
-		return firstName;
-	}
+	public Progeny() {}
 
 	/**
 	 * Gets the age.
@@ -140,7 +67,43 @@ public class Progeny {
 	}
 
 	/**
-	 * Gets the Birthday.
+	 * Gets the first name.
+	 *
+	 * @return the first name
+	 */
+	public String getFirstName() {
+		return firstName;
+	}
+
+	/**
+	 * Sets the first name.
+	 *
+	 * @param firstName the new first name
+	 */
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * Gets the birthday.
 	 *
 	 * @return the birthday
 	 */
@@ -149,7 +112,7 @@ public class Progeny {
 	}
 
 	/**
-	 * Sets the Birthday.
+	 * Sets the birthday.
 	 *
 	 * @param birthday the new birthday
 	 */
@@ -158,58 +121,57 @@ public class Progeny {
 	}
 
 	/**
-	 * Gets the ID.
+	 * Gets the final game high scores.
 	 *
-	 * @return the ID
+	 * @return the final game high scores
 	 */
-	public String getID() {
-		return id;
-	}
-
-	/**
-	 * Gets the final game high scores
-	 * 
-	 * @param progeny		the progeny
-	 * @return				the progeny's final game high score
-	 */
-	public int[] getFGameHighScores() {
+	public int[] getFinalGameHighScores() {
 		return finalGameHighScores;
 	}
 
 	/**
-	 * Updates the final game high scores with new score (if it is actually a high score, else no change)
-	 * 
-	 * @param score			the new score achieved
-	 * @return				true if score is new high score, false otherwise
+	 * Sets the final game high scores.
+	 *
+	 * @param finalGameHighScores the new final game high scores
 	 */
-	public boolean updateFGameScores(int score) {
-		int[] tmp = new int[5];
-		int i = 0;
-		for (int j = 0; j < 5; j++) {
-			if (score < finalGameHighScores[j] && i < 5) {
-				tmp[i] = finalGameHighScores[j];
-				i++;
-			}
-			else if (i < 5) {
-				tmp[i] = score;
-				score = -1;
-				i++;
-				if (i < 5) {
-					tmp[i] = finalGameHighScores[j];
-					i++;
-				}
-			}
-			else {
-				break;
-			}
-		}
-		finalGameHighScores = tmp;
-		if (score < 0) {
-			return true;
-		}
-		else {
-			return false;
-		}
+	public void setFinalGameHighScores(int[] finalGameHighScores) {
+		this.finalGameHighScores = finalGameHighScores;
+	}
+
+	/**
+	 * Gets the time allowed.
+	 *
+	 * @return the time allowed
+	 */
+	public int getTimeAllowed() {
+		return timeAllowed;
+	}
+
+	/**
+	 * Sets the time allowed.
+	 *
+	 * @param timeAllowed the new time allowed
+	 */
+	public void setTimeAllowed(int timeAllowed) {
+		this.timeAllowed = timeAllowed;
+	}
+
+	/**
+	 * Gets the levels.
+	 *
+	 * @return the levels
+	 */
+	public ArrayList<LevelProgeny> getLevels() {
+		return levels;
+	}
+
+	/**
+	 * Sets the levels.
+	 *
+	 * @param levels the new levels
+	 */
+	public void setLevels(ArrayList<LevelProgeny> levels) {
+		this.levels = levels;
 	}
 }
 

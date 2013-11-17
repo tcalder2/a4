@@ -33,6 +33,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.text.AbstractDocument;
 
 import json.JSONFailureException;
+import service.ProgenyService;
 import ttable.Progeny;
 import ttable.User;
 
@@ -733,7 +734,7 @@ class PressAdd implements ActionListener {
 			Date birthdate = format.parse(birthdayStr);
 
 			//Actually add the new child
-			User.addProgeny(firstName, birthdate);
+			ProgenyService.(firstName, birthdate);
 
 			//Read info from newly added progeny
 			ArrayList<Progeny> progenyList = User.getProgeny();
