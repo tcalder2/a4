@@ -23,8 +23,8 @@ import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
+import service.UserService;
 import json.JSONFailureException;
-import ttable.Services;
 
 /**
  * The class StatsMenu, a populated BackgroundPanel.
@@ -109,7 +109,7 @@ public class StatsMenu2 extends BackgroundPanel {
 		String hold;
 		
 		try {
-			friends = Services.getFriendsTest();
+			friends = UserService.getFriendsTest();
 		} catch (JSONFailureException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

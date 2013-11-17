@@ -120,7 +120,7 @@ class StartDrill implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Drill screen;
-		screen = new Drill(controller, controller.getCurrentProgeny().getLevels().get(levelNum - 1));
-		controller.setScreen(screen);
+		screen = new Drill(controller, Controller.getCurrentProgeny().getLevels().get(levelNum - 1));
+		Controller.setScreen(screen);
 	}
 }

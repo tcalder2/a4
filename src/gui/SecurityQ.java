@@ -15,8 +15,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
 
+import service.UserService;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import json.JSONFailureException;
-import ttable.Services;
 
 /**
  * The class SecurityQ, a populated BackgroundPanel.
@@ -40,7 +41,7 @@ public class SecurityQ extends BackgroundPanel {
 		try{
 		//Create components
 		JLabel chooseQ = new JLabel("Please answer the following security question: ");
-		JLabel question = new JLabel(Services.getSecurityQuestions().get(Services.getSecurityQuestionNumber()));
+		JLabel question = new JLabel(UserService.getSecurityQuestions().get(UserService.getSecurityQuestionNumber()));
 		JTextField answerField = new JTextField("-- Answer --");
 		JButton update = new JButton("Update");
 		
@@ -82,11 +83,11 @@ public class SecurityQ extends BackgroundPanel {
 				c.gridy = gridY;
 				JLabel label = new JLabel(errors.get(i).toString());
 				label.setForeground(Color.RED);
-				label.setFont(controller.getFont().deriveFont(Font.PLAIN, 18));
+				label.setFont(Controller.getFont().deriveFont(Font.PLAIN, 18));
 				screen.add(label, c);
 				gridY++;
 			}
-			controller.setScreen(screen);
+			Controller.setScreen(screen);
 		}
 	}
 }
@@ -116,17 +117,22 @@ class PressUpdate2 implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		try {
-			Services.testSecurityQuestion(answerField.getText());
-			controller.setScreen(new PasswordReset(controller));
-		} catch (JSONFailureException e1) {
-			ArrayList<String> errors = e1.getMessages();
-			if (errors.get(0).equals("Could not verify answer")) {
-				
-			}
-			else {
-				//TODO: add exception handling, popup?
-			}
-		}
+		
+		if (true)
+			throw new NotImplementedException();
+		
+//		try {
+			//TODO: Use resetpassword
+			//UserService.testSecurityQuestion(answerField.getText());
+//			Controller.setScreen(new PasswordReset(controller));
+//		} catch (JSONFailureException e1) {
+//			ArrayList<String> errors = e1.getMessages();
+//			if (errors.get(0).equals("Could not verify answer")) {
+//				
+//			}
+//			else {
+//				//TODO: add exception handling, popup?
+//			}
+//		}
 	}
 }

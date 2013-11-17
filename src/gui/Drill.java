@@ -93,18 +93,18 @@ public class Drill extends BackgroundPanel {
 		} catch (IOException e) {
 			livesCount.setText("<3 x " + lives);
 		}
-		livesCount.setFont(controller.getFont().deriveFont(Font.BOLD, 35));
+		livesCount.setFont(Controller.getFont().deriveFont(Font.BOLD, 35));
 		add(livesCount);
 
 		timer = new JLabel("", SwingConstants.RIGHT);
-		timer.setFont(controller.getFont().deriveFont(Font.BOLD, 35));
+		timer.setFont(Controller.getFont().deriveFont(Font.BOLD, 35));
 		setTime(10);
 		c.gridx = 4;
 		c.anchor = GridBagConstraints.EAST;
 		add(timer, c);
 
 		JLabel question = new JLabel("1 x 12 = ");
-		question.setFont(controller.getFont().deriveFont(Font.BOLD, 60));
+		question.setFont(Controller.getFont().deriveFont(Font.BOLD, 60));
 		c.gridy = 1;
 		c.gridx = 1;
 		c.gridwidth = 1;
@@ -114,7 +114,7 @@ public class Drill extends BackgroundPanel {
 		submit = new JButton("Submit");
 
 		answerField = new JTextField();
-		answerField.setFont(controller.getFont().deriveFont(Font.BOLD, 60));
+		answerField.setFont(Controller.getFont().deriveFont(Font.BOLD, 60));
 		answerField.addKeyListener(new EnterListener(submit));
 		c.anchor = GridBagConstraints.WEST;
 		c.gridwidth = 1;
@@ -139,7 +139,7 @@ public class Drill extends BackgroundPanel {
 		add(markImg, c);
 
 		solution = new JLabel(" ");
-		solution.setFont(controller.getFont().deriveFont(Font.BOLD, 35));
+		solution.setFont(Controller.getFont().deriveFont(Font.BOLD, 35));
 		c.ipady = 50;
 		c.gridy = 3;
 		add(solution, c);
@@ -151,7 +151,7 @@ public class Drill extends BackgroundPanel {
 
 		corrCounter = new JLabel("" + correct);
 		corrCounter.setForeground(Color.GREEN);
-		corrCounter.setFont(controller.getFont().deriveFont(Font.BOLD, 35));
+		corrCounter.setFont(Controller.getFont().deriveFont(Font.BOLD, 35));
 		corrCounter.setVerticalAlignment(SwingConstants.BOTTOM);
 		c.anchor = GridBagConstraints.SOUTH;
 		c.gridx = 0;
@@ -161,7 +161,7 @@ public class Drill extends BackgroundPanel {
 
 		incorrCounter = new JLabel("" + incorrect);
 		incorrCounter.setForeground(Color.RED);
-		incorrCounter.setFont(controller.getFont().deriveFont(Font.BOLD, 35));
+		incorrCounter.setFont(Controller.getFont().deriveFont(Font.BOLD, 35));
 		incorrCounter.setVerticalAlignment(SwingConstants.BOTTOM);
 		c.gridx = 4;
 		add(incorrCounter, c);
@@ -213,7 +213,7 @@ public class Drill extends BackgroundPanel {
 				markImg = new JLabel("WRONG");
 			}
 			solution = new JLabel("Answer: " + correctanswer);
-			solution.setFont(controller.getFont().deriveFont(Font.BOLD, 35));
+			solution.setFont(Controller.getFont().deriveFont(Font.BOLD, 35));
 			incorrect++;
 		}
 		GridBagConstraints c = new GridBagConstraints();
@@ -263,7 +263,7 @@ class TimerAction implements ActionListener {
 	 */
 	public TimerAction(Controller controller, Drill drill) {
 		this.drill = drill;
-		this.timeRemaining = controller.getCurrentProgeny().getTimeAllowed();
+		this.timeRemaining = Controller.getCurrentProgeny().getTimeAllowed();
 		drill.setTime(timeRemaining);
 	}
 

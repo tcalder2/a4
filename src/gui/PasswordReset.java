@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 
+import service.UserService;
 import json.JSONFailureException;
-import ttable.Services;
 
 /**
  * The class PasswordReset, a populated BackgroundPanel.
@@ -104,7 +104,7 @@ public class PasswordReset extends BackgroundPanel {
 				//Set the y alignment down one line each time.
 				JLabel label = new JLabel(errors.get(i).toString());
 				label.setForeground(Color.RED);
-				label.setFont(controller.getFont().deriveFont(Font.PLAIN, 18));
+				label.setFont(Controller.getFont().deriveFont(Font.PLAIN, 18));
 				add(label, c);
 				c.gridy++;
 			}
@@ -192,21 +192,21 @@ class PressUpdate3 implements ActionListener {
 		ArrayList<String> errors = new ArrayList<String>();
 		if (newPwdS.equals(retypePwdS)) {
 			try {
-				Services.resetPassword(oldPwdS, newPwdS);
-				controller.setScreen(new MainMenu(controller));
+				UserService.resetPassword(oldPwdS, newPwdS);
+				Controller.setScreen(new MainMenu(controller));
 				oldPwdS = "000000";
 				newPwdS = "000000";
 				retypePwdS = "000000";
 			} catch (JSONFailureException e) {
 				errors = e.getMessages();
-				controller.setScreen(new PasswordReset(controller, errors));
+				Controller.setScreen(new PasswordReset(controller, errors));
 			}
 
 		} else {
 			newField.setBackground(Color.PINK);
 			retypeField.setBackground(Color.PINK);
 			errors.add("Passwords do not match");
-			controller.setScreen(new PasswordReset(controller, errors));
+			Controller.setScreen(new PasswordReset(controller, errors));
 		}
 	}
 

@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 
+import service.UserService;
 import json.JSONFailureException;
-import ttable.Services;
 
 /**
  * The class SecurityTab, a populated BackgroundPanel.
@@ -172,21 +172,21 @@ class PressUpdate4 implements ActionListener {
 				ArrayList<String> errors = new ArrayList<String>();
 				if (newPwdS.equals(retypePwdS)) {
 					try {
-						Services.resetPassword(oldPwdS, newPwdS);
-						controller.setScreen(new MainMenu(controller));
+						UserService.resetPassword(oldPwdS, newPwdS);
+						Controller.setScreen(new MainMenu(controller));
 						oldPwdS = "000000";
 						newPwdS = "000000";
 						retypePwdS = "000000";
 					} catch (JSONFailureException e1) {
 						errors = e1.getMessages();
-						controller.setScreen(new PasswordReset(controller, errors));
+						Controller.setScreen(new PasswordReset(controller, errors));
 					}
 
 				} else {
 					newField.setBackground(Color.PINK);
 					retypeField.setBackground(Color.PINK);
 					errors.add("Passwords do not match");
-					controller.setScreen(new PasswordReset(controller, errors));
+					Controller.setScreen(new PasswordReset(controller, errors));
 				}
 	}
 	

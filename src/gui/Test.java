@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import json.JSONFailureException;
-import ttable.Services;
+import service.UserService;
 import ttable.User;
 
 /**
@@ -107,7 +107,7 @@ public class Test extends JApplet {
 		appendTestMessage("AUTH1: Attempting to authenticate with VALID password \"cs2212\"");
 
 		try {
-			Services.authenticate("cs2212");
+			UserService.authenticate("cs2212");
 			++succeededCount;
 			appendTestMessage("TEST PASSED: AUTH1");
 		} catch (JSONFailureException e) {
@@ -123,7 +123,7 @@ public class Test extends JApplet {
 		appendTestMessage("AUTH2: Attempting to authenticate with INVALID password \"group4\"");
 
 		try {
-			Services.authenticate("group4");
+			UserService.authenticate("group4");
 			++failedCount;
 			appendTestMessage("TEST FAILED: AUTH2");
 		} catch (JSONFailureException e) {
@@ -148,7 +148,7 @@ public class Test extends JApplet {
 		messages = new ArrayList<String>();
 
 		try {
-			Services.setPassword("cs2212", "something very long");
+			UserService.setPassword("cs2212", "something very long");
 		} catch (JSONFailureException e) {
 			messages = e.getMessages();
 			if (messages.get(0).compareTo(
@@ -174,7 +174,7 @@ public class Test extends JApplet {
 		messages = new ArrayList<String>();
 
 		try {
-			Services.setPassword("cs2212", "s");
+			UserService.setPassword("cs2212", "s");
 		} catch (JSONFailureException e) {
 			messages = e.getMessages();
 			if (messages.get(0).compareTo(
@@ -200,7 +200,7 @@ public class Test extends JApplet {
 		messages = new ArrayList<String>();
 
 		try {
-			Services.setPassword("cs2212", "group4");
+			UserService.setPassword("cs2212", "group4");
 			succeeded = true;
 			++succeededCount;
 			appendTestMessage("TEST PASSED: CHPAS3");
@@ -217,7 +217,7 @@ public class Test extends JApplet {
 		appendTestMessage("AUTH3: Attempting to authenticate with password \"group4\"");
 
 		try {
-			Services.authenticate("group4");
+			UserService.authenticate("group4");
 			succeeded = true;
 			++succeededCount;
 			appendTestMessage("TEST PASSED: AUTH3");
@@ -236,7 +236,7 @@ public class Test extends JApplet {
 		messages = new ArrayList<String>();
 
 		try {
-			Services.setPassword("group4", "cs2212");
+			UserService.setPassword("group4", "cs2212");
 			succeeded = true;
 			++succeededCount;
 			appendTestMessage("TEST PASSED: CHPAS4");
@@ -255,7 +255,7 @@ public class Test extends JApplet {
 		messages = new ArrayList<String>();
 
 		try {
-			Services.setPassword("blah", "legal");
+			UserService.setPassword("blah", "legal");
 			appendTestMessage("TEST FAILED: CHPAS5");
 			++failedCount;
 		} catch (JSONFailureException e) {
@@ -279,7 +279,7 @@ public class Test extends JApplet {
 		appendTestMessage("AUTH4: Attempting to authenticate with VALID password \"cs2212\"");
 
 		try {
-			Services.authenticate("cs2212");
+			UserService.authenticate("cs2212");
 			++succeededCount;
 			appendTestMessage("TEST PASSED: AUTH4");
 		} catch (JSONFailureException e) {
@@ -295,7 +295,7 @@ public class Test extends JApplet {
 		appendTestMessage("QUES1: Getting questions");
 
 		try {
-			ArrayList<String> questions = Services.getSecurityQuestions();
+			ArrayList<String> questions = UserService.getSecurityQuestions();
 			++succeededCount;
 			appendTestMessage("TEST PASSED: QUES1");
 			appendTestMessages(questions);
@@ -312,7 +312,7 @@ public class Test extends JApplet {
 		appendTestMessage("QUES2: Attempting to set the question to INVALID value \"4\"");
 		
 		try {
-			Services.setQuestion("4", "cs2212");
+			UserService.setQuestion("4", "cs2212");
 			++failedCount;
 			appendTestMessage("TEST FAILED: QUES2");
 		} catch (JSONFailureException e) {
@@ -336,7 +336,7 @@ public class Test extends JApplet {
 		appendTestMessage("QUES3: Attempting to set the question to INVALID value \"-1\"");
 		
 		try {
-			Services.setQuestion("-1", "cs2212");
+			UserService.setQuestion("-1", "cs2212");
 			++failedCount;
 			appendTestMessage("TEST FAILED: QUES3");
 		} catch (JSONFailureException e) {
@@ -359,7 +359,7 @@ public class Test extends JApplet {
 		appendTestMessage("QUES4: Attempting to set the question to VALID value \"1\"");
 		
 		try {
-			Services.setQuestion("1", "cs2212");
+			UserService.setQuestion("1", "cs2212");
 			++succeededCount;
 			appendTestMessage("TEST PASSED: QUES4");
 		} catch (JSONFailureException e) {
@@ -373,7 +373,7 @@ public class Test extends JApplet {
 		appendTestMessage("ANSW1: Attempting to set the answer to INVALID value \"\"");
 		
 		try {
-			Services.setAnswer("", "cs2212");
+			UserService.setAnswer("", "cs2212");
 			++failedCount;
 			appendTestMessage("TEST FAILED: ANSW1");
 		} catch (JSONFailureException e) {
@@ -398,7 +398,7 @@ public class Test extends JApplet {
 		appendTestMessage("ANSW2: Attempting to set the answer to INVALID value greater than 30 characters");
 		
 		try {
-			Services.setAnswer("abcdefghijklmnopqrstuvwxyz12345", "cs2212");
+			UserService.setAnswer("abcdefghijklmnopqrstuvwxyz12345", "cs2212");
 			++failedCount;
 			appendTestMessage("TEST FAILED: ANSW2");
 		} catch (JSONFailureException e) {
@@ -422,7 +422,7 @@ public class Test extends JApplet {
 		appendTestMessage("ANSW3: Attempting to set the answer to VALID value \"Beer\"");
 		
 		try {
-			Services.setAnswer("beer", "cs2212");
+			UserService.setAnswer("beer", "cs2212");
 			++succeededCount;
 			appendTestMessage("TEST PASSED: ANSW3");
 		} catch (JSONFailureException e) {
@@ -436,7 +436,7 @@ public class Test extends JApplet {
 		appendTestMessage("RES1: Attempting to reset the password with \"whiskey\"");
 		
 		try {
-			Services.resetPassword("whiskey", "blah");
+			UserService.resetPassword("whiskey", "blah");
 			++failedCount;
 			appendTestMessage("TEST FAILED: RES1");
 		} catch (JSONFailureException e) {
@@ -458,7 +458,7 @@ public class Test extends JApplet {
 		appendTestMessage("RES2: Attempting to validate, case insensitively, the answer with \"beer\", set password to \"blah\"");
 		
 		try {
-			Services.resetPassword("beer", "blah");
+			UserService.resetPassword("beer", "blah");
 			++succeededCount;
 			appendTestMessage("TEST PASSED: RES2");
 		} catch (JSONFailureException e) {
@@ -472,7 +472,7 @@ public class Test extends JApplet {
 		appendTestMessage("AUTH5: Attempting to authenticate with VALID password \"blah\"");
 
 		try {
-			Services.authenticate("blah");
+			UserService.authenticate("blah");
 			++succeededCount;
 			appendTestMessage("TEST PASSED: AUTH5");
 		} catch (JSONFailureException e) {
@@ -490,7 +490,7 @@ public class Test extends JApplet {
 		messages = new ArrayList<String>();
 
 		try {
-			Services.setPassword("blah", "cs2212");
+			UserService.setPassword("blah", "cs2212");
 			++succeededCount;
 			appendTestMessage("TEST PASSED: CHPAS6");
 		} catch (JSONFailureException e) {
@@ -506,7 +506,7 @@ public class Test extends JApplet {
 		appendTestMessage("AUTH6: Attempting to authenticate with VALID password \"blah\"");
 
 		try {
-			Services.authenticate("cs2212");
+			UserService.authenticate("cs2212");
 			++succeededCount;
 			appendTestMessage("TEST PASSED: AUTH6");
 		} catch (JSONFailureException e) {
@@ -522,7 +522,7 @@ public class Test extends JApplet {
 		appendTestMessage("ANSW4: Attempting to reset, case insensitively, the answer with \"beer\"");
 		
 		try {
-			Services.resetPassword("beer", "cs2212");
+			UserService.resetPassword("beer", "cs2212");
 			++succeededCount;
 			appendTestMessage("TEST PASSED: ANSW4");
 		} catch (JSONFailureException e) {
@@ -538,7 +538,7 @@ public class Test extends JApplet {
 		for (int x = 0; x < 4; ++x)
 		{
 			try {
-				Services.authenticate("blah");
+				UserService.authenticate("blah");
 				++failedCount;
 				appendTestMessage("TEST FAILED: AUTH7");
 				break;
@@ -566,7 +566,7 @@ public class Test extends JApplet {
 		appendTestMessage("ANSW7: Attempting to reset");
 		
 		try {
-			Services.resetPassword("beer", "cs2212");
+			UserService.resetPassword("beer", "cs2212");
 			++succeededCount;
 			appendTestMessage("TEST PASSED: ANSW5");
 		} catch (JSONFailureException e) {
@@ -580,7 +580,7 @@ public class Test extends JApplet {
 		appendTestMessage("AUTH8: Attempting to authenticate with VALID password \"cs2212\"");
 
 		try {
-			Services.authenticate("cs2212");
+			UserService.authenticate("cs2212");
 			++succeededCount;
 			appendTestMessage("TEST PASSED: AUTH8");
 		} catch (JSONFailureException e) {
@@ -595,17 +595,16 @@ public class Test extends JApplet {
 		appendTestMessage("USER1: Attempting to get user information");
 		
 		try {
-			User userInfo = Services.getUser();
+			User userInfo = UserService.getUser();
 			if(
 					userInfo.getFirstName().length() > 0 &&
 					userInfo.getLastName().length() > 0 &&
-					Integer.toString(userInfo.getID()).length() > 0)
-			{
+					userInfo.getFbId() != "0")			{
 				++succeededCount;
 				appendTestMessage("TEST PASSED: USER1");
 				appendTestMessage("First name: " + userInfo.getFirstName());
 				appendTestMessage("Last name: " + userInfo.getLastName());
-				appendTestMessage("Facebook ID: " + userInfo.getID());
+				appendTestMessage("Facebook ID: " + userInfo.getFbId());
 			}
 			else
 			{

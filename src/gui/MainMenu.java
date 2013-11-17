@@ -146,7 +146,7 @@ class PressDrill implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		//Swap screen for the drill menu
-		controller.setScreen(new DrillMenu(controller));
+		Controller.setScreen(new DrillMenu(controller));
 	}
 }
 
@@ -179,7 +179,7 @@ class PressLGame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		//Swap screen for the level game menu
-		controller.setScreen(new LGameMenu(controller));
+		Controller.setScreen(new LGameMenu(controller));
 	}
 }
 
@@ -212,7 +212,7 @@ class PressFGame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		//Swap screen for the final game menu
-		controller.setScreen(new FGameMenu(controller));
+		Controller.setScreen(new FGameMenu(controller));
 	}
 }
 
@@ -245,6 +245,6 @@ class PressStats implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		//Swap screen for the stats menu
-		controller.setScreen(new StatsMenu2(controller));
+		Controller.setScreen(new StatsMenu2(controller));
 	}
 }

@@ -28,7 +28,7 @@ public class LGame extends BackgroundPanel {
 		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 
-		this.level = controller.getCurrentProgeny().getLevels().get(level - 1);
+		this.level = Controller.getCurrentProgeny().getLevels().get(level - 1);
 		//TODO: complete class
 	}
 }

@@ -32,8 +32,9 @@ import javax.swing.table.TableColumn;
 import javax.swing.text.AbstractDocument;
 
 import json.JSONFailureException;
+import service.ProgenyService;
+import service.UserService;
 import ttable.Progeny;
-import ttable.Services;
 
 /**
  * The Class ChildSettingsTab.
@@ -698,10 +699,10 @@ class PressAdd implements ActionListener {
 			Date birthdate = format.parse(birthdayStr);
 
 			//Actually add the new child
-			Controller.getUser().addProgeny(firstName, birthdate);
+			UserService.addProgeny(firstName, birthdate);
 
 			//Read info from newly added progeny
-			ArrayList<Progeny> progenyList = Services.getProgeny();
+			ArrayList<Progeny> progenyList = ProgenyService.getProgenies();
 			Progeny newProgeny = null;
 			for (int i = 0; i < progenyList.size(); i++) {
 				if (progenyList.get(i).getFirstName().equals(firstName)) {
@@ -781,7 +782,11 @@ class PressRemove implements ActionListener {
 		ArrayList<Progeny> progenyList = Controller.getUser().getProgenyList();
 
 		//Remove the selected child's entry in the database
-		Controller.getUser().removeProgeny(progenyList.get(index));
+		try {
+			ProgenyService.removeProgeny(progenyList.get(index));
+		} catch (JSONFailureException e1) {
+			e1.printStackTrace();
+		}
 
 		//Remove the selected child's entry in the table
 		tableData.remove(index);

@@ -85,13 +85,13 @@ class PressMain implements ActionListener {
 	 * @param the action event
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (controller.getCurrentProgeny() != null) {
+		if (Controller.getCurrentProgeny() != null) {
 			MainMenu screen = new MainMenu(controller);
-			controller.setScreen(screen);
+			Controller.setScreen(screen);
 		}
 		else {
 			Welcome screen = new Welcome(controller);
-			controller.setScreen(screen);
+			Controller.setScreen(screen);
 		}
 	}
 }
@@ -121,6 +121,6 @@ class PressSettings implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		LockScreen screen = new LockScreen(controller);
-		controller.setScreen(screen);
+		Controller.setScreen(screen);
 	}
 }

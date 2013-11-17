@@ -97,7 +97,7 @@ public class FGameMenu extends BackgroundPanel {
 		Vector<String> columnNames = new Vector<String>(Arrays.asList(new String[]{"High Scores"}));
 
 		//Get child's high scores 
-		int[] tmp = controller.getCurrentProgeny().getHighScores();
+		int[] tmp = Controller.getCurrentProgeny().getHighScores();
 		Vector<Vector<String>> highScores = new Vector<Vector<String>>();
 		for (int i = 0; i < 5; i++) {
 			Vector<String> v = new Vector<String>();
@@ -118,7 +118,7 @@ public class FGameMenu extends BackgroundPanel {
 		table.setOpaque(false);
 		table.setRowHeight(32);
 		table.setShowGrid(false);
-		table.setFont(controller.getFont().deriveFont(Font.BOLD, 30));
+		table.setFont(Controller.getFont().deriveFont(Font.BOLD, 30));
 		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 		renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
 		renderer.setOpaque(false);
@@ -161,6 +161,6 @@ class StartFinal implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		FGame menu = new FGame(controller);
-		controller.setScreen(menu);
+		Controller.setScreen(menu);
 	}
 }

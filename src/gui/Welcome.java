@@ -19,7 +19,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 import ttable.Progeny;
-import ttable.User;
 
 /**
  * The class Welcome, a populated BackgroundPanel.
@@ -52,8 +51,8 @@ public class Welcome extends BackgroundPanel {
 
 		c.gridy = 1;
 		c.insets = new Insets(25,100,0,100);
-		controller.getUser();
-		ArrayList<Progeny> progenyList = controller.getUser().getProgenyList();
+		Controller.getUser();
+		ArrayList<Progeny> progenyList = Controller.getUser().getProgenyList();
 		Vector<String> names = new Vector<String>();
 		if (progenyList != null) {
 			for (int i = 0; i < progenyList.size(); i++) {
@@ -62,12 +61,12 @@ public class Welcome extends BackgroundPanel {
 		}
 		JComboBox<String> nameSelector = new JComboBox<String>(names);
 		if (names.size() > 0) {
-			nameSelector.setFont(controller.getFont().deriveFont(Font.PLAIN, 18));
+			nameSelector.setFont(Controller.getFont().deriveFont(Font.PLAIN, 18));
 			add(nameSelector, c);
 		}
 		else {
 			JLabel label = new JLabel("Please click settings to add children to the game.");
-			label.setFont(controller.getFont().deriveFont(Font.PLAIN, 26));
+			label.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
 			add(label, c);
 			//ok.setVisible(false);
 		}
@@ -129,6 +128,6 @@ class SelectProgeny implements ActionListener {
 		controller.setCurrentProgeny(progenyList.get(selection));
 
 		 */
-		controller.setScreen(new MainMenu(controller));
+		Controller.setScreen(new MainMenu(controller));
 	}
 }

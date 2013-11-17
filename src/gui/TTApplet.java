@@ -31,17 +31,17 @@ public class TTApplet extends JApplet {
 			
 			//Create the title panel and add to the view
 			TitlePanel titlePanel = new TitlePanel(controller);
-			controller.setBanner(titlePanel);
+			Controller.setBanner(titlePanel);
 			
 			//Create the welcome screen and add to the view
 			Welcome welcome = new Welcome(controller);
-			controller.setScreen(welcome);
+			Controller.setScreen(welcome);
 			
 			//Set the main split pane frame colour
-			controller.setFrameColour(Color.BLACK);
+			Controller.setFrameColour(Color.BLACK);
 			
 			//Add the split pane to the applet view
-			this.add(controller.getPane());
+			this.add(Controller.getPane());
 		
 		//If there is a communication error display a panel with an error message
 		} catch (JSONFailureException e) {

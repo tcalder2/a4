@@ -20,8 +20,9 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.text.AbstractDocument;
 
+import service.UserService;
+import ttable.User;
 import json.JSONFailureException;
-import ttable.Services;
 
 /**
  * The class LockScreen, a populated BackgroundPanel.
@@ -72,7 +73,7 @@ public class LockScreen extends BackgroundPanel {
 			c.gridy = gridY;
 			JLabel label = new JLabel(errors.get(i).toString());
 			label.setForeground(Color.RED);
-			label.setFont(controller.getFont().deriveFont(Font.PLAIN, 18));
+			label.setFont(Controller.getFont().deriveFont(Font.PLAIN, 18));
 			add(label, c);
 			gridY++;
 		}
@@ -103,7 +104,7 @@ public class LockScreen extends BackgroundPanel {
 		((AbstractDocument) passwordField.getDocument()).setDocumentFilter(new DocumentLengthFilter(6));
 		
 		//Set component attributes and graphics
-		pwdLabel.setFont(controller.getFont().deriveFont(Font.BOLD, 40));
+		pwdLabel.setFont(Controller.getFont().deriveFont(Font.BOLD, 40));
 
 		ok.setContentAreaFilled(false);
 		ok.setBorderPainted(false);
@@ -213,20 +214,20 @@ class PressOk implements ActionListener {
 
 		try {
 			//Check if the password is correct, will throw if not
-			Services.authenticate(pwd);
+			UserService.authenticate(pwd);
 
 			//On first successful login go to the screen to change password and the security question
-			if (Services.getFirstLogin()) {
+			if (User.getInstance().getFirstLogin()) {
 				BackgroundPanel screen = new BackgroundPanel("http://jbaron6.cs2212.ca/img/default_background.png",
 						new BorderLayout());
 				
 				screen.add(new SecurityTab());
-				controller.setScreen(screen);
+				Controller.setScreen(screen);
 			}
 			
 			//On successful login (not first) go to the settings screen
 			else {
-				controller.setScreen(new Settings(controller));
+				Controller.setScreen(new Settings(controller));
 			}
 
 		} catch (JSONFailureException e1) {
@@ -234,12 +235,12 @@ class PressOk implements ActionListener {
 
 			//If more than three failed attempts go to the security question screen
 			if (e1.getMessages().get(0).compareTo("Too many login attempts") == 0) {
-				controller.setScreen(new SecurityQ(controller));
+				Controller.setScreen(new SecurityQ(controller));
 			}
 			
 			//If there are attempts remaining return to lock screen but add error messages to display
 			else {
-				controller.setScreen(new LockScreen(controller, e1.getMessages()));
+				Controller.setScreen(new LockScreen(controller, e1.getMessages()));
 			}
 		}
 	}

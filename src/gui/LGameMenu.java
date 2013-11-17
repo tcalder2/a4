@@ -120,6 +120,6 @@ class SelectLGame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		LGame screen = new LGame(controller, level);
-		controller.setScreen(screen);
+		Controller.setScreen(screen);
 	}
 }
