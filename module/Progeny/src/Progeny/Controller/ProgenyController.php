@@ -11,6 +11,7 @@ class ProgenyController extends AbstractActionController
 {
  protected $facebook = null;
  protected $fb_id = null;
+ protected $progeny_table;
 
  public function indexAction()
  {
@@ -78,9 +79,9 @@ class ProgenyController extends AbstractActionController
  {
   if ($this->progenyTable) return $this->progenyTable;
 
-  $this->progenyTable = $this->getServiceLocator()->get('Progeny\Service\ProgenyTable');
+  $this->progeny_table = $this->getServiceLocator()->get('Progeny\Service\ProgenyTable');
 
-  return $this->progenyTable;
+  return $this->progeny_table;
  }
 
 
