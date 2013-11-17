@@ -17,13 +17,13 @@ return array(
  'router' => array(
   'routes' => array(
 
-   'addchild' => array(
+   'addprogeny' => array(
     'type' => 'Zend\Mvc\Router\Http\Literal',
     'options' => array(
-     'route' => '/addchild',
+     'route' => '/addprogeny',
      'defaults' => array(
       'controller' => 'Progeny\Controller\Progeny',
-      'action' => 'addchild',
+      'action' => 'addprogeny',
      ),
     ),
    ),
