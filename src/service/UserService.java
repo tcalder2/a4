@@ -8,7 +8,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import ttable.Progeny;
-import ttable.User;
 import json.JSONFailureException;
 import json.Json;
 
@@ -132,40 +131,6 @@ public class UserService {
 	}
 	
 	/**
-	 * Returns if this is the first login attempt or not.
-	 * 
-	 * @return						true if this is the first login, false otherwise
-	 * @throws JSONFailureException	the JSON failure exception
-	 */
-	public static boolean isFirstLogin() throws JSONFailureException {
-		//TODO: server call
-		return false;
-	}
-	
-	/**
-	 * Gets the current user.
-	 *
-	 * @return the currently logged user
-	 * @throws JSONFailureException the jSON failure exception
-	 */
-	public static User getUser() throws JSONFailureException
-	{
-		User user = new User();
-		
-		Json json = new Json();
-		
-		JSONObject jsonObj = json.sendRequest("https://jbaron6.cs2212.ca/getuser");
-		
-		JSONObject userObj = (JSONObject)jsonObj.get("user");
-		
-		user.setFbId(((String)userObj.get("fb_id")));
-		user.setFirstName(((String)userObj.get("first_name")));
-		user.setLastName(((String)userObj.get("last_name")));
-		
-		return user;
-	}
-	
-	/**
 	 * Gets the users friends list
 	 *
 	 * @return 						an array of friends
@@ -225,20 +190,20 @@ public class UserService {
 	public static Progeny addProgeny(String firstName, Date birthday) throws JSONFailureException {
 		
 		// TODO: server request
-		Progeny result = new Progeny("Name", new Date(), "" + 0, 30); //TODO: replace this line with parsed info
+		Progeny result = new Progeny(); //TODO: replace this line with parsed info
 		return result;
 	}
 	
-	/**
-	 * Removes the specified progeny.
-	 * 
-	 * @param progeny				the progeny to be removed
-	 * @return						true if successful, false otherwise
-	 * @throws JSONFailureException the JSON failure exception
-	 */
-	public static boolean removeProgeny(Progeny progeny) throws JSONFailureException {
-		//TODO: code this, perhaps use progeny id to refer to the progeny
-		return false;
+
+
+	public static int getSecurityQuestionNumber() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public static ArrayList<String> getFriendsTest() throws JSONFailureException {
+		// TODO Auto-generated method stub
+		return null;
 	}	
 
 }

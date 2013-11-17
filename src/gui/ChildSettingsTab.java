@@ -89,7 +89,7 @@ public class ChildSettingsTab extends JPanel {
 			Progeny p = progenyList.get(i);
 			v.add(p.getFirstName());
 
-			Date birthday = p.getDateOfBirth();
+			Date birthday = p.getBirthdate();
 			DateFormat format = new SimpleDateFormat("d");
 			v.add(format.format(birthday));
 
@@ -322,7 +322,7 @@ public class ChildSettingsTab extends JPanel {
 	public static void setSelections(JComboBox<String> childSelect, JComboBox<String> year, JComboBox<String> month, JComboBox<String> day, JComboBox<String> level) {
 		try {
 			//Get the currently selected child's birthday
-			Date birth = Controller.getUser().getProgenyList().get(childSelect.getSelectedIndex()).getDateOfBirth();
+			Date birth = Controller.getUser().getProgenyList().get(childSelect.getSelectedIndex()).getBirthdate();
 
 			//Set the year, month and day fields to the current birthday values
 			DateFormat f = new SimpleDateFormat("yyyy");
@@ -713,7 +713,7 @@ class PressAdd implements ActionListener {
 			Vector<String> v = new Vector<String>();
 			v.add(newProgeny.getFirstName());
 
-			Date birthday = newProgeny.getDateOfBirth();
+			Date birthday = newProgeny.getBirthdate();
 			format = new SimpleDateFormat("d");
 			v.add(format.format(birthday));
 
@@ -914,7 +914,7 @@ class PressUpdate implements ActionListener {
 			DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 			String birthdayStr = dd + "/" + mm + "/" + yyyy;
 			Date birthdate = format.parse(birthdayStr);
-			child.setDateOfBirth(birthdate);
+			child.setBirthdate(birthdate);
 
 			//Update the progeny's level
 			child.changeLevel(currentLevel);
@@ -932,7 +932,7 @@ class PressUpdate implements ActionListener {
 
 			//Create new entry to replace old in table
 			Vector<String> entry = new Vector<String>();
-			Date birthday = newProgeny.getDateOfBirth();
+			Date birthday = newProgeny.getBirthdate();
 			format = new SimpleDateFormat("d");
 			entry.set(1, format.format(birthday));
 

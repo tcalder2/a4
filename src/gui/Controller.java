@@ -11,7 +11,6 @@ import javax.swing.JComponent;
 import javax.swing.JSplitPane;
 
 import json.JSONFailureException;
-import service.UserService;
 import ttable.Progeny;
 import ttable.User;
 /**
@@ -58,7 +57,7 @@ public class Controller {
 		}
 		
 		//Get the current user
-		user = UserService.getUser();
+		user = User.getInstance();
 		
 		//Set the current progeny to null to be set at a later date
 		currentProgeny = null;

@@ -1,6 +1,8 @@
 package gui;
 
 import java.awt.Dimension;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -11,6 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import json.JSONFailureException;
+import service.ProgenyService;
 import service.UserService;
 import ttable.User;
 
@@ -103,6 +106,33 @@ public class Test extends JApplet {
 		boolean succeeded = false;
 		ArrayList<String> messages = new ArrayList<String>();
 
+		// TEST AUTH1
+		appendTestMessage("PROG1: Creating progeny James with birthdate 1982-05-19");
+
+		try {
+			
+			try {
+				ProgenyService.addProgeny("James", new SimpleDateFormat("yyyy-MM-dd").parse("1982-05-19"));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			++succeededCount;
+			appendTestMessage("TEST PASSED: AUTH1");
+		} catch (JSONFailureException e) {
+			appendTestMessage("TEST FAILED: AUTH1");
+			appendTestMessages(e.getMessages());
+			++failedCount;
+		}
+
+		// blank line
+		appendTestMessage("");
+
+		
+		if(true)
+			return;
+		
 		// TEST AUTH1
 		appendTestMessage("AUTH1: Attempting to authenticate with VALID password \"cs2212\"");
 
@@ -595,7 +625,7 @@ public class Test extends JApplet {
 		appendTestMessage("USER1: Attempting to get user information");
 		
 		try {
-			User userInfo = UserService.getUser();
+			User userInfo = User.getInstance();
 			if(
 					userInfo.getFirstName().length() > 0 &&
 					userInfo.getLastName().length() > 0 &&
