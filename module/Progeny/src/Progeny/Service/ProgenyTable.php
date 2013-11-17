@@ -31,7 +31,7 @@ class ProgenyTable
   $qb = $this->em->createQueryBuilder();
 
   /** @var \User\Entity\User $user */
-  $user = $this->sm->get('User\Entity\User');
+  $user = $this->sm->get('User\Service\User');
 
   return !$qb->select('p')
    ->from('\Progeny\Entity\Progeny', 'p')
