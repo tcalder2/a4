@@ -77,7 +77,7 @@ class ProgenyController extends AbstractActionController
   */
  public function getProgenyTable()
  {
-  if ($this->progenyTable) return $this->progenyTable;
+  if ($this->progeny_table) return $this->progeny_table;
 
   $this->progeny_table = $this->getServiceLocator()->get('Progeny\Service\ProgenyTable');
 
