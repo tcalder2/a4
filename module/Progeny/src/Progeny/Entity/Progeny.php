@@ -19,14 +19,13 @@ class Progeny {
 
  function __construct()
  {
-  $this->is_parent = false;
  }
 
  public function toArray()
  {
   return array(
-   'email' => $this->getEmail(),
-   'is_registered' => $this->getIsRegistered(),
+   'first_name' => $this->getFirstName(),
+   'birthdate' => $this
   );
 
 
@@ -37,62 +36,6 @@ class Progeny {
   throw new \Exception("Not used");
  }
 
-
- public function getInputFilter()
- {
-  if($this->inputFilter) return $this->inputFilter;
-
-  $inputFilter = new InputFilter();
-  $factory = new InputFactory();
-
-  //email
-  $inputFilter->add($factory->createInput(array(
-   'name' => 'email',
-   'required' => true,
-   'filters' => array(
-    array('name' => 'StripTags'),
-    array('name' => 'StringTrim'),
-   ),
-   'validators' => array(
-    array(
-     'name' => 'EmailAddress',
-    ),
-    array(
-     'name' => 'StringLength',
-     'options' => array(
-      'encoding' => 'UTF-8',
-      'min' => 1,
-      'max' => 255,
-     ),
-    ),
-    ),
-  )));
-
-  //password
-  $inputFilter->add($factory->createInput(array(
-   'name' => 'password',
-   'required' => true,
-   'filters' => array(
-    array('name' => 'StripTags'),
-    array('name' => 'StringTrim'),
-   ),
-   'validators' => array(
-    array(
-     'name' => 'StringLength',
-     'options' => array(
-      'encoding' => 'UTF-8',
-      'min' => 8,
-      'max' => 50,
-     ),
-    ),
-   ),
-  )));
-
-
-  $this->inputFilter = $inputFilter;
-
-  return $this->inputFilter;
- }
 
  /**
   * @ORM\Id
@@ -113,11 +56,8 @@ class Progeny {
  /** @ORM\Column(type="string") */
  protected $first_name;
 
- /** @ORM\Column(type="string") */
- protected $last_name;
-
- /** @ORM\Column(type="string") */
- protected $age;
+ /** @ORM\Column(type="date") */
+ protected $birthdate;
 
  //A Facebook user must be able to delete his/her children
  /** @ORM\Column(type="boolean") */
@@ -148,6 +88,150 @@ class Progeny {
   $this->last_name = (isset($data['last_name'])) ? $data['last_name'] : null;
   $this->fb_id = (isset($data['id'])) ? $data['id'] : null;
   $this->fb_link = (isset($data['fb_link'])) ? $data['fb_link'] : null;
+ }
+
+ /**
+  * @param mixed $age
+  */
+ public function setAge($age)
+ {
+  $this->age = $age;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getAge()
+ {
+  return $this->age;
+ }
+
+ /**
+  * @param mixed $first_name
+  */
+ public function setFirstName($first_name)
+ {
+  $this->first_name = $first_name;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getFirstName()
+ {
+  return $this->first_name;
+ }
+
+ /**
+  * @param mixed $id
+  */
+ public function setId($id)
+ {
+  $this->id = $id;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getId()
+ {
+  return $this->id;
+ }
+
+ /**
+  * @param mixed $is_deleted
+  */
+ public function setIsDeleted($is_deleted)
+ {
+  $this->is_deleted = $is_deleted;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getIsDeleted()
+ {
+  return $this->is_deleted;
+ }
+
+ /**
+  * @param mixed $last_name
+  */
+ public function setLastName($last_name)
+ {
+  $this->last_name = $last_name;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getLastName()
+ {
+  return $this->last_name;
+ }
+
+ /**
+  * @param mixed $level
+  */
+ public function setLevel($level)
+ {
+  $this->level = $level;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getLevel()
+ {
+  return $this->level;
+ }
+
+ /**
+  * @param mixed $minutes_to_complete_level
+  */
+ public function setMinutesToCompleteLevel($minutes_to_complete_level)
+ {
+  $this->minutes_to_complete_level = $minutes_to_complete_level;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getMinutesToCompleteLevel()
+ {
+  return $this->minutes_to_complete_level;
+ }
+
+ /**
+  * @param mixed $mistakes_allowed_per_level
+  */
+ public function setMistakesAllowedPerLevel($mistakes_allowed_per_level)
+ {
+  $this->mistakes_allowed_per_level = $mistakes_allowed_per_level;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getMistakesAllowedPerLevel()
+ {
+  return $this->mistakes_allowed_per_level;
+ }
+
+ /**
+  * @param mixed $user
+  */
+ public function setUser($user)
+ {
+  $this->user = $user;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getUser()
+ {
+  return $this->user;
  }
 
 
