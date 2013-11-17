@@ -33,9 +33,7 @@ class ProgenyTable
   /** @var \User\Entity\User $user */
   $user = $this->sm->get('User\Service\User');
 
-  return !$qb->select('p')
-   ->from('\Progeny\Entity\Progeny', 'p')
-   ->where(array('user' => $user, 'first_name' => $first_name));
+  return !$qb->select('p')->from('Progeny\Entity\Progeny', 'p')->where(array('user' => $user, 'first_name' => $first_name));
  }
 
  public function newProgeny($data)
