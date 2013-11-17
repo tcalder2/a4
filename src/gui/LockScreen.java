@@ -21,7 +21,7 @@ import javax.swing.JPasswordField;
 import javax.swing.text.AbstractDocument;
 
 import json.JSONFailureException;
-import ttable.User;
+import ttable.Services;
 
 /**
  * The class LockScreen, a populated BackgroundPanel.
@@ -213,10 +213,10 @@ class PressOk implements ActionListener {
 
 		try {
 			//Check if the password is correct, will throw if not
-			User.authenticate(pwd);
+			Services.authenticate(pwd);
 
 			//On first successful login go to the screen to change password and the security question
-			if (User.isFirstLogin()) {
+			if (Services.isFirstLogin()) {
 				BackgroundPanel screen = new BackgroundPanel("http://jbaron6.cs2212.ca/img/default_background.png",
 						new BorderLayout());
 				

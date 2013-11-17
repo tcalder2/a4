@@ -14,9 +14,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-import json.JSONFailureException;
-import ttable.User;
-
 /**
  * The class DrillMenu, a populated BackgroundPanel.
  * 
@@ -32,10 +29,10 @@ public class DrillMenu extends BackgroundPanel {
 	 * @param controller	the controller
 	 */
 	public DrillMenu(Controller controller) {
-		
+
 		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
-		
+
 		//Create a GridBagConstraints instance to control layout
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
@@ -49,8 +46,8 @@ public class DrillMenu extends BackgroundPanel {
 		try	{
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/titles/drillmenu.png"));
 			add(new JLabel(new ImageIcon(img)), c);
-		
-		//If download fails display text placeholder instead
+
+			//If download fails display text placeholder instead
 		} catch (IOException e) {
 			add(new JLabel("Drill Menu"), c);
 		}
@@ -100,7 +97,7 @@ class StartDrill implements ActionListener {
 
 	/** The controller. */
 	private Controller controller;
-	
+
 	/** The level number. */
 	private int levelNum;
 
@@ -122,12 +119,8 @@ class StartDrill implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		try {
-			Drill screen;
-			screen = new Drill(controller, User.getLevels().get(levelNum - 1));
-			controller.setScreen(screen);
-		} catch (JSONFailureException e1) {
-			// TODO: add exception handling, popup?
-		}
+		Drill screen;
+		screen = new Drill(controller, controller.getCurrentProgeny().getLevels().get(levelNum - 1));
+		controller.setScreen(screen);
 	}
 }

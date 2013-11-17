@@ -12,7 +12,7 @@ import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 
 import json.JSONFailureException;
-import ttable.User;
+import ttable.Services;
 
 /**
  * The class SecurityTab, a populated BackgroundPanel.
@@ -54,7 +54,7 @@ public class SecurityTab extends JPanel {
 		newField.addMouseListener(new SelectAllTextOnClick(newField));
 		retypeField.addMouseListener(new SelectAllTextOnClick(retypeField));
 		answerField.addMouseListener(new SelectAllTextOnClick(answerField));
-		update.addActionListener(new PressUpdate(oldField, newField, retypeField, answerField));
+		update.addActionListener(new PressUpdate4(oldField, newField, retypeField, answerField));
 		
 		//Add the components to the view
 		GridBagConstraints c = new GridBagConstraints();
@@ -110,29 +110,19 @@ public class SecurityTab extends JPanel {
 
 class PressUpdate4 implements ActionListener {
 
-	/**
-	 * The GUI applet controller.
-	 */
+	/** The controller. */
 	Controller controller;
 	
-	/**
-	 * The field for the input of the old password.
-	 */
+	/** The field for the input of the old password. */
 	JPasswordField oldField;
 	
-	/**
-	 * The field for the input of the new password.
-	 */
+	/** The field for the input of the new password. */
 	JPasswordField newField;
 	
-	/**
-	 * The field for the input of the new password a second time to confirm correct entry.
-	 */
+	/** The field for the input of the new password a second time to confirm correct entry. */
 	JPasswordField retypeField;
 	
-	/**
-	 * The field for the input of the new security question answer.
-	 */
+	/** The field for the input of the new security question answer. */
 	JTextField answerField;
 	
 	/**
@@ -142,9 +132,8 @@ class PressUpdate4 implements ActionListener {
 	 * @param retypePassword
 	 * @param answerField
 	 */
-	public PressUpdate4 (Controller controller, JPasswordField oldField, JPasswordField newField, 
+	public PressUpdate4 (JPasswordField oldField, JPasswordField newField, 
 			JPasswordField retypeField, JTextField answerField) {
-		this.controller = controller;
 		this.oldField = oldField;
 		this.newField = newField;
 		this.retypeField = retypeField;
@@ -183,13 +172,13 @@ class PressUpdate4 implements ActionListener {
 				ArrayList<String> errors = new ArrayList<String>();
 				if (newPwdS.equals(retypePwdS)) {
 					try {
-						User.resetPassword(oldPwdS, newPwdS);
+						Services.resetPassword(oldPwdS, newPwdS);
 						controller.setScreen(new MainMenu(controller));
 						oldPwdS = "000000";
 						newPwdS = "000000";
 						retypePwdS = "000000";
-					} catch (JSONFailureException e) {
-						errors = e.getMessages();
+					} catch (JSONFailureException e1) {
+						errors = e1.getMessages();
 						controller.setScreen(new PasswordReset(controller, errors));
 					}
 

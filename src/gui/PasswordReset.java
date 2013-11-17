@@ -13,7 +13,7 @@ import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 
 import json.JSONFailureException;
-import ttable.User;
+import ttable.Services;
 
 /**
  * The class PasswordReset, a populated BackgroundPanel.
@@ -192,7 +192,7 @@ class PressUpdate3 implements ActionListener {
 		ArrayList<String> errors = new ArrayList<String>();
 		if (newPwdS.equals(retypePwdS)) {
 			try {
-				User.resetPassword(oldPwdS, newPwdS);
+				Services.resetPassword(oldPwdS, newPwdS);
 				controller.setScreen(new MainMenu(controller));
 				oldPwdS = "000000";
 				newPwdS = "000000";

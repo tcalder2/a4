@@ -25,7 +25,6 @@ import javax.swing.JTable;
 
 import json.JSONFailureException;
 import ttable.Services;
-import ttable.User;
 
 /**
  * The class StatsMenu, a populated BackgroundPanel.

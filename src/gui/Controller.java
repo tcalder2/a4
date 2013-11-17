@@ -12,6 +12,7 @@ import javax.swing.JSplitPane;
 
 import json.JSONFailureException;
 import ttable.Progeny;
+import ttable.Services;
 import ttable.User;
 
 /**
@@ -58,7 +59,7 @@ public class Controller {
 		}
 		
 		//Get the current user
-		user = User.getUser();
+		user = Services.getUser();
 		
 		//Set the current progeny to null to be set at a later date
 		currentProgeny = null;
