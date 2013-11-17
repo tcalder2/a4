@@ -245,6 +245,6 @@ class PressStats implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		//Swap screen for the stats menu
-		controller.setScreen(new StatsMenu(controller));
+		controller.setScreen(new StatsMenu2(controller));
 	}
 }

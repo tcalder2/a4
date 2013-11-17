@@ -2,13 +2,6 @@ package ttable;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
-
-import json.JSONFailureException;
-import json.Json;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 /**
  * The class User.
@@ -107,11 +100,10 @@ public class User {
 	}
 	
 	/**
-	 * Add a new progeny.
-	 * 
-	 * @param firstName
-	 * @param birthdate
-	 * @return
+	 * Adds a progeny.
+	 *
+	 * @param  progeny				the progeny to add
+	 * @return 						the newly added progeny
 	 */
 	public static Progeny addProgeny(String firstName, Date birthdate) throws IllegalArgumentException {
 		return new Progeny(0, firstName, birthdate);
