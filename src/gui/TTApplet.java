@@ -6,6 +6,8 @@ import javax.swing.JApplet;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import json.JSONFailureException;
+
 /**
  * The class TTApplet, a JApplet.
  * 
@@ -42,7 +44,7 @@ public class TTApplet extends JApplet {
 			this.add(controller.getPane());
 		
 		//If there is a communication error display a panel with an error message
-		} catch (Exception e) {
+		} catch (JSONFailureException e) {
 			JPanel screen = new JPanel();
 			screen.add(new JLabel("<html>Oops!<br>"
 					+ "It appears we are having some issues!<br>"

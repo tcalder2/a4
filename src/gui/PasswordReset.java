@@ -13,7 +13,7 @@ import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 
 import json.JSONFailureException;
-import ttable.User;
+import ttable.Services;
 
 /**
  * The class PasswordReset, a populated BackgroundPanel.
@@ -46,6 +46,9 @@ public class PasswordReset extends BackgroundPanel {
 		JButton update = new JButton("Update");
 
 		//Add action listeners
+		oldField.addMouseListener(new SelectAllTextOnClick(oldField));
+		newField.addMouseListener(new SelectAllTextOnClick(newField));
+		retypeField.addMouseListener(new SelectAllTextOnClick(retypeField));
 		update.addActionListener(new PressUpdate3(controller, oldField, newField, retypeField));
 
 		//Limit the number of characters that can be input into each field
@@ -107,13 +110,22 @@ public class PasswordReset extends BackgroundPanel {
 			}
 		}
 	}
+	
+	/**
+	 * Constructor without error messages.
+	 * 
+	 * @param controller	the GUI controller.
+	 */
+	public PasswordReset(Controller controller) {
+		this(controller, new ArrayList<String>());
+	}
 }
 
 /**
  * The class PressUpdate3, an action listener.
  * 
  * @author James Anderson
- *
+ * @version 1.0
  */
 class PressUpdate3 implements ActionListener {
 	
@@ -180,8 +192,11 @@ class PressUpdate3 implements ActionListener {
 		ArrayList<String> errors = new ArrayList<String>();
 		if (newPwdS.equals(retypePwdS)) {
 			try {
-				User.resetPassword(oldPwdS, newPwdS);
+				Services.resetPassword(oldPwdS, newPwdS);
 				controller.setScreen(new MainMenu(controller));
+				oldPwdS = "000000";
+				newPwdS = "000000";
+				retypePwdS = "000000";
 			} catch (JSONFailureException e) {
 				errors = e.getMessages();
 				controller.setScreen(new PasswordReset(controller, errors));

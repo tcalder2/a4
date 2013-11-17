@@ -57,7 +57,7 @@ public class Settings extends BackgroundPanel {
 		JTabbedPane tabPane = new JTabbedPane();
 		
 		//Populate the tabs
-		tabPane.add("Child Settings", new ChildSettingsTab(controller, this));
+		tabPane.add("Child Settings", new ChildSettingsTab(this));
 		tabPane.add("Level Settings", new LevelSettingsTab(controller));
 		tabPane.add("Security Settings", new SecurityTab());
 		

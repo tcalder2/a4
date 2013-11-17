@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
 
 import json.JSONFailureException;
-import ttable.User;
+import ttable.Services;
 
 /**
  * The class SecurityQ, a populated BackgroundPanel.
@@ -40,11 +40,12 @@ public class SecurityQ extends BackgroundPanel {
 		try{
 		//Create components
 		JLabel chooseQ = new JLabel("Please answer the following security question: ");
-		JLabel question = new JLabel(User.getSecurityQuestions().get(User.getSecurityQuestionNumber()));
+		JLabel question = new JLabel(Services.getSecurityQuestions().get(Services.getSecurityQuestionNumber()));
 		JTextField answerField = new JTextField("-- Answer --");
 		JButton update = new JButton("Update");
 		
 		//Add action listeners
+		answerField.addMouseListener(new SelectAllTextOnClick(answerField));
 		update.addActionListener(new PressUpdate2(controller, answerField));
 		
 		//Limit the number of characters that can be input into each field
@@ -116,10 +117,16 @@ class PressUpdate2 implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			User.testSecurityQuestion(answerField.getText());
-			controller.setScreen(new Settings(controller));
+			Services.testSecurityQuestion(answerField.getText());
+			controller.setScreen(new PasswordReset(controller));
 		} catch (JSONFailureException e1) {
-			//TODO: add exception handling
+			ArrayList<String> errors = e1.getMessages();
+			if (errors.get(0).equals("Could not verify answer")) {
+				
+			}
+			else {
+				//TODO: add exception handling, popup?
+			}
 		}
 	}
 }

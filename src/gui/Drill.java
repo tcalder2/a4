@@ -9,7 +9,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import ttable.Level;
+import ttable.LevelProgeny;
 
 /**
  * The class Drill, a populated BackgroundPanel.
@@ -24,7 +24,7 @@ public class Drill extends BackgroundPanel {
 	private Controller controller;
 
 	/** The level. */
-	private Level level;
+	private LevelProgeny level;
 
 	/** The number of lives remaining. */
 	private int lives;
@@ -68,7 +68,7 @@ public class Drill extends BackgroundPanel {
 	 * @param controller the controller
 	 * @param level the level
 	 */
-	public Drill(Controller controller, Level level) {
+	public Drill(Controller controller, LevelProgeny level) {
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 		this.controller = controller;
 		this.level = level;

@@ -2,7 +2,8 @@ package ttable;
 
 // TODO: Auto-generated Javadoc
 /**
- * The class Level.
+ * The class responsible for holding user specific level settings that are shared for
+ * all children playing on that users account.
  * 
  * @author James Anderson
  * @version 2.0
@@ -49,5 +50,20 @@ public class Level {
 	 */
 	public void setMistakesAllowed(int mistakesAllowed) {
 		this.mistakesAllowed = mistakesAllowed;
+	}
+	
+	/**
+	 * Compares the class variables to the class variables of the level passed as an argument.
+	 * 
+	 * @param level		the level object to be compared with.
+	 * @return			true if the objects are equal, false if they are not.
+	 */
+	public boolean equals(Level level) {
+		if (getLevel() == level.getLevel()) {
+			if (getMistakesAllowed() == level.getMistakesAllowed()) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
