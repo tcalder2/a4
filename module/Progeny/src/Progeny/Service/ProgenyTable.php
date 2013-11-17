@@ -31,7 +31,7 @@ class ProgenyTable
   $qb = $this->em->createQueryBuilder();
 
   /** @var \User\Entity\User $user */
-  $user = $this->sm->get('\User\Entity\User');
+  $user = $this->sm->get('User\Entity\User');
 
   return !$qb->select('p')
    ->from('\Progeny\Entity\Progeny', 'p')
@@ -79,7 +79,7 @@ class ProgenyTable
  public function getProgeniesArray()
  {
   /** @var \User\Entity\User $user */
-  $user = $this->sm->get('User\Entity\User');
+  $user = $this->sm->get( 'User\Entity\User');
   $progenies = $this->em->getRepository('User\Entity\User')->findBy(array('user' => $user));
 
   $results = Array();
