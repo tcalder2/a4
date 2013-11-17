@@ -226,12 +226,20 @@ public class Progeny {
 		return highScores;
 	}
 	
-	public void setHighScores(int[] highScores) {
-		
+	public void setHighScores(int[] highScores) throws IllegalArgumentException {
+		validateHighScores(highScores);
+		this.highScores = highScores;
 	}
 	
-	public void validateHighScores(int [] highScores) {
-		
+	public void validateHighScores(int [] highScores) throws IllegalArgumentException {
+		if (highScores.length != 5) {
+			throw new IllegalArgumentException("High Scores array must be 5 elements long.");
+		}
+		for (int i = 0; i < 5; i++) {
+			if (highScores[i] < 0) {
+				throw new IllegalArgumentException("High Scores must all be positive values.");
+			}
+		}
 	}
 	
 	/**
@@ -291,7 +299,9 @@ public class Progeny {
 	}
 	
 	private void validateTimeAllowed(int timeAllowed) throws IllegalArgumentException {
-		
+		if (timeAllowed < 0 || timeAllowed > 120) {
+			throw new IllegalArgumentException("Time Allowed must be between 0 and 120 seconds inclusively.");
+		}
 	}
 
 	/**
@@ -304,7 +314,8 @@ public class Progeny {
 	}
 	
 	public void setLevels(ArrayList<LevelProgeny> levels) {
-		
+		validateLevels(levels);
+		this.levels = levels;
 	}
 	
 	public void validateLevels(ArrayList<LevelProgeny> levels) {

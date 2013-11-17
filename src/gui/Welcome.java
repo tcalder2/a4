@@ -54,8 +54,10 @@ public class Welcome extends BackgroundPanel {
 		controller.getUser();
 		ArrayList<Progeny> progenyList = controller.getUser().getProgeny();
 		Vector<String> names = new Vector<String>();
-		for (int i = 0; i < progenyList.size(); i++) {
-			names.add(progenyList.get(i).getFirstName());
+		if (progenyList != null) {
+			for (int i = 0; i < progenyList.size(); i++) {
+				names.add(progenyList.get(i).getFirstName());
+			}
 		}
 		JComboBox<String> nameSelector = new JComboBox<String>(names);
 		if (names.size() > 0) {
