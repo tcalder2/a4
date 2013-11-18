@@ -59,12 +59,19 @@ class ProgenyTable
  }
 
  /**
+  * @param $progeny_id
   * @return \Progeny\Entity\Progeny
-  * @throws \Exception
   */
- public function getProgeny()
+ public function getProgeny($progeny_id)
  {
-  return $this->em->getRepository('Progeny\Entity\Progeny')->findOneBy(array('fb_id' => $this->fb_id));
+  return $this->em->getRepository('Progeny\Entity\Progeny')->findOneBy(array('id' => $progeny_id));
+ }
+
+ public function updateBirthDate($progeny, $birth_date)
+ {
+  $progeny->setBirthDate($birth_date);
+  $this->em->persist($progeny);
+  $this->em->flush();
  }
 
  /**

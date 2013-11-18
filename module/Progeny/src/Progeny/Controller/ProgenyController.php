@@ -19,6 +19,23 @@ class ProgenyController extends AbstractActionController
   return new ViewModel();
  }
 
+ public function ChangeBirthDateAction()
+ {
+  $progeny_id = $this->params()->fromQuery('progeny_id');
+  $birth_date = $this->params()->fromQuery('birth_date');
+
+  $birth_date_validator = Progeny::getBirthDateValidator();
+
+  if (!$birth_date_validator->isValid($birth_date))
+   return new JsonModel(array('success' => false, 'messages' => $birth_date_validator->getMessages()));
+
+  $progeny_table = $this->getProgenyTable();
+  $progeny = $progeny_table->getProgeny($progeny_id);
+  $progeny_table->updateBirthDate($progeny, date_create($birth_date));
+
+  return new JsonModel(array('success' => true, 'progeny' => $progeny));
+ }
+
  public function AddProgenyAction()
  {
   $first_name = $this->params()->fromQuery('first_name');

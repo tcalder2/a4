@@ -28,7 +28,16 @@ return array(
     ),
    ),
 
-
+   'changeprogenybirthdate' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+     'route' => '/changeprogenybirthdate',
+     'defaults' => array(
+      'controller' => 'Progeny\Controller\Progeny',
+      'action' => 'changebirthdate',
+     ),
+    ),
+   ),
 
   ),
  ),
