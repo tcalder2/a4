@@ -20,7 +20,7 @@ public class Progeny {
 	/** 
 	 * The child's ID on the server.
 	 */
-	private int id;
+	private String id;
 	
 	/**
 	 * The child's first name.
@@ -30,7 +30,7 @@ public class Progeny {
 	/**
 	 * The child's date of birth.
 	 */
-	private Date birthdate;
+	private Date birthDate;
 
 	/** 
 	 * Array of child's top five final game scores.
@@ -38,7 +38,7 @@ public class Progeny {
 	private int[] highScores;
 	
 	/** 
-	 * The amont of time the child is allowed to complete drill levels.
+	 * The amount of time the child is allowed to complete drill levels.
 	 */
 	private int timeAllowed;
 	
@@ -54,35 +54,11 @@ public class Progeny {
 	public Progeny() {}
 
 	/**
-	 * Gets the child's current age.
-	 *
-	 * @return the child's current age.
-	 */
-	public int getAge() {
-		GregorianCalendar calPresent = new GregorianCalendar();
-		calPresent.setTime(new Date());
-		GregorianCalendar calBirth = new GregorianCalendar();
-		calBirth.setTime(birthdate);
-
-		int age = calPresent.get(Calendar.YEAR) - calBirth.get(Calendar.YEAR);
-
-		if (calBirth.get(Calendar.MONTH) < calPresent.get(Calendar.MONTH)) {
-			age--; 
-		}
-		else if (calBirth.get(Calendar.MONTH) == calPresent.get(Calendar.MONTH)) {
-			if (calBirth.get(Calendar.DAY_OF_MONTH) < calPresent.get(Calendar.DAY_OF_MONTH)) {
-				age--;
-			}
-		}
-		return age;
-	}
-
-	/**
 	 * Gets the id.
 	 *
 	 * @return the id
 	 */
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -91,7 +67,7 @@ public class Progeny {
 	 *
 	 * @param id the new id
 	 */
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -114,21 +90,21 @@ public class Progeny {
 	}
 
 	/**
-	 * Gets the birthdate.
+	 * Gets the birth date.
 	 *
-	 * @return the birthdate
+	 * @return the birth date
 	 */
-	public Date getBirthdate() {
-		return birthdate;
+	public Date getBirthDate() {
+		return birthDate;
 	}
 
 	/**
-	 * Sets the birthdate.
+	 * Sets the birth date.
 	 *
-	 * @param birthdate the new birthdate
+	 * @param birthDate the new birth date
 	 */
-	public void setBirthdate(Date birthdate) {
-		this.birthdate = birthdate;
+	public void setBirthdate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 
 	/**

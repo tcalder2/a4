@@ -112,7 +112,7 @@ public class Test extends JApplet {
 		try {
 			
 			try {
-				ProgenyService.addProgeny("James", new SimpleDateFormat("yyyy-MM-dd").parse("1982-05-19"));
+				ProgenyService.addProgeny("James", new SimpleDateFormat("yyyy-MM-dd").parse("1982-05-19"), 30);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
