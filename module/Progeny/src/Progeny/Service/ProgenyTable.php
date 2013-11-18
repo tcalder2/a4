@@ -33,13 +33,14 @@ class ProgenyTable
   /** @var \User\Entity\User $user */
   $user = $this->sm->get('User\Service\User');
 
-  $result = $qb->select('p')
-    ->from('Progeny\Entity\Progeny', 'p')
-    ->where('p.user = :user AND p.first_name = :first_name')
-    ->setParameter('user', $user)
-    ->setParameter('first_name', $first_name)
-    ->getQuery()
-    ->getResult();
+//  $result = $qb->select('p')->from('Progeny\Entity\Progeny', 'p')
+//    ->where('p.user = :user AND p.first_name = :first_name')
+//    ->setParameter('user', $user)
+//    ->setParameter('first_name', $first_name)
+//    ->getQuery()
+//    ->getResult();
+
+  $this->em->getRepository('Progeny\Entity\Progeny')->findBy(array('user' => $user, 'first_name' => $first_name));
 
   return !$result;
  }
