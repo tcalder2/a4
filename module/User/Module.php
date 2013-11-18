@@ -27,7 +27,7 @@ class Module
        /** @var \Zend\ServiceManager\ServiceManager $sm */
        $fb_id = $sm->get('Application\Service\FbId');
        $em = $sm->get('Doctrine\ORM\EntityManager');
-       return $em->getRepository('\User\Entity\User')->findOneBy(array('fb_id' => $fb_id));
+       return $em->getRepository('User\Entity\User')->findOneBy(array('fb_id' => $fb_id));
       },
 
     'User\Service\UserTable' => function ($sm) {
