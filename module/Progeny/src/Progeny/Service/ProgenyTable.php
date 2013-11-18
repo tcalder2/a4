@@ -26,6 +26,12 @@ class ProgenyTable
   $this->em = $this->sm->get('Doctrine\ORM\EntityManager');
  }
 
+ public function removeProgeny($progeny)
+ {
+  $this->em->remove($progeny);
+  $this->em->flush();
+ }
+
  public function checkFirstNameUnique($first_name)
  {
   $qb = $this->em->createQueryBuilder();
@@ -64,7 +70,11 @@ class ProgenyTable
   */
  public function getProgeny($progeny_id)
  {
-  return $this->em->getRepository('Progeny\Entity\Progeny')->findOneBy(array('id' => $progeny_id));
+  return $this->em->getRepository('Progeny\Entity\Progeny')->findOneBy(
+   array(
+    'user' => $this->sm->get('User\Service\User'),
+    'id' => $progeny_id
+   ));
  }
 
  public function updateBirthDate($progeny, $birth_date)

@@ -17,6 +17,9 @@ class Progeny
 {
  protected static $birth_date_validator;
  protected static $first_name_validator;
+ protected static $time_allowed_validator;
+
+
 
  /**
   * @return \Zend\Validator\Date
@@ -31,6 +34,14 @@ class Progeny
   return (Progeny::$first_name_validator = new \Zend\Validator\StringLength(array('min' => 1, 'max' => 20)));
  }
 
+ /**
+  * @return \Zend\Validator\Digits()
+  */
+ public static function getTimeAllowedValidator()
+ {
+  return (Progeny::$time_allowed_validator = new \Zend\Validator\Digits());
+ }
+
  function __construct()
  {
   $this->is_deleted = false;
@@ -40,7 +51,7 @@ class Progeny
  {
   return array(
    'first_name' => $this->getFirstName(),
-   'birth_date' => $this->getBirthDate(),
+   'birth_date' => $this->getBirthDate()->format("Y-m-d"),
    'id' => $this->getId(),
    'time_allowed' => $this->getTimeAllowed(),
   );
@@ -131,7 +142,7 @@ class Progeny
  }
 
  /**
-  * @return mixed
+  * @return \DateTime
   */
  public function getBirthDate()
  {

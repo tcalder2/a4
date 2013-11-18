@@ -19,6 +19,17 @@ class ProgenyController extends AbstractActionController
   return new ViewModel();
  }
 
+ public function RemoveProgenyAction()
+ {
+  $progeny = $this->getProgenyTable()->getProgeny($this->params()->fromQuery('progeny_id'));
+  if (!$progeny)
+   return new JsonModel(array('success' => false, 'message' => 'Could not find a progeny with that id'));
+
+  $this->getProgenyTable()->removeProgeny($progeny);
+
+  return new JsonModel(array('success' => true));
+ }
+
  public function ChangeBirthDateAction()
  {
   $progeny_id = $this->params()->fromQuery('progeny_id');
@@ -33,16 +44,18 @@ class ProgenyController extends AbstractActionController
   $progeny = $progeny_table->getProgeny($progeny_id);
   $progeny_table->updateBirthDate($progeny, date_create($birth_date));
 
-  return new JsonModel(array('success' => true, 'progeny' => $progeny));
+  return new JsonModel(array('success' => true, 'progeny' => $progeny->toArray()));
  }
 
  public function AddProgenyAction()
  {
   $first_name = $this->params()->fromQuery('first_name');
   $birth_date = $this->params()->fromQuery('birth_date');
+  $time_allowed = $this->params()->fromQuery('time_allowed');
 
   $birth_date_validator = Progeny::getBirthDateValidator();
   $first_name_validator = Progeny::getFirstNameValidator();
+  $time_allowed_validator = Progeny::getTimeAllowedValidator();
 
   if (!$birth_date_validator->isValid($birth_date))
    return new JsonModel(array('success' => false, 'messages' => $birth_date_validator->getMessages()));
@@ -50,10 +63,13 @@ class ProgenyController extends AbstractActionController
   if(!$first_name_validator->isValid($first_name))
    return new JsonModel(array('success' => false, 'messages' => $first_name_validator->getMessages()));
 
+  if (!$time_allowed_validator->isValid($time_allowed))
+   return new JsonModel(array('success' => false, 'messages' => $time_allowed_validator->getMessages()));
+
   if (!$this->getProgenyTable()->checkFirstNameUnique($first_name))
    return new JsonModel(array('success' => false, 'message' => 'You have already added a child with this name'));
 
-  $data = array('first_name' => $first_name, 'birth_date' =>  date_create($birth_date));
+  $data = array('first_name' => $first_name, 'birth_date' =>  date_create($birth_date), 'time_allowed' => $time_allowed);
 
   $progeny = $this->getProgenyTable()->newProgeny($data);
 

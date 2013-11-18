@@ -39,6 +39,17 @@ return array(
     ),
    ),
 
+   'removeprogeny' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+     'route' => '/removeprogeny',
+     'defaults' => array(
+      'controller' => 'Progeny\Controller\Progeny',
+      'action' => 'removeprogeny',
+     ),
+    ),
+   ),
+
   ),
  ),
 
