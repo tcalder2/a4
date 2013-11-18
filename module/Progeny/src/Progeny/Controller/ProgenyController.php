@@ -44,7 +44,7 @@ class ProgenyController extends AbstractActionController
   $progeny = $progeny_table->getProgeny($progeny_id);
   $progeny_table->updateBirthDate($progeny, date_create($birth_date));
 
-  return new JsonModel(array('success' => true, 'progeny' => $progeny));
+  return new JsonModel(array('success' => true, 'progeny' => $progeny->toArray()));
  }
 
  public function AddProgenyAction()
