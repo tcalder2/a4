@@ -50,6 +50,7 @@ class ProgenyTable
   $progeny = new Progeny();
 
   $progeny->exchangeArray($data);
+  $progeny->setUser($this->sm->get('User\Service\User'));
 
   $this->em->persist($progeny);
   $this->em->flush();
