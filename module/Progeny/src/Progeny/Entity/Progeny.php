@@ -40,6 +40,7 @@ class Progeny
 
  function __construct()
  {
+  $this->is_deleted = false;
  }
 
  public function toArray()
