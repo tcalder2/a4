@@ -20,6 +20,11 @@ class Progeny
  protected static $birth_date_validator;
  protected static $first_name_validator;
 
+ public function Progeny()
+ {
+  $this->is_deleted = false;
+ }
+
  /**
   * @return \Zend\Validator\Date
   */
