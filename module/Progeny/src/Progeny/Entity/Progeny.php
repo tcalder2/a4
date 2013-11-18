@@ -43,6 +43,7 @@ class Progeny
   $this->is_deleted = false;
   $this->minutes_to_complete_level = 0;
   $this->level = 0;
+  $this->minutes_to_complete_level = 0;
  }
 
  public function toArray()
