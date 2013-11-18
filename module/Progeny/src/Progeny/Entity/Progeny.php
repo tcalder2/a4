@@ -17,6 +17,9 @@ class Progeny
 {
  protected static $birth_date_validator;
  protected static $first_name_validator;
+ protected static $time_allowed_validator;
+
+
 
  /**
   * @return \Zend\Validator\Date
@@ -29,6 +32,14 @@ class Progeny
  public static function getFirstNameValidator()
  {
   return (Progeny::$first_name_validator = new \Zend\Validator\StringLength(array('min' => 1, 'max' => 20)));
+ }
+
+ /**
+  * @return \Zend\Validator\Digits()
+  */
+ public static function getTimeAllowedValidator()
+ {
+  return (Progeny::$time_allowed_validator = new \Zend\Validator\Digits());
  }
 
  function __construct()
