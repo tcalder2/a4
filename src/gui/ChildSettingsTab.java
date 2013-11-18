@@ -89,7 +89,7 @@ public class ChildSettingsTab extends JPanel {
 			Progeny p = progenyList.get(i);
 			v.add(p.getFirstName());
 
-			Date birthday = p.getBirthdate();
+			Date birthday = p.getBirthDate();
 			DateFormat format = new SimpleDateFormat("d");
 			v.add(format.format(birthday));
 
@@ -99,7 +99,7 @@ public class ChildSettingsTab extends JPanel {
 			format = new SimpleDateFormat("yyyy");
 			v.add(format.format(birthday));
 
-			v.add("" + p.getAge());
+			v.add("" + ProgenyService.getAge(p.getBirthDate()));
 			v.add("" + (p.getLevelNumber()));
 			tableData.add(v);
 		}
@@ -322,7 +322,7 @@ public class ChildSettingsTab extends JPanel {
 	public static void setSelections(JComboBox<String> childSelect, JComboBox<String> year, JComboBox<String> month, JComboBox<String> day, JComboBox<String> level) {
 		try {
 			//Get the currently selected child's birthday
-			Date birth = Controller.getUser().getProgenyList().get(childSelect.getSelectedIndex()).getBirthdate();
+			Date birth = Controller.getUser().getProgenyList().get(childSelect.getSelectedIndex()).getBirthDate();
 
 			//Set the year, month and day fields to the current birthday values
 			DateFormat f = new SimpleDateFormat("yyyy");
@@ -713,7 +713,7 @@ class PressAdd implements ActionListener {
 			Vector<String> v = new Vector<String>();
 			v.add(newProgeny.getFirstName());
 
-			Date birthday = newProgeny.getBirthdate();
+			Date birthday = newProgeny.getBirthDate();
 			format = new SimpleDateFormat("d");
 			v.add(format.format(birthday));
 
@@ -723,7 +723,7 @@ class PressAdd implements ActionListener {
 			format = new SimpleDateFormat("yyyy");
 			v.add(format.format(birthday));
 
-			v.add("" + newProgeny.getAge());
+			v.add("" + ProgenyService.getAge(newProgeny.getBirthDate()));
 			v.add("" + newProgeny.getLevelNumber());
 
 			//Update the child details table with details of newly added child
@@ -932,7 +932,7 @@ class PressUpdate implements ActionListener {
 
 			//Create new entry to replace old in table
 			Vector<String> entry = new Vector<String>();
-			Date birthday = newProgeny.getBirthdate();
+			Date birthday = newProgeny.getBirthDate();
 			format = new SimpleDateFormat("d");
 			entry.set(1, format.format(birthday));
 
@@ -942,7 +942,7 @@ class PressUpdate implements ActionListener {
 			format = new SimpleDateFormat("yyyy");
 			entry.set(3, format.format(birthday));
 
-			entry.set(4, "" + newProgeny.getAge());
+			entry.set(4, "" + ProgenyService.getAge(newProgeny.getBirthDate()));
 			entry.set(5, "" + newProgeny.getLevelNumber());
 
 			//Replace the old entry in the table with the new one
