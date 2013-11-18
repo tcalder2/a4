@@ -50,7 +50,7 @@ class Progeny
  {
   return array(
    'first_name' => $this->getFirstName(),
-   'birth_date' => $this->birth_date(),
+   'birth_date' => $this->getBirthDate(),
    'id' => $this->getId(),
   );
 
@@ -254,6 +254,22 @@ class Progeny
  public function getUser()
  {
   return $this->user;
+ }
+
+ /**
+  * @param mixed $birth_date
+  */
+ public function setBirthDate($birth_date)
+ {
+  $this->birth_date = $birth_date;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getBirthDate()
+ {
+  return $this->birth_date;
  }
 
 
