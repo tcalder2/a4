@@ -19,6 +19,17 @@ class ProgenyController extends AbstractActionController
   return new ViewModel();
  }
 
+ public function RemoveProgenyAction()
+ {
+  $progeny = $this->getProgenyTable()->getProgeny($this->params()->fromQuery('progeny_id'));
+  if (!$progeny)
+   return new JsonModel(array('success' => false, 'message' => 'Could not find a progeny with that id'));
+
+  $this->getProgenyTable()->removeProgeny($progeny);
+
+  return new JsonModel(array('success' => true));
+ }
+
  public function ChangeBirthDateAction()
  {
   $progeny_id = $this->params()->fromQuery('progeny_id');
