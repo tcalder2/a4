@@ -29,7 +29,8 @@ class ProgenyTable
  public function removeProgeny($progeny)
  {
   $this->em->remove($progeny);
-
+  $this->em->persist($progeny);
+  $this->em->flush();
  }
 
  public function checkFirstNameUnique($first_name)
