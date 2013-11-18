@@ -39,7 +39,7 @@ class ProgenyTable
     ->setParameter('user', $user)
     ->setParameter('first_name', $first_name)
     ->getQuery()
-    ->getSingleResult();
+    ->getResult();
 
   return !$result;
  }
