@@ -72,7 +72,7 @@ class ProgenyTable
  {
   return $this->em->getRepository('Progeny\Entity\Progeny')->findOneBy(
    array(
-    'user' => $this->sm('User\Service\User'),
+    'user' => $this->sm->get('User\Service\User'),
     'id' => $progeny_id
    ));
  }
