@@ -35,7 +35,7 @@ class ProgenyTable
 
   $result = $qb->select('p')
     ->from('Progeny\Entity\Progeny', 'p')
-    ->where('p.user = :user_id AND p.first_name = :first_name')
+    ->where('p.user = :user AND p.first_name = :first_name')
     ->setParameter('user', $user)
     ->setParameter('first_name', $first_name)
     ->getQuery()
