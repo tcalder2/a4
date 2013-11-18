@@ -40,7 +40,7 @@ class ProgenyTable
 //    ->getQuery()
 //    ->getResult();
 
-  $this->em->getRepository('Progeny\Entity\Progeny')->findBy(array('user' => $user, 'first_name' => $first_name));
+  $result = $this->em->getRepository('Progeny\Entity\Progeny')->findBy(array('user' => $user, 'first_name' => $first_name));
 
   return !$result;
  }
