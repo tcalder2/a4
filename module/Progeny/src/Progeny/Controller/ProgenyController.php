@@ -4,6 +4,7 @@ namespace Progeny\Controller;
 
 use Progeny\Entity\Progeny;
 use Zend\Config\Writer\Json;
+use Zend\Db\Sql\Ddl\Column\Date;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 
@@ -35,7 +36,7 @@ class ProgenyController extends AbstractActionController
   if (!$this->getProgenyTable()->checkFirstNameUnique($first_name))
    return new JsonModel(array('success' => false, 'message' => 'You have already added a child with this name'));
 
-  $data = array('first_name' => $first_name, 'birth_date' => $birth_date);
+  $data = array('first_name' => $first_name, 'birth_date' =>  $birth_date);
 
   $progeny = $this->getProgenyTable()->newProgeny($data);
 
