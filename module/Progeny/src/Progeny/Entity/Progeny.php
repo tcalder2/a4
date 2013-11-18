@@ -51,7 +51,7 @@ class Progeny
  {
   return array(
    'first_name' => $this->getFirstName(),
-   'birth_date' => $this->getBirthDate()->format("yyyy-MM-dd"),
+   'birth_date' => $this->getBirthDate()->format("Y-m-d"),
    'id' => $this->getId(),
    'time_allowed' => $this->getTimeAllowed(),
   );
