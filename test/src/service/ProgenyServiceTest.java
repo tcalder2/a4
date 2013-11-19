@@ -143,6 +143,45 @@ public class ProgenyServiceTest {
 	}
 
 	@Test
+	public void testChangeTimeAllowed()
+	{
+		Date birthDate = null;
+		int fiveMinutes = 3000;
+		int sixMinutes = 3600;
+		
+		try {
+			birthDate = ProgenyService.getBirthDateFormat().parse("1982-05-19");
+		} catch (ParseException e1) {
+		}
+		
+		String name = "Dan";
+		Progeny progeny = null;
+		
+		try {
+			progeny = ProgenyService.addProgeny(name, birthDate, fiveMinutes);
+		} catch (JSONFailureException e) {
+			fail(e.getMessages().get(0));
+		}
+	
+		assertEquals(fiveMinutes, progeny.getTimeAllowed());		
+		
+		try {
+			ProgenyService.changeTimeAllowed(progeny, sixMinutes);
+		} catch (JSONFailureException e1) {
+			fail(e1.getMessages().get(0));
+		}
+		
+		assertEquals(sixMinutes, progeny.getTimeAllowed());		
+		
+		try {
+			ProgenyService.removeProgeny(progeny);
+		} catch (JSONFailureException e) {
+			fail(e.getMessages().get(0));
+		}
+		
+	}
+	
+	@Test
 	public void testFillProgeny() {
 		fail("Not yet implemented");
 	}

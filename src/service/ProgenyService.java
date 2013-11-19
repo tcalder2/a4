@@ -96,6 +96,16 @@ public class ProgenyService {
 	
 		fillProgeny(progeny, (JSONObject)progeny_data.get("progeny"));
 	}
+	
+	public static void changeTimeAllowed(Progeny progeny, int timeAllowed) throws JSONFailureException
+	{
+		
+		Json json = new Json();
+		JSONObject progeny_data = json.sendRequest("https://jbaron6.cs2212.ca/changeprogenytimeallowed?progeny_id=" + progeny.getId() + "&time_allowed=" + timeAllowed);
+	
+		fillProgeny(progeny, (JSONObject)progeny_data.get("progeny"));
+				
+	}
 
 	
 	/**
