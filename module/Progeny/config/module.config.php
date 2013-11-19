@@ -50,6 +50,19 @@ return array(
     ),
    ),
 
+
+   'getprogenies' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+     'route' => '/getprogenies',
+     'defaults' => array(
+      'controller' => 'Progeny\Controller\Progeny',
+      'action' => 'getprogenies',
+     ),
+    ),
+   ),
+
+
   ),
  ),
 
