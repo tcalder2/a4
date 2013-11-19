@@ -89,7 +89,7 @@ class ProgenyController extends AbstractActionController
   if (!$time_allowed_validator->isValid($time_allowed))
    return new JsonModel(array('success' => false, 'messages' => $time_allowed_validator->getMessages()));
 
-  return new JsonModel(array('success' => true, 'progeny' => $progeny));
+  return new JsonModel(array('success' => true, 'progeny' => $progeny->toArray()));
  }
 
  public function getProgeniesAction()
