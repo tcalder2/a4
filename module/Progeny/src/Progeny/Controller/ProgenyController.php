@@ -76,7 +76,7 @@ class ProgenyController extends AbstractActionController
   return new JsonModel(array('success' => true, 'progeny' => $progeny->toArray()));
  }
 
- public function setTimeAllowedAction()
+ public function changeTimeAllowedAction()
  {
   $progeny = $this->getProgenyTable()->getProgeny($this->params()->fromQuery('progeny_id'));
 
