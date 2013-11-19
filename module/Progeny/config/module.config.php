@@ -56,7 +56,7 @@ return array(
      'route' => '/changeprogenytimeallowed',
      'defaults' => array(
       'controller' => 'Progeny\Controller\Progeny',
-      'action' => 'changeprogenytimeallowed',
+      'action' => 'changetimeallowed',
      ),
     ),
    ),
