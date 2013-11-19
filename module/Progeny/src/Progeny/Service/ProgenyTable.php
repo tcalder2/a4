@@ -100,6 +100,12 @@ class ProgenyTable
   return $this->em->getRepository('Progeny\Entity\Progeny')->findAll();
  }
 
+ public function setTimeAllowed(Progeny $progeny, $time_allowed)
+ {
+  $progeny->setTimeAllowed($time_allowed);
+  $this->em->persist($progeny);
+  $this->em->flush();
+ }
 
  public function getProgeniesArray()
  {
