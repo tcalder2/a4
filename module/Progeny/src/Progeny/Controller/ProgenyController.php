@@ -78,7 +78,9 @@ class ProgenyController extends AbstractActionController
 
  public function changeTimeAllowedAction()
  {
-  $progeny = $this->getProgenyTable()->getProgeny($this->params()->fromQuery('progeny_id'));
+  $progeny_table = $this->getProgenyTable();
+
+  $progeny = $progeny_table->getProgeny($this->params()->fromQuery('progeny_id'));
 
   if (!$progeny)
    return new JsonModel(array('success' => false, 'message' => 'Could not find a progeny with that id'));
@@ -88,6 +90,8 @@ class ProgenyController extends AbstractActionController
 
   if (!$time_allowed_validator->isValid($time_allowed))
    return new JsonModel(array('success' => false, 'messages' => $time_allowed_validator->getMessages()));
+
+  $progeny_table->setTimeAllowed($progeny, $time_allowed);
 
   return new JsonModel(array('success' => true, 'progeny' => $progeny->toArray()));
  }
