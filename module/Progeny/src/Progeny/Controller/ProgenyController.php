@@ -88,11 +88,6 @@ class ProgenyController extends AbstractActionController
   return new JsonModel(array($this->getProgenyTable()->getProgeny($id)->toArray()));
  }
 
- public function getProgeniesAction()
- {
-  return new JsonModel(array($this->getProgenyTable()->getProgeniesArray()));
- }
-
  /**
   * Return a Facebook object
   * @return \Facebook
