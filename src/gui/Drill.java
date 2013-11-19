@@ -243,7 +243,16 @@ public class Drill extends BackgroundPanel {
 		for (int i = 0; i < 12; i++) {
 			answers[i] = questions[i] * level.getLevel();	
 		}
-		question.setText(level.getLevel() + " x " + questions[currentQ]);
+		
+		r1 = 0;
+		r1 = rand.nextInt(2);
+		if (r1 > 0) {
+			question.setText(level.getLevel() + " x " + questions[currentQ]);
+		}
+		else if (r1 == 0) {
+			question.setText(questions[currentQ] + " x " + level.getLevel());
+		}
+		
 	}
 	
 	/** Gets the number of correct answers **/
@@ -256,6 +265,16 @@ public class Drill extends BackgroundPanel {
 	public void update() {
 		
 		currentQ++;
+		
+		// Randomly choose the order of the two operands in the problem
+		int r1 = rand.nextInt(2);
+		if (r1 > 0) {
+			question.setText(level.getLevel() + " x " + questions[currentQ]);
+		}
+		else if (r1 == 0) {
+			question.setText(questions[currentQ] + " x " + level.getLevel());
+		}
+		
 		try {
 			//Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/drill/heart.png"));
 			livesCount.setText(" x " + lives);
@@ -264,14 +283,7 @@ public class Drill extends BackgroundPanel {
 			livesCount.setText("<3 x " + lives);
 		}
 		
-		// Random choose the order of the two operands in the problem
-		int r1 = rand.nextInt(1);
-		if (r1 == 1) {
-			question.setText(level.getLevel() + " x " + questions[currentQ]);
-		}
-		else {
-			question.setText(questions[currentQ] + " x " + level.getLevel());
-		}
+
 	}
 	
 	/** Turn off Time Adding **/
