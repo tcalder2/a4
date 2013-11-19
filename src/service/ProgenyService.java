@@ -46,14 +46,7 @@ public class ProgenyService {
 			JSONObject progenyObj = (JSONObject)progeniesIt.next();
 			
 			Progeny progeny = new Progeny();
-
-			try {
-				progeny.setBirthdate(new SimpleDateFormat("yyyy-MM-dd").parse((String)progenyObj.get("birth_date")));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			
-			progeny.setFirstName((String)progenyObj.get("first_name"));
+			fillProgeny(progeny, progenyObj);
 			progenies.add(progeny);
 		}
 		
@@ -71,9 +64,7 @@ public class ProgenyService {
 	public static Progeny addProgeny(String name, Date birthDate, int timeAllowed) throws JSONFailureException
 	{
 		Json json = new Json();
-		JSONObject progeny_obj = json.sendRequest("https://jbaron6.cs2212.ca/addprogeny?first_name=" + name + 
-				"&birth_date=" + birthDateFormat.format(birthDate) +
-				"&time_allowed=" + timeAllowed
+		JSONObject progeny_obj = json.sendRequest("https://jbaron6.cs2212.ca/addprogeny?first_name=" + name + 				"&birth_date=" + birthDateFormat.format(birthDate) +				"&time_allowed=" + timeAllowed
 				);
 	
 		Progeny progeny = new Progeny();
@@ -106,6 +97,7 @@ public class ProgenyService {
 		fillProgeny(progeny, (JSONObject)progeny_data.get("progeny"));
 	}
 
+	
 	/**
 	 * Gets the child's current age.
 	 *
