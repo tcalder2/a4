@@ -17,7 +17,7 @@ import ttable.LevelProgeny;
  * 
  * @author James Anderson
  * @author Taylor Calder
- * @version 1.1
+ * @version 1.2
  */
 @SuppressWarnings("serial")
 public class Drill extends BackgroundPanel {
@@ -27,6 +27,9 @@ public class Drill extends BackgroundPanel {
 
 	/** Array of answers **/
 	private int[] answers = new int[12];
+	
+	/** Default time **/
+	final private static int DEFAULT_TIME = 30;
 	
 	/** The Current Question the child is on **/
 	private int currentQ = 0;
@@ -68,7 +71,10 @@ public class Drill extends BackgroundPanel {
 	private JButton submit;
 
 	/** The answer field. */
-	private JTextField answerField;
+	static JTextField answerField;
+	
+	/** Random Generator **/
+	private Random rand = new Random();
 
 	/** The clock. */
 	private Timer clock;
@@ -79,9 +85,17 @@ public class Drill extends BackgroundPanel {
 	/** The current question **/
 	private JLabel question = new JLabel();
 	
-	
 	/** Time is added on correct answer **/
 	static boolean addTime = false;
+	
+	/** Correct answer image **/
+	private ImageIcon imgIconS;
+	
+	/** Incorrect answer image **/
+	private ImageIcon imgIconF;
+	
+	/** Heart Icon **/
+	private ImageIcon heart;
 	
 	/**
 	 * Instantiates a new drill.
@@ -109,8 +123,9 @@ public class Drill extends BackgroundPanel {
 		//JLabel livesCount = new JLabel();
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/drill/heart.png"));
-			livesCount.setText(" x lives");
-			livesCount.setIcon(new ImageIcon(img));
+			heart = new ImageIcon(img);
+			livesCount.setText(" x " + lives);
+			livesCount.setIcon(heart);
 		} catch (IOException e) {
 			livesCount.setText("<3 x " + lives);
 		}
@@ -187,6 +202,18 @@ public class Drill extends BackgroundPanel {
 		c.gridx = 4;
 		add(incorrCounter, c);
 		
+		try {
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/faces/rface.png"));
+			imgIconS = new ImageIcon(img);
+		} catch (Exception e) {
+
+		}
+		try {
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/faces/xface.png"));
+			imgIconF = new ImageIcon(img);
+		} catch (Exception e) {
+
+		}
 		
 		// ----------------------------------------
 		// 				GAME LOGIC
@@ -201,7 +228,6 @@ public class Drill extends BackgroundPanel {
 		}
 
 		/** Randomize the order **/
-		Random rand = new Random();
 		int r1;
 		int r2;
 		int store;
@@ -215,22 +241,14 @@ public class Drill extends BackgroundPanel {
 		
 		/** Set up the answers **/
 		for (int i = 0; i < 12; i++) {
-			
-			answers[i] = questions[i] * level.getLevel();
-			
+			answers[i] = questions[i] * level.getLevel();	
 		}
-		
-		
 		question.setText(level.getLevel() + " x " + questions[currentQ]);
-		
 	}
-
 	
 	/** Gets the number of correct answers **/
-	public static int getCorrect() {
-		
+	public static int getCorrect() {	
 		return correct;
-		
 	}
 	
 	
@@ -239,13 +257,21 @@ public class Drill extends BackgroundPanel {
 		
 		currentQ++;
 		try {
-			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/drill/heart.png"));
-			livesCount.setText(" x lives");
-			livesCount.setIcon(new ImageIcon(img));
-		} catch (IOException e) {
+			//Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/drill/heart.png"));
+			livesCount.setText(" x " + lives);
+			livesCount.setIcon(heart);
+		} catch (Exception e) {
 			livesCount.setText("<3 x " + lives);
 		}
-		question.setText(level.getLevel() + " x " + questions[currentQ]);
+		
+		// Random choose the order of the two operands in the problem
+		int r1 = rand.nextInt(1);
+		if (r1 == 1) {
+			question.setText(level.getLevel() + " x " + questions[currentQ]);
+		}
+		else {
+			question.setText(questions[currentQ] + " x " + level.getLevel());
+		}
 	}
 	
 	/** Turn off Time Adding **/
@@ -284,13 +310,13 @@ public class Drill extends BackgroundPanel {
 		//submit.setVisible(false);
 		//clock.stop();
 		
+		
 		if (answerField.getText().equals("" + correctanswer)) {
 			//clock.getListeners(TimerAction.class)[1].addTime(20);
 			clock = new Timer(1000, new TimerAction(controller, this));
 			try {
-				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/faces/rface.png"));
-				markImg.setIcon(new ImageIcon(img));
-			} catch (IOException e) {
+				markImg.setIcon(imgIconS);
+			} catch (Exception e) {
 				markImg.setText("CORRECT");
 			}
 			correct++;
@@ -300,9 +326,8 @@ public class Drill extends BackgroundPanel {
 		}
 		else {
 			try {
-				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/faces/xface.png"));
-				markImg.setIcon(new ImageIcon(img));
-			} catch (IOException e) {
+				markImg.setIcon(imgIconF);
+			} catch (Exception e) {
 				markImg.setText("Wrong. Try Again!");
 			}
 			solution.setText("Answer: " + correctanswer);
@@ -338,16 +363,26 @@ public class Drill extends BackgroundPanel {
 		
 		if (correct + incorrect >= 12 || lives <= 0) {
 			
-			this.clock.stop();
-			next.addKeyListener(new EnterListener(submit));
+			clock.stop();
+			next.addKeyListener(new EnterListener(next));
 			next.addActionListener(new Next());
 			next.setVisible(true);
 			submit.setVisible(false);
+			answerField.setVisible(false);
+			question.setVisible(false);
 		}
 		else {
 		
 			update();
 		}
+	}
+
+	/**
+	 * Gets the default time for a level if no other time is specified
+	 * @return DEFAULT_TIME	the default time
+	 */
+	public static int getDefaultTime() {
+		return DEFAULT_TIME;
 	}
 }
 
@@ -379,7 +414,7 @@ class TimerAction implements ActionListener {
 			this.timeRemaining = Controller.getCurrentProgeny().getTimeAllowed();
 		}
 		catch (Exception e) {
-			this.timeRemaining = 30;
+			this.timeRemaining = Drill.getDefaultTime();
 		}
 		drill.setTime(timeRemaining);
 	}
@@ -407,7 +442,7 @@ class TimerAction implements ActionListener {
 				setTime(Controller.getCurrentProgeny().getTimeAllowed());
 			}
 			catch (Exception e2) {
-				setTime(30);
+				setTime( Drill.getDefaultTime());
 			}
 
 			Drill.addTime = false;
@@ -451,7 +486,10 @@ class Submit implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		drill.checkAnswer();
+		
+		if (!Drill.answerField.getText().equals("")) {
+			drill.checkAnswer();
+		}
 	}
 }
 

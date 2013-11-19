@@ -104,8 +104,9 @@ class ProgenyTable
  public function getProgeniesArray()
  {
   /** @var \User\Entity\User $user */
-  $user = $this->sm->get( 'User\Service\User');
-  $progenies = $this->em->getRepository('User\Entity\User')->findBy(array('user' => $user));
+  $user = $this->sm->get('User\Service\User');
+
+  $progenies = $this->em->getRepository('Progeny\Entity\Progeny')->findBy(array('user' => $user));
 
   $results = Array();
 

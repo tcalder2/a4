@@ -127,7 +127,7 @@ class StartDrill implements ActionListener {
 		}
 		catch (Exception e2) {
 			LevelProgeny prog = new LevelProgeny();
-			prog.setLevel(2);
+			prog.setLevel(levelNum);
 			screen = new Drill(controller, prog);
 		}
 		Controller.setScreen(screen);
