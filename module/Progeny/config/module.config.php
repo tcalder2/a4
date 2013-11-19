@@ -50,13 +50,13 @@ return array(
     ),
    ),
 
-   'setprogenytimeallowed' => array(
+   'changeprogenytimeallowed' => array(
     'type' => 'Zend\Mvc\Router\Http\Literal',
     'options' => array(
-     'route' => '/setprogenytimeallowed',
+     'route' => '/changeprogenytimeallowed',
      'defaults' => array(
       'controller' => 'Progeny\Controller\Progeny',
-      'action' => 'setprogenytimeallowed',
+      'action' => 'changetimeallowed',
      ),
     ),
    ),
