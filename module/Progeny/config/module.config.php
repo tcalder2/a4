@@ -61,6 +61,17 @@ return array(
     ),
    ),
 
+   'getprogeny' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+     'route' => '/getprogeny',
+     'defaults' => array(
+      'controller' => 'Progeny\Controller\Progeny',
+      'action' => 'getprogeny',
+     ),
+    ),
+   ),
+
    'getprogenies' => array(
     'type' => 'Zend\Mvc\Router\Http\Literal',
     'options' => array(
