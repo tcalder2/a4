@@ -96,7 +96,7 @@ class ProgenyController extends AbstractActionController
   return new JsonModel(array('success' => true, 'progeny' => $progeny->toArray()));
  }
 
- public function getProgeny()
+ public function getProgenyAction()
  {
   $progeny = $this->getProgenyTable()->getProgeny($this->params()->fromQuery('progeny_id'));
 
@@ -109,13 +109,6 @@ class ProgenyController extends AbstractActionController
  public function getProgeniesAction()
  {
   return new JsonModel(array('success' => true, 'progenies' => $this->getProgenyTable()->getProgeniesArray()));
- }
-
- public function getProgenyAction()
- {
-  $id = $this->params()->fromQuery('id');
-
-  return new JsonModel(array($this->getProgenyTable()->getProgeny($id)->toArray()));
  }
 
  /**
