@@ -11,7 +11,9 @@ return array(
         'DoctrineORMModule',
         'Application',
         'User',
-        'Progeny'
+        'Progeny',
+        'Level',
+        'LevelProgeny'
         ),
     'module_listener_options' => array(
         'module_paths' => array(
