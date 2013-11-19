@@ -275,6 +275,6 @@ class PressReset implements ActionListener {
 	public void actionPerformed(ActionEvent evt) {
 		
 		//Swap the screen for the password reset screen
-		//controller.setScreen(new PasswordReset(controller, ));
+		Controller.setScreen(new PasswordReset(controller));
 	}
 }

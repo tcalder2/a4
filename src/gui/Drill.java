@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,22 +16,32 @@ import ttable.LevelProgeny;
  * The class Drill, a populated BackgroundPanel.
  * 
  * @author James Anderson
- * @version 1.0
+ * @author Taylor Calder
+ * @version 1.1
  */
 @SuppressWarnings("serial")
 public class Drill extends BackgroundPanel {
 
+	/** Array of questions **/
+	private int[] questions = new int[12];
+
+	/** Array of answers **/
+	private int[] answers = new int[12];
+	
+	/** The Current Question the child is on **/
+	private int currentQ = 0;
+	
 	/** The controller. */
 	private Controller controller;
 
 	/** The level. */
 	private LevelProgeny level;
-
+	
 	/** The number of lives remaining. */
 	private int lives;
 
 	/** The number of questions answered correctly. */
-	private int correct;
+	private static int correct;
 
 	/** The number of questions answered incorrectly. */
 	private int incorrect;
@@ -45,7 +56,7 @@ public class Drill extends BackgroundPanel {
 	private JLabel corrCounter;
 
 	/** The mark img. */
-	private JLabel markImg;
+	private JLabel markImg = new JLabel();
 
 	/** The solution. */
 	private JLabel solution;
@@ -62,6 +73,16 @@ public class Drill extends BackgroundPanel {
 	/** The clock. */
 	private Timer clock;
 
+	/** The current lives counter **/
+	private JLabel livesCount = new JLabel();
+	
+	/** The current question **/
+	private JLabel question = new JLabel();
+	
+	
+	/** Time is added on correct answer **/
+	static boolean addTime = false;
+	
 	/**
 	 * Instantiates a new drill.
 	 *
@@ -85,7 +106,7 @@ public class Drill extends BackgroundPanel {
 		c.gridy = 0;
 		c.anchor = GridBagConstraints.WEST;
 
-		JLabel livesCount = new JLabel();
+		//JLabel livesCount = new JLabel();
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/drill/heart.png"));
 			livesCount.setText(" x lives");
@@ -103,7 +124,7 @@ public class Drill extends BackgroundPanel {
 		c.anchor = GridBagConstraints.EAST;
 		add(timer, c);
 
-		JLabel question = new JLabel("1 x 12 = ");
+		//JLabel question = new JLabel("");
 		question.setFont(Controller.getFont().deriveFont(Font.BOLD, 60));
 		c.gridy = 1;
 		c.gridx = 1;
@@ -165,8 +186,75 @@ public class Drill extends BackgroundPanel {
 		incorrCounter.setVerticalAlignment(SwingConstants.BOTTOM);
 		c.gridx = 4;
 		add(incorrCounter, c);
+		
+		
+		// ----------------------------------------
+		// 				GAME LOGIC
+		// ----------------------------------------
+		
+		
+		/** Setup the questions **/
+		for (int i = 0; i < 12; i++) {
+			
+			questions[i] = i+1;
+			
+		}
+
+		/** Randomize the order **/
+		Random rand = new Random();
+		int r1;
+		int r2;
+		int store;
+		for (int i = 0; i < 12; i++) {
+			r1 = rand.nextInt(11);
+			r2 = rand.nextInt(11);
+			store = questions[r1];
+			questions[r1] = questions[r2];
+			questions[r2] = store;
+		}
+		
+		/** Set up the answers **/
+		for (int i = 0; i < 12; i++) {
+			
+			answers[i] = questions[i] * level.getLevel();
+			
+		}
+		
+		
+		question.setText(level.getLevel() + " x " + questions[currentQ]);
+		
 	}
 
+	
+	/** Gets the number of correct answers **/
+	public static int getCorrect() {
+		
+		return correct;
+		
+	}
+	
+	
+	/** updates the game state **/
+	public void update() {
+		
+		currentQ++;
+		try {
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/drill/heart.png"));
+			livesCount.setText(" x lives");
+			livesCount.setIcon(new ImageIcon(img));
+		} catch (IOException e) {
+			livesCount.setText("<3 x " + lives);
+		}
+		question.setText(level.getLevel() + " x " + questions[currentQ]);
+	}
+	
+	/** Turn off Time Adding **/
+	public static void setAddTime(boolean t) {
+		
+		addTime = t;
+		
+	}
+	
 	/**
 	 * Sets the time.
 	 *
@@ -192,30 +280,38 @@ public class Drill extends BackgroundPanel {
 	 */
 	public void checkAnswer() {
 
-		int correctanswer = 12;
-		submit.setVisible(false);
-		clock.stop();
-
+		int correctanswer = answers[currentQ];
+		//submit.setVisible(false);
+		//clock.stop();
+		
 		if (answerField.getText().equals("" + correctanswer)) {
+			//clock.getListeners(TimerAction.class)[1].addTime(20);
+			clock = new Timer(1000, new TimerAction(controller, this));
 			try {
 				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/faces/rface.png"));
-				markImg = new JLabel(new ImageIcon(img));
+				markImg.setIcon(new ImageIcon(img));
 			} catch (IOException e) {
-				markImg = new JLabel("CORRECT");
+				markImg.setText("CORRECT");
 			}
 			correct++;
+			solution.setText("");
+			Drill.setAddTime(true);
+			
 		}
 		else {
 			try {
 				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/faces/xface.png"));
-				markImg = new JLabel(new ImageIcon(img));
+				markImg.setIcon(new ImageIcon(img));
 			} catch (IOException e) {
-				markImg = new JLabel("WRONG");
+				markImg.setText("Wrong. Try Again!");
 			}
-			solution = new JLabel("Answer: " + correctanswer);
+			solution.setText("Answer: " + correctanswer);
 			solution.setFont(Controller.getFont().deriveFont(Font.BOLD, 35));
+			lives--;
 			incorrect++;
 		}
+		
+		answerField.setText("");
 		GridBagConstraints c = new GridBagConstraints();
 		c.weightx = 0.5;
 		c.gridx = 2;
@@ -236,7 +332,22 @@ public class Drill extends BackgroundPanel {
 		incorrCounter.setText("" + incorrect);
 		add(incorrCounter, c);
 
-		next.setVisible(true);
+		/**
+		 * Stop the game when you have answered all 12 questions
+		 */
+		
+		if (correct + incorrect >= 12 || lives <= 0) {
+			
+			this.clock.stop();
+			next.addKeyListener(new EnterListener(submit));
+			next.addActionListener(new Next());
+			next.setVisible(true);
+			submit.setVisible(false);
+		}
+		else {
+		
+			update();
+		}
 	}
 }
 
@@ -254,6 +365,7 @@ class TimerAction implements ActionListener {
 	/** The the number of seconds remaining. */
 	private int timeRemaining;
 
+	
 	/**
 	 * Instantiates the Timer Action.
 	 * 
@@ -263,22 +375,51 @@ class TimerAction implements ActionListener {
 	 */
 	public TimerAction(Controller controller, Drill drill) {
 		this.drill = drill;
-		this.timeRemaining = Controller.getCurrentProgeny().getTimeAllowed();
+		try {
+			this.timeRemaining = Controller.getCurrentProgeny().getTimeAllowed();
+		}
+		catch (Exception e) {
+			this.timeRemaining = 30;
+		}
 		drill.setTime(timeRemaining);
 	}
 
+	/**
+	 * Set the amount of time remaining for this time
+	 * 
+	 * @param time	the new amount of time remaining
+	 */
+	public void setTime(int time) {
+		
+		timeRemaining = time;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		if (Drill.addTime == true) {
+		
+			try {
+				setTime(Controller.getCurrentProgeny().getTimeAllowed());
+			}
+			catch (Exception e2) {
+				setTime(30);
+			}
+
+			Drill.addTime = false;
+			
+		}
+		
 		if (timeRemaining > 0) {
 			timeRemaining--;
 			drill.setTime(timeRemaining);
 		}
 		else {
-			drill.checkAnswer();
+			drill.setTime(0);
 		}
 	}
 }
@@ -311,5 +452,20 @@ class Submit implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		drill.checkAnswer();
+	}
+}
+
+/**
+ * The class Reset, an action listener.
+ * 
+ * @author Taylor Calder
+ * @version 1.0
+ */
+class Next implements ActionListener {
+
+	private Controller controller;
+	
+	public void actionPerformed(ActionEvent e) {
+		Controller.setScreen(new ScoreReport(controller, Drill.getCorrect(), 2));
 	}
 }

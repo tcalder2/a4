@@ -9,7 +9,7 @@ package ttable;
  * @version 2.0
  */
 public class LevelProgeny {
-
+	
 	/** The level. */
 	private int level;
 	

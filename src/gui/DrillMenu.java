@@ -14,6 +14,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import ttable.LevelProgeny;
+
 /**
  * The class DrillMenu, a populated BackgroundPanel.
  * 
@@ -120,7 +122,14 @@ class StartDrill implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Drill screen;
+		try {
 		screen = new Drill(controller, Controller.getCurrentProgeny().getLevels().get(levelNum - 1));
+		}
+		catch (Exception e2) {
+			LevelProgeny prog = new LevelProgeny();
+			prog.setLevel(2);
+			screen = new Drill(controller, prog);
+		}
 		Controller.setScreen(screen);
 	}
 }

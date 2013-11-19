@@ -36,7 +36,7 @@ public class PasswordReset extends BackgroundPanel {
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 
 		//Create the components
-		JLabel instruct = new JLabel("Please complete the folling to reset your password.");
+		JLabel instruct = new JLabel("Please complete the following to reset your password.");
 		JLabel oldLabel = new JLabel("Old password: ");
 		JLabel newLabel = new JLabel("New password: ");
 		JLabel retypeLabel = new JLabel("Retype password: ");
