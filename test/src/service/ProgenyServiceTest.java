@@ -8,6 +8,8 @@ import java.util.Date;
 
 import json.JSONFailureException;
 
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -183,19 +185,38 @@ public class ProgenyServiceTest {
 	
 	@Test
 	public void testFillProgeny() {
-		fail("Not yet implemented");
+		JSONObject progeny_data = (JSONObject) JSONValue.parse("{\"first_name\":\"James\",\"birth_date\":\"1982-05-19\",\"id\":77,\"time_allowed\":3000}");
+		
+		Progeny progeny = new Progeny();
+		
+		ProgenyService.fillProgeny(progeny, progeny_data);
+		
+		assertEquals("James", progeny.getFirstName());
+		
+		try {
+			assertTrue(progeny.getBirthDate().equals(ProgenyService.birthDateFormat.parse("1982-05-19")));
+		} catch (ParseException e) {
+			fail(e.getMessage());
+		}
+		
+		assertEquals("77", progeny.getId());
+		assertEquals(3000, progeny.getTimeAllowed());
 	}
 
 
 
 	@Test
 	public void testGetAge() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testRemoveProgeny() {
-		fail("Not yet implemented");
+	
+		int age = 0;
+		
+		try {
+			age = ProgenyService.getAge(ProgenyService.birthDateFormat.parse("1982-05-19"));
+		} catch (ParseException e) {
+			fail(e.getMessage());
+		}
+		
+		assertEquals(31, age);
 	}
 
 }
