@@ -27,6 +27,7 @@ class Level {
 
  function __construct()
  {
+  $this->mistakes_allowed = 0;
  }
 
  public function toArray()
@@ -52,6 +53,9 @@ class Level {
 
  /** @ORM\Column(type="string") */
  protected $level;
+
+ /** @ORM\ManyToOne(targetEntity="User\Entity\User") */
+ protected $user;
 
  /** @ORM\Column(type="string") */
  protected $mistakes_allowed;
@@ -108,5 +112,23 @@ class Level {
  {
   return $this->mistakes_allowed;
  }
+
+ /**
+  * @param mixed $user
+  */
+ public function setUser($user)
+ {
+  $this->user = $user;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getUser()
+ {
+  return $this->user;
+ }
+
+
 }
 

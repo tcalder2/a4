@@ -44,8 +44,8 @@ class LevelTable
  }
 
  /**
-  * @param $level_id
-  * @return \Level\Entity\Level
+  * @param $level
+  * @return Level
   */
  public function getLevel($level)
  {
@@ -64,7 +64,7 @@ class LevelTable
 
   foreach($levels as $level)
   {
-   /** @var \Level\Entity\Level $level */
+   /** @var Level $level */
    array_push($levels_array, $level->toArray());
   }
 
@@ -94,6 +94,23 @@ class LevelTable
   return $this->em->getRepository('Level\Entity\Level')->findAll();
  }
 
+ public function addLevels($level)
+ {
+  /** @var \User\Entity\User $user */
+  $user = $this->sm->get('User\Entity\User');
+
+  for($x = 1; $x < 13; ++$x)
+  {
+   $level = new Level();
+
+   $level->setLevel($x);
+   $level->setLevel($user);
+   $this->em->persist($level);
+  }
+
+  $this->em->flush();
+ }
+
  public function setMistakesAllowed(Level $level, $mistakes_allowed)
  {
   $level->setMistakesAllowed($mistakes_allowed);
@@ -112,7 +129,7 @@ class LevelTable
 
   foreach ($levels as $level)
   {
-   /** @var \Level\Entity\Level $level */
+   /** @var Level $level */
    array_push($results, $level->toArray());
   }
 
