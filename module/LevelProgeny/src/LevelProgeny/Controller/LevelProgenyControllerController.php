@@ -5,7 +5,7 @@ namespace LevelProgeny\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class LevelProgenyControllerController extends AbstractActionController
+class LevelProgenyController extends AbstractActionController
 {
 
     public function indexAction()
