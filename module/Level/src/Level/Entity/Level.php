@@ -36,8 +36,6 @@ class Level {
    'id' => $this->getId(),
    'level' => $this->getLevel(),
   );
-
-
  }
 
  public function setInputFilter(InputFilterInterface $i)

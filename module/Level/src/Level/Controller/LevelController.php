@@ -9,6 +9,22 @@ use Zend\View\Model\ViewModel;
 
 class LevelControllerController extends AbstractActionController
 {
+ public function getLevels()
+ {
+  return new JsonModel(array('levels' => $this->getLevelTable()->getLevels()));
+ }
+
+ public function getLevel()
+ {
+  $level_number = $this->params()->fromQuery('level');
+
+  $level = $this->getLevelTable()->getLevel($level_number);
+
+  if(!$level)
+   return new JsonModel(array('success' => false, 'message' => 'Could not find that level'));
+
+  return new JsonModel(array('success' => true, 'level' => $level->toArray()));
+ }
 
  public function changeMistakesAllowedAction()
  {

@@ -28,6 +28,28 @@ return array(
     ),
    ),
 
+   'getlevels' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+     'route' => '/getlevels',
+     'defaults' => array(
+      'controller' => 'Level\Controller\Level',
+      'action' => 'getlevels',
+     ),
+    ),
+   ),
+
+   'getlevel' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+     'route' => '/getlevel',
+     'defaults' => array(
+      'controller' => 'Level\Controller\Level',
+      'action' => 'getlevel',
+     ),
+    ),
+   ),
+
 
   ),
  ),

@@ -47,13 +47,28 @@ class LevelTable
   * @param $level_id
   * @return \Level\Entity\Level
   */
- public function getLevel($level_id)
+ public function getLevel($level)
  {
   return $this->em->getRepository('Level\Entity\Level')->findOneBy(
    array(
     'user' => $this->sm->get('User\Service\User'),
-    'id' => $level_id
+    'id' => $level
    ));
+ }
+
+ public function getLevels()
+ {
+  $levels = $this->em->getRepository('Level\Entity\Level')->findBy(array('user' => $this->sm->get('User\Service\User')));
+
+  $levels_array = array();
+
+  foreach($levels as $level)
+  {
+   /** @var \Level\Entity\Level $level */
+   array_push($levels_array, $level->toArray());
+  }
+
+  return $levels_array;
  }
 
  /**
