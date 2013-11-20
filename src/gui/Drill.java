@@ -41,7 +41,7 @@ public class Drill extends BackgroundPanel {
 	private LevelProgeny level;
 	
 	/** The number of lives remaining. */
-	private int lives;
+	private static int lives;
 
 	/** The number of questions answered correctly. */
 	private static int correct;
@@ -468,6 +468,7 @@ class TimerAction implements ActionListener {
 		}
 		else {
 			drill.setTime(0);
+			
 		}
 	}
 }
