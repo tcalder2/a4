@@ -32,8 +32,8 @@ class LevelController extends AbstractActionController
 
  public function changeMistakesAllowedAction()
  {
-  $level_id = $this->params()->fromQuery('level_id');
-  $level = $this->getLevelTable()->getLevel($level_id);
+  $level_id = $this->params()->fromQuery('level');
+  $level = $this->getLevelTable()->getLevel($level);
 
   $mistakes_allowed = $this->params()->fromQuery('mistakes_allowed');
   $mistakes_allowed_validator = Level::getMistakesAllowedValidator();

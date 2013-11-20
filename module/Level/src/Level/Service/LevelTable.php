@@ -52,7 +52,7 @@ class LevelTable
   return $this->em->getRepository('Level\Entity\Level')->findOneBy(
    array(
     'user' => $this->sm->get('User\Service\User'),
-    'id' => $level
+    'level' => $level
    ));
  }
 
