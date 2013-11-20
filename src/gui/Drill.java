@@ -214,12 +214,7 @@ public class Drill extends BackgroundPanel {
 			imgIconF = new ImageIcon(img);
 		} catch (Exception e) {
 
-		}
-		
-		// ----------------------------------------
-		// 				GAME LOGIC
-		// ----------------------------------------
-		
+		}		
 		
 		/** Setup the questions **/
 		for (int i = 0; i < 12; i++) {
