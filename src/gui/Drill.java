@@ -214,7 +214,12 @@ public class Drill extends BackgroundPanel {
 			imgIconF = new ImageIcon(img);
 		} catch (Exception e) {
 
-		}		
+		}
+		
+		// ----------------------------------------
+		// 				GAME LOGIC
+		// ----------------------------------------
+		
 		
 		/** Setup the questions **/
 		for (int i = 0; i < 12; i++) {
@@ -518,6 +523,6 @@ class Next implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		Controller.setScreen(new ScoreReport(controller, Drill.getCorrect(), 2));
+		Controller.setScreen(new ScoreReport(controller, Drill.getCorrect(), level));
 	}
 }
