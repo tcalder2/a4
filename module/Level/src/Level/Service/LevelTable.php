@@ -104,7 +104,7 @@ class LevelTable
    $level = new Level();
 
    $level->setLevel($x);
-   $level->setLevel($user);
+   $level->setUser($user);
    $this->em->persist($level);
   }
 
