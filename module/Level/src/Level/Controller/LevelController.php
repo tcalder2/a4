@@ -9,12 +9,12 @@ use Zend\View\Model\ViewModel;
 
 class LevelController extends AbstractActionController
 {
- public function getLevels()
+ public function getLevelsAction()
  {
   return new JsonModel(array('levels' => $this->getLevelTable()->getLevels()));
  }
 
- public function getLevel()
+ public function getLevelAction()
  {
   $level_number = $this->params()->fromQuery('level');
 
