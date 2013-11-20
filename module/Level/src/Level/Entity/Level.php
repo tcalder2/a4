@@ -21,7 +21,7 @@ class Level {
   */
  public static function getMistakesAllowedValidator()
  {
-  return (Progeny::$mistakes_allowed_validator = new \Zend\Validator\Digits());
+  return (Level::$mistakes_allowed_validator = new \Zend\Validator\Digits());
  }
 
 
