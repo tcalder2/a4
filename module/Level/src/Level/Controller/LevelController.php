@@ -15,7 +15,7 @@ class LevelController extends AbstractActionController
 
  public function getLevelsAction()
  {
-  return new JsonModel(array('levels' => $this->getLevelTable()->getLevels()));
+  return new JsonModel(array('success' => true, 'levels' => $this->getLevelTable()->getLevels()));
  }
 
  public function getLevelAction()
