@@ -16,6 +16,16 @@ public class Level {
 	/** The mistakes allowed. */
 	private int mistakesAllowed;
 
+	private String id;
+		
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	/**
 	 * Gets the level.
 	 *
