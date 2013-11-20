@@ -51,7 +51,7 @@ class Level {
   */
  protected $id;
 
- /** @ORM\Column(type="string") */
+ /** @ORM\Column(type="integer") */
  protected $level;
 
  /** @ORM\ManyToOne(targetEntity="User\Entity\User") */
