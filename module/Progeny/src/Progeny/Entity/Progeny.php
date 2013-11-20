@@ -19,8 +19,6 @@ class Progeny
  protected static $first_name_validator;
  protected static $time_allowed_validator;
 
-
-
  /**
   * @return \Zend\Validator\Date
   */

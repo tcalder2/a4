@@ -94,7 +94,7 @@ class LevelTable
   return $this->em->getRepository('Level\Entity\Level')->findAll();
  }
 
- public function addLevels($level)
+ public function addLevels()
  {
   /** @var \User\Entity\User $user */
   $user = $this->sm->get('User\Entity\User');

@@ -67,6 +67,11 @@ class IndexController extends AbstractActionController
 
   $user = $user_table->getUser($fb_uid);
 
+  /** @var \Level\Service\LevelTable $level_table */
+  $level_table = $this->getServiceLocator()->get('Level\Service\LevelTable');
+
+  $level_table->addLevels();
+
   //If the user has not previously been persisted
   if (!$user && $fb_uid) {
    $user_table->newUser($user_profile);
