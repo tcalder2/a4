@@ -65,7 +65,7 @@ return array(
 
  'controllers' => array(
   'invokables' => array(
-   'Level\Controller\Level' => 'Level\Controller\Level'
+   'Level\Controller\Level' => 'Level\Controller\LevelController'
   ),
  ),
 
