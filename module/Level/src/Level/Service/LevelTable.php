@@ -97,7 +97,7 @@ class LevelTable
  public function addLevels()
  {
   /** @var \User\Entity\User $user */
-  $user = $this->sm->get('User\Entity\User');
+  $user = $this->sm->get('User\Service\User');
 
   for($x = 1; $x < 13; ++$x)
   {
