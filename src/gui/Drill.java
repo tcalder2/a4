@@ -47,7 +47,7 @@ public class Drill extends BackgroundPanel {
 	private static int correct;
 
 	/** The number of questions answered incorrectly. */
-	private int incorrect;
+	private static int incorrect;
 
 	/** The timer. */
 	private JLabel timer;
@@ -115,7 +115,7 @@ public class Drill extends BackgroundPanel {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.gridwidth = 1;
-		c.insets = new Insets(0,50,0,50);
+		c.insets = new Insets(0,25,0,25);
 		c.weightx = 0.5;
 		c.gridx = 0;
 		c.gridy = 0;
@@ -131,6 +131,10 @@ public class Drill extends BackgroundPanel {
 			livesCount.setText("<3 x " + lives);
 		}
 		livesCount.setFont(Controller.getFont().deriveFont(Font.BOLD, 35));
+		// Set size
+		livesCount.setMinimumSize(new Dimension(80,30));
+		livesCount.setMaximumSize(new Dimension(80,30));
+		livesCount.setPreferredSize(new Dimension(80,30));
 		add(livesCount);
 
 		timer = new JLabel("", SwingConstants.RIGHT);
@@ -138,6 +142,10 @@ public class Drill extends BackgroundPanel {
 		setTime(10);
 		c.gridx = 4;
 		c.anchor = GridBagConstraints.EAST;
+		// Set size
+		timer.setMinimumSize(new Dimension(80,30));
+		timer.setMaximumSize(new Dimension(80,30));
+		timer.setPreferredSize(new Dimension(80,30));
 		add(timer, c);
 
 		//JLabel question = new JLabel("");
@@ -261,6 +269,10 @@ public class Drill extends BackgroundPanel {
 		return correct;
 	}
 	
+	/** Gets the number of incorrect answers **/
+	public static int getIncorrect() {	
+		return incorrect;
+	}
 	
 	/** updates the game state **/
 	public void update() {
@@ -320,12 +332,9 @@ public class Drill extends BackgroundPanel {
 	public void checkAnswer() {
 
 		int correctanswer = answers[currentQ];
-		//submit.setVisible(false);
-		//clock.stop();
 		
 		
 		if (answerField.getText().equals("" + correctanswer)) {
-			//clock.getListeners(TimerAction.class)[1].addTime(20);
 			clock = new Timer(1000, new TimerAction(controller, this));
 			try {
 				markImg.setIcon(imgIconS);
@@ -364,11 +373,11 @@ public class Drill extends BackgroundPanel {
 		c.gridy = 5;
 		c.insets = new Insets(0,50,0,50);
 		corrCounter.setText("" + correct);
-		add(corrCounter, c);
+		//add(corrCounter, c);
 
 		c.gridx = 4;
 		incorrCounter.setText("" + incorrect);
-		add(incorrCounter, c);
+		//add(incorrCounter, c);
 
 		/**
 		 * Stop the game when you have answered all 12 questions
@@ -376,13 +385,7 @@ public class Drill extends BackgroundPanel {
 		
 		if (correct + incorrect >= 12 || lives <= 0) {
 			
-			clock.stop();
-			next.addKeyListener(new EnterListener(next));
-			next.addActionListener(new Next(this.level.getLevel()));
-			next.setVisible(true);
-			submit.setVisible(false);
-			answerField.setVisible(false);
-			question.setVisible(false);
+			end();
 		}
 		else {
 		
@@ -390,6 +393,27 @@ public class Drill extends BackgroundPanel {
 		}
 	}
 
+	public void end() {
+			
+			clock.stop();
+			
+			// Update lives to indicate it is 0
+			try {
+				livesCount.setText(" x " + lives);
+				livesCount.setIcon(heart);
+			} catch (Exception e) {
+				livesCount.setText("<3 x " + lives);
+			}
+			
+			next.addKeyListener(new EnterListener(next));
+			next.addActionListener(new Next(this.level.getLevel()));
+			next.setVisible(true);
+			submit.setVisible(false);
+			answerField.setVisible(false);
+			question.setVisible(false);
+		}
+		
+	
 	/**
 	 * Gets the default time for a level if no other time is specified
 	 * @return DEFAULT_TIME	the default time
@@ -468,6 +492,7 @@ class TimerAction implements ActionListener {
 		}
 		else {
 			drill.setTime(0);
+			drill.end();
 			
 		}
 	}
