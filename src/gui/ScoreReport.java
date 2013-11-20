@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -16,11 +17,10 @@ import service.UserService;
 import json.JSONFailureException;
 
 /**
- * The class PasswordReset, a populated BackgroundPanel.
+ * The class ScoreREport, a populated BackgroundPanel.
  * 
- * @author James Anderson
  * @author Taylor Calder
- * @version 2.0
+ * @version 1.0
  */
 @SuppressWarnings("serial")
 public class ScoreReport extends BackgroundPanel {
@@ -37,8 +37,19 @@ public class ScoreReport extends BackgroundPanel {
 
 		//Create the components
 		JLabel score1 = new JLabel("You got " + correct + " out of 12 questions right.");
-		JLabel score2 = new JLabel("<Old Score Goes Here> ");
+		JLabel score2 = new JLabel("Your previous high score is " + "<highscore goes here>");
 		JLabel score3 = new JLabel("<Post to Facebook Goes Here>");
+		
+		JButton fbB = new JButton("Post to Facebook!");
+		JButton levelB = new JButton("Play the level game!");
+		
+		levelB.setMaximumSize(new Dimension(200,20));
+		levelB.setMinimumSize(new Dimension(200,20));
+		levelB.setPreferredSize(new Dimension(200,20));
+
+		fbB.setMaximumSize(new Dimension(200,20));
+		fbB.setMinimumSize(new Dimension(200,20));
+		fbB.setPreferredSize(new Dimension(200,20));
 		
 		score1.setFont(Controller.getFont().deriveFont(Font.PLAIN, 28));
 		score2.setFont(Controller.getFont().deriveFont(Font.PLAIN, 28));
@@ -47,19 +58,27 @@ public class ScoreReport extends BackgroundPanel {
 		
 		//Add the components to the view
 		GridBagConstraints c = new GridBagConstraints();
-		c.insets = new Insets(25,50,0,50);
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(0,50,25,50);
+		c.fill = GridBagConstraints.CENTER;
 		c.gridx = 0;
 		c.gridy = 0;
 		add(score1, c);		//Score message 1
 
-		c.insets = new Insets(0,50,0,0);
-		c.anchor = GridBagConstraints.EAST;
-		c.gridy = 1;
+		c.gridy++;
 		add(score2, c);		//Score message 2
 
-		c.gridy = 2;
-		add(score3, c);		//Score message 3
+//		c.gridy++;
+//		add(score3, c);		//Score message 3
+
+		c.gridwidth = 1;
+		c.gridy++;
+		c.gridy++;
+		add(fbB, c);		// Facebook button
+		
+		c.gridy++;
+		c.gridy++;
+		add(levelB, c);		// Level game button
+
 
 	}
 	
