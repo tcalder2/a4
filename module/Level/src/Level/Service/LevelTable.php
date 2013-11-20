@@ -58,7 +58,7 @@ class LevelTable
 
  public function getLevels()
  {
-  $levels = $this->em->getRepository('Level\Entity\Level')->findBy(array('user' => $this->sm->get('User\Service\User')));
+  $levels = $this->em->getRepository('Level\Entity\Level')->findBy(array('user' => $this->sm->get('User\Service\User')), array('level' => 'ASC'));
 
   $levels_array = array();
 
