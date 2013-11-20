@@ -7,7 +7,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 
-class LevelControllerController extends AbstractActionController
+class LevelController extends AbstractActionController
 {
  public function getLevels()
  {
