@@ -17,13 +17,13 @@ return array(
  'router' => array(
   'routes' => array(
 
-   'getprogenies' => array(
+   'changemistakesallowed' => array(
     'type' => 'Zend\Mvc\Router\Http\Literal',
     'options' => array(
-     'route' => '/getprogenies',
+     'route' => '/changelevelmistakesallowed',
      'defaults' => array(
       'controller' => 'Level\Controller\Level',
-      'action' => 'getprogenies',
+      'action' => 'changemistakesallowed',
      ),
     ),
    ),

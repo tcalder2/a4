@@ -24,8 +24,8 @@ class Module
  {
   return array(
    'factories' => array(
-    'Progeny\Service\ProgenyTable' => function ($sm) {
-       $table = new \Progeny\Service\ProgenyTable($sm);
+    'Level\Service\LevelTable' => function ($sm) {
+       $table = new \Level\Service\LevelTable($sm);
        return $table;
       },
 
