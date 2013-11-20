@@ -46,7 +46,7 @@ class LevelController extends AbstractActionController
 
   $this->getLevelTable()->changeMistakesAllowed($level, $mistakes_allowed);
 
-  return new ViewModel(array('success' => true, 'level' => $level->toArray()));
+  return new JsonModel(array('success' => true, 'level' => $level->toArray()));
  }
 
  /**
