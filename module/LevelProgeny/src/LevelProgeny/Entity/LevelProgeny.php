@@ -2,10 +2,6 @@
 
 namespace LevelProgeny\Entity;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Zend\InputFilter\Factory as InputFactory;
-use Zend\InputFilter\InputFilter;
-use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
@@ -51,7 +47,7 @@ class LevelProgeny {
  /** @ORM\Column(type="integer") */
  protected $level;
 
- /** @ORM\OneToOne targetEntity="Progeny\Entity\Progeny") */
+ /** @ORM\OneToOne (targetEntity="Progeny\Entity\Progeny") */
  protected $progeny;
 
  /** @ORM\ManyToOne(targetEntity="User\Entity\User") */

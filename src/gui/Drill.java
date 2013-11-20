@@ -17,7 +17,7 @@ import ttable.LevelProgeny;
  * 
  * @author James Anderson
  * @author Taylor Calder
- * @version 1.2
+ * @version 1.3
  */
 @SuppressWarnings("serial")
 public class Drill extends BackgroundPanel {
@@ -96,6 +96,7 @@ public class Drill extends BackgroundPanel {
 	
 	/** Heart Icon **/
 	private ImageIcon heart;
+	
 	
 	/**
 	 * Instantiates a new drill.
@@ -244,7 +245,7 @@ public class Drill extends BackgroundPanel {
 			answers[i] = questions[i] * level.getLevel();	
 		}
 		
-		r1 = 0;
+		
 		r1 = rand.nextInt(2);
 		if (r1 > 0) {
 			question.setText(level.getLevel() + " x " + questions[currentQ]);
@@ -377,7 +378,7 @@ public class Drill extends BackgroundPanel {
 			
 			clock.stop();
 			next.addKeyListener(new EnterListener(next));
-			next.addActionListener(new Next());
+			next.addActionListener(new Next(this.level.getLevel()));
 			next.setVisible(true);
 			submit.setVisible(false);
 			answerField.setVisible(false);
@@ -514,6 +515,11 @@ class Submit implements ActionListener {
 class Next implements ActionListener {
 
 	private Controller controller;
+	private int level;
+	
+	public Next (int l) {
+		level = l;
+	}
 	
 	public void actionPerformed(ActionEvent e) {
 		Controller.setScreen(new ScoreReport(controller, Drill.getCorrect(), 2));

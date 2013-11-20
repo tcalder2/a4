@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 
 import service.UserService;
+import ttable.Level;
 import json.JSONFailureException;
 
 /**
@@ -30,11 +31,16 @@ public class ScoreReport extends BackgroundPanel {
 	 * 
 	 * @param controller	the controller
 	 */
+	
+	private static int lvl;
+	
 	public ScoreReport(Controller controller, int correct, int level) {
 
 		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 
+		lvl = level;
+		
 		//Create the components
 		JLabel score1 = new JLabel("You got " + correct + " out of 12 questions right.");
 		JLabel score2 = new JLabel("Your previous high score is " + "<highscore goes here>");
@@ -46,10 +52,12 @@ public class ScoreReport extends BackgroundPanel {
 		levelB.setMaximumSize(new Dimension(200,20));
 		levelB.setMinimumSize(new Dimension(200,20));
 		levelB.setPreferredSize(new Dimension(200,20));
+		levelB.addActionListener(new ToLevelGame());
 
 		fbB.setMaximumSize(new Dimension(200,20));
 		fbB.setMinimumSize(new Dimension(200,20));
 		fbB.setPreferredSize(new Dimension(200,20));
+		fbB.addActionListener(new PostToFacebook());
 		
 		score1.setFont(Controller.getFont().deriveFont(Font.PLAIN, 28));
 		score2.setFont(Controller.getFont().deriveFont(Font.PLAIN, 28));
@@ -78,6 +86,38 @@ public class ScoreReport extends BackgroundPanel {
 		c.gridy++;
 		c.gridy++;
 		add(levelB, c);		// Level game button
+
+
+	}
+	
+	private static int getLevel() {
+		// TODO Auto-generated method stub
+		return lvl;
+	}
+	
+	/**
+	 * The class ToLevelGame, an action listener.
+	 * 
+	 * @author Taylor Calder
+	 * @version 1.0
+	 */
+	class ToLevelGame implements ActionListener {
+
+		private Controller controller;
+		
+		public void actionPerformed(ActionEvent e) {
+			LGame screen = new LGame(controller, ScoreReport.getLevel());
+			Controller.setScreen(screen);
+		}
+
+
+	}
+	
+	class PostToFacebook implements ActionListener {
+		
+		public void actionPerformed(ActionEvent e) {
+			// post to facebook code goes here
+		}
 
 
 	}
