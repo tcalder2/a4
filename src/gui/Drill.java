@@ -21,7 +21,7 @@ import ttable.LevelProgeny;
  * 
  * @author James Anderson
  * @author Taylor Calder
- * @version 1.4
+ * @version 1.5
  */
 @SuppressWarnings("serial")
 public class Drill extends BackgroundPanel {
@@ -281,9 +281,14 @@ public class Drill extends BackgroundPanel {
 		answerField.setText("");
 		answerField.requestFocus();
 		submit.setVisible(true);
-		
+		if (questions.size() == 1) {
+			currentQ = 0;
+		}
+		else {
+			currentQ = rand.nextInt(questions.size()-1);
+		}
 		//Randomise display of the question
-		currentQ = rand.nextInt(questions.size());
+		//currentQ = rand.nextInt(questions.size());
 		if (rand.nextInt(2) > 0) {
 			question.setText(level.getLevelNumber() + " x " + questions.get(currentQ) + " =");
 		}
@@ -322,6 +327,12 @@ public class Drill extends BackgroundPanel {
 	 */
 	public void checkAnswer() {
 
+		for (int i = 0; i < questions.size(); i++) {
+			
+			System.out.println(questions.get(i));
+			
+		}
+		
 		//Calculate the answer
 		int answer = questions.get(currentQ) * level.getLevelNumber();
 
@@ -341,8 +352,9 @@ public class Drill extends BackgroundPanel {
 		}
 		else {
 			//If the answer is wrong add a second instance of the question in the list
+			
 			questions.add(questions.get(currentQ));
-
+			
 			correctImg.setVisible(false);
 			incorrImg.setVisible(true);
 			solution.setText("Answer: " + answer);
@@ -367,6 +379,7 @@ public class Drill extends BackgroundPanel {
 			livesCount.setText("<3 x " + lives);
 		}
 		next.requestFocus();
+
 	}
 
 	/**
@@ -381,18 +394,18 @@ public class Drill extends BackgroundPanel {
 			
 		}
 
-		/** Randomize the order **/
-		Random rand = new Random();
-		int r1;
-		int r2;
-		int store;
-		for (int i = 0; i < 20; i++) {
-			r1 = rand.nextInt((max-1));
-			r2 = rand.nextInt((max-1));
-			store = questions.get(r1);
-			questions.add(r1, questions.get(r2));
-			questions.add(r2, store);
-		}
+		///** Randomize the order **/
+		//int currentQ = rand.nextInt(questions.size() -1);
+		
+//		int r2;
+//		int store;
+//		for (int i = 0; i < 20; i++) {
+//			r1 = rand.nextInt((max-1));
+//			r2 = rand.nextInt((max-1));
+//			store = questions.get(r1);
+//			questions.add(r1, questions.get(r2));
+//			questions.add(r2, store);
+//		}
 		update();
 		
 	}
@@ -498,6 +511,7 @@ class Submit implements ActionListener {
 
 	/** The drill. */
 	private Drill drill;
+	private String answer;
 
 	/**
 	 * Instantiates a Submit instance.
@@ -507,6 +521,7 @@ class Submit implements ActionListener {
 	 */
 	public Submit(Drill drill, JTextField answer) {
 		this.drill = drill;
+		this.answer = answer.getText();
 	}
 
 	/*
@@ -514,8 +529,12 @@ class Submit implements ActionListener {
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
+	// This fixes an issue where you could submit an empty field and get a wrong answer
+	// This way you're not penalized for accidentally clicking enter
 	public void actionPerformed(ActionEvent e) {
-		drill.checkAnswer();
+		if (Drill.answerField.getText().equals("") == false) {
+			drill.checkAnswer();
+		}
 	}
 }
 
