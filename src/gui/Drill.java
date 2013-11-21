@@ -26,9 +26,15 @@ import ttable.LevelProgeny;
 @SuppressWarnings("serial")
 public class Drill extends BackgroundPanel {
 
+	/** Array of answers **/
+	private ArrayList<Integer> answers = new ArrayList<Integer>();
+	
 	/** Array of questions **/
 	private ArrayList<Integer> questions = new ArrayList<Integer>();
 
+	/** Max number of questions per level **/
+	private int max;
+	
 	/** Default time **/
 	final private static int DEFAULT_TIME = 30;
 
@@ -114,12 +120,9 @@ public class Drill extends BackgroundPanel {
 
 		// Populate the question list
 		questions = new ArrayList<Integer>();
-		int max = 12;
+		max = 12;
 		if (Controller.getTestMode()) {
 			max = 4;
-		}
-		for (int i = 1; i <= max; i++) {
-			questions.add(i);
 		}
 
 		//Create components
@@ -260,7 +263,7 @@ public class Drill extends BackgroundPanel {
 		add(incorrCounter, c);
 		
 		//Set the question display
-		update();
+		setup();
 		
 		//Start the clock
 		clock.start();
@@ -366,6 +369,34 @@ public class Drill extends BackgroundPanel {
 		next.requestFocus();
 	}
 
+	/**
+	 * 
+	 */
+	public void setup() {
+		
+		/** Setup the questions **/
+		for (int i = 0; i < max; i++) {
+			
+			questions.add(i, i+1);
+			
+		}
+
+		/** Randomize the order **/
+		Random rand = new Random();
+		int r1;
+		int r2;
+		int store;
+		for (int i = 0; i < 20; i++) {
+			r1 = rand.nextInt((max-1));
+			r2 = rand.nextInt((max-1));
+			store = questions.get(r1);
+			questions.add(r1, questions.get(r2));
+			questions.add(r2, store);
+		}
+		update();
+		
+	}
+	
 	/**
 	 * Gets the default time for a level if no other time is specified
 	 * 
