@@ -34,9 +34,6 @@ public class Drill extends BackgroundPanel {
 	/** The Current Question the child is on **/
 	private int currentQ = 0;
 	
-	/** The controller. */
-	private Controller controller;
-
 	/** The level. */
 	private LevelProgeny level;
 	
@@ -101,12 +98,10 @@ public class Drill extends BackgroundPanel {
 	/**
 	 * Instantiates a new drill.
 	 *
-	 * @param controller the controller
 	 * @param level the level
 	 */
-	public Drill(Controller controller, LevelProgeny level) {
+	public Drill(LevelProgeny level) {
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
-		this.controller = controller;
 		this.level = level;
 		lives = 5;
 		correct = 0;
@@ -174,7 +169,7 @@ public class Drill extends BackgroundPanel {
 		c.insets = new Insets(50,0,0,50);
 		add(submit, c);
 
-		clock = new Timer(1000, new TimerAction(controller, this));
+		clock = new Timer(1000, new TimerAction(this));
 		clock.start();
 		JLabel markImg = new JLabel(" ");
 		c.ipady = 60;
@@ -335,7 +330,7 @@ public class Drill extends BackgroundPanel {
 		
 		
 		if (answerField.getText().equals("" + correctanswer)) {
-			clock = new Timer(1000, new TimerAction(controller, this));
+			clock = new Timer(1000, new TimerAction(this));
 			try {
 				markImg.setIcon(imgIconS);
 			} catch (Exception e) {
@@ -445,7 +440,7 @@ class TimerAction implements ActionListener {
 	 * @param answer	the answer text field
 	 * @param submit	the submit button
 	 */
-	public TimerAction(Controller controller, Drill drill) {
+	public TimerAction(Drill drill) {
 		this.drill = drill;
 		try {
 			this.timeRemaining = Controller.getCurrentProgeny().getTimeAllowed();
@@ -540,7 +535,6 @@ class Submit implements ActionListener {
  */
 class Next implements ActionListener {
 
-	private Controller controller;
 	private int level;
 	
 	public Next (int l) {
@@ -548,6 +542,6 @@ class Next implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		Controller.setScreen(new ScoreReport(controller, Drill.getCorrect(), level));
+		Controller.setScreen(new ScoreReport(Drill.getCorrect(), level));
 	}
 }

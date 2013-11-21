@@ -42,7 +42,6 @@ public class ChildProgress extends JPanel {
 	/**
 	 * Instantiates a new child progress.
 	 *
-	 * @param controller the controller
 	 * @param settingsPane the settings pane
 	 */
 	public ChildProgress(Settings settingsPane, ChildSettingsTab childSettingsTab, Progeny child, ArrayList<String> errors) {

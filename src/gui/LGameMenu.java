@@ -26,12 +26,11 @@ public class LGameMenu extends BackgroundPanel {
 	/**
 	 * Instantiates a LGameMenu instance.
 	 *
-	 * @param controller	the controller
 	 */
-	public LGameMenu(Controller controller) {
+	public LGameMenu() {
 
 		//Calls superclass constructor to create the background panel
-		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
+		super("http://jbaron6.cs2212.ca/img/level_background.png", new GridBagLayout());
 
 		//Creates a GridBagConstraints instance to control layout
 		GridBagConstraints c = new GridBagConstraints();
@@ -59,6 +58,8 @@ public class LGameMenu extends BackgroundPanel {
 		c.gridwidth = 1;
 
 		//Loop through adding the level buttons with custom button graphics
+		int position = 0;
+		int[] order = {4,5,1,3,2,6,11,10,7,12,9,8};
 		for (int i = 0; i < 4; i++) {
 			c.gridx = i;
 			if (i == 1) {
@@ -68,20 +69,19 @@ public class LGameMenu extends BackgroundPanel {
 				c.insets = new Insets(5,15,5,75);
 			}
 			for (int j = 1; j <= 3; j++) {
-				int level = (i * 3) + j;
-
 				JButton button = new JButton();
-				button.addActionListener(new SelectLGame(controller, level));
+				button.addActionListener(new SelectLGame(order[position]));
 				button.setContentAreaFilled(false);
 				button.setBorderPainted(false);
 				try {
-					Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/levels/lvl" + level + "_u.png"));
+					Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/levels/lvl" + order[position] + "_u.png"));
 					button.setIcon(new ImageIcon(img));
 				} catch (IOException e) {
-					button.setText("Level " + level);  //If the custom button fails to download a text placeholder is added
+					button.setText("Level " + order[position]);  //If the custom button fails to download a text placeholder is added
 				}
 				c.gridy = j;
 				add(button, c);
+				position++;
 			}
 		}
 	}
@@ -95,21 +95,16 @@ public class LGameMenu extends BackgroundPanel {
  */
 class SelectLGame implements ActionListener {
 
-	/** The controller. */
-	private Controller controller;
-
 	/** The level number. */
 	private int level;
 
 	/**
 	 * Instantiates a ChildProgress instance.
 	 * 
-	 * @param controller	the controller
 	 * @param level			the level number
 	 */
-	public SelectLGame(Controller controller, int level) {
+	public SelectLGame(int level) {
 		super();
-		this.controller = controller;
 		this.level = level;
 	}
 
@@ -119,7 +114,7 @@ class SelectLGame implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		LGame screen = new LGame(controller, level);
+		LGame screen = new LGame(level);
 		Controller.setScreen(screen);
 	}
 }

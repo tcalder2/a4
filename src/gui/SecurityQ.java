@@ -31,57 +31,67 @@ public class SecurityQ extends BackgroundPanel {
 	/**
 	 * Instantiates a SecurityQ instance.
 	 * 
-	 * @param controller	the controller
 	 */
-	public SecurityQ(Controller controller) {
+	public SecurityQ(ArrayList<String> errors) {
 
 		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
-		
+
 		try{
-		//Create components
-		JLabel chooseQ = new JLabel("Please answer the following security question: ");
-		JLabel question = new JLabel(UserService.getSecurityQuestions().get(UserService.getSecurityQuestionNumber()));
-		JTextField answerField = new JTextField("-- Answer --");
-		JButton update = new JButton("Update");
-		
-		//Add action listeners
-		answerField.addMouseListener(new SelectAllTextOnClick(answerField));
-		update.addActionListener(new PressUpdate2(controller, answerField));
-		
-		//Limit the number of characters that can be input into each field
-		((AbstractDocument) answerField.getDocument()).setDocumentFilter(new DocumentLengthFilter(30));
+			//Create components
+			JLabel chooseQ = new JLabel("Please answer the following security question: ");
+			JLabel question = new JLabel(UserService.getSecurityQuestions().get(UserService.getSecurityQuestionNumber()));
+			JTextField answerField = new JTextField("-- Answer --");
+			JButton update = new JButton("Update");
+
+			//Add action listeners
+			answerField.addMouseListener(new SelectAllTextOnClick(answerField));
+			update.addActionListener(new PressUpdate2(answerField));
+
+			//Limit the number of characters that can be input into each field
+			((AbstractDocument) answerField.getDocument()).setDocumentFilter(new DocumentLengthFilter(30));
 
 
-		//Add the components to the view
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(50,50,0,50);
-		c.gridx = 0;
-		c.gridy = 0;
-		add(chooseQ, c);
-		
-		c.insets = new Insets(5,50,0,50);
-		c.gridy = 1;
-		add(question, c);
-		
-		c.gridy = 2;
-		add(answerField, c);
-		
-		c.insets = new Insets(0,50,50,50);
-		c.fill = GridBagConstraints.NONE;
-		c.gridy = 3;
-		add(update, c);
+			//Add the components to the view
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.insets = new Insets(50,50,0,50);
+			c.gridx = 0;
+			c.gridy = 0;
+			add(chooseQ, c);
+
+			c.insets = new Insets(5,50,0,50);
+			c.gridy = 1;
+			add(question, c);
+
+			c.gridy = 2;
+			add(answerField, c);
+
+			c.insets = new Insets(0,50,50,50);
+			c.fill = GridBagConstraints.NONE;
+			c.gridy = 3;
+			add(update, c);
+
+			int gridY = 4;
+			for (int i = 0; i < errors.size(); i++) {
+				c.gridy = gridY;
+				JLabel label = new JLabel(errors.get(i).toString());
+				label.setForeground(Color.RED);
+				label.setFont(Controller.getFont().deriveFont(Font.PLAIN, 18));
+				add(label, c);
+				gridY++;
+			}
+
 		} catch (JSONFailureException e) {
 			JPanel screen = new JPanel(new GridBagLayout());
 			GridBagConstraints c = new GridBagConstraints();
 			int gridY = 1;
-			ArrayList<String> errors = e.getMessages();
+			ArrayList<String> errors2 = e.getMessages();
 			c.gridx = 0;
 			c.gridy = gridY;
-			for (int i = 0; i < errors.size(); i++) {
+			for (int i = 0; i < errors2.size(); i++) {
 				c.gridy = gridY;
-				JLabel label = new JLabel(errors.get(i).toString());
+				JLabel label = new JLabel(errors2.get(i).toString());
 				label.setForeground(Color.RED);
 				label.setFont(Controller.getFont().deriveFont(Font.PLAIN, 18));
 				screen.add(label, c);
@@ -93,24 +103,19 @@ public class SecurityQ extends BackgroundPanel {
 }
 
 class PressUpdate2 implements ActionListener {
-	
-	/** The controller. */
-	private Controller controller;
-	
+
 	/** The answer field. */
 	private JTextField answerField;
-	
+
 	/**
 	 * Instantiates a PressUpdate2 instance.
 	 * 
-	 * @param controller		the controller
 	 * @param answerField		the answer field
 	 */
-	public PressUpdate2(Controller controller, JTextField answerField) {
-		this.controller = controller;
+	public PressUpdate2(JTextField answerField) {
 		this.answerField = answerField;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -118,21 +123,18 @@ class PressUpdate2 implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		if (true)
-			throw new NotImplementedException();
-		
-//		try {
-			//TODO: Use resetpassword
+		//TODO: get User class to be able to deal with this then un-comment
+		//try {
 			//UserService.testSecurityQuestion(answerField.getText());
-//			Controller.setScreen(new PasswordReset(controller));
-//		} catch (JSONFailureException e1) {
-//			ArrayList<String> errors = e1.getMessages();
-//			if (errors.get(0).equals("Could not verify answer")) {
-//				
-//			}
-//			else {
-//				//TODO: add exception handling, popup?
-//			}
-//		}
+			Controller.setScreen(new PasswordReset());
+		//} catch (JSONFailureException e1) {
+			//ArrayList<String> errors = e1.getMessages();
+			//if (errors.get(0).equals("Could not verify answer")) {
+
+			//}
+			//else {
+				//TODO: add exception handling, popup?
+			//}
+		//}
 	}
 }

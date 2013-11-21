@@ -28,9 +28,8 @@ public class Settings extends BackgroundPanel {
 	/**
 	 * Instantiates a Settings instance.
 	 *
-	 * @param controller	the controller
 	 */
-	public Settings(Controller controller) {
+	public Settings() {
 		
 		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
@@ -58,8 +57,8 @@ public class Settings extends BackgroundPanel {
 		
 		//Populate the tabs
 		tabPane.add("Child Settings", new ChildSettingsTab(this));
-		tabPane.add("Level Settings", new LevelSettingsTab(controller));
-		tabPane.add("Security Settings", new SecurityTab());
+		tabPane.add("Level Settings", new LevelSettingsTab());
+		tabPane.add("Security Settings", new SecurityTab(this));
 		
 		//Add the tab pane to the view
 		c.gridy = 1;

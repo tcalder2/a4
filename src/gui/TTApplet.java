@@ -16,25 +16,22 @@ import json.JSONFailureException;
  */
 @SuppressWarnings("serial")
 public class TTApplet extends JApplet {
-	
-	/** The controller. */
-	Controller controller;
-	
+		
 	/* (non-Javadoc)
 	 * @see java.applet.Applet#init()
 	 */
 	@Override
 	public void init() {
 		try {
-			//Creates a controller responsible for managing the display and more
-			controller = new Controller();
+			//Sets up the GUI controller
+			Controller.initialise();
 			
 			//Create the title panel and add to the view
-			TitlePanel titlePanel = new TitlePanel(controller);
+			TitlePanel titlePanel = new TitlePanel();
 			Controller.setBanner(titlePanel);
 			
 			//Create the welcome screen and add to the view
-			Welcome welcome = new Welcome(controller);
+			Welcome welcome = new Welcome();
 			Controller.setScreen(welcome);
 			
 			//Set the main split pane frame colour

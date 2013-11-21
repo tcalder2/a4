@@ -23,9 +23,8 @@ public class MainMenu extends BackgroundPanel {
 	/**
 	 * Instantiates a MainMenu instance.
 	 *
-	 * @param controller	the controller
 	 */
-	public MainMenu(Controller controller) {
+	public MainMenu() {
 		
 		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
@@ -56,10 +55,10 @@ public class MainMenu extends BackgroundPanel {
 		JButton toStats = new JButton();
 
 		//Add action listeners
-		toDrill.addActionListener(new PressDrill(controller));
-		toLGame.addActionListener(new PressLGame(controller));
-		toFGame.addActionListener(new PressFGame(controller));
-		toStats.addActionListener(new PressStats(controller));
+		toDrill.addActionListener(new PressDrill());
+		toLGame.addActionListener(new PressLGame());
+		toFGame.addActionListener(new PressFGame());
+		toStats.addActionListener(new PressStats());
 
 		//Set attributes and graphics
 		toDrill.setContentAreaFilled(false);
@@ -124,18 +123,13 @@ public class MainMenu extends BackgroundPanel {
  *
  */
 class PressDrill implements ActionListener {
-	
-	/** The controller. */
-	private Controller controller;
-	
+		
 	/**
 	 * Instantiates a PressDrill instance.
 	 * 
-	 * @param controller	the controller
 	 */
-	public PressDrill(Controller controller) {
+	public PressDrill() {
 		super();
-		this.controller = controller;
 	}
 	
 	/*
@@ -146,7 +140,7 @@ class PressDrill implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		//Swap screen for the drill menu
-		Controller.setScreen(new DrillMenu(controller));
+		Controller.setScreen(new DrillMenu());
 	}
 }
 
@@ -157,18 +151,13 @@ class PressDrill implements ActionListener {
  *
  */
 class PressLGame implements ActionListener {
-
-	/** The controller. */
-	private Controller controller;
 	
 	/**
 	 * Instantiates a PressLGame instance.
 	 * 
-	 * @param controller	the controller
 	 */
-	public PressLGame(Controller controller) {
+	public PressLGame() {
 		super();
-		this.controller = controller;
 	}
 	
 	/*
@@ -179,7 +168,7 @@ class PressLGame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		//Swap screen for the level game menu
-		Controller.setScreen(new LGameMenu(controller));
+		Controller.setScreen(new LGameMenu());
 	}
 }
 
@@ -190,18 +179,13 @@ class PressLGame implements ActionListener {
  *
  */
 class PressFGame implements ActionListener {
-
-	/** The controller. */
-	private Controller controller;
 	
 	/**
 	 * Instantiates a PressFGame instance.
 	 * 
-	 * @param controller	the controller
 	 */
-	public PressFGame(Controller controller) {
+	public PressFGame() {
 		super();
-		this.controller = controller;
 	}
 	
 	/*
@@ -212,7 +196,7 @@ class PressFGame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		//Swap screen for the final game menu
-		Controller.setScreen(new FGameMenu(controller));
+		Controller.setScreen(new FGameMenu());
 	}
 }
 
@@ -223,18 +207,13 @@ class PressFGame implements ActionListener {
  *
  */
 class PressStats implements ActionListener {
-
-	/** The controller. */
-	private Controller controller;
 	
 	/**
 	 * Instantiates a PressStats instance.
 	 * 
-	 * @param controller	the controller
 	 */
-	public PressStats(Controller controller) {
+	public PressStats() {
 		super();
-		this.controller = controller;
 	}
 	
 	/*
@@ -245,6 +224,6 @@ class PressStats implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		//Swap screen for the stats menu
-		Controller.setScreen(new StatsMenu2(controller));
+		Controller.setScreen(new StatsMenu());
 	}
 }

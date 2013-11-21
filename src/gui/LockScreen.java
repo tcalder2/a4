@@ -36,15 +36,14 @@ public class LockScreen extends BackgroundPanel {
 	/**
 	 * Instantiates a basic LockScreen instance.
 	 *
-	 * @param controller	the controller
 	 */
-	public LockScreen(Controller controller) {
+	public LockScreen() {
 
 		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 
 		//Add the components to the panel
-		this.setup(controller);  
+		this.setup();  
 
 		//Add the lock image
 		this.addImg(1);
@@ -53,16 +52,15 @@ public class LockScreen extends BackgroundPanel {
 	/**
 	 * Instantiate a LockScreen instance that displays error messages.
 	 * 
-	 * @param controller	the controller
 	 * @param errors		the list of errors
 	 */
-	public LockScreen(Controller controller, ArrayList<String> errors) {
+	public LockScreen(ArrayList<String> errors) {
 
 		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 
 		//Add the components to the panel
-		setup(controller);
+		setup();
 
 		//Loop through the error messages and print them to screen
 		int gridY = 2;
@@ -85,9 +83,8 @@ public class LockScreen extends BackgroundPanel {
 	/**
 	 * Populates the view with basic components in common between the versions of this display
 	 * 
-	 * @param controller	the controller
 	 */
-	public void setup(Controller controller) {
+	public void setup() {
 
 		//Create a GridBagConstraints instance to control the layout
 		GridBagConstraints c = new GridBagConstraints();
@@ -123,11 +120,16 @@ public class LockScreen extends BackgroundPanel {
 		} catch (IOException e) {
 			reset.setText("Reset...");
 		}
-
+		
+		//If this is the first login, hide the reset button
+		if (Controller.getUser().isFirstLogin()) {
+			reset.setVisible(false);
+		}
+		
 		//Add action listeners
 		passwordField.addKeyListener(new EnterListener(ok));
-		ok.addActionListener(new PressOk(controller, passwordField));
-		reset.addActionListener(new PressReset(controller));
+		ok.addActionListener(new PressOk(passwordField));
+		reset.addActionListener(new PressReset());
 
 		//Add the components to the view
 		c.insets = new Insets(100,20,50,0);
@@ -180,18 +182,17 @@ public class LockScreen extends BackgroundPanel {
  *
  */
 class PressOk implements ActionListener {
-	private Controller controller;
+	
+	/** The password field. */
 	private JPasswordField pwdf;
 
 	/**
 	 * Instantiates a PressOk instance.
 	 * 
-	 * @param controller		the controller
 	 * @param passwordField		the password field
 	 */
-	public PressOk(Controller control, JPasswordField passwordField) {
+	public PressOk(JPasswordField passwordField) {
 		super();
-		controller = control;
 		pwdf = passwordField;
 	}
 
@@ -217,17 +218,17 @@ class PressOk implements ActionListener {
 			UserService.authenticate(pwd);
 
 			//On first successful login go to the screen to change password and the security question
-			if (User.getInstance().getFirstLogin()) {
+			if (Controller.getUser().getFirstLogin()) {
 				BackgroundPanel screen = new BackgroundPanel("http://jbaron6.cs2212.ca/img/default_background.png",
 						new BorderLayout());
 				
-				screen.add(new SecurityTab());
+				screen.add(new SecurityTab(null));
 				Controller.setScreen(screen);
 			}
 			
 			//On successful login (not first) go to the settings screen
 			else {
-				Controller.setScreen(new Settings(controller));
+				Controller.setScreen(new Settings());
 			}
 
 		} catch (JSONFailureException e1) {
@@ -235,12 +236,12 @@ class PressOk implements ActionListener {
 
 			//If more than three failed attempts go to the security question screen
 			if (e1.getMessages().get(0).compareTo("Too many login attempts") == 0) {
-				Controller.setScreen(new SecurityQ(controller));
+				Controller.setScreen(new SecurityQ(new ArrayList<String>()));
 			}
 			
 			//If there are attempts remaining return to lock screen but add error messages to display
 			else {
-				Controller.setScreen(new LockScreen(controller, e1.getMessages()));
+				Controller.setScreen(new LockScreen(e1.getMessages()));
 			}
 		}
 	}
@@ -254,17 +255,12 @@ class PressOk implements ActionListener {
  */
 class PressReset implements ActionListener {
 
-	/** The controller. */
-	private Controller controller;
-
 	/**
 	 * Instantiates a PressReset instance.
 	 * 
-	 * @param controller	the controller
 	 */
-	public PressReset(Controller controller) {
+	public PressReset() {
 		super();
-		this.controller = controller;
 	}
 
 	/*
@@ -275,6 +271,6 @@ class PressReset implements ActionListener {
 	public void actionPerformed(ActionEvent evt) {
 		
 		//Swap the screen for the password reset screen
-		Controller.setScreen(new PasswordReset(controller));
+		Controller.setScreen(new PasswordReset());
 	}
 }

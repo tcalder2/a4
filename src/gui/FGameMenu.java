@@ -33,9 +33,8 @@ public class FGameMenu extends BackgroundPanel {
 	/**
 	 * Instantiates a FGame instance.
 	 *
-	 * @param controller	the controller
 	 */
-	public FGameMenu(Controller controller) {
+	public FGameMenu() {
 
 		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
@@ -70,7 +69,7 @@ public class FGameMenu extends BackgroundPanel {
 		}
 
 		//Add action listener for play button
-		play.addActionListener(new StartFinal(controller));
+		play.addActionListener(new StartFinal());
 
 
 		//Add the play button
@@ -141,17 +140,12 @@ public class FGameMenu extends BackgroundPanel {
  */
 class StartFinal implements ActionListener {
 
-	/** The controller. */
-	private Controller controller;
-
 	/**
 	 * Instantiates a StartFinal instance.
 	 * 
-	 * @param controller	the controller
 	 */
-	public StartFinal(Controller controller) {
+	public StartFinal() {
 		super();
-		this.controller = controller;
 	}
 
 	/*
@@ -160,7 +154,7 @@ class StartFinal implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		FGame menu = new FGame(controller);
+		FGame menu = new FGame();
 		Controller.setScreen(menu);
 	}
 }

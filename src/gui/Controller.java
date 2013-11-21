@@ -35,11 +35,11 @@ public class Controller {
 
 	
 	/**
-	 * Instantiates a Controller instance.
+	 * Initialises the Controller variables.
 	 * 
 	 * @throws JSONFailureException		the JSON failure exception
 	 */
-	public Controller() throws JSONFailureException {
+	public static void initialise() throws JSONFailureException {
 		
 		//Create the split pane
 		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
@@ -47,7 +47,7 @@ public class Controller {
 		
 		//Download and set the font, if download fails set to a standard backup font
 		try {
-			URL url = new URL("http://jbaron6.cs2212.ca/fonts/GiddyupStd.otf");
+			URL url = new URL("http://jbaron6.cs2212.ca/fonts/teenage-angst.regular.ttf");
 			URLConnection urlcon = url.openConnection();
 			urlcon.setDoInput(true);
 			urlcon.setUseCaches(false);

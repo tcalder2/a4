@@ -29,12 +29,11 @@ public class ScoreReport extends BackgroundPanel {
 	/**
 	 * Instantiates a PasswordReset instance.
 	 * 
-	 * @param controller	the controller
 	 */
 	
 	private static int lvl;
 	
-	public ScoreReport(Controller controller, int correct, int level) {
+	public ScoreReport(int correct, int level) {
 
 		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
@@ -103,10 +102,9 @@ public class ScoreReport extends BackgroundPanel {
 	 */
 	class ToLevelGame implements ActionListener {
 
-		private Controller controller;
 		
 		public void actionPerformed(ActionEvent e) {
-			LGame screen = new LGame(controller, ScoreReport.getLevel());
+			LGame screen = new LGame(ScoreReport.getLevel());
 			Controller.setScreen(screen);
 		}
 

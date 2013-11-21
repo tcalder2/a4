@@ -24,16 +24,15 @@ import ttable.LevelProgeny;
  */
 @SuppressWarnings("serial")
 public class DrillMenu extends BackgroundPanel {	
-
+	
 	/**
 	 * Instantiates a new drill menu.
 	 *
-	 * @param controller	the controller
 	 */
-	public DrillMenu(Controller controller) {
+	public DrillMenu() {
 
 		//Calls superclass constructor to create the background panel
-		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
+		super("http://jbaron6.cs2212.ca/img/level_background.png", new GridBagLayout());
 
 		//Create a GridBagConstraints instance to control layout
 		GridBagConstraints c = new GridBagConstraints();
@@ -61,6 +60,8 @@ public class DrillMenu extends BackgroundPanel {
 		c.gridwidth = 1;
 
 		//Loop through adding the level buttons with custom button graphics
+		int position = 0;
+		int[] order = {4,5,1,3,2,6,11,10,7,12,9,8};
 		for (int i = 0; i < 4; i++) {
 			c.gridx = i;
 			if (i == 1) {
@@ -70,20 +71,19 @@ public class DrillMenu extends BackgroundPanel {
 				c.insets = new Insets(5,15,5,75);
 			}
 			for (int j = 1; j <= 3; j++) {
-				int level = (i * 3) + j;
-
 				JButton button = new JButton();
-				button.addActionListener(new StartDrill(controller, level));
+				button.addActionListener(new StartDrill(order[position]));
 				button.setContentAreaFilled(false);
 				button.setBorderPainted(false);
 				try {
-					Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/levels/lvl" + level + "_u.png"));
+					Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/levels/lvl" + order[position] + "_u.png"));
 					button.setIcon(new ImageIcon(img));
 				} catch (IOException e) {
-					button.setText("Level " + level);  //If the custom button fails to download a text placeholder is added
+					button.setText("Level " + order[position]);  //If the custom button fails to download a text placeholder is added
 				}
 				c.gridy = j;
 				add(button, c);
+				position++;
 			}
 		}
 	}
@@ -97,21 +97,16 @@ public class DrillMenu extends BackgroundPanel {
  */
 class StartDrill implements ActionListener {
 
-	/** The controller. */
-	private Controller controller;
-
 	/** The level number. */
 	private int levelNum;
 
 	/**
 	 * Instantiates a StartDrill instance.
 	 * 
-	 * @param controller	the controller
 	 * @param levelNum		the level number
 	 */
-	public StartDrill(Controller control, int levelNum) {
+	public StartDrill(int levelNum) {
 		super();
-		controller = control;
 		this.levelNum = levelNum;
 	}
 
@@ -123,12 +118,12 @@ class StartDrill implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Drill screen;
 		try {
-		screen = new Drill(controller, Controller.getCurrentProgeny().getLevels().get(levelNum - 1));
+		screen = new Drill(Controller.getCurrentProgeny().getLevels().get(levelNum - 1));
 		}
 		catch (Exception e2) {
 			LevelProgeny prog = new LevelProgeny();
 			prog.setLevel(levelNum);
-			screen = new Drill(controller, prog);
+			screen = new Drill(prog);
 		}
 		Controller.setScreen(screen);
 	}

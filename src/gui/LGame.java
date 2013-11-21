@@ -20,10 +20,9 @@ public class LGame extends BackgroundPanel {
 	/**
 	 * Instantiates an LGame instance.
 	 *
-	 * @param controller 	the controller
 	 * @param level			the level
 	 */
-	public LGame(Controller controller, int level) {
+	public LGame(int level) {
 
 		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());

@@ -10,6 +10,7 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
@@ -17,8 +18,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+
+import json.JSONFailureException;
+import service.UserService;
+import ttable.User;
 
 /**
  * The class StatsMenu, a populated BackgroundPanel.
@@ -26,7 +33,7 @@ import javax.swing.JTabbedPane;
  * @author James Anderson
  * @author Chuhan Qin
  * @author Taylor Calder
- * @version 1.0
+ * @version 1.2
  */
 @SuppressWarnings("serial")
 public class StatsMenu extends BackgroundPanel {
@@ -34,9 +41,8 @@ public class StatsMenu extends BackgroundPanel {
 	/**
 	 * Instantiates a StatsMenu instance.
 	 *
-	 * @param controller the controller
 	 */
-	public StatsMenu(Controller controller) {
+	public StatsMenu() {
 
 		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
@@ -63,13 +69,17 @@ public class StatsMenu extends BackgroundPanel {
 		JPanel tab1 = new JPanel();
 		JPanel tab2 = new JPanel();
 		JPanel tab3 = new JPanel();
+		
+		JTable table = new JTable();
+		JScrollPane scroll = new JScrollPane(tab1);
+		
 		tab1.setLayout(new GridBagLayout());
 		tab2.setLayout(new GridBagLayout());
 		tab3.setLayout(new GridBagLayout());
-		fillTabFriends(tab1, c);
+		fillTabFriends(tab1, scroll, table);
 		fillTabAge(tab2, c);
 		fillTabLevels(tab3, c);
-
+		
 		// Add the tabs
 		tabs.addTab("Friends", tab1);
 		tabs.addTab("By Age", tab2);
@@ -83,8 +93,6 @@ public class StatsMenu extends BackgroundPanel {
 		c.gridy = 1;
 		add(tabs, c);
 
-
-
 	}
 
 	/**
@@ -93,166 +101,95 @@ public class StatsMenu extends BackgroundPanel {
 	 * @param tab1 the tab1
 	 * @param c the c
 	 */
-	private void fillTabFriends(JPanel tab1, GridBagConstraints c){
-		// Headers	
-
-		c.insets = new Insets(5,5,5,10);
-		c.gridx = 0;
-		c.gridwidth = 2;
-		c.gridheight =1;
-		c.gridy = 0;
-		tab1.add(new JLabel("Friends"), c);
-		c.gridx = 2;
-		c.gridwidth = 1;
-		tab1.add(new JLabel("Children"), c);
-		c.gridx = 3;
-		tab1.add(new JLabel("Age"), c);
-		c.gridx = 4;
-		tab1.add(new JLabel("Level"), c);
+	private void fillTabFriends(JPanel tab1, JScrollPane scroll, JTable table){
+		
+		// Headers
+		String[] header = {"", "Friends", "Children", "Age", "Level"};
+		ArrayList<String> friends = new ArrayList<String>();
+		String hold;
+		
+		try {
+			friends = UserService.getFriendsTest();
+		} catch (JSONFailureException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		int n = friends.size();
+		
+		// array of friend data
 		//-------------------------------------------------------------------------------------------------		
-		// Profile Pictures
-		c.gridx = 0;
-		c.gridy=2;
-		c.gridheight =4;	
-		for(int i=1; i<6;i++){
+		// Row 1 - picture
+		// Row 2 - name
+		// Row 3 - chidren's names
+		// Row 4 - children's ages
+		// Row 5 - children's levels
+		//-------------------------------------------------------------------------------------------------		
+		Object[][] array = new Object[n][5];
+	
+		// create table to display friend info
+		table = new JTable(array, header);
+		
+		// set cell 1 to display pictures
+		table.getColumnModel().getColumn(0).setCellRenderer(table.getDefaultRenderer(ImageIcon.class));
+		
+		// set column widths
+		table.getColumnModel().getColumn(0).setPreferredWidth(75);
+		table.getColumnModel().getColumn(0).setMaxWidth(75);
+		table.getColumnModel().getColumn(0).setMinWidth(75);
+		
+		table.getColumnModel().getColumn(1).setPreferredWidth(115);
+		table.getColumnModel().getColumn(1).setMaxWidth(115);
+		table.getColumnModel().getColumn(1).setMinWidth(115);
+		
+		table.getColumnModel().getColumn(2).setPreferredWidth(80);
+		table.getColumnModel().getColumn(2).setMaxWidth(80);
+		table.getColumnModel().getColumn(2).setMinWidth(80);
+		
+		table.getColumnModel().getColumn(3).setPreferredWidth(55);
+		table.getColumnModel().getColumn(3).setMaxWidth(55);
+		table.getColumnModel().getColumn(3).setMinWidth(55);
+		
+		table.getColumnModel().getColumn(4).setPreferredWidth(55);
+		table.getColumnModel().getColumn(4).setMaxWidth(55);
+		table.getColumnModel().getColumn(4).setMinWidth(55);
+		
+		table.setEnabled(false);
+		
+		// set row height
+		table.setRowHeight(65);
+		
+		// set table to not be editable
+		table.setDragEnabled(false);
+		table.setShowVerticalLines(false);
+		table.setRowSelectionAllowed(false);
+		table.setColumnSelectionAllowed(false);
+		table.setCellSelectionEnabled(false);
+		table.getTableHeader().setReorderingAllowed(false);
+		
+		// Store friend information in the array
+		
+		/**
+		 * NB - so far this only stores the names and profile pictures
+		 * It's also a little slow, even with just 5 people
+		 */
+		for (int i = 0; i < n; i++) {
 
+			hold = friends.get(i);
+			array[i][1] = hold.substring(0, hold.indexOf(';'));
 			try	{
-				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/profilePictures/"+i+".jpg"));
-				JLabel pic = new JLabel(new ImageIcon(getScaledImage(img, 55,55)));
-				tab1.add(pic, c);
+				Image img = ImageIO.read(new URL(hold.substring(hold.indexOf(';')+1, hold.length())));
+				ImageIcon pic = (new ImageIcon(getScaledImage(img, 55,55)));
+				array[i][0] = pic;
 			} catch (IOException e) {
-				tab1.add(new JLabel("Profile Picture"), c);
+				array[i][0] = "no picture available";
 			}
-			c.gridy=(i*5)+2;
 		}
-
-		//-------------------------------------------------------------------------------------------------	
-		// Friends names
-		c.gridy = 2;
-		c.gridx= 1;
-		c.gridwidth =1;
-		tab1.add(new JLabel("James Anderson"), c);
-		c.gridy+=5;
-		tab1.add(new JLabel("Yaqzan Ali"), c);
-		c.gridy+=5;
-		tab1.add(new JLabel("Chuhan Frank"), c);
-		c.gridy+=5;
-		tab1.add(new JLabel("Taylor Joseph"), c);
-		c.gridy+=5;
-		tab1.add(new JLabel("James Baron"), c);
-
-		//-------------------------------------------------------------------------------------------------		
-		// Children Names
-		c.insets = new Insets(0,10,0,0);
-		c.gridy = 2;
-		c.gridx = 2;
-		c.gridheight = 1;
-		tab1.add(new JLabel("Lisa"), c);
-		c.gridy++;
-		tab1.add(new JLabel("Bart"), c);
-		c.gridy+=4;
-
-		tab1.add(new JLabel("Troy"), c);
-		c.gridy++;
-		tab1.add(new JLabel("Abed"), c);
-		c.gridy++;
-		tab1.add(new JLabel("Britta"), c);
-		c.gridy+=3;
-
-		tab1.add(new JLabel("Sheldon"), c);
-		c.gridy+=5;
-		tab1.add(new JLabel("Leslie"), c);
-		c.gridy++;
-		tab1.add(new JLabel("Ron"), c);
-		c.gridy+=4;
-		tab1.add(new JLabel("Dwight"), c);
-		c.gridy++;
-		tab1.add(new JLabel("Jim"), c);
-		c.gridy++;
-		tab1.add(new JLabel("Michael"), c);
-		c.gridy++;
-		tab1.add(new JLabel("Pam"), c);
-
-
-		//-------------------------------------------------------------------------------------------------	
-		// Age
-		c.insets = new Insets(0,10,0,10);
-		c.gridx = 3;
-		c.gridy = 2;
-
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
-		c.gridy++;
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
-		c.gridy+=4;
-
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
-		c.gridy++;
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
-		c.gridy++;
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
-		c.gridy+=3;
-
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
-		c.gridy+=5;
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
-		c.gridy++;
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
-		c.gridy+=4;
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
-		c.gridy++;
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
-		c.gridy++;
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
-		c.gridy++;
-		tab1.add(new JLabel((Integer.toString(3 + (int)(Math.random() * 11)))+" years old"), c);
-
-		//-------------------------------------------------------------------------------------------------		
-		// Level
-		c.gridx = 4;
-		c.gridy = 2;
-
-		tab1.add(new JLabel(("Level "+Integer.toString(1 + (int)(Math.random() * 12)))), c);
-		c.gridy++;
-		tab1.add(new JLabel(("Level "+Integer.toString(1 + (int)(Math.random() * 12)))), c);
-		c.gridy+=4;
-
-		tab1.add(new JLabel(("Level "+Integer.toString(1 + (int)(Math.random() * 12)))), c);
-		c.gridy++;
-		tab1.add(new JLabel(("Level "+Integer.toString(1 + (int)(Math.random() * 12)))), c);
-		c.gridy++;
-		tab1.add(new JLabel(("Level "+Integer.toString(1 + (int)(Math.random() * 12)))), c);
-		c.gridy+=3;
-
-		tab1.add(new JLabel(("Level "+Integer.toString(1 + (int)(Math.random() * 12)))), c);
-		c.gridy+=5;
-		tab1.add(new JLabel(("Level "+Integer.toString(1 + (int)(Math.random() * 12)))), c);
-		c.gridy++;
-		tab1.add(new JLabel(("Level "+Integer.toString(1 + (int)(Math.random() * 12)))), c);
-		c.gridy+=4;
-		tab1.add(new JLabel(("Level "+Integer.toString(1 + (int)(Math.random() * 12)))), c);
-		c.gridy++;
-		tab1.add(new JLabel(("Level "+Integer.toString(1 + (int)(Math.random() * 12)))), c);
-		c.gridy++;
-		tab1.add(new JLabel(("Level "+Integer.toString(1 + (int)(Math.random() * 12)))), c);
-		c.gridy++;
-		tab1.add(new JLabel(("Level "+Integer.toString(1 + (int)(Math.random() * 12)))), c);
-		//-------------------------------------------------------------------------------------------------		
-		// Separators
-		c.insets = new Insets(0,0,0,0);
-		//c.fill = GridBagConstraints.HORIZONTAL;
-		//c.weightx = 1;
-		c.gridwidth = 5;
-		c.gridheight =1;
-		c.gridx = 0;
-		c.gridy = 1;
-		for(int i = 1; i< 6;i++){
-			JSeparator sep = new JSeparator(JSeparator.HORIZONTAL);
-			sep.setPreferredSize(new Dimension(1,30));
-
-			tab1.add(sep,c);
-
-			c.gridy+=5;
-		}
+		
+		
+		scroll = new JScrollPane(table);
+		scroll.setPreferredSize(new Dimension(400,290));
+		tab1.add(scroll);
 
 	}
 

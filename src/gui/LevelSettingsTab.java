@@ -24,9 +24,8 @@ public class LevelSettingsTab extends JPanel {
 	/**
 	 * Instantiates a LevelSettingsTab instance.
 	 * 
-	 * @param controller	the controller
 	 */
-	public LevelSettingsTab(Controller controller) {
+	public LevelSettingsTab() {
 		super(new GridBagLayout());
 		setOpaque(false);
 		

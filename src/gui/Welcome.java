@@ -32,9 +32,8 @@ public class Welcome extends BackgroundPanel {
 	/**
 	 * Instantiates a Welcome instance.
 	 * 
-	 * @param controller	the controller
 	 */
-	public Welcome(Controller controller) {
+	public Welcome() {
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 
 		GridBagConstraints c = new GridBagConstraints();
@@ -74,6 +73,7 @@ public class Welcome extends BackgroundPanel {
 			JLabel label = new JLabel("Please click settings to add children to the game.");
 			label.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
 			add(label, c);
+			//TODO: un-comment once progeny can be added
 			//ok.setVisible(false);
 		}
 
@@ -81,7 +81,7 @@ public class Welcome extends BackgroundPanel {
 		c.insets = new Insets(0,100,0,100);
 		ok.setContentAreaFilled(false);
 		ok.setBorderPainted(false);
-		ok.addActionListener(new SelectProgeny(controller, nameSelector, progenyList));
+		ok.addActionListener(new SelectProgeny(nameSelector, progenyList));
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/buttons/ok.png"));
 			ok.setIcon(new ImageIcon(img));
@@ -100,9 +100,6 @@ public class Welcome extends BackgroundPanel {
  */
 class SelectProgeny implements ActionListener {
 
-	/** The controller */
-	private Controller controller;
-
 	/** The progeny selection drop down */
 	private JComboBox<String> progenySelector;
 
@@ -112,12 +109,10 @@ class SelectProgeny implements ActionListener {
 	/**
 	 * Instantiates a SelectProgeny instance.
 	 * 
-	 * @param controller		the controller
 	 * @param progenySelect		the progeny selector
 	 * @param progenyList		the progeny array
 	 */
-	public SelectProgeny(Controller controller, JComboBox<String> progenySelector, ArrayList<Progeny> progenyList) {
-		this.controller = controller;
+	public SelectProgeny(JComboBox<String> progenySelector, ArrayList<Progeny> progenyList) {
 		this.progenyList = progenyList;
 	}
 
@@ -127,13 +122,11 @@ class SelectProgeny implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
-		/*TODO: Reveal this code once the ability to add a child works
-
+		//TODO: un-comment once we can actually add children
+		/*
 		int selection = progenySelector.getSelectedIndex();
-		controller.setCurrentProgeny(progenyList.get(selection));
-
-		 */
-		Controller.setScreen(new MainMenu(controller));
+		Controller.setCurrentProgeny(progenyList.get(selection));
+		*/
+		Controller.setScreen(new MainMenu());
 	}
 }

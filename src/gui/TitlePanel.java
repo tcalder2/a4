@@ -22,16 +22,15 @@ public class TitlePanel extends BackgroundPanel {
 	/**
 	 * Instantiates a TitlePanel instance.
 	 *
-	 * @param controller	the controller
 	 */
-	public TitlePanel(Controller controller) {
+	public TitlePanel() {
 		
 		super("http://jbaron6.cs2212.ca/img/topbanner.png", new BorderLayout());
 
 		JButton toMain = new JButton();
 		toMain.setContentAreaFilled(false);
 		toMain.setBorderPainted(false);
-		toMain.addActionListener(new PressMain(controller));
+		toMain.addActionListener(new PressMain());
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/back.png"));
 			toMain.setIcon(new ImageIcon(img));
@@ -43,7 +42,7 @@ public class TitlePanel extends BackgroundPanel {
 		JButton toSettings = new JButton();
 		toSettings.setContentAreaFilled(false);
 		toSettings.setBorderPainted(false);
-		toSettings.addActionListener(new PressSettings(controller));
+		toSettings.addActionListener(new PressSettings());
 		try {
 			Image img1 = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/settings.png"));
 			toSettings.setIcon(new ImageIcon(img1));
@@ -65,18 +64,13 @@ public class TitlePanel extends BackgroundPanel {
  * The Class PressMain.
  */
 class PressMain implements ActionListener {
-	
-	/** The controller */
-	private Controller controller;
-	
+		
 	/**
 	 * Instantiates the press main listener
 	 * 
-	 * @param the controller
 	 */
-	public PressMain(Controller control) {
+	public PressMain() {
 		super();
-		controller = control;
 	}
 	
 	/**
@@ -86,11 +80,11 @@ class PressMain implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if (Controller.getCurrentProgeny() != null) {
-			MainMenu screen = new MainMenu(controller);
+			MainMenu screen = new MainMenu();
 			Controller.setScreen(screen);
 		}
 		else {
-			Welcome screen = new Welcome(controller);
+			Welcome screen = new Welcome();
 			Controller.setScreen(screen);
 		}
 	}
@@ -100,18 +94,13 @@ class PressMain implements ActionListener {
  * The Class PressSettings.
  */
 class PressSettings implements ActionListener {
-	
-	/** The controller */
-	private Controller controller;
-	
+		
 	/**
 	 * Instantiates the press settings listener
 	 * 
-	 * @param the controller
 	 */
-	public PressSettings(Controller control) {
+	public PressSettings() {
 		super();
-		controller = control;
 	}
 	
 	/**
@@ -120,7 +109,7 @@ class PressSettings implements ActionListener {
 	 * @param the action event
 	 */
 	public void actionPerformed(ActionEvent e) {
-		LockScreen screen = new LockScreen(controller);
+		LockScreen screen = new LockScreen();
 		Controller.setScreen(screen);
 	}
 }

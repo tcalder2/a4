@@ -160,7 +160,8 @@ public class User {
 	 * @return true, if is first login
 	 */
 	public boolean isFirstLogin() {
-		return firstLogin;
+		//TODO: un-comment when there is code supporting this return firstLogin;
+		return true;
 	}
 
 	/**
