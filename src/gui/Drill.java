@@ -21,7 +21,7 @@ import ttable.LevelProgeny;
  * 
  * @author James Anderson
  * @author Taylor Calder
- * @version 1.4
+ * @version 1.5
  */
 @SuppressWarnings("serial")
 public class Drill extends BackgroundPanel {
@@ -111,16 +111,6 @@ public class Drill extends BackgroundPanel {
 		correct = 0;
 		incorrect = 0;
 		end = false;
-
-		// Populate the question list
-		questions = new ArrayList<Integer>();
-		int max = 12;
-		if (Controller.getTestMode()) {
-			max = 4;
-		}
-		for (int i = 1; i <= max; i++) {
-			questions.add(i);
-		}
 
 		//Create components
 		rand = new Random();
@@ -260,7 +250,7 @@ public class Drill extends BackgroundPanel {
 		add(incorrCounter, c);
 		
 		//Set the question display
-		update();
+		setup();
 		
 		//Start the clock
 		clock.start();
@@ -280,6 +270,7 @@ public class Drill extends BackgroundPanel {
 		submit.setVisible(true);
 		
 		//Randomise display of the question
+		//Random.nextInt is already from 0 to n-1 your correction causes error, changed back
 		currentQ = rand.nextInt(questions.size());
 		if (rand.nextInt(2) > 0) {
 			question.setText(level.getLevelNumber() + " x " + questions.get(currentQ) + " =");
@@ -366,6 +357,26 @@ public class Drill extends BackgroundPanel {
 		next.requestFocus();
 	}
 
+	/**
+	 * Sets up the questions array.
+	 * 
+	 */
+	public void setup() {
+		
+		// Populate the question list
+		questions = new ArrayList<Integer>();
+		int max = 12;
+		if (Controller.getTestMode()) {
+			max = 4;
+		}
+		for (int i = 1; i <= max; i++) {
+			questions.add(i);
+		}
+
+		update();
+		
+	}
+	
 	/**
 	 * Gets the default time for a level if no other time is specified
 	 * 
@@ -484,6 +495,7 @@ class Submit implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//Purposefully removed your safeguard as it prevents end of game click on time out
 		drill.checkAnswer();
 	}
 }
