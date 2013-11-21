@@ -25,10 +25,13 @@ import ttable.LevelProgeny;
  */
 @SuppressWarnings("serial")
 public class Drill extends BackgroundPanel {
-
+	
 	/** Array of questions **/
 	private ArrayList<Integer> questions = new ArrayList<Integer>();
 
+	/** Max number of questions per level **/
+	private int max;
+	
 	/** Default time **/
 	final private static int DEFAULT_TIME = 30;
 
@@ -111,6 +114,13 @@ public class Drill extends BackgroundPanel {
 		correct = 0;
 		incorrect = 0;
 		end = false;
+
+		// Populate the question list
+		questions = new ArrayList<Integer>();
+		max = 12;
+		if (Controller.getTestMode()) {
+			max = 4;
+		}
 
 		//Create components
 		rand = new Random();
@@ -268,10 +278,14 @@ public class Drill extends BackgroundPanel {
 		answerField.setText("");
 		answerField.requestFocus();
 		submit.setVisible(true);
-		
-		//Randomise display of the question
-		//Random.nextInt is already from 0 to n-1 your correction causes error, changed back
-		currentQ = rand.nextInt(questions.size());
+		if (questions.size() == 1) {
+			currentQ = 0;
+		}
+		else {
+			currentQ = rand.nextInt(questions.size()-1);
+		}
+		//Randomize display of the question
+		//currentQ = rand.nextInt(questions.size());
 		if (rand.nextInt(2) > 0) {
 			question.setText(level.getLevelNumber() + " x " + questions.get(currentQ) + " =");
 		}
@@ -309,7 +323,7 @@ public class Drill extends BackgroundPanel {
 	 * @param answer the answer
 	 */
 	public void checkAnswer() {
-
+		
 		//Calculate the answer
 		int answer = questions.get(currentQ) * level.getLevelNumber();
 
@@ -329,8 +343,9 @@ public class Drill extends BackgroundPanel {
 		}
 		else {
 			//If the answer is wrong add a second instance of the question in the list
+			
 			questions.add(questions.get(currentQ));
-
+			
 			correctImg.setVisible(false);
 			incorrImg.setVisible(true);
 			solution.setText("Answer: " + answer);
@@ -358,21 +373,16 @@ public class Drill extends BackgroundPanel {
 	}
 
 	/**
-	 * Sets up the questions array.
 	 * 
 	 */
 	public void setup() {
 		
-		// Populate the question list
-		questions = new ArrayList<Integer>();
-		int max = 12;
-		if (Controller.getTestMode()) {
-			max = 4;
+		/** Setup the questions **/
+		for (int i = 0; i < max; i++) {
+			
+			questions.add(i, i+1);
+			
 		}
-		for (int i = 1; i <= max; i++) {
-			questions.add(i);
-		}
-
 		update();
 		
 	}
@@ -494,9 +504,12 @@ class Submit implements ActionListener {
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
+	// This fixes an issue where you could submit an empty field and get a wrong answer
+	// This way you're not penalized for accidentally clicking submit
 	public void actionPerformed(ActionEvent e) {
-		//Purposefully removed your safeguard as it prevents end of game click on time out
-		drill.checkAnswer();
+		if (Drill.answerField.getText().equals("") == false) {
+			drill.checkAnswer();
+		}
 	}
 }
 
