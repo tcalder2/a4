@@ -52,7 +52,7 @@ class LevelController extends AbstractActionController
   if(!$score_validator->isValid($score))
    return new JsonModel(array('success' => false, 'messages' => $score_validator->getMessages()));
 
-  if(!time_validator->isValid($time))
+  if(!$time_validator->isValid($time))
    return new JsonModel(array('success' => false, 'messages' => $time_validator->getMessages()));
 
 
