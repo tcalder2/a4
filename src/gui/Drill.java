@@ -25,9 +25,6 @@ import ttable.LevelProgeny;
  */
 @SuppressWarnings("serial")
 public class Drill extends BackgroundPanel {
-
-	/** Array of answers **/
-	private ArrayList<Integer> answers = new ArrayList<Integer>();
 	
 	/** Array of questions **/
 	private ArrayList<Integer> questions = new ArrayList<Integer>();
@@ -287,7 +284,7 @@ public class Drill extends BackgroundPanel {
 		else {
 			currentQ = rand.nextInt(questions.size()-1);
 		}
-		//Randomise display of the question
+		//Randomize display of the question
 		//currentQ = rand.nextInt(questions.size());
 		if (rand.nextInt(2) > 0) {
 			question.setText(level.getLevelNumber() + " x " + questions.get(currentQ) + " =");
@@ -326,12 +323,6 @@ public class Drill extends BackgroundPanel {
 	 * @param answer the answer
 	 */
 	public void checkAnswer() {
-
-		for (int i = 0; i < questions.size(); i++) {
-			
-			System.out.println(questions.get(i));
-			
-		}
 		
 		//Calculate the answer
 		int answer = questions.get(currentQ) * level.getLevelNumber();
@@ -379,7 +370,6 @@ public class Drill extends BackgroundPanel {
 			livesCount.setText("<3 x " + lives);
 		}
 		next.requestFocus();
-
 	}
 
 	/**
@@ -393,19 +383,6 @@ public class Drill extends BackgroundPanel {
 			questions.add(i, i+1);
 			
 		}
-
-		///** Randomize the order **/
-		//int currentQ = rand.nextInt(questions.size() -1);
-		
-//		int r2;
-//		int store;
-//		for (int i = 0; i < 20; i++) {
-//			r1 = rand.nextInt((max-1));
-//			r2 = rand.nextInt((max-1));
-//			store = questions.get(r1);
-//			questions.add(r1, questions.get(r2));
-//			questions.add(r2, store);
-//		}
 		update();
 		
 	}
@@ -511,7 +488,6 @@ class Submit implements ActionListener {
 
 	/** The drill. */
 	private Drill drill;
-	private String answer;
 
 	/**
 	 * Instantiates a Submit instance.
@@ -521,7 +497,6 @@ class Submit implements ActionListener {
 	 */
 	public Submit(Drill drill, JTextField answer) {
 		this.drill = drill;
-		this.answer = answer.getText();
 	}
 
 	/*
@@ -530,7 +505,7 @@ class Submit implements ActionListener {
 	 */
 	@Override
 	// This fixes an issue where you could submit an empty field and get a wrong answer
-	// This way you're not penalized for accidentally clicking enter
+	// This way you're not penalized for accidentally clicking submit
 	public void actionPerformed(ActionEvent e) {
 		if (Drill.answerField.getText().equals("") == false) {
 			drill.checkAnswer();
