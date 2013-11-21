@@ -57,7 +57,7 @@ public class LevelService {
 	public static void changeMistakesAllowed(Level level, int mistakes_allowed) throws JSONFailureException
 	{
 		Json json = new Json();
-		JSONObject jsonObj = json.sendRequest("https://jbaron6.cs2212.ca/changelevelmistakesallowed?level=" + level.getLevel() + "&mistakes_allowed=" + mistakes_allowed);
+		JSONObject jsonObj = json.sendRequest("https://jbaron6.cs2212.ca/changelevelmistakesallowed?level=" + level.getLevelNumber() + "&mistakes_allowed=" + mistakes_allowed);
 		
 		fillLevel(level, (JSONObject)jsonObj.get("level"));
 	}
@@ -65,7 +65,7 @@ public class LevelService {
 	public static void fillLevel(Level level, JSONObject level_data)
 	{
 		level.setMistakesAllowed(Integer.parseInt(level_data.get("mistakes_allowed").toString()));
-		level.setLevel(Integer.parseInt(level_data.get("level").toString()));
+		level.setLevelNumber(Integer.parseInt(level_data.get("level").toString()));
 		level.setId(level_data.get("id").toString());
 	}
 	

@@ -28,9 +28,8 @@ public class PasswordReset extends BackgroundPanel {
 	/**
 	 * Instantiates a PasswordReset instance.
 	 * 
-	 * @param controller	the controller
 	 */
-	public PasswordReset(Controller controller, ArrayList<String> errors) {
+	public PasswordReset(ArrayList<String> errors) {
 
 		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
@@ -49,7 +48,7 @@ public class PasswordReset extends BackgroundPanel {
 		oldField.addMouseListener(new SelectAllTextOnClick(oldField));
 		newField.addMouseListener(new SelectAllTextOnClick(newField));
 		retypeField.addMouseListener(new SelectAllTextOnClick(retypeField));
-		update.addActionListener(new PressUpdate3(controller, oldField, newField, retypeField));
+		update.addActionListener(new PressUpdate3(oldField, newField, retypeField));
 
 		//Limit the number of characters that can be input into each field
 		((AbstractDocument) oldField.getDocument()).setDocumentFilter(new DocumentLengthFilter(6));
@@ -114,10 +113,9 @@ public class PasswordReset extends BackgroundPanel {
 	/**
 	 * Constructor without error messages.
 	 * 
-	 * @param controller	the GUI controller.
 	 */
-	public PasswordReset(Controller controller) {
-		this(controller, new ArrayList<String>());
+	public PasswordReset() {
+		this(new ArrayList<String>());
 	}
 }
 
@@ -128,10 +126,7 @@ public class PasswordReset extends BackgroundPanel {
  * @version 1.0
  */
 class PressUpdate3 implements ActionListener {
-	
-	/** The controller. */
-	private Controller controller;
-	
+		
 	/** The old password field. */
 	private JPasswordField oldField;
 	
@@ -144,14 +139,12 @@ class PressUpdate3 implements ActionListener {
 	/**
 	 * Instantiates a PressUpdate3 instance.
 	 * 
-	 * @param controller	the controller
 	 * @param oldField		the field to enter the old password
 	 * @param newField		the field to enter the new password
 	 * @param retypeField	the field to re-enter the new password to confirm
 	 */
-	public PressUpdate3(Controller controller, JPasswordField oldField, JPasswordField newField, JPasswordField retypeField) {
+	public PressUpdate3(JPasswordField oldField, JPasswordField newField, JPasswordField retypeField) {
 		super();
-		this.controller = controller;
 		this.oldField = oldField;
 		this.newField = newField;
 		this.retypeField = retypeField;
@@ -193,20 +186,20 @@ class PressUpdate3 implements ActionListener {
 		if (newPwdS.equals(retypePwdS)) {
 			try {
 				UserService.resetPassword(oldPwdS, newPwdS);
-				Controller.setScreen(new MainMenu(controller));
+				Controller.setScreen(new MainMenu());
 				oldPwdS = "000000";
 				newPwdS = "000000";
 				retypePwdS = "000000";
 			} catch (JSONFailureException e) {
 				errors = e.getMessages();
-				Controller.setScreen(new PasswordReset(controller, errors));
+				Controller.setScreen(new PasswordReset());
 			}
 
 		} else {
 			newField.setBackground(Color.PINK);
 			retypeField.setBackground(Color.PINK);
 			errors.add("Passwords do not match");
-			Controller.setScreen(new PasswordReset(controller, errors));
+			Controller.setScreen(new PasswordReset());
 		}
 	}
 

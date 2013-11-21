@@ -1,12 +1,7 @@
 package ttable;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.text.StringCharacterIterator;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -40,7 +35,7 @@ public class Progeny {
 	/** 
 	 * The amount of time the child is allowed to complete drill levels.
 	 */
-	private int timeAllowed;
+	private int timeAllowed = 30;
 	
 	/** 
 	 * Array of progeny's level data.
@@ -165,11 +160,20 @@ public class Progeny {
 		return 0;
 	}
 
-	public void changeLevel(int currentLevel) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * Changes the current level, removing all levels above current level.
+	 *
+	 * @param level		the level
+	 */
+	public void changeLevel(int newLevel) {
+		while (true) {
+			try {
+			levels.remove(newLevel);
+			} catch (IndexOutOfBoundsException e) {
+				break;
+			}
+		}
 	}
-	
 	
 }
 

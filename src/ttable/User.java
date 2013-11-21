@@ -1,10 +1,11 @@
 package ttable;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.json.simple.JSONObject;
 
+import service.LevelService;
+import service.ProgenyService;
 import json.JSONFailureException;
 import json.Json;
 
@@ -15,33 +16,33 @@ import json.Json;
  * @author James Anderson
  * @version 2.0
  */
-public class User {
-
-	/** The user's FaceBook ID. */
-	private String fb_id;
-
-	/** The user's first name. */
-	private String firstName;
-
-	/** The user's last name. */
-	private String lastName = "";
-
-	/** Whether or not this is the user's first login. */
-	private boolean firstLogin;
-
-	/** The array of progeny. */
-	private ArrayList<Progeny> progenyList;
-
-	/** The birth date. */
-	private Date birthDate;
+public final class User {
 
 	/** The instance. */
 	private static User instance = null;
+	
+	/** The user's Facebook ID. */
+	private String fbID;
+
+	/** The user's first name. */
+	private String firstName;
+	
+	/** The user's last name. */
+	private String lastName;
+	
+	/** Whether or not this is the user's first login. */
+	private boolean firstLogin;
+	
+	/** The array of progeny. */
+	private ArrayList<Progeny> progenyList;
+	
+	/** The array of levels. */
+	private ArrayList<Level> levels;
 
 	/**
 	 * Instantiates a new user.
 	 */
-	protected User() {
+	private User() {
 		// Exists only to defeat instantiation.
 	}
 
@@ -52,17 +53,19 @@ public class User {
 	 */
 	public static User getInstance() throws JSONFailureException {
 		if (instance == null) {
-			User user = new User();
-
 			Json json = new Json();
 
 			JSONObject jsonObj = json.sendRequest("https://jbaron6.cs2212.ca/getuser");
 
 			JSONObject userObj = (JSONObject) jsonObj.get("user");
 
-			user.setFbId(((String) userObj.get("fb_id")));
-			user.setFirstName(((String) userObj.get("first_name")));
-			user.setLastName(((String) userObj.get("last_name")));
+			instance = new User();
+			instance.setFbId(((String) userObj.get("fb_id")));
+			instance.setFirstName(((String) userObj.get("first_name")));
+			instance.setLastName(((String) userObj.get("last_name")));
+			instance.setProgenyList(ProgenyService.getProgenies());
+			instance.setLevels(LevelService.getLevels());
+			
 		}
 		return instance;
 	}
@@ -70,12 +73,11 @@ public class User {
 	// ** NOTE ** //
 	/**
 	 * This is a dummy method that emulates how getFriends will work I'm
-	 * including it in lieu of just creating a string array in the StatsMenu2
+	 * including it in lieu of just creating a string array in the StatsMenu
 	 * file.
 	 * 
 	 * @return an array of friends
-	 * @throws JSONFailureException
-	 *             the jSON failure exception
+	 * @throws JSONFailureException	the jSON failure exception
 	 */
 	public static ArrayList<String> getFriendsTest()
 			throws JSONFailureException {
@@ -100,20 +102,19 @@ public class User {
 	/**
 	 * Gets the id.
 	 * 
-	 * @return the id
+	 * @return the user's Facebook ID
 	 */
 	public String getFbId() {
-		return fb_id;
+		return fbID;
 	}
 
 	/**
 	 * Sets the id.
 	 * 
-	 * @param fb_id
-	 *            the new fb id
+	 * @param fbID		the user's Facebook ID
 	 */
-	public void setFbId(String fb_id) {
-		this.fb_id = fb_id;
+	private void setFbId(String fbID) {
+		this.fbID = fbID;
 	}
 
 	/**
@@ -131,7 +132,7 @@ public class User {
 	 * @param firstName
 	 *            the new first name
 	 */
-	public void setFirstName(String firstName) {
+	private void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
@@ -150,7 +151,7 @@ public class User {
 	 * @param lastName
 	 *            the new last name
 	 */
-	public void setLastName(String lastName) {
+	private void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
@@ -159,11 +160,10 @@ public class User {
 	 * 
 	 * @return true, if is first login
 	 */
-	public boolean isFirstLogin() {
-		//TODO: un-comment when there is code supporting this return firstLogin;
-		return true;
+	public boolean getFirstLogin() {
+		return firstLogin;
 	}
-
+	
 	/**
 	 * Sets the first login.
 	 * 
@@ -192,28 +192,35 @@ public class User {
 	public void setProgenyList(ArrayList<Progeny> progenyList) {
 		this.progenyList = progenyList;
 	}
-
+	
 	/**
-	 * Gets the birth date.
+	 * Gets an array of the levels (ie. global level settings).
 	 * 
-	 * @return the birth date
+	 * @return 						an array of the levels 
 	 */
-	public Date getBirthDate() {
-		return birthDate;
+	public ArrayList<Level> getLevels() {
+		return levels;
 	}
-
+	
 	/**
-	 * Sets the birth date.
+	 * Sets the array of levels.
 	 * 
-	 * @param birthDate
-	 *            the new birth date
+	 * @param levels	the array of levels
 	 */
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
+	public void setLevels(ArrayList<Level> levels) {
+		this.levels = levels;
 	}
-
-	public boolean getFirstLogin() {
-		// TODO Auto-generated method stub
-		return false;
+	
+	/**
+	 * Gets the specified level.
+	 * 
+	 * @param number	the level number to get.
+	 * @return			the specified level.
+	 */
+	public Level getLevel(int number) {
+		if (number > 0 && number <= levels.size()) {
+			return levels.get(number - 1);
+		}
+		return null;
 	}
 }

@@ -96,7 +96,7 @@ public class ChildProgress extends JPanel {
 			ArrayList<LevelProgeny> levels = Controller.getCurrentProgeny().getLevels();
 			for (int i = 0; i < levels.size(); i++) {
 				Vector<String> v = new Vector<String>();
-				v.add("" + levels.get(i).getLevel());
+				v.add("" + levels.get(i).getLevelNumber());
 				v.add("" + levels.get(i).getAttempts());
 				v.add("" + levels.get(i).getCompletionTime());
 				v.add("" + levels.get(i).getMistakes());

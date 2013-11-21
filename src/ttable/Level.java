@@ -10,53 +10,69 @@ package ttable;
  */
 public class Level {
 
-	/** The level. */
+	/** The level between 1 and 12 inclusive. */
 	private int level;
 	
-	/** The mistakes allowed. */
-	private int mistakesAllowed;
+	/** The number of mistakes allowed to still complete the drill level. */
+	private int mistakesAllowed = 3;
 
+
+	/** The server object ID for the level. */
 	private String id;
 		
+	/**
+	 * Gets the server object ID for the level.
+	 * 
+	 * @return	the server object ID for the level.
+	 */
 	public String getId() {
 		return id;
 	}
 
+	/**
+	 * Sets the server object ID for the level.
+	 * 
+	 * @param id	the server object ID for the level.
+	 */
 	public void setId(String id) {
 		this.id = id;
 	}
 
 	/**
-	 * Gets the level.
+	 * Gets the level number between 1 and 12 inclusive.
 	 *
-	 * @return the level
+	 * @return the level number between 1 and 12 inclusive.
 	 */
-	public int getLevel() {
+	public int getLevelNumber() {
 		return level;
 	}
-
+	
 	/**
-	 * Sets the level.
-	 *
-	 * @param level the new level
+	 * Sets the level number.  If the level number is not between 1 and 12 inclusive, an
+	 * IllegalArgumentException is thrown.
+	 * 
+	 * @param level						the level number between 1 and 12 inclusive.
 	 */
-	public void setLevel(int level) {
+	public void setLevelNumber(int level) {
 		this.level = level;
 	}
-
+	
 	/**
-	 * Gets the mistakes allowed.
+	 * Gets the number of mistakes a child can make in a drill and still complete the level.
 	 *
-	 * @return the mistakes allowed
+	 * @return the number of mistakes a child can make in a drill and still complete the level.
 	 */
 	public int getMistakesAllowed() {
 		return mistakesAllowed;
 	}
 
 	/**
-	 * Sets the mistakes allowed.
+	 * Sets the number of mistakes a child can make in a drill and still complete the level.
+	 * If the Mistakes Allowed is not between 0 and 5 inclusive, an IllegalArgumentException
+	 * is thrown.
 	 *
-	 * @param mistakesAllowed the new mistakes allowed
+	 * @param mistakesAllowed			the number of mistakes a child can make and still
+	 * 									complete the level, a value between 0 and 5 inclusive.
 	 */
 	public void setMistakesAllowed(int mistakesAllowed) {
 		this.mistakesAllowed = mistakesAllowed;
@@ -69,7 +85,7 @@ public class Level {
 	 * @return			true if the objects are equal, false if they are not.
 	 */
 	public boolean equals(Level level) {
-		if (getLevel() == level.getLevel()) {
+		if (getLevelNumber() == level.getLevelNumber()) {
 			if (getMistakesAllowed() == level.getMistakesAllowed()) {
 				return true;
 			}

@@ -59,6 +59,9 @@ public class DrillMenu extends BackgroundPanel {
 		c.weightx = 0.5;
 		c.gridwidth = 1;
 
+		//Get the current level of the child
+		int level = 6; //TODO: Controller.getCurrentProgeny().getLevelNumber();
+		
 		//Loop through adding the level buttons with custom button graphics
 		int position = 0;
 		int[] order = {4,5,1,3,2,6,11,10,7,12,9,8};
@@ -72,11 +75,20 @@ public class DrillMenu extends BackgroundPanel {
 			}
 			for (int j = 1; j <= 3; j++) {
 				JButton button = new JButton();
-				button.addActionListener(new StartDrill(order[position]));
 				button.setContentAreaFilled(false);
 				button.setBorderPainted(false);
+				
+				//Default icon is locked, with no action listener
+				String lockStatus = "_l";
+				
+				//If the level being added should be unlocked, change icon to unlocked and add action listener
+				if (order[position] <= level) {
+					button.addActionListener(new StartDrill(order[position]));
+					lockStatus = "_u";
+				}
+				
 				try {
-					Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/levels/lvl" + order[position] + "_u.png"));
+					Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/levels/lvl" + order[position] + lockStatus + ".png"));
 					button.setIcon(new ImageIcon(img));
 				} catch (IOException e) {
 					button.setText("Level " + order[position]);  //If the custom button fails to download a text placeholder is added
@@ -122,7 +134,7 @@ class StartDrill implements ActionListener {
 		}
 		catch (Exception e2) {
 			LevelProgeny prog = new LevelProgeny();
-			prog.setLevel(levelNum);
+			prog.setLevelNumber(levelNum);
 			screen = new Drill(prog);
 		}
 		Controller.setScreen(screen);

@@ -122,7 +122,7 @@ public class LockScreen extends BackgroundPanel {
 		}
 		
 		//If this is the first login, hide the reset button
-		if (Controller.getUser().isFirstLogin()) {
+		if (Controller.getUser().getFirstLogin()) {
 			reset.setVisible(false);
 		}
 		

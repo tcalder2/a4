@@ -71,9 +71,9 @@ public class LevelServiceTest {
 		assertEquals(12, levels.size());
 		
 
-		assertEquals(4, levels.get(3).getLevel());
-		assertEquals(7, levels.get(6).getLevel());
-		assertEquals(12, levels.get(11).getLevel());
+		assertEquals(4, levels.get(3).getLevelNumber());
+		assertEquals(7, levels.get(6).getLevelNumber());
+		assertEquals(12, levels.get(11).getLevelNumber());
 	}
 	
 	@Test
@@ -91,9 +91,9 @@ public class LevelServiceTest {
 			fail(e.getMessage());
 		}
 		
-		assertEquals(4, level4.getLevel());
-		assertEquals(7, level7.getLevel());
-		assertEquals(12, level12.getLevel());
+		assertEquals(4, level4.getLevelNumber());
+		assertEquals(7, level7.getLevelNumber());
+		assertEquals(12, level12.getLevelNumber());
 	}
 
 }

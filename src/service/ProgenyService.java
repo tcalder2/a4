@@ -17,6 +17,9 @@ import ttable.Progeny;
 
 /**
  * The Class ProgenyService.
+ * 
+ * @author James Baron
+ * @author James Anderson
  */
 public class ProgenyService {
 
@@ -109,9 +112,10 @@ public class ProgenyService {
 
 	
 	/**
-	 * Gets the child's current age.
+	 * Calculates the child's current age.
 	 *
-	 * @return the child's current age.
+	 * @param birthDate		the child's date of birth
+	 * @return 				the child's current age.
 	 */
 	public static int getAge(Date birthDate) {
 		GregorianCalendar calPresent = new GregorianCalendar();
@@ -121,11 +125,11 @@ public class ProgenyService {
 
 		int age = calPresent.get(Calendar.YEAR) - calBirth.get(Calendar.YEAR);
 
-		if (calBirth.get(Calendar.MONTH) < calPresent.get(Calendar.MONTH)) {
+		if (calBirth.get(Calendar.MONTH) > calPresent.get(Calendar.MONTH)) {
 			age--; 
 		}
 		else if (calBirth.get(Calendar.MONTH) == calPresent.get(Calendar.MONTH)) {
-			if (calBirth.get(Calendar.DAY_OF_MONTH) < calPresent.get(Calendar.DAY_OF_MONTH)) {
+			if (calBirth.get(Calendar.DAY_OF_MONTH) > calPresent.get(Calendar.DAY_OF_MONTH)) {
 				age--;
 			}
 		}

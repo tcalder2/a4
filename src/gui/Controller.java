@@ -32,6 +32,9 @@ public class Controller {
 	
 	/** The current progeny. */
 	private static Progeny currentProgeny;
+	
+	/** Status of test mode. */
+	private static boolean testMode  = true;
 
 	
 	/**
@@ -133,5 +136,23 @@ public class Controller {
 	 */
 	public static Progeny getCurrentProgeny() {
 		return currentProgeny;
+	}
+	
+	/**
+	 * Gets whether the test mode is activated or not.
+	 * 
+	 * @return true if test mode is activated, false otherwise.
+	 */
+	public static boolean getTestMode() {
+		return testMode;
+	}
+	
+	/**
+	 * Set whether test mode is on or not.
+	 * 
+	 * @param testMode				the test mode boolean containing whether test mode is activated
+	 */
+	public static void setTestMode(boolean testSetting) {
+		testMode = testSetting;
 	}
 }

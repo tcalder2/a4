@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -8,14 +7,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.text.AbstractDocument;
-
-import service.UserService;
-import ttable.Level;
-import json.JSONFailureException;
 
 /**
  * The class ScoreREport, a populated BackgroundPanel.
@@ -41,9 +34,12 @@ public class ScoreReport extends BackgroundPanel {
 		lvl = level;
 		
 		//Create the components
-		JLabel score1 = new JLabel("You got " + correct + " out of 12 questions right.");
-		JLabel score2 = new JLabel("Your previous high score is " + "<highscore goes here>");
-		JLabel score3 = new JLabel("<Post to Facebook Goes Here>");
+		int max = 12;
+		if (Controller.getTestMode()) {
+			max = 4;
+		}
+		JLabel score1 = new JLabel("You got " + correct + " out of " + max + " questions right.");
+		JLabel score2 = new JLabel("Your previous high score was " + "<highscore goes here>");
 		
 		JButton fbB = new JButton("Post to Facebook!");
 		JButton levelB = new JButton("Play the level game!");
@@ -60,7 +56,6 @@ public class ScoreReport extends BackgroundPanel {
 		
 		score1.setFont(Controller.getFont().deriveFont(Font.PLAIN, 28));
 		score2.setFont(Controller.getFont().deriveFont(Font.PLAIN, 28));
-		score3.setFont(Controller.getFont().deriveFont(Font.PLAIN, 28));
 		
 		
 		//Add the components to the view

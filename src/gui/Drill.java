@@ -5,11 +5,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
 
+import json.JSONFailureException;
+import service.LevelService;
 import ttable.LevelProgeny;
 
 /**
@@ -17,26 +21,20 @@ import ttable.LevelProgeny;
  * 
  * @author James Anderson
  * @author Taylor Calder
- * @version 1.3
+ * @version 1.4
  */
 @SuppressWarnings("serial")
 public class Drill extends BackgroundPanel {
 
 	/** Array of questions **/
-	private int[] questions = new int[12];
+	private ArrayList<Integer> questions = new ArrayList<Integer>();
 
-	/** Array of answers **/
-	private int[] answers = new int[12];
-	
 	/** Default time **/
 	final private static int DEFAULT_TIME = 30;
-	
-	/** The Current Question the child is on **/
-	private int currentQ = 0;
-	
+
 	/** The level. */
 	private LevelProgeny level;
-	
+
 	/** The number of lives remaining. */
 	private static int lives;
 
@@ -55,9 +53,6 @@ public class Drill extends BackgroundPanel {
 	/** The corr counter. */
 	private JLabel corrCounter;
 
-	/** The mark img. */
-	private JLabel markImg = new JLabel();
-
 	/** The solution. */
 	private JLabel solution;
 
@@ -69,32 +64,35 @@ public class Drill extends BackgroundPanel {
 
 	/** The answer field. */
 	static JTextField answerField;
-	
-	/** Random Generator **/
-	private Random rand = new Random();
+
+	/** Random number generator */
+	private Random rand;
 
 	/** The clock. */
 	private Timer clock;
 
-	/** The current lives counter **/
-	private JLabel livesCount = new JLabel();
-	
-	/** The current question **/
-	private JLabel question = new JLabel();
-	
-	/** Time is added on correct answer **/
-	static boolean addTime = false;
-	
-	/** Correct answer image **/
-	private ImageIcon imgIconS;
-	
-	/** Incorrect answer image **/
-	private ImageIcon imgIconF;
-	
-	/** Heart Icon **/
+	/** The label displaying lives remaining. */
+	private JLabel livesCount;
+
+	/** The question text. */
+	private JLabel question;
+
+	/** Correct answer image label. */
+	private JLabel correctImg;
+
+	/** Incorrect answer image label. */
+	private JLabel incorrImg;
+
+	/** Heart icon. */
 	private ImageIcon heart;
+
+	/** The current question number. */
+	private int currentQ;
 	
-	
+	/** Tells whether the end of the drill has been reached. */
+	private boolean end;
+
+
 	/**
 	 * Instantiates a new drill.
 	 *
@@ -102,205 +100,195 @@ public class Drill extends BackgroundPanel {
 	 */
 	public Drill(LevelProgeny level) {
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
+
+		//Initialise values
 		this.level = level;
-		lives = 5;
+		try {
+			lives = LevelService.getLevel(level.getLevelNumber()).getMistakesAllowed();
+		} catch (JSONFailureException e1) {
+			lives = 3;
+		}
 		correct = 0;
 		incorrect = 0;
+		end = false;
 
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.BOTH;
-		c.gridwidth = 1;
-		c.insets = new Insets(0,25,0,25);
-		c.weightx = 0.5;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.anchor = GridBagConstraints.WEST;
+		// Populate the question list
+		questions = new ArrayList<Integer>();
+		int max = 12;
+		if (Controller.getTestMode()) {
+			max = 4;
+		}
+		for (int i = 1; i <= max; i++) {
+			questions.add(i);
+		}
 
-		//JLabel livesCount = new JLabel();
+		//Create components
+		rand = new Random();
+		livesCount = new JLabel();
+		timer = new JLabel("", SwingConstants.RIGHT);
+		question = new JLabel();
+		answerField = new JTextField(2);
+		submit = new JButton("Submit");
+		clock = new Timer(1000, new TimerAction(this));
+		solution = new JLabel(" ");
+		corrCounter = new JLabel("" + correct);
+		next = new JButton("Next");
+		incorrCounter = new JLabel("" + incorrect);
+		JPanel imageSpace = new JPanel();
+
+		//Set component display attributes
 		try {
-			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/drill/heart.png"));
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/heart.png"));
 			heart = new ImageIcon(img);
-			livesCount.setText(" x " + lives);
 			livesCount.setIcon(heart);
+			livesCount.setText(" x " + lives);
 		} catch (IOException e) {
 			livesCount.setText("<3 x " + lives);
 		}
-		livesCount.setFont(Controller.getFont().deriveFont(Font.BOLD, 35));
-		// Set size
-		livesCount.setMinimumSize(new Dimension(80,30));
-		livesCount.setMaximumSize(new Dimension(80,30));
-		livesCount.setPreferredSize(new Dimension(80,30));
+		livesCount.setFont(Controller.getFont().deriveFont(Font.BOLD, 40));
+
+		timer.setFont(Controller.getFont().deriveFont(Font.BOLD, 40));
+		timer.setMinimumSize(new Dimension(90,30));
+		timer.setMaximumSize(new Dimension(90,30));
+		timer.setPreferredSize(new Dimension(90,30));
+
+		question.setFont(Controller.getFont().deriveFont(Font.BOLD, 60));
+		question.setMinimumSize(new Dimension(200,65));
+		question.setMaximumSize(new Dimension(200,65));
+		question.setPreferredSize(new Dimension(200,65));
+		
+		answerField.setFont(Controller.getFont().deriveFont(Font.BOLD, 60));
+		((AbstractDocument) answerField.getDocument()).setDocumentFilter(new DocumentLengthFilter(3));
+
+		try {
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/faces/rface.png"));
+			correctImg = new JLabel(new ImageIcon(img));
+		} catch (Exception e) {
+			correctImg = new JLabel("CORRECT!");
+		}
+		correctImg.setVisible(false);
+		
+		Dimension d;
+		try {
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/faces/xface.png"));
+			ImageIcon icon = new ImageIcon(img);
+			incorrImg = new JLabel(icon);
+			d = new Dimension(icon.getIconWidth(), icon.getIconHeight() + 20);
+		} catch (Exception e) {
+			d = new Dimension(200,40);
+			incorrImg = new JLabel("WRONG:(");
+		}
+		incorrImg.setVisible(false);
+		
+		imageSpace.setMinimumSize(d);
+		imageSpace.setMaximumSize(d);
+		imageSpace.setPreferredSize(d);
+		imageSpace.setOpaque(false);
+		imageSpace.add(correctImg);
+		imageSpace.add(incorrImg);
+		
+		solution.setFont(Controller.getFont().deriveFont(Font.BOLD, 35));
+
+		d = new Dimension(80,65);
+		submit.setMaximumSize(d);
+		submit.setMinimumSize(d);
+		submit.setPreferredSize(d);
+		
+		next.setMaximumSize(d);
+		next.setMinimumSize(d);
+		next.setPreferredSize(d);
+		next.setVisible(false);
+		
+		corrCounter.setForeground(Color.GREEN);
+		corrCounter.setFont(Controller.getFont().deriveFont(Font.BOLD, 40));
+		corrCounter.setVerticalAlignment(SwingConstants.BOTTOM);
+		
+		incorrCounter.setForeground(Color.RED);
+		incorrCounter.setFont(Controller.getFont().deriveFont(Font.BOLD, 40));
+		incorrCounter.setVerticalAlignment(SwingConstants.BOTTOM);
+
+		//Add action listeners
+		answerField.addKeyListener(new EnterListener(submit));
+		submit.addActionListener(new Submit(this, answerField));
+		next.addActionListener(new PressNext(this.level.getLevelNumber(), this));
+		next.addKeyListener(new EnterListener(next));
+
+
+		//Add components to view
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		c.insets = new Insets(0,25,0,25);
+		c.gridx = 0;
+		c.gridy = 0;
+		c.anchor = GridBagConstraints.WEST;
 		add(livesCount);
 
-		timer = new JLabel("", SwingConstants.RIGHT);
-		timer.setFont(Controller.getFont().deriveFont(Font.BOLD, 35));
-		setTime(10);
 		c.gridx = 4;
 		c.anchor = GridBagConstraints.EAST;
-		// Set size
-		timer.setMinimumSize(new Dimension(80,30));
-		timer.setMaximumSize(new Dimension(80,30));
-		timer.setPreferredSize(new Dimension(80,30));
 		add(timer, c);
 
-		//JLabel question = new JLabel("");
-		question.setFont(Controller.getFont().deriveFont(Font.BOLD, 60));
 		c.gridy = 1;
 		c.gridx = 1;
-		c.gridwidth = 1;
 		c.insets = new Insets(50,50,0,0);
 		add(question, c);
 
-		submit = new JButton("Submit");
-
-		answerField = new JTextField();
-		answerField.setFont(Controller.getFont().deriveFont(Font.BOLD, 60));
-		answerField.addKeyListener(new EnterListener(submit));
 		c.anchor = GridBagConstraints.WEST;
-		c.gridwidth = 1;
-		c.ipadx = 100;
 		c.gridx = 2;
 		c.insets = new Insets(50,0,0,0);
 		add(answerField, c);
 
-		submit.addActionListener(new Submit(this, answerField));
 		c.gridx = 3;
-		c.ipadx = 0;
 		c.insets = new Insets(50,0,0,50);
 		add(submit, c);
+		add(next, c);
 
-		clock = new Timer(1000, new TimerAction(this));
-		clock.start();
-		JLabel markImg = new JLabel(" ");
-		c.ipady = 60;
 		c.gridx = 2;
 		c.gridy = 2;
 		c.insets = new Insets(0,0,0,0);
-		add(markImg, c);
+		add(imageSpace, c);
 
-		solution = new JLabel(" ");
-		solution.setFont(Controller.getFont().deriveFont(Font.BOLD, 35));
-		c.ipady = 50;
 		c.gridy = 3;
 		add(solution, c);
 
-		next = new JButton("Next");
-		next.setVisible(false);
-		c.gridy = 4;
-		add(next, c);
-
-		corrCounter = new JLabel("" + correct);
-		corrCounter.setForeground(Color.GREEN);
-		corrCounter.setFont(Controller.getFont().deriveFont(Font.BOLD, 35));
-		corrCounter.setVerticalAlignment(SwingConstants.BOTTOM);
 		c.anchor = GridBagConstraints.SOUTH;
 		c.gridx = 0;
-		c.gridy = 5;
+		c.gridy = 4;
 		c.insets = new Insets(0,50,0,50);
 		add(corrCounter, c);
 
-		incorrCounter = new JLabel("" + incorrect);
-		incorrCounter.setForeground(Color.RED);
-		incorrCounter.setFont(Controller.getFont().deriveFont(Font.BOLD, 35));
-		incorrCounter.setVerticalAlignment(SwingConstants.BOTTOM);
 		c.gridx = 4;
 		add(incorrCounter, c);
 		
-		try {
-			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/faces/rface.png"));
-			imgIconS = new ImageIcon(img);
-		} catch (Exception e) {
-
-		}
-		try {
-			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/faces/xface.png"));
-			imgIconF = new ImageIcon(img);
-		} catch (Exception e) {
-
-		}
+		//Set the question display
+		update();
 		
-		// ----------------------------------------
-		// 				GAME LOGIC
-		// ----------------------------------------
+		//Start the clock
+		clock.start();
 		
-		
-		/** Setup the questions **/
-		for (int i = 0; i < 12; i++) {
-			
-			questions[i] = i+1;
-			
-		}
-
-		/** Randomize the order **/
-		int r1;
-		int r2;
-		int store;
-		for (int i = 0; i < 12; i++) {
-			r1 = rand.nextInt(11);
-			r2 = rand.nextInt(11);
-			store = questions[r1];
-			questions[r1] = questions[r2];
-			questions[r2] = store;
-		}
-		
-		/** Set up the answers **/
-		for (int i = 0; i < 12; i++) {
-			answers[i] = questions[i] * level.getLevel();	
-		}
-		
-		
-		r1 = rand.nextInt(2);
-		if (r1 > 0) {
-			question.setText(level.getLevel() + " x " + questions[currentQ]);
-		}
-		else if (r1 == 0) {
-			question.setText(questions[currentQ] + " x " + level.getLevel());
-		}
-		
+		answerField.requestFocus();
 	}
-	
-	/** Gets the number of correct answers **/
-	public static int getCorrect() {	
-		return correct;
-	}
-	
-	/** Gets the number of incorrect answers **/
-	public static int getIncorrect() {	
-		return incorrect;
-	}
-	
-	/** updates the game state **/
+
+	/**
+	 * Updates the drill state.
+	 * 
+	 */
 	public void update() {
-		
-		currentQ++;
-		
-		// Randomly choose the order of the two operands in the problem
-		int r1 = rand.nextInt(2);
-		if (r1 > 0) {
-			question.setText(level.getLevel() + " x " + questions[currentQ]);
-		}
-		else if (r1 == 0) {
-			question.setText(questions[currentQ] + " x " + level.getLevel());
-		}
-		
-		try {
-			//Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/drill/heart.png"));
-			livesCount.setText(" x " + lives);
-			livesCount.setIcon(heart);
-		} catch (Exception e) {
-			livesCount.setText("<3 x " + lives);
-		}
-		
 
-	}
-	
-	/** Turn off Time Adding **/
-	public static void setAddTime(boolean t) {
+		solution.setText(" ");			
+		answerField.setText("");
+		answerField.requestFocus();
+		submit.setVisible(true);
 		
-		addTime = t;
-		
+		//Randomise display of the question
+		currentQ = rand.nextInt(questions.size());
+		if (rand.nextInt(2) > 0) {
+			question.setText(level.getLevelNumber() + " x " + questions.get(currentQ) + " =");
+		}
+		else {
+			question.setText(questions.get(currentQ) + " x " + level.getLevelNumber() + " =");
+		}
 	}
-	
+
 	/**
 	 * Sets the time.
 	 *
@@ -308,16 +296,21 @@ public class Drill extends BackgroundPanel {
 	 */
 	public void setTime(int time) {
 		timer.setText(time + "sec");
-		timer.setAlignmentX(SwingConstants.RIGHT);
-		GridBagConstraints c = new GridBagConstraints();
-		c.insets = new Insets(5,50,0,50);
-		c.weightx = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		c.gridx = 4;
-		c.gridy = 0;
-		add(timer, c);
+		if (time == 0) {
+			clock.stop();
+			end = true;
+			submit.doClick();
+		}
 	}
-
+	
+	/**
+	 * Gets whether this is the end of the drill or not.
+	 * 
+	 * @return		true if the end of the drill has been reached, false otherwise
+	 */
+	public boolean isEnd() {
+		return end;
+	}
 
 	/**
 	 * Check answer.
@@ -326,95 +319,87 @@ public class Drill extends BackgroundPanel {
 	 */
 	public void checkAnswer() {
 
-		int correctanswer = answers[currentQ];
-		
-		
-		if (answerField.getText().equals("" + correctanswer)) {
-			clock = new Timer(1000, new TimerAction(this));
-			try {
-				markImg.setIcon(imgIconS);
-			} catch (Exception e) {
-				markImg.setText("CORRECT");
+		//Calculate the answer
+		int answer = questions.get(currentQ) * level.getLevelNumber();
+
+		if (answerField.getText().equals("" + answer)) {
+			questions.remove(currentQ);
+			if (questions.size() == 0) {
+				clock.stop();
 			}
+			incorrImg.setVisible(false);
+			correctImg.setVisible(true);
+			next.setVisible(true);
+			submit.setVisible(false);
 			correct++;
-			solution.setText("");
-			Drill.setAddTime(true);
-			
+			if (questions.size() == 0) {
+				end = true;
+			}
 		}
 		else {
-			try {
-				markImg.setIcon(imgIconF);
-			} catch (Exception e) {
-				markImg.setText("Wrong. Try Again!");
+			//If the answer is wrong add a second instance of the question in the list
+			questions.add(questions.get(currentQ));
+
+			correctImg.setVisible(false);
+			incorrImg.setVisible(true);
+			solution.setText("Answer: " + answer);
+			if (lives > 0) {
+				lives--;
 			}
-			solution.setText("Answer: " + correctanswer);
-			solution.setFont(Controller.getFont().deriveFont(Font.BOLD, 35));
-			lives--;
 			incorrect++;
 		}
 		
-		answerField.setText("");
-		GridBagConstraints c = new GridBagConstraints();
-		c.weightx = 0.5;
-		c.gridx = 2;
-		c.gridy = 2;
-		add(markImg, c);
-
-		c.gridy = 3;
-		add(solution, c);
-
-		c.anchor = GridBagConstraints.SOUTH;
-		c.gridx = 0;
-		c.gridy = 5;
-		c.insets = new Insets(0,50,0,50);
+		if (isEnd()) {
+			next.setText("Finish");
+		}
+		submit.setVisible(false);
+		next.setVisible(true);
 		corrCounter.setText("" + correct);
-		//add(corrCounter, c);
-
-		c.gridx = 4;
 		incorrCounter.setText("" + incorrect);
-		//add(incorrCounter, c);
-
-		/**
-		 * Stop the game when you have answered all 12 questions
-		 */
 		
-		if (correct + incorrect >= 12 || lives <= 0) {
-			
-			end();
+		try {
+			livesCount.setText(" x " + lives);
+			livesCount.setIcon(heart);
+		} catch (Exception e) {
+			livesCount.setText("<3 x " + lives);
 		}
-		else {
-		
-			update();
-		}
+		next.requestFocus();
 	}
 
-	public void end() {
-			
-			clock.stop();
-			
-			// Update lives to indicate it is 0
-			try {
-				livesCount.setText(" x " + lives);
-				livesCount.setIcon(heart);
-			} catch (Exception e) {
-				livesCount.setText("<3 x " + lives);
-			}
-			
-			next.addKeyListener(new EnterListener(next));
-			next.addActionListener(new Next(this.level.getLevel()));
-			next.setVisible(true);
-			submit.setVisible(false);
-			answerField.setVisible(false);
-			question.setVisible(false);
-		}
-		
-	
 	/**
 	 * Gets the default time for a level if no other time is specified
+	 * 
 	 * @return DEFAULT_TIME	the default time
 	 */
 	public static int getDefaultTime() {
 		return DEFAULT_TIME;
+	}
+	
+	/**
+	 * Gets the questions array.
+	 * 
+	 * @return the questions array.
+	 */
+	public ArrayList<Integer> getQuestions() {
+		return questions;
+	}
+	
+	/**
+	 * Gets the number of correct answers
+	 * 
+	 * @return
+	 */
+	public static int getCorrect() {	
+		return correct;
+	}
+
+	/**
+	 * Gets the number of incorrect answers
+	 * 
+	 * @return
+	 */
+	public static int getIncorrect() {	
+		return incorrect;
 	}
 }
 
@@ -432,13 +417,11 @@ class TimerAction implements ActionListener {
 	/** The the number of seconds remaining. */
 	private int timeRemaining;
 
-	
+
 	/**
 	 * Instantiates the Timer Action.
 	 * 
 	 * @param drill		the drill pane
-	 * @param answer	the answer text field
-	 * @param submit	the submit button
 	 */
 	public TimerAction(Drill drill) {
 		this.drill = drill;
@@ -457,39 +440,20 @@ class TimerAction implements ActionListener {
 	 * @param time	the new amount of time remaining
 	 */
 	public void setTime(int time) {
-		
+
 		timeRemaining = time;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		
-		if (Drill.addTime == true) {
-		
-			try {
-				setTime(Controller.getCurrentProgeny().getTimeAllowed());
-			}
-			catch (Exception e2) {
-				setTime( Drill.getDefaultTime());
-			}
-
-			Drill.addTime = false;
-			
-		}
-		
+	public void actionPerformed(ActionEvent e) {					
 		if (timeRemaining > 0) {
 			timeRemaining--;
-			drill.setTime(timeRemaining);
 		}
-		else {
-			drill.setTime(0);
-			drill.end();
-			
-		}
+		drill.setTime(timeRemaining);
 	}
 }
 
@@ -520,10 +484,7 @@ class Submit implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		if (!Drill.answerField.getText().equals("")) {
-			drill.checkAnswer();
-		}
+		drill.checkAnswer();
 	}
 }
 
@@ -533,15 +494,36 @@ class Submit implements ActionListener {
  * @author Taylor Calder
  * @version 1.0
  */
-class Next implements ActionListener {
+class PressNext implements ActionListener {
 
+	/** The level number. */
 	private int level;
 	
-	public Next (int l) {
-		level = l;
+	/** The drill. */
+	private Drill drill;
+
+	/**
+	 * Constructor requiring the level number be passed as an argument.
+	 * 
+	 * @param level		the level number.
+	 * @param drill		the drill.
+	 */
+	public PressNext(int level, Drill drill) {
+		this.level = level;
+		this.drill = drill;
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	public void actionPerformed(ActionEvent e) {
-		Controller.setScreen(new ScoreReport(Drill.getCorrect(), level));
+		//If there are no more questions, then end the game.  Else, display next question
+		if (drill.isEnd()) {
+			Controller.setScreen(new ScoreReport(Drill.getCorrect(), level));
+		}
+		else {
+			drill.update();
+		}
 	}
 }
