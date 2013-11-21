@@ -8,6 +8,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import service.UserService;
 import gui.Controller;
 
 /**
@@ -109,7 +110,18 @@ class PressSettings implements ActionListener {
 	 * @param the action event
 	 */
 	public void actionPerformed(ActionEvent e) {
-		LockScreen screen = new LockScreen();
-		Controller.setScreen(screen);
+		//On first login go to the screen to change password and the security question
+		if (UserService.getSecurityQuestionNumber() == (-1)) {
+			BackgroundPanel screen = new BackgroundPanel("http://jbaron6.cs2212.ca/img/default_background.png",
+					new BorderLayout());
+			screen.add(new SecurityTab(null), BorderLayout.CENTER);
+			Controller.setScreen(screen);
+		}
+		
+		//If not first login go to the lock screen
+		else {
+			LockScreen screen = new LockScreen();
+			Controller.setScreen(screen);
+		}
 	}
 }

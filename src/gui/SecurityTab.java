@@ -25,7 +25,7 @@ public class SecurityTab extends JPanel {
 
 	public SecurityTab(Settings settings) {
 
-		//Call the super constructor with a Gridbag
+		//Call the super constructor with a GridBagLayout
 		super(new GridBagLayout());
 
 		//Make the panel transparent
@@ -112,7 +112,7 @@ class PressUpdate4 implements ActionListener {
 
 	/** The settings screen. */
 	private Settings settings;
-	
+
 	/** The field for the input of the old password. */
 	private JPasswordField oldField;
 
@@ -157,6 +157,9 @@ class PressUpdate4 implements ActionListener {
 		char[] newPwd = newField.getPassword();
 		char[] retypePwd = retypeField.getPassword();
 
+		//Create a string to hold security question answer
+		String answer = answerField.getText();
+
 		//Convert the passwords to strings and zero out the old arrays
 		String oldPwdS = "";
 		for (int i = 0; i < oldPwd.length; i++) {
@@ -176,23 +179,37 @@ class PressUpdate4 implements ActionListener {
 			retypePwd[i] = 0;
 		}
 
-		if (newPwdS.equals(retypePwdS)) {
+		if (answer.equals("") || answer.equals("-- Answer --")) {
+			answerField.setBackground(Color.PINK);
+		}
+		else if (!newPwdS.equals(retypePwdS)) {
+			newField.setBackground(Color.PINK);
+			retypeField.setBackground(Color.PINK);
+		} 
+		else {
 			if (questions.getSelectedIndex() >= 0 && questions.getSelectedIndex() < 3) {
 				try {
+					UserService.setQuestion(("" + questions.getSelectedIndex()), oldPwdS);
+					UserService.setAnswer(answer, oldPwdS);
 					UserService.resetPassword(oldPwdS, newPwdS);
-					Controller.setScreen(new MainMenu());
+					
 					oldPwdS = "000000";
 					newPwdS = "000000";
 					retypePwdS = "000000";
+					
+					if (settings == null) {
+						Controller.setScreen(new Settings());
+					}
+					else {
+						settings.changeTabContent(2, new SecurityTab(settings));
+					}
+					
 				} catch (JSONFailureException e1) {
 					ArrayList<String> errors = e1.getMessages();
 					//TODO: popup
 				}
 			}
-		} else {
-			newField.setBackground(Color.PINK);
-			retypeField.setBackground(Color.PINK);
-			}
+		}
 	}
 
 }

@@ -121,11 +121,6 @@ public class LockScreen extends BackgroundPanel {
 			reset.setText("Reset...");
 		}
 		
-		//If this is the first login, hide the reset button
-		if (Controller.getUser().getFirstLogin()) {
-			reset.setVisible(false);
-		}
-		
 		//Add action listeners
 		passwordField.addKeyListener(new EnterListener(ok));
 		ok.addActionListener(new PressOk(passwordField));
@@ -216,27 +211,16 @@ class PressOk implements ActionListener {
 		try {
 			//Check if the password is correct, will throw if not
 			UserService.authenticate(pwd);
-
-			//On first successful login go to the screen to change password and the security question
-			if (Controller.getUser().getFirstLogin()) {
-				BackgroundPanel screen = new BackgroundPanel("http://jbaron6.cs2212.ca/img/default_background.png",
-						new BorderLayout());
-				
-				screen.add(new SecurityTab(null));
-				Controller.setScreen(screen);
-			}
 			
-			//On successful login (not first) go to the settings screen
-			else {
-				Controller.setScreen(new Settings());
-			}
+			//On successful login go to the settings screen
+			Controller.setScreen(new Settings());
 
 		} catch (JSONFailureException e1) {
 			//If exception is thrown it means authentication failed
 
 			//If more than three failed attempts go to the security question screen
 			if (e1.getMessages().get(0).compareTo("Too many login attempts") == 0) {
-				Controller.setScreen(new SecurityQ(new ArrayList<String>()));
+				Controller.setScreen(new PasswordReset(2));
 			}
 			
 			//If there are attempts remaining return to lock screen but add error messages to display
@@ -271,6 +255,6 @@ class PressReset implements ActionListener {
 	public void actionPerformed(ActionEvent evt) {
 		
 		//Swap the screen for the password reset screen
-		Controller.setScreen(new PasswordReset());
+		Controller.setScreen(new PasswordReset(1));
 	}
 }

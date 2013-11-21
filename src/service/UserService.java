@@ -10,7 +10,12 @@ import org.json.simple.JSONObject;
 import ttable.Progeny;
 import json.JSONFailureException;
 import json.Json;
-
+/**
+ * 
+ * @author James Baron
+ * @author James Anderson
+ * @version 1.1
+ */
 public class UserService {
 	
 	/**
@@ -65,6 +70,24 @@ public class UserService {
 	}
 	
 	/**
+	 * Sets the user's password using the security question instead of old password.  If the
+	 *  security question is input incorrectly, the password is automatically reset to the
+	 *  default, cs2212.
+	 *  
+	 * @param questionAns			the input answer to the security question.
+	 * @param newpassword			the new password to be changed to.
+	 * @return						true if successful, false otherwise.
+	 * @throws JSONFailureException	the JSON exception thrown if the password change is unsuccessful.
+	 */
+	public static boolean setPasswordWithQ(String questionAns, String newpassword) throws JSONFailureException {
+		Json json = new Json();
+		
+		json.sendRequest(""); //TODO: COMPLETE REQUEST!!!
+		
+		return true;
+	}
+	
+	/**
 	 * Sets the user's password recovery question.
 	 *
 	 * @param question the question
@@ -72,10 +95,10 @@ public class UserService {
 	 * @return true, if successful
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static boolean setQuestion(String question, String password) throws JSONFailureException
+	public static boolean setQuestion(String questionNumber, String password) throws JSONFailureException
 	{
 		Json json = new Json();
-		json.sendRequest("https://jbaron6.cs2212.ca/setquestion?question=" + question + "&password=" + password);		
+		json.sendRequest("https://jbaron6.cs2212.ca/setquestion?question=" + questionNumber + "&password=" + password);		
 		
 		return true;
 	}
@@ -197,10 +220,14 @@ public class UserService {
 	}
 	
 
-
+	/**
+	 * Gets the user's chosen security question number, or (-1) if this is there first login.
+	 * 
+	 * @return	the user's chosen security question number, or (-1) if this is the first login.
+	 */
 	public static int getSecurityQuestionNumber() {
 		// TODO Auto-generated method stub
-		return 0;
+		return -1;
 	}
 
 	// ** NOTE ** //

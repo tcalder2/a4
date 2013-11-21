@@ -14,7 +14,7 @@ import json.Json;
  * The class User.
  * 
  * @author James Anderson
- * @version 2.0
+ * @version 2.1
  */
 public final class User {
 
@@ -29,9 +29,6 @@ public final class User {
 	
 	/** The user's last name. */
 	private String lastName;
-	
-	/** Whether or not this is the user's first login. */
-	private boolean firstLogin;
 	
 	/** The array of progeny. */
 	private ArrayList<Progeny> progenyList;
@@ -153,25 +150,6 @@ public final class User {
 	 */
 	private void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	/**
-	 * Checks if is first login.
-	 * 
-	 * @return true, if is first login
-	 */
-	public boolean getFirstLogin() {
-		return firstLogin;
-	}
-	
-	/**
-	 * Sets the first login.
-	 * 
-	 * @param firstLogin
-	 *            the new first login
-	 */
-	public void setFirstLogin(boolean firstLogin) {
-		this.firstLogin = firstLogin;
 	}
 
 	/**
