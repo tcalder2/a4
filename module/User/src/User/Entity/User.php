@@ -3,12 +3,6 @@
 namespace User\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Zend\Form\Annotation\Validator;
-use Zend\InputFilter\Factory as InputFactory;
-use Zend\InputFilter\InputFilter;
-use Zend\InputFilter\InputFilterAwareInterface;
-use Zend\InputFilter\InputFilterInterface;
 
 /**
  * @ORM\Entity
@@ -21,6 +15,7 @@ class User {
 
  function __construct()
  {
+  $this->answer = "-1";
  }
 
  public function toArray()

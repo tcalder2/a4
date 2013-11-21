@@ -10,17 +10,6 @@ use Zend\InputFilter\InputFilterInterface;
  */
 class LevelProgeny {
 
-// protected static $mistakes_allowed_validator;
-//
-// /**
-//  * @return \Zend\Validator\Date
-//  */
-// public static function getMistakesAllowedValidator()
-// {
-//  return (LevelProgeny::$mistakes_allowed_validator = new \Zend\Validator\Digits());
-// }
-
-
  function __construct()
  {
  }
@@ -63,11 +52,13 @@ class LevelProgeny {
  protected $final_game_high_score;
 
  /** @ORM\Column(type="integer") */
- protected $mistakes;
+ protected $final_mistakes;
 
  public function exchangeArray($data)
  {
-  //$this->mistakes_allowed = (isset($data['mistakes_allowed'])) ? $data['mistakes_allowed'] : null;
+  $this->final_completion_time = (isset($data['final_completion_time'])) ? $data['final_completion_time'] : null;
+  $this->final_game_high_score = (isset($data['final_game_high_score'])) ? $data['final_game_high_score'] : null;
+  $this->final_mistakes = (isset($data['final_mistakes'])) ? $data['final_mistakes'] : null;
  }
 
  /**
