@@ -66,18 +66,22 @@ public class Welcome extends BackgroundPanel {
 		}
 		JComboBox<String> nameSelector = new JComboBox<String>(names);
 		if (names.size() > 0) {
-			nameSelector.setFont(Controller.getFont().deriveFont(Font.PLAIN, 18));
+			JLabel label = new JLabel("Please select a player to begin.");
+			label.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
+			add(label,c);
+			
+			nameSelector.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
+			c.gridy = 2;
 			add(nameSelector, c);
 		}
 		else {
 			JLabel label = new JLabel("Please click settings to add children to the game.");
 			label.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
 			add(label, c);
-			//TODO: un-comment once progeny can be added
-			//ok.setVisible(false);
+			ok.setVisible(false);
 		}
 
-		c.gridy = 2;
+		c.gridy = 3;
 		c.insets = new Insets(0,100,0,100);
 		ok.setContentAreaFilled(false);
 		ok.setBorderPainted(false);
@@ -109,11 +113,12 @@ class SelectProgeny implements ActionListener {
 	/**
 	 * Instantiates a SelectProgeny instance.
 	 * 
-	 * @param progenySelect		the progeny selector
-	 * @param progenyList		the progeny array
+	 * @param progenySelector		the progeny selector
+	 * @param progenyList			the progeny array
 	 */
 	public SelectProgeny(JComboBox<String> progenySelector, ArrayList<Progeny> progenyList) {
 		this.progenyList = progenyList;
+		this.progenySelector = progenySelector;
 	}
 
 	/*
@@ -122,11 +127,8 @@ class SelectProgeny implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//TODO: un-comment once we can actually add children
-		/*
-		int selection = progenySelector.getSelectedIndex();
-		Controller.setCurrentProgeny(progenyList.get(selection));
-		*/
-		Controller.setScreen(new MainMenu());
+			int selection = progenySelector.getSelectedIndex();
+			Controller.setCurrentProgeny(progenyList.get(selection));
+			Controller.setScreen(new MainMenu());		
 	}
 }

@@ -41,7 +41,7 @@ public class LockScreen extends BackgroundPanel {
 
 		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
-
+		
 		//Add the components to the panel
 		this.setup();  
 

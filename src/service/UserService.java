@@ -227,7 +227,7 @@ public class UserService {
 	 */
 	public static int getSecurityQuestionNumber() {
 		// TODO Auto-generated method stub
-		return -1;
+		return 0;
 	}
 
 	// ** NOTE ** //

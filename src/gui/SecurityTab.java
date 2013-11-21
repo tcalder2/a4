@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
@@ -31,6 +32,14 @@ public class SecurityTab extends JPanel {
 		//Make the panel transparent
 		setOpaque(false);
 
+		//Populate question list
+		Vector<String> qList = new Vector<String>();
+		try {
+			qList = new Vector<String>(UserService.getSecurityQuestions());
+		} catch (JSONFailureException e) {
+			//TODO: add popup
+		}
+		
 		//Create the components
 		JLabel oldLabel = new JLabel("Old password: ");
 		JLabel newLabel = new JLabel("New password: ");
@@ -39,7 +48,7 @@ public class SecurityTab extends JPanel {
 		JPasswordField newField = new JPasswordField("000000");
 		JPasswordField retypeField = new JPasswordField("000000");
 		JLabel chooseQ = new JLabel("Please choose a security question: ");
-		JComboBox<String> questions = new JComboBox<String>();
+		JComboBox<String> questions = new JComboBox<String>(qList);
 		JTextField answerField = new JTextField("-- Answer --");
 		JButton update = new JButton("Update");
 
