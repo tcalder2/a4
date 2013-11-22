@@ -6,7 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.*;
@@ -24,10 +23,38 @@ import json.JSONFailureException;
 @SuppressWarnings("serial")
 public class SecurityTab extends JPanel {
 
+	/** The settings screen. */
+	private Settings settings;
+
+	/** The field for the input of the old password. */
+	private JPasswordField oldField;
+
+	/** The field for the input of the new password. */
+	private JPasswordField newField;
+
+	/** The field for the input of the new password a second time to confirm correct entry. */
+	private JPasswordField retypeField;
+
+	/** The drop down containing the possible security questions. */
+	private JComboBox<String> questions;
+
+	/** The field for the input of the new security question answer. */
+	private JTextField answerField;
+
+	/**
+	 * Constructor requiring the settings pane that contains this tab be passed, or null if it
+	 * is in its own window.
+	 * 
+	 * @param settings		the settings pane that contains this tab, or null if it is in its
+	 * 						own window.
+	 */
 	public SecurityTab(Settings settings) {
 
 		//Call the super constructor with a GridBagLayout
 		super(new GridBagLayout());
+
+		//Store a link to the settings pane that contains this tab, or null if it is in its own window
+		this.settings = settings;
 
 		//Make the panel transparent
 		setOpaque(false);
@@ -39,17 +66,17 @@ public class SecurityTab extends JPanel {
 		} catch (JSONFailureException e) {
 			//TODO: add popup
 		}
-		
+
 		//Create the components
 		JLabel oldLabel = new JLabel("Old password: ");
 		JLabel newLabel = new JLabel("New password: ");
 		JLabel retypeLabel = new JLabel("Retype password: ");
-		JPasswordField oldField = new JPasswordField("000000");
-		JPasswordField newField = new JPasswordField("000000");
-		JPasswordField retypeField = new JPasswordField("000000");
+		oldField = new JPasswordField("000000");
+		newField = new JPasswordField("000000");
+		retypeField = new JPasswordField("000000");
 		JLabel chooseQ = new JLabel("Please choose a security question: ");
-		JComboBox<String> questions = new JComboBox<String>(qList);
-		JTextField answerField = new JTextField("-- Answer --");
+		questions = new JComboBox<String>(qList);
+		answerField = new JTextField("-- Answer --");
 		JButton update = new JButton("Update");
 
 		//Limit the number of characters that can be input into each field
@@ -63,7 +90,7 @@ public class SecurityTab extends JPanel {
 		newField.addMouseListener(new SelectAllTextOnClick(newField));
 		retypeField.addMouseListener(new SelectAllTextOnClick(retypeField));
 		answerField.addMouseListener(new SelectAllTextOnClick(answerField));
-		update.addActionListener(new PressUpdate4(settings, oldField, newField, retypeField, questions, answerField));
+		update.addActionListener(new PressUpdate4(this));
 
 		//Add the components to the view
 		GridBagConstraints c = new GridBagConstraints();
@@ -115,52 +142,11 @@ public class SecurityTab extends JPanel {
 		add(update, c);
 	}
 
-}
-
-class PressUpdate4 implements ActionListener {
-
-	/** The settings screen. */
-	private Settings settings;
-
-	/** The field for the input of the old password. */
-	private JPasswordField oldField;
-
-	/** The field for the input of the new password. */
-	private JPasswordField newField;
-
-	/** The field for the input of the new password a second time to confirm correct entry. */
-	private JPasswordField retypeField;
-
-	/** The drop down containing the possible security questions. */
-	private JComboBox<String> questions;
-
-	/** The field for the input of the new security question answer. */
-	private JTextField answerField;
-
 	/**
+	 * Validates and updates the password and security question settings for the user.
 	 * 
-	 * @param version
-	 * @param oldField
-	 * @param newField
-	 * @param retypePassword
-	 * @param questions
-	 * @param answerField
 	 */
-	public PressUpdate4 (Settings settings, JPasswordField oldField, JPasswordField newField, 
-			JPasswordField retypeField, JComboBox<String> questions, JTextField answerField) {
-		this.settings = settings;
-		this.oldField = oldField;
-		this.newField = newField;
-		this.retypeField = retypeField;
-		this.questions = questions;
-		this.answerField = answerField;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
-	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void update() {
 		//Create character arrays to hold passwords
 		char[] oldPwd = oldField.getPassword();
 		char[] newPwd = newField.getPassword();
@@ -201,24 +187,46 @@ class PressUpdate4 implements ActionListener {
 					UserService.setQuestion(("" + questions.getSelectedIndex()), oldPwdS);
 					UserService.setAnswer(answer, oldPwdS);
 					UserService.resetPassword(oldPwdS, newPwdS);
-					
+
 					oldPwdS = "000000";
 					newPwdS = "000000";
 					retypePwdS = "000000";
-					
+
 					if (settings == null) {
 						Controller.setScreen(new Settings());
 					}
 					else {
 						settings.changeTabContent(2, new SecurityTab(settings));
 					}
-					
+
 				} catch (JSONFailureException e1) {
-					ArrayList<String> errors = e1.getMessages();
 					//TODO: popup
 				}
 			}
 		}
+	}
+}
+
+class PressUpdate4 implements ActionListener {
+
+	/** The related security tab instance. */
+	private SecurityTab security;
+
+	/**
+	 * The action listener for the update button on the security tab.
+	 * 
+	 * @param security			the related security tab instance.
+	 */
+	public PressUpdate4 (SecurityTab security) {
+		this.security = security;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		security.update();
 	}
 
 }
