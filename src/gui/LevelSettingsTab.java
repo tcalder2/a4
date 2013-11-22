@@ -72,19 +72,19 @@ public class LevelSettingsTab extends JPanel {
 		}
 
 		//Create components
-		JLabel sect1 = new JLabel("Child Specific Drill Settings:");
-		JLabel childLabel = new JLabel("Select a child to set :");
+		JLabel sect1 = new JLabel("Child Specific Drill Settings: ");
+		JLabel childLabel = new JLabel("Select a child to set: ");
 		JComboBox<String> childSelector = new JComboBox<String>(childNames);
-		JLabel timeLabel = new JLabel("Select the time per level:");
+		JLabel timeLabel = new JLabel("Select the time per level: ");
 		JComboBox<String> time = new JComboBox<String>(t);
-		JLabel sect2 = new JLabel("Level Specific Drill Settings:");
-		JLabel levelLabel = new JLabel("Select a level to set :");
+		JLabel sect2 = new JLabel("Level Specific Drill Settings: ");
+		JLabel levelLabel = new JLabel("Select a level to set: ");
 		JComboBox<String> levelSelector = new JComboBox<String>(levels);
-		JLabel errorsLabel = new JLabel("Select the number of errors allowed at this level: ");
+		JLabel errorsLabel = new JLabel("Select number of errors allowed: ");
 		JComboBox<String> errors = new JComboBox<String>(err);
-		JLabel testingLabel = new JLabel("Testing mode:");
-		JRadioButton testOff = new JRadioButton("Off");
-		JRadioButton testOn = new JRadioButton("On");
+		JLabel testingLabel = new JLabel("Testing mode: ");
+		JRadioButton testOff = new JRadioButton(" Off  ");
+		JRadioButton testOn = new JRadioButton(" On");
 		JButton update1 = new JButton("Update");
 		JButton update2 = new JButton("Update");
 
@@ -94,16 +94,23 @@ public class LevelSettingsTab extends JPanel {
 		testState.add(testOn);
 
 		//Set display attributes
-		sect1.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
-		childLabel.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
-		timeLabel.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
-		sect2.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
-		levelLabel.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
-		errorsLabel.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
-		testingLabel.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
-		testOff.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
-		testOn.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
-
+		/*
+		sect1.setFont(Controller.getFont().deriveFont(Font.BOLD, 26));
+		childLabel.setFont(Controller.getFont().deriveFont(Font.BOLD, 26));
+		timeLabel.setFont(Controller.getFont().deriveFont(Font.BOLD, 26));
+		sect2.setFont(Controller.getFont().deriveFont(Font.BOLD, 26));
+		levelLabel.setFont(Controller.getFont().deriveFont(Font.BOLD, 26));
+		errorsLabel.setFont(Controller.getFont().deriveFont(Font.BOLD, 26));
+		testingLabel.setFont(Controller.getFont().deriveFont(Font.BOLD, 26));
+		testOff.setFont(Controller.getFont().deriveFont(Font.BOLD, 26));
+		testOn.setFont(Controller.getFont().deriveFont(Font.BOLD, 26));
+		*/
+		if (Controller.getTestMode()) {
+			testOn.setSelected(true);
+		}
+		else {
+			testOff.setSelected(true);
+		}
 
 		
 		//Add action listeners
