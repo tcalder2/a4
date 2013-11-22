@@ -31,12 +31,6 @@ import ttable.Progeny;
 @SuppressWarnings("serial")
 public class LevelSettingsTab extends JPanel {
 
-	/** The list of progeny. */
-	private ArrayList<Progeny> progenyList;
-
-	/** The list of levels. */
-	private ArrayList<Level> levelList;
-
 	/**
 	 * Instantiates a LevelSettingsTab instance.
 	 * 
@@ -63,14 +57,6 @@ public class LevelSettingsTab extends JPanel {
 		Vector<String> childNames = new Vector<String>();
 		for (int i = 0; i < progenyList.size(); i++) {
 			childNames.add(progenyList.get(i).getFirstName());
-		}
-
-		//Creates list of levels
-		ArrayList<Level> levelList = new ArrayList<Level>();
-		try {
-			levelList = LevelService.getLevels();
-		} catch (JSONFailureException e) {
-			// TODO: popup
 		}
 
 		//Creates a list of times in 5 second intervals for populating time limit drop down
