@@ -19,6 +19,17 @@ return array(
  'router' => array(
   'routes' => array(
 
+   'getquestion' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+     'route' => '/getquestion',
+     'defaults' => array(
+      'controller' => 'Level\Controller\Level',
+      'action' => 'getquestion',
+     ),
+    ),
+   ),
+
    'login' => array(
     'type' => 'Zend\Mvc\Router\Http\Literal',
     'options' => array(
