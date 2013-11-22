@@ -150,7 +150,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 
 			answerRight = false;
 			answerWrong = false;
-			score += 100;
+			score += 50;
 			isQ = false;
 			rightCounter = ("Score: " + score);
 			wrongCounter = ("Mistakes: " + incorrect);
