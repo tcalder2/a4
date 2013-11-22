@@ -24,7 +24,7 @@ return array(
     'options' => array(
      'route' => '/getquestion',
      'defaults' => array(
-      'controller' => 'Level\Controller\Level',
+      'controller' => 'User\Controller\User',
       'action' => 'getquestion',
      ),
     ),
