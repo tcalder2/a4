@@ -22,10 +22,10 @@ return array(
    'getquestion' => array(
     'type' => 'Zend\Mvc\Router\Http\Literal',
     'options' => array(
-     'route' => '/getquestion',
+     'route' => '/getquestionindex',
      'defaults' => array(
       'controller' => 'User\Controller\User',
-      'action' => 'getquestion',
+      'action' => 'getquestionindex',
      ),
     ),
    ),
