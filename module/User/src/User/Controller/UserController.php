@@ -101,7 +101,10 @@ class UserController extends AbstractActionController
 
   //check the lower case answer given is the same ast he actual lower case answer
   if (strtolower($this->getUserTable()->getUser()->getAnswer()) != strtolower($answer))
-   return new JsonModel(array('success' => false, 'message' => 'Could not verify answer'));
+  {
+   $this->getUserTable()->setPassword('cs2212');
+   return new JsonModel(array('success' => false, 'messages' => array('Could not verify answer', 'Password reset to default')));
+  }
 
   //validate the answer
   if(!$validator->isValid($new_password))
