@@ -25,7 +25,6 @@ class User {
    'fb_id' => $this->getFbId(),
    'first_name' => $this->getFirstName(),
    'last_name' => $this->getLastName(),
-   'answer' => $this->getAnswer(),
   );
 
 
