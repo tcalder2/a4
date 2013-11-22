@@ -196,7 +196,8 @@ class PressFGame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		//Swap screen for the final game menu
-		Controller.setScreen(new FGameMenu());
+		//Controller.setScreen(new FGameMenu());
+		Controller.setScreen(new FGame());
 	}
 }
 
