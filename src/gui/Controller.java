@@ -12,7 +12,7 @@ import javax.swing.JSplitPane;
 
 import json.JSONFailureException;
 import ttable.Progeny;
-import ttable.User;
+
 /**
  * The class Controller.
  * 
@@ -27,14 +27,11 @@ public class Controller {
 	/** The font. */
 	private static Font font;
 	
-	/** The current user. */
-	private static User user;
-	
 	/** The current progeny. */
 	private static Progeny currentProgeny;
 	
 	/** Status of test mode. */
-	private static boolean testMode  = true;
+	private static boolean testMode;
 
 	
 	/**
@@ -59,11 +56,12 @@ public class Controller {
 			font = new Font("Serif", Font.BOLD, 18);
 		}
 		
-		//Get the current user
-		user = User.getInstance();
-		
 		//Set the current progeny to null to be set at a later date
 		currentProgeny = null;
+		
+		//Defaults the test mode to be off
+		testMode = false;
+		
 	}
 	
 	/**
@@ -112,15 +110,6 @@ public class Controller {
 	}
 	
 	/**
-	 * Gets the current user.
-	 *
-	 * @return	the current user
-	 */
-	public static User getUser() {
-		return user;
-	}
-	
-	/**
 	 * Sets the current progeny.
 	 *
 	 * @param newCurrentProgeny		the progeny to be set as active
@@ -139,20 +128,19 @@ public class Controller {
 	}
 	
 	/**
-	 * Gets whether the test mode is activated or not.
+	 * Gets the current status of test mode.
 	 * 
-	 * @return true if test mode is activated, false otherwise.
+	 * @return true if test mode is on, false if it is off.
 	 */
 	public static boolean getTestMode() {
 		return testMode;
 	}
 	
 	/**
-	 * Set whether test mode is on or not.
-	 * 
-	 * @param testMode				the test mode boolean containing whether test mode is activated
+	 * Toggles the test mode setting to the opposite. In other words, if test mode is off it turns
+	 * it on and if test is on it turns it off.
 	 */
-	public static void setTestMode(boolean testSetting) {
-		testMode = testSetting;
+	public static void toggleTestMode() {
+		testMode = !testMode;
 	}
 }

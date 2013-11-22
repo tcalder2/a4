@@ -8,6 +8,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import json.JSONFailureException;
 import service.UserService;
 import gui.Controller;
 
@@ -111,18 +112,20 @@ class PressSettings implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		//On first login go to the screen to change password and the security question
-		if (UserService.getSecurityQuestionNumber() == (-1)) {
-			BackgroundPanel screen = new BackgroundPanel("http://jbaron6.cs2212.ca/img/default_background.png",
-					new BorderLayout());
-			screen.add(new SecurityTab(null), BorderLayout.CENTER);
-			Controller.setScreen(screen);
-		}
-		
-		//If not first login go to the lock screen
-		else {
-			Controller.setScreen(new Settings());
-			//TODO: replace with this once managed to reset password
-			//Controller.setScreen(new LockScreen());
+		try {
+			if (UserService.getQuestionIndex() == (-1)) {
+				BackgroundPanel screen = new BackgroundPanel("http://jbaron6.cs2212.ca/img/default_background.png",
+						new BorderLayout());
+				screen.add(new SecurityTab(null), BorderLayout.CENTER);
+				Controller.setScreen(screen);
+			}
+			
+			//If not first login go to the lock screen
+			else {
+				Controller.setScreen(new LockScreen());
+			}
+		} catch (JSONFailureException e1) {
+			//TODO: popup
 		}
 	}
 }

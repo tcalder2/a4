@@ -2,10 +2,7 @@
 
 namespace Progeny\Service;
 
-use Zend\Db\TableGateway\TableGateway;
 use Progeny\Entity\Progeny;
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\Sql\Select;
 
 class ProgenyTable
 {
@@ -53,6 +50,9 @@ class ProgenyTable
 
  public function newProgeny($data)
  {
+  /** @var \LevelProgeny\Service\LevelProgenyTable $level_progeny_table */
+  $level_progeny_table = $this->sm->get('Progeny\Service\ProgenyTable');
+
   $progeny = new Progeny();
 
   $progeny->exchangeArray($data);
@@ -60,6 +60,8 @@ class ProgenyTable
 
   $this->em->persist($progeny);
   $this->em->flush();
+
+  $level_progeny_table->newLevelProgenys($progeny);
 
   return $progeny;
  }

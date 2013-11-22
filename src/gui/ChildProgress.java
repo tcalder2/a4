@@ -12,10 +12,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -27,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import json.JSONFailureException;
+import service.GameService;
 import ttable.LevelProgeny;
 import ttable.Progeny;
 
@@ -44,14 +45,16 @@ public class ChildProgress extends JPanel {
 	 *
 	 * @param settingsPane the settings pane
 	 */
-	public ChildProgress(Settings settingsPane, ChildSettingsTab childSettingsTab, Progeny child, ArrayList<String> errors) {
-		
+	public ChildProgress(Settings settingsPane, ChildSettingsTab childSettingsTab, Progeny child) {
+
 		//Create the panel with a GridBagLayout
 		super(new GridBagLayout());
-		
+
 		//Set the panel to be transparent
 		setOpaque(false);
 
+		try {
+		
 		//Create instance of GridBagConstraints to control layout
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(0,0,0,0);
@@ -61,110 +64,99 @@ public class ChildProgress extends JPanel {
 		c.gridx = 0;
 		c.gridy = 0;
 
+		//Create the back button (with back arrow graphic) to allow quick return to the child settings tab
+		JButton backArrow = new JButton();
+		backArrow.setContentAreaFilled(false);
+		backArrow.setBorderPainted(false);
+		backArrow.addActionListener(new BackToSettings(settingsPane, childSettingsTab));
 		try {
-			//If errors list is populated then go to exception handling
-			if (errors.size() > 0) {
-				throw new JSONFailureException(errors);
-			}
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/main/backarr.png"));
+			backArrow.setIcon(new ImageIcon(img));
+		} catch (IOException e) {
+			backArrow.setText("<--");
+		}
+		add(backArrow, c);
 
-			//Create the back button (with back arrow graphic) to allow quick return to the child settings tab
-			JButton backArrow = new JButton();
-			backArrow.setContentAreaFilled(false);
-			backArrow.setBorderPainted(false);
-			backArrow.addActionListener(new BackToSettings(settingsPane, childSettingsTab));
-			try {
-				Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/main/backarr.png"));
-				backArrow.setIcon(new ImageIcon(img));
-			} catch (IOException e) {
-				backArrow.setText("<--");
-			}
-			add(backArrow, c);
+		//Add a label to state the child whose progress is currently being displayed
+		JLabel title = new JLabel(child.getFirstName() + "'s Progress");
+		title.setFont(Controller.getFont().deriveFont(Font.BOLD, 32));
+		c.fill = GridBagConstraints.BOTH;
+		c.insets = new Insets(10,75,5,75);
+		c.gridy = 1;
+		add(title, c);
 
-			//Add a label to state the child whose progress is currently being displayed
-			JLabel title = new JLabel(child.getFirstName() + "'s Progress");
-			title.setFont(Controller.getFont().deriveFont(Font.BOLD, 32));
-			c.fill = GridBagConstraints.BOTH;
-			c.insets = new Insets(10,75,5,75);
-			c.gridy = 1;
-			add(title, c);
+		//Create vector of column headers
+		Vector<String> columnNames = new Vector<String>(Arrays.asList(new String[]{"Level","Attempts","Final Time (sec)","Final Mistakes"}));
 
-			//Create vector of column headers
-			Vector<String> columnNames = new Vector<String>(Arrays.asList(new String[]{"Level","Attempts","Final Time (sec)","Final Mistakes"}));
-
-			//Create a vector structure containing the child's progress details
-			Vector<Vector<String>> progress = new Vector<Vector<String>>();
-			ArrayList<LevelProgeny> levels = Controller.getCurrentProgeny().getLevels();
-			for (int i = 0; i < levels.size(); i++) {
-				Vector<String> v = new Vector<String>();
-				v.add("" + levels.get(i).getLevelNumber());
-				v.add("" + levels.get(i).getAttempts());
-				v.add("" + levels.get(i).getCompletionTime());
-				v.add("" + levels.get(i).getMistakes());
-				progress.add(v);
-				Vector<String> v1 = new Vector<String>();
-				v1.add("2");
-				v1.add("5");
-				v1.add("26");
-				v1.add("2");
-				progress.add(v1);
-			}
-
-			//Create and populate table showing details of child progress
-			DefaultTableModel tableModel = new DefaultTableModel(progress, columnNames);
-			tableModel.setNumRows(12);
-			JTable table = new JTable(tableModel) {
-				public boolean isCellEditable(int rowIndex, int colIndex) {
-					return false;
-				}
-			};
-
-			//Set table appearance attributes
-			DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-			renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
-			renderer.setOpaque(false);
-			TableColumn col = null;
-			for (int i = 0; i < table.getColumnCount(); i++) {
-				col = table.getColumnModel().getColumn(i);
-				col.setCellRenderer(renderer);
-				col.setWidth(100);
-			}
-			table.setOpaque(false);
-			table.setRowHeight(24);
-			table.setShowGrid(false);
-			table.getTableHeader().setDefaultRenderer(renderer);
-			table.setFont(Controller.getFont().deriveFont(Font.BOLD, 18));
-			table.getTableHeader().setFont(Controller.getFont().deriveFont(Font.BOLD, 18));
-
-			//Embed the table in a scroll pane and add to panel.
-			JScrollPane scroll = new JScrollPane(table);
-			scroll.setOpaque(false);
-			scroll.getViewport().setOpaque(false);
-			c.insets = new Insets(0,75,0,75);
-			c.gridwidth = 1;
-			c.gridy = 2;
-			c.ipady = 300;
-			c.ipadx = 500;
-			add(scroll,c);
-
-		} catch (JSONFailureException e) {
-			//If there is a communication error, display a panel detailing errors instead
-			ArrayList<String> errors2 = e.getMessages();
-			int gridY = 0;
-			Iterator<String> error = errors2.iterator();
-			c.gridx = 0;
-			c.gridy = gridY;
-			add(new JLabel(error.toString()));
-			while (error.hasNext()) {
-				gridY++;
-				c.gridy = gridY;
-				JLabel label = new JLabel(error.next().toString());
-				label.setForeground(Color.RED);
-				label.setFont(Controller.getFont().deriveFont(Font.PLAIN, 18));
-				add(label, c);
-			}
+		//Create a vector structure containing the child's progress details
+		Vector<Vector<String>> progress = new Vector<Vector<String>>();
+		ArrayList<LevelProgeny> levels = GameService.getLevels(child);
+		for (int i = 0; i < levels.size(); i++) {
+			Vector<String> v = new Vector<String>();
+			v.add("" + levels.get(i).getLevelNumber());
+			v.add("" + levels.get(i).getAttempts());
+			v.add("" + levels.get(i).getCompletionTime());
+			v.add("" + levels.get(i).getMistakes());
+			progress.add(v);
+			Vector<String> v1 = new Vector<String>();
+			v1.add("2");
+			v1.add("5");
+			v1.add("26");
+			v1.add("2");
+			progress.add(v1);
 		}
 
+		//Create and populate table showing details of child progress
+		DefaultTableModel tableModel = new DefaultTableModel(progress, columnNames);
+		tableModel.setNumRows(12);
+		JTable table = new JTable(tableModel) {
+			public boolean isCellEditable(int rowIndex, int colIndex) {
+				return false;
+			}
+		};
+
+		//Set table appearance attributes
+		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+		renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+		renderer.setOpaque(false);
+		TableColumn col = null;
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			col = table.getColumnModel().getColumn(i);
+			col.setCellRenderer(renderer);
+			col.setWidth(100);
+		}
+		table.setOpaque(false);
+		table.setRowHeight(24);
+		table.setShowGrid(false);
+		table.getTableHeader().setDefaultRenderer(renderer);
+		table.setFont(Controller.getFont().deriveFont(Font.BOLD, 18));
+		table.getTableHeader().setFont(Controller.getFont().deriveFont(Font.BOLD, 18));
+
+		//Embed the table in a scroll pane and add to panel.
+		JScrollPane scroll = new JScrollPane(table);
+		scroll.setOpaque(false);
+		scroll.getViewport().setOpaque(false);
+		c.insets = new Insets(0,75,0,75);
+		c.gridwidth = 1;
+		c.gridy = 2;
+		c.ipady = 300;
+		c.ipadx = 500;
+		add(scroll,c);
+		
+		} catch (JSONFailureException e) {
+			JPanel screen = new JPanel();
+			screen.setLayout(new BoxLayout(screen, BoxLayout.PAGE_AXIS));
+			ArrayList<String> messages = e.getMessages();
+			for (int i = 0; i < messages.size(); i++) {
+				JLabel error = new JLabel();
+				error.setForeground(Color.RED);
+				error.setFont(Controller.getFont().deriveFont(Font.PLAIN, 18));
+				screen.add(error);
+			}
+			Controller.setScreen(screen);
+		}
 	}
+
 }
 
 /**

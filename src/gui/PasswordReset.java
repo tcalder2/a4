@@ -63,7 +63,7 @@ public class PasswordReset extends BackgroundPanel {
 			oldField = new JPasswordField("000000");
 			newField = new JPasswordField("000000");
 			retypeField = new JPasswordField("000000");
-			JLabel question = new JLabel(UserService.getSecurityQuestions().get(UserService.getSecurityQuestionNumber()));
+			JLabel question = new JLabel(UserService.getSecurityQuestions().get(UserService.getQuestionIndex()));
 			answerField = new JTextField("-- Answer --");
 			JButton reset = new JButton();
 			
@@ -72,7 +72,13 @@ public class PasswordReset extends BackgroundPanel {
 			newField.addMouseListener(new SelectAllTextOnClick(newField));
 			retypeField.addMouseListener(new SelectAllTextOnClick(retypeField));
 			answerField.addMouseListener(new SelectAllTextOnClick(answerField));
-			reset.addActionListener(new PressUpdate3(this));
+			reset.addActionListener(new PressUpdate5(this));
+			if (version == 1) {
+				retypeField.addKeyListener(new EnterListener(reset));
+			}
+			else {
+				answerField.addKeyListener(new EnterListener(reset));
+			}
 
 			//Set label alignment
 			oldField.setAlignmentX(JLabel.RIGHT_ALIGNMENT);
@@ -217,7 +223,7 @@ public class PasswordReset extends BackgroundPanel {
 		
 		//Create a string to hold security question answer
 		String answer = answerField.getText();
-
+		
 		//Convert the passwords to strings and zero out the old arrays
 		String oldPwdS = "";
 		for (int i = 0; i < oldPwd.length; i++) {
@@ -246,15 +252,19 @@ public class PasswordReset extends BackgroundPanel {
 				if (version == 1) {
 					UserService.resetPassword(oldPwdS, newPwdS);
 				}
-				else if (version == 2) {
+				else {
 					UserService.setPasswordWithQ(answer, newPwdS);
 				}
-				Controller.setScreen(new LockScreen());
+				//TODO: display success popup
 				oldPwdS = "000000";
 				newPwdS = "000000";
 				retypePwdS = "000000";
+				Controller.setScreen(new LockScreen());
 			} catch (JSONFailureException e) {
 				errors = e.getMessages();
+				for (int i = 0; i < errors.size(); i++) {
+					System.out.print(errors.get(i) + "\n");
+				}
 				if (version == 1) {
 					Controller.setScreen(new PasswordReset(version, errors));
 				}
@@ -279,7 +289,7 @@ public class PasswordReset extends BackgroundPanel {
  * @author James Anderson
  * @version 1.0
  */
-class PressUpdate3 implements ActionListener {
+class PressUpdate5 implements ActionListener {
 
 	/** The security pane. */
 	private PasswordReset screen;
@@ -289,7 +299,7 @@ class PressUpdate3 implements ActionListener {
 	 * 
 	 * @param security		the password reset screen.
 	 */
-	public PressUpdate3(PasswordReset screen) {
+	public PressUpdate5(PasswordReset screen) {
 		super();
 		this.screen = screen;
 	}
