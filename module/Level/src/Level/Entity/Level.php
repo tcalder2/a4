@@ -2,10 +2,6 @@
 
 namespace Level\Entity;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Zend\InputFilter\Factory as InputFactory;
-use Zend\InputFilter\InputFilter;
-use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
@@ -13,17 +9,6 @@ use Zend\InputFilter\InputFilterInterface;
  * @ORM\Table(name="level")
  */
 class Level {
-
- protected static $mistakes_allowed_validator;
-
- /**
-  * @return \Zend\Validator\Date
-  */
- public static function getMistakesAllowedValidator()
- {
-  return (Level::$mistakes_allowed_validator = new \Zend\Validator\Digits());
- }
-
 
  function __construct()
  {

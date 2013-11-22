@@ -2,7 +2,9 @@
 
 namespace LevelProgeny\Service;
 
+use Level\Entity\Level;
 use LevelProgeny\Entity\LevelProgeny;
+use Progeny\Entity\Progeny;
 use Zend\ServiceManager\ServiceManager;
 
 class LevelProgenyTable
@@ -22,6 +24,17 @@ class LevelProgenyTable
  {
   $this->sm = $sm;
   $this->em = $this->sm->get('Doctrine\ORM\EntityManager');
+ }
+
+ public function saveGame($time, $score, $mistakes, Progeny $progeny, Level $level)
+ {
+  $level_progeny = $this->getLevelProgeny($level, $progeny);
+
+  $level_progeny->setFinalCompletionTime($time);
+  $level_progeny->setFinalGameHighScore($score);
+  $level_progeny->getMistakes($mistakes);
+
+
  }
 
  public function removeLevelProgeny($levelProgeny)
@@ -44,15 +57,18 @@ class LevelProgenyTable
  }
 
  /**
-  * @param $levelProgeny
+  * @param $level
+  * @param $progeny
+  * @internal param $levelProgeny
   * @return LevelProgeny
   */
- public function getLevelProgeny($levelProgeny)
+ public function getLevelProgeny($level, $progeny)
  {
   return $this->em->getRepository('LevelProgeny\Entity\LevelProgeny')->findOneBy(
    array(
     'user' => $this->sm->get('User\Service\User'),
-    'levelProgeny' => $levelProgeny
+    'level' => $level,
+    'progeny' => $progeny
    ));
  }
 
