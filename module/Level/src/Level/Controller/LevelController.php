@@ -55,7 +55,6 @@ class LevelController extends AbstractActionController
   if(!$time_validator->isValid($time))
    return new JsonModel(array('success' => false, 'messages' => $time_validator->getMessages()));
 
-
  }
 
  public function changeMistakesAllowedAction()

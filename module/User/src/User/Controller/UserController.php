@@ -2,10 +2,7 @@
 
 namespace User\Controller;
 
-use User\Entity\User;
-use Zend\Config\Writer\Json;
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Helper\ViewModel;
 use Zend\View\Model\JsonModel;
 
 class UserController extends AbstractActionController
@@ -141,6 +138,11 @@ class UserController extends AbstractActionController
   $this->getUserTable()->setAnswer($answer);
 
   return new JsonModel(array('success' => true));
+ }
+
+ public function GetQuestionIndexAction()
+ {
+  return new JsonModel(array('success' => true, 'answer_index' => $this->getUserTable()->getUser()->getQuestion()));
  }
 
  public function SetPasswordAction()
