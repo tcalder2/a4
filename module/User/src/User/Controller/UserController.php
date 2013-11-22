@@ -142,7 +142,7 @@ class UserController extends AbstractActionController
 
  public function GetQuestionIndexAction()
  {
-  return new JsonModel(array('success' => true, 'answer_index' => $this->getUserTable()->getUser()->getQuestion()));
+  return new JsonModel(array('success' => true, 'question_index' => $this->getUserTable()->getUser()->getQuestion()));
  }
 
  public function SetPasswordAction()
