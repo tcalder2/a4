@@ -485,6 +485,7 @@ public class ChildSettingsTab extends JPanel {
 					//If the level number has changed, update the progeny's level
 					if (child.getLevelNumber() != newLevel) {
 						//TODO: add code for server request to set level
+						//TODO: add a warning popup to inform that there is no going back and data will be lost
 					}
 				} catch (JSONFailureException e) {
 					//TODO: popup

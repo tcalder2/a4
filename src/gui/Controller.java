@@ -34,7 +34,7 @@ public class Controller {
 	private static Progeny currentProgeny;
 	
 	/** Status of test mode. */
-	private static boolean testMode  = true;
+	private static boolean testMode;
 
 	
 	/**
@@ -64,6 +64,10 @@ public class Controller {
 		
 		//Set the current progeny to null to be set at a later date
 		currentProgeny = null;
+		
+		//Defaults the test mode to be off
+		testMode = false;
+		
 	}
 	
 	/**
@@ -139,20 +143,19 @@ public class Controller {
 	}
 	
 	/**
-	 * Gets whether the test mode is activated or not.
+	 * Gets the current status of test mode.
 	 * 
-	 * @return true if test mode is activated, false otherwise.
+	 * @return true if test mode is on, false if it is off.
 	 */
 	public static boolean getTestMode() {
 		return testMode;
 	}
 	
 	/**
-	 * Set whether test mode is on or not.
-	 * 
-	 * @param testMode				the test mode boolean containing whether test mode is activated
+	 * Toggles the test mode setting to the opposite. In other words, if test mode is off it turns
+	 * it on and if test is on it turns it off.
 	 */
-	public static void setTestMode(boolean testSetting) {
-		testMode = testSetting;
+	public static void toggleTestMode() {
+		testMode = !testMode;
 	}
 }
