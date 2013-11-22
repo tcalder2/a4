@@ -100,7 +100,14 @@ public class ProgenyService {
 		fillProgeny(progeny, (JSONObject)progeny_data.get("progeny"));
 	}
 	
-	public static void changeTimeAllowed(Progeny progeny, int timeAllowed) throws JSONFailureException
+	/**
+	 * Sets the specified progeny's time allowed per level.
+	 * 
+	 * @param progeny
+	 * @param timeAllowed
+	 * @throws JSONFailureException
+	 */
+	public static void setTimeAllowed(Progeny progeny, int timeAllowed) throws JSONFailureException
 	{
 		
 		Json json = new Json();
@@ -137,7 +144,7 @@ public class ProgenyService {
 	}
 
 	/**
-	 * Removes the progeny.
+	 * Removes the specified progeny.
 	 *
 	 * @param progeny the progeny
 	 * @throws JSONFailureException the jSON failure exception
@@ -147,13 +154,21 @@ public class ProgenyService {
 		json.sendRequest("https://jbaron6.cs2212.ca/removeprogeny?progeny_id=" + progeny.getId());
 	}
 
+	/**
+	 * Gets the date format used by the server.
+	 * 
+	 * @return		the date format used by the server.
+	 */
 	public static SimpleDateFormat getBirthDateFormat() {
 		return birthDateFormat;
 	}
 
+	/**
+	 * Sets the date format used by the server.
+	 * 
+	 * @param birthDateFormat		the date format used by the server.
+	 */
 	public static void setBirthDateFormat(SimpleDateFormat birthDateFormat) {
 		ProgenyService.birthDateFormat = birthDateFormat;
 	}
-	
-	
 }
