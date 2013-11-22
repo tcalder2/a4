@@ -188,6 +188,14 @@ public class UserService {
 		return true;
 	}
 	
+	public static int getQuestionIndex() throws JSONFailureException
+	{
+		Json json = new Json();
+		JSONObject result =  json.sendRequest("https://jbaron6.cs2212.ca/getquestionindex");
+		
+		return result.get("question_index") == null ? -1 : Integer.parseInt((String)result.get("question_index"));
+	}
+	
 	/**
 	 * Gets a friend's progeny.
 	 *

@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Vector;
 
+import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -32,6 +33,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.text.AbstractDocument;
 
 import json.JSONFailureException;
+import service.GameService;
 import service.ProgenyService;
 import ttable.Progeny;
 
@@ -94,7 +96,9 @@ public class ChildSettingsTab extends JPanel {
 
 		//Makes panel transparent
 		setOpaque(false);
-
+		
+		try {
+		
 		//Create instance of grid bag constraints to control layout
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
@@ -103,22 +107,11 @@ public class ChildSettingsTab extends JPanel {
 		c.gridy = 0;
 		c.gridwidth = 1;
 
-		//TODO: remove once sure it is not necessary
-		/* TO BE REMOVED AFTER TESTING OF COLUMN HEADER SORT (NEED PROGENY CLASS FILLED OUT FIRST)
-		String[] sortOptions = {"Age","Name"};
-		JComboBox<String> sortMenu = new JComboBox<String>(sortOptions);
-		add(sortMenu, c);
-
-		c.insets = new Insets(10,0,0,75);
-		c.gridx = 5;
-		JButton sortButton = new JButton("Sort");
-		add(sortButton, c);
-		 */
 		//Create vector containing column headers for the child info table
 		Vector<String> columnNames = new Vector<String>(Arrays.asList(new String[]{"Name"," ","Date of Birth"," ","Age","Level"}));
 
 		//Create vector structure containing table data
-		progenyList = Controller.getUser().getProgenyList();
+		progenyList = ProgenyService.getProgenies();
 		tableData = new Vector<Vector<String>>();
 		for (int i = 0; i < progenyList.size(); i++) {
 			Vector<String> v = new Vector<String>();
@@ -318,6 +311,18 @@ public class ChildSettingsTab extends JPanel {
 		c.insets = new Insets(15,0,25,50);
 		c.gridx = 5;
 		add(update, c);  //The button to update the selected child with selected details
+		} catch (JSONFailureException e) {
+			JPanel screen = new JPanel();
+			screen.setLayout(new BoxLayout(screen, BoxLayout.PAGE_AXIS));
+			ArrayList<String> messages = e.getMessages();
+			for (int i = 0; i < messages.size(); i++) {
+				JLabel error = new JLabel();
+				error.setForeground(Color.RED);
+				error.setFont(Controller.getFont().deriveFont(Font.PLAIN, 18));
+				screen.add(error);
+			}
+			Controller.setScreen(screen);
+		}
 	}
 
 	/**
@@ -484,8 +489,8 @@ public class ChildSettingsTab extends JPanel {
 
 					//If the level number has changed, update the progeny's level
 					if (child.getLevelNumber() != newLevel) {
-						//TODO: add code for server request to set level
 						//TODO: add a warning popup to inform that there is no going back and data will be lost
+						GameService.setLevel(child, newLevel);
 					}
 				} catch (JSONFailureException e) {
 					//TODO: popup
@@ -533,7 +538,7 @@ public class ChildSettingsTab extends JPanel {
 		//Check name input is valid
 		try {	
 			firstName = nameInput.getText();
-			if (!firstName.equals("--Name--")) {
+			if (firstName.equals("--Name--") || firstName.equals("")) {
 				throw new Exception();
 			}
 			nameInput.setBackground(Color.WHITE);
