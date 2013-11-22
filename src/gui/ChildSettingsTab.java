@@ -96,221 +96,221 @@ public class ChildSettingsTab extends JPanel {
 
 		//Makes panel transparent
 		setOpaque(false);
-		
+
 		try {
-		
-		//Create instance of grid bag constraints to control layout
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.BOTH;
-		c.insets = new Insets(25,0,0,3);
-		c.gridx = 4;
-		c.gridy = 0;
-		c.gridwidth = 1;
 
-		//Create vector containing column headers for the child info table
-		Vector<String> columnNames = new Vector<String>(Arrays.asList(new String[]{"Name"," ","Date of Birth"," ","Age","Level"}));
+			//Create instance of grid bag constraints to control layout
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.BOTH;
+			c.insets = new Insets(25,0,0,3);
+			c.gridx = 4;
+			c.gridy = 0;
+			c.gridwidth = 1;
 
-		//Create vector structure containing table data
-		progenyList = ProgenyService.getProgenies();
-		tableData = new Vector<Vector<String>>();
-		for (int i = 0; i < progenyList.size(); i++) {
-			Vector<String> v = new Vector<String>();
-			Progeny p = progenyList.get(i);
-			v.add(p.getFirstName());
+			//Create vector containing column headers for the child info table
+			Vector<String> columnNames = new Vector<String>(Arrays.asList(new String[]{"Name"," ","Date of Birth"," ","Age","Level"}));
 
-			Date birthday = p.getBirthDate();
-			DateFormat format = new SimpleDateFormat("d");
-			v.add(format.format(birthday));
+			//Create vector structure containing table data
+			progenyList = ProgenyService.getProgenies();
+			tableData = new Vector<Vector<String>>();
+			for (int i = 0; i < progenyList.size(); i++) {
+				Vector<String> v = new Vector<String>();
+				Progeny p = progenyList.get(i);
+				v.add(p.getFirstName());
 
-			format = new SimpleDateFormat("MMMM");
-			v.add(format.format(birthday));
+				Date birthday = p.getBirthDate();
+				DateFormat format = new SimpleDateFormat("d");
+				v.add(format.format(birthday));
 
-			format = new SimpleDateFormat("yyyy");
-			v.add(format.format(birthday));
+				format = new SimpleDateFormat("MMMM");
+				v.add(format.format(birthday));
 
-			v.add("" + ProgenyService.getAge(p.getBirthDate()));
-			v.add("" + (p.getLevelNumber()));
-			tableData.add(v);
-		}
+				format = new SimpleDateFormat("yyyy");
+				v.add(format.format(birthday));
 
-		//Create and populate the table
-		DefaultTableModel tableModel = new DefaultTableModel(tableData, columnNames);
-		JTable table = new JTable(tableModel) {
-			public boolean isCellEditable(int rowIndex, int colIndex) {
-				return false;
+				v.add("" + ProgenyService.getAge(p.getBirthDate()));
+				v.add("" + (p.getLevelNumber()));
+				tableData.add(v);
 			}
-		};
 
-		//Set view attributes of table
-		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-		renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
-		renderer.setOpaque(false);
-		TableColumn col = null;
-		for (int i = 0; i < table.getColumnCount(); i++) {
-			col = table.getColumnModel().getColumn(i);
-			col.setCellRenderer(renderer);
-		}
-		table.setAutoCreateRowSorter(true);
-		table.setOpaque(false);
-		table.setRowHeight(24);
-		table.setShowGrid(false);
-		table.getTableHeader().setDefaultRenderer(renderer);
-		table.setFont(Controller.getFont().deriveFont(Font.BOLD, 18));
-		table.getTableHeader().setFont(Controller.getFont().deriveFont(Font.BOLD, 18));
+			//Create and populate the table
+			DefaultTableModel tableModel = new DefaultTableModel(tableData, columnNames);
+			JTable table = new JTable(tableModel) {
+				public boolean isCellEditable(int rowIndex, int colIndex) {
+					return false;
+				}
+			};
 
-		//Put the table into a scroll pane to allow scrolling when the table is too large to fit
-		JScrollPane scroll = new JScrollPane(table);
-		scroll.setOpaque(false);
-		scroll.getViewport().setOpaque(false);
-
-		//CREATE DATA TO POPULATE JCOMBOBOXES
-
-		//List of potential birth years
-		Vector<String> y = new Vector<String>();
-		for (int i = (new GregorianCalendar().get(Calendar.YEAR)); i > 1979; i--) {
-			y.add("" + i);
-		}
-
-		//Create List of child names
-		Vector<String> childNames = new Vector<String>();
-		for (int i = 0; i < progenyList.size(); i++) {
-			childNames.add(progenyList.get(i).getFirstName());
-		}
-
-		//List of months (full name)
-		Vector<String> m = new Vector<String>();
-		DateFormat f1 = new SimpleDateFormat("M");
-		DateFormat f2 = new SimpleDateFormat("MMMM");
-		Date date = new Date();
-		for (int i = 1; i < 13; i++) {
-			try {
-				date = f1.parse("" + i);
-				m.add(f2.format(date));
-			} catch (ParseException e) {
-				/*NULL BODY*/
+			//Set view attributes of table
+			DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+			renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+			renderer.setOpaque(false);
+			TableColumn col = null;
+			for (int i = 0; i < table.getColumnCount(); i++) {
+				col = table.getColumnModel().getColumn(i);
+				col.setCellRenderer(renderer);
 			}
-		}
+			table.setAutoCreateRowSorter(true);
+			table.setOpaque(false);
+			table.setRowHeight(24);
+			table.setShowGrid(false);
+			table.getTableHeader().setDefaultRenderer(renderer);
+			table.setFont(Controller.getFont().deriveFont(Font.BOLD, 18));
+			table.getTableHeader().setFont(Controller.getFont().deriveFont(Font.BOLD, 18));
 
-		//Create components
-		JLabel addChild = new JLabel("Add Child:");
-		JButton add = new JButton("Add");
-		nameInput = new JTextField("--First Name--");
-		JLabel editChild = new JLabel("Review and Modify Child:");
-		year = new JComboBox<String>(y);
-		month = new JComboBox<String>();
-		day = new JComboBox<String>();
-		childSelect = new JComboBox<String>(childNames);
-		year2 = new JComboBox<String>(y);
-		month2 = new JComboBox<String>(m);
-		day2 = new JComboBox<String>();
-		level = new JComboBox<String>();
-		JButton progress = new JButton("View Progress");
-		JButton remove = new JButton("Remove");
-		JButton update = new JButton("Update");
+			//Put the table into a scroll pane to allow scrolling when the table is too large to fit
+			JScrollPane scroll = new JScrollPane(table);
+			scroll.setOpaque(false);
+			scroll.getViewport().setOpaque(false);
 
-		//Limit the number of characters that can be input into the name input field
-		((AbstractDocument) nameInput.getDocument()).setDocumentFilter(new DocumentLengthFilter(20));
+			//CREATE DATA TO POPULATE JCOMBOBOXES
 
-		//Populate the months drop-down with correct number of days
-		updateDaysInMonth(year2, month2, day2);
+			//List of potential birth years
+			Vector<String> y = new Vector<String>();
+			for (int i = (new GregorianCalendar().get(Calendar.YEAR)); i > 1979; i--) {
+				y.add("" + i);
+			}
 
-		//Populates the months list according to selected child
-		populateLevelList();
+			//Create List of child names
+			Vector<String> childNames = new Vector<String>();
+			for (int i = 0; i < progenyList.size(); i++) {
+				childNames.add(progenyList.get(i).getFirstName());
+			}
 
-		//Sets the default selections to the current values for selected child
-		setSelections();
+			//List of months (full name)
+			Vector<String> m = new Vector<String>();
+			DateFormat f1 = new SimpleDateFormat("M");
+			DateFormat f2 = new SimpleDateFormat("MMMM");
+			Date date = new Date();
+			for (int i = 1; i < 13; i++) {
+				try {
+					date = f1.parse("" + i);
+					m.add(f2.format(date));
+				} catch (ParseException e) {
+					/*NULL BODY*/
+				}
+			}
 
-		//Add action listeners
-		nameInput.addKeyListener(new EnterListener(add));
-		nameInput.addMouseListener(new SelectAllTextOnClick(nameInput));
-		year.addActionListener(new YearSelected(year, month, day));
-		month.addActionListener(new MonthSelected(year,month,day));
-		add.addActionListener(new PressAdd(this));
-		childSelect.addActionListener(new ChildSelected(this));
-		year2.addActionListener(new YearSelected(year2, month2, day2));
-		month2.addActionListener(new MonthSelected(year2,month2,day2));
-		progress.addActionListener(new PressProgress(settings, this, childSelect));
-		remove.addActionListener(new PressRemove(this));
-		update.addActionListener(new PressUpdate(this));
+			//Create components
+			JLabel addChild = new JLabel("Add Child:");
+			JButton add = new JButton("Add");
+			nameInput = new JTextField("--First Name--");
+			JLabel editChild = new JLabel("Review and Modify Child:");
+			year = new JComboBox<String>(y);
+			month = new JComboBox<String>();
+			day = new JComboBox<String>();
+			childSelect = new JComboBox<String>(childNames);
+			year2 = new JComboBox<String>(y);
+			month2 = new JComboBox<String>(m);
+			day2 = new JComboBox<String>();
+			level = new JComboBox<String>();
+			JButton progress = new JButton("View Progress");
+			JButton remove = new JButton("Remove");
+			JButton update = new JButton("Update");
 
-		//Add components to panel
-		c.insets = new Insets(25,50,0,50);
-		c.gridwidth = 6;
-		c.gridy = 1;
-		c.gridx = 0;
-		c.ipady = 80;
-		add(scroll,c); //Scroll pane contains table
+			//Limit the number of characters that can be input into the name input field
+			((AbstractDocument) nameInput.getDocument()).setDocumentFilter(new DocumentLengthFilter(20));
 
-		c.gridwidth = 2;
-		c.ipady = 0;
-		c.insets = new Insets(10,50,0,0);
-		c.gridy = 2;
-		c.gridx = 0;
-		add(addChild, c); //Add child section label
+			//Populate the months drop-down with correct number of days
+			updateDaysInMonth(year2, month2, day2);
 
-		c.insets = new Insets(0,50,0,0);
-		c.gridwidth = 2;
-		c.ipadx = 180;
-		c.gridy = 3;
-		c.gridx = 0;
-		add(nameInput, c);  //Add, name input field
+			//Populates the months list according to selected child
+			populateLevelList();
 
-		c.gridwidth = 1;
-		c.ipadx = 0;
-		c.insets = new Insets(0,0,0,0);
-		c.gridx = 2;
-		add(year, c);  //Add: birth-year drop down
+			//Sets the default selections to the current values for selected child
+			setSelections();
 
-		c.gridx = 3;
-		add(month, c);  //Add: birth-month drop down
+			//Add action listeners
+			nameInput.addKeyListener(new EnterListener(add));
+			nameInput.addMouseListener(new SelectAllTextOnClick(nameInput));
+			year.addActionListener(new YearSelected(year, month, day));
+			month.addActionListener(new MonthSelected(year,month,day));
+			add.addActionListener(new PressAdd(this));
+			childSelect.addActionListener(new ChildSelected(this));
+			year2.addActionListener(new YearSelected(year2, month2, day2));
+			month2.addActionListener(new MonthSelected(year2,month2,day2));
+			progress.addActionListener(new PressProgress(settings, this, childSelect));
+			remove.addActionListener(new PressRemove(this));
+			update.addActionListener(new PressUpdate(this));
 
-		c.gridx = 4;
-		add(day, c);  //Add: birth-day drop down
+			//Add components to panel
+			c.insets = new Insets(25,50,0,50);
+			c.gridwidth = 6;
+			c.gridy = 1;
+			c.gridx = 0;
+			c.ipady = 80;
+			add(scroll,c); //Scroll pane contains table
 
-		c.insets = new Insets(0,0,0,50);
-		c.gridx = 5;
-		add(add, c);  //The add button
+			c.gridwidth = 2;
+			c.ipady = 0;
+			c.insets = new Insets(10,50,0,0);
+			c.gridy = 2;
+			c.gridx = 0;
+			add(addChild, c); //Add child section label
 
-		c.insets = new Insets(20,50,0,0);
-		c.gridwidth = 2;
-		c.gridy = 4;
-		c.gridx = 0;
-		add(editChild, c);  //Modify child section label
+			c.insets = new Insets(0,50,0,0);
+			c.gridwidth = 2;
+			c.ipadx = 180;
+			c.gridy = 3;
+			c.gridx = 0;
+			add(nameInput, c);  //Add, name input field
 
-		c.insets = new Insets(0,50,0,0);
-		c.gridy = 5;
-		c.gridx = 0;
-		add(childSelect, c);  //Modify: child selection drop down
+			c.gridwidth = 1;
+			c.ipadx = 0;
+			c.insets = new Insets(0,0,0,0);
+			c.gridx = 2;
+			add(year, c);  //Add: birth-year drop down
 
-		c.insets = new Insets(0,0,0,0);
-		c.gridwidth = 1;
-		c.gridx = 2;
-		add(year2, c);  //Modify: birth-year drop down
+			c.gridx = 3;
+			add(month, c);  //Add: birth-month drop down
 
-		c.gridx = 3;
-		add(month2, c);  //Modify: birth-month drop down
+			c.gridx = 4;
+			add(day, c);  //Add: birth-day drop down
 
-		c.gridx = 4;
-		add(day2, c);  //Modify: birth-day drop down
+			c.insets = new Insets(0,0,0,50);
+			c.gridx = 5;
+			add(add, c);  //The add button
 
-		c.insets = new Insets(0,0,0,50);
-		c.gridx = 5;
-		add(level, c);  //Modify: current level drop down
+			c.insets = new Insets(20,50,0,0);
+			c.gridwidth = 2;
+			c.gridy = 4;
+			c.gridx = 0;
+			add(editChild, c);  //Modify child section label
 
-		c.insets = new Insets(15,0,25,70);
-		c.gridy = 6;
-		c.gridx = 2;
-		c.gridwidth = 2;
-		add(progress, c);  //The button to display progress of selected child
+			c.insets = new Insets(0,50,0,0);
+			c.gridy = 5;
+			c.gridx = 0;
+			add(childSelect, c);  //Modify: child selection drop down
 
-		c.insets = new Insets(15,0,25,0);
-		c.gridx = 4;
-		c.gridwidth = 1;
-		add(remove, c);  //The button to remove the selected child
+			c.insets = new Insets(0,0,0,0);
+			c.gridwidth = 1;
+			c.gridx = 2;
+			add(year2, c);  //Modify: birth-year drop down
 
-		c.insets = new Insets(15,0,25,50);
-		c.gridx = 5;
-		add(update, c);  //The button to update the selected child with selected details
+			c.gridx = 3;
+			add(month2, c);  //Modify: birth-month drop down
+
+			c.gridx = 4;
+			add(day2, c);  //Modify: birth-day drop down
+
+			c.insets = new Insets(0,0,0,50);
+			c.gridx = 5;
+			add(level, c);  //Modify: current level drop down
+
+			c.insets = new Insets(15,0,25,70);
+			c.gridy = 6;
+			c.gridx = 2;
+			c.gridwidth = 2;
+			add(progress, c);  //The button to display progress of selected child
+
+			c.insets = new Insets(15,0,25,0);
+			c.gridx = 4;
+			c.gridwidth = 1;
+			add(remove, c);  //The button to remove the selected child
+
+			c.insets = new Insets(15,0,25,50);
+			c.gridx = 5;
+			add(update, c);  //The button to update the selected child with selected details
 		} catch (JSONFailureException e) {
 			JPanel screen = new JPanel();
 			screen.setLayout(new BoxLayout(screen, BoxLayout.PAGE_AXIS));
@@ -334,20 +334,25 @@ public class ChildSettingsTab extends JPanel {
 	public void populateLevelList() {
 
 		//Determine the max range for the level drop down list
-		int maxLevel = 1;
-		ArrayList<Progeny> progeny = Controller.getUser().getProgenyList();
-		if (progeny.size() > 0) {
-			maxLevel = progeny.get(childSelect.getSelectedIndex()).getLevelNumber();
-		}
+		try {
+			int maxLevel = 1;
+			ArrayList<Progeny> progeny = ProgenyService.getProgenies();
+			if (progeny.size() > 0) {
+				maxLevel = progeny.get(childSelect.getSelectedIndex()).getLevelNumber();
+			}
 
-		//Create the vector for use populating the level drop down
-		Vector<String> l = new Vector<String>();
-		for (int i = 1; i <= maxLevel; i++) {
-			l.add("Level " + i);
-		}
 
-		//Populate the level drop down
-		level.setModel(new DefaultComboBoxModel<String>(l));
+			//Create the vector for use populating the level drop down
+			Vector<String> l = new Vector<String>();
+			for (int i = 1; i <= maxLevel; i++) {
+				l.add("Level " + i);
+			}
+
+			//Populate the level drop down
+			level.setModel(new DefaultComboBoxModel<String>(l));
+		} catch (JSONFailureException e) {
+			//TODO: popup
+		}
 	}
 
 	/**
@@ -358,7 +363,7 @@ public class ChildSettingsTab extends JPanel {
 	public void setSelections() {
 		try {
 			//Get the currently selected child's birthday
-			Date birth = Controller.getUser().getProgenyList().get(childSelect.getSelectedIndex()).getBirthDate();
+			Date birth = ProgenyService.getProgenies().get(childSelect.getSelectedIndex()).getBirthDate();
 
 			//Set the year, month and day fields to the current birthday values
 			DateFormat f = new SimpleDateFormat("yyyy");
@@ -373,6 +378,8 @@ public class ChildSettingsTab extends JPanel {
 
 		} catch (ArrayIndexOutOfBoundsException e) {
 			/*NULL BODY*/
+		} catch (JSONFailureException e) {
+			//TODO: popup
 		}
 	}
 
@@ -418,7 +425,7 @@ public class ChildSettingsTab extends JPanel {
 			boolean valid = true;
 
 			//Get the list of progeny
-			ArrayList<Progeny> progenyList = Controller.getUser().getProgenyList();
+			ArrayList<Progeny> progenyList = ProgenyService.getProgenies();
 
 			//Get index of selected child
 			int index = childSelect.getSelectedIndex();
@@ -478,7 +485,7 @@ public class ChildSettingsTab extends JPanel {
 			DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 			String birthdayStr = dd + "/" + mm + "/" + yyyy;
 			Date birthdate = format.parse(birthdayStr);
-			
+
 			//If all values are valid, actually go ahead and update
 			if (valid) {
 				try {
@@ -497,7 +504,7 @@ public class ChildSettingsTab extends JPanel {
 				}
 
 				//Read info from newly updated progeny
-				progenyList = Controller.getUser().getProgenyList();
+				progenyList = ProgenyService.getProgenies();
 				String name = (String) childSelect.getSelectedItem();
 				Progeny newProgeny = null;
 				for (int i = 0; i < progenyList.size(); i++) {
@@ -528,6 +535,8 @@ public class ChildSettingsTab extends JPanel {
 			}
 		} catch (ParseException e1) {
 			return;
+		} catch (JSONFailureException e1) {
+			//TODO: popup
 		}
 	}
 
@@ -688,22 +697,21 @@ class PressProgress implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			//Create an ArrayList to hold errors if an exception is thrown so they can be passed to the next display
-			ArrayList<String> errors = new ArrayList<String>();
 
-			Progeny child = null;
 			//Get the list of current user's progeny
-			ArrayList<Progeny> progenyList = Controller.getUser().getProgenyList();
+			ArrayList<Progeny> progenyList = ProgenyService.getProgenies();
 
 			//Get the selected child's progeny instance
-			child = progenyList.get(childSelect.getSelectedIndex());
+			Progeny child = progenyList.get(childSelect.getSelectedIndex());
 
 			//Create a new ChildProgress screen and swap it for the current tab
-			ChildProgress screen = new ChildProgress(settingsPane, childSettings, child, errors);
+			ChildProgress screen = new ChildProgress(settingsPane, childSettings, child);
 			settingsPane.changeTabContent(0, screen);
 
 		} catch (NullPointerException e1) {
 			/*NULL BODY*/		//If there is no child selected, do nothing
+		} catch (JSONFailureException e1) {
+			//TODO: popup
 		}
 	}
 }

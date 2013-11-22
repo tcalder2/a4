@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import json.JSONFailureException;
-import ttable.User;
+import service.UserService;
 import gui.Controller;
 
 /**
@@ -113,7 +113,7 @@ class PressSettings implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		//On first login go to the screen to change password and the security question
 		try {
-			if (User.getInstance().getSecurityQuestionNumber() == (-1)) {
+			if (UserService.getQuestionIndex() == (-1)) {
 				BackgroundPanel screen = new BackgroundPanel("http://jbaron6.cs2212.ca/img/default_background.png",
 						new BorderLayout());
 				screen.add(new SecurityTab(null), BorderLayout.CENTER);

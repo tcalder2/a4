@@ -17,7 +17,6 @@ import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 
 import service.UserService;
-import ttable.User;
 import json.JSONFailureException;
 
 /**
@@ -64,7 +63,7 @@ public class PasswordReset extends BackgroundPanel {
 			oldField = new JPasswordField("000000");
 			newField = new JPasswordField("000000");
 			retypeField = new JPasswordField("000000");
-			JLabel question = new JLabel(UserService.getSecurityQuestions().get(User.getInstance().getSecurityQuestionNumber()));
+			JLabel question = new JLabel(UserService.getSecurityQuestions().get(UserService.getQuestionIndex()));
 			answerField = new JTextField("-- Answer --");
 			JButton reset = new JButton();
 			
