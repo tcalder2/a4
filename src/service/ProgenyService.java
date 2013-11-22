@@ -64,11 +64,13 @@ public class ProgenyService {
 	 * @return the progeny
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static Progeny addProgeny(String name, Date birthDate, int timeAllowed) throws JSONFailureException
+	public static Progeny addProgeny(String name, Date birthDate, int timeAllowed)
+			throws JSONFailureException
 	{
 		Json json = new Json();
-		JSONObject progeny_obj = json.sendRequest("https://jbaron6.cs2212.ca/addprogeny?first_name=" + name + 				"&birth_date=" + birthDateFormat.format(birthDate) +				"&time_allowed=" + timeAllowed
-				);
+		JSONObject progeny_obj = json.sendRequest("https://jbaron6.cs2212.ca/addprogeny?first_name=" 
+				+ name + "&birth_date=" + birthDateFormat.format(birthDate) +
+				"&time_allowed=" + timeAllowed);
 	
 		Progeny progeny = new Progeny();
 
