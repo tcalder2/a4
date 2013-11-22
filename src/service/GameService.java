@@ -1,6 +1,9 @@
 package service;
 
+import java.util.ArrayList;
+
 import json.JSONFailureException;
+import ttable.LevelProgeny;
 import ttable.Progeny;
 
 /**
@@ -24,5 +27,14 @@ public class GameService {
 		//TODO: add server request
 	}
 	
-	
+	/**
+	 * 
+	 * 
+	 * @param progeny
+	 * @throws JSONFailureException
+	 */
+	public static ArrayList<LevelProgeny> getLevels(Progeny progeny) throws JSONFailureException {
+		//TODO: replace with actual server request
+		return new ArrayList<LevelProgeny>();
+	}
 }

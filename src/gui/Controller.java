@@ -12,7 +12,7 @@ import javax.swing.JSplitPane;
 
 import json.JSONFailureException;
 import ttable.Progeny;
-import ttable.User;
+
 /**
  * The class Controller.
  * 
@@ -26,9 +26,6 @@ public class Controller {
 	
 	/** The font. */
 	private static Font font;
-	
-	/** The current user. */
-	private static User user;
 	
 	/** The current progeny. */
 	private static Progeny currentProgeny;
@@ -58,9 +55,6 @@ public class Controller {
 		} catch (FontFormatException | IOException e) {
 			font = new Font("Serif", Font.BOLD, 18);
 		}
-		
-		//Get the current user
-		user = User.getInstance();
 		
 		//Set the current progeny to null to be set at a later date
 		currentProgeny = null;
@@ -113,15 +107,6 @@ public class Controller {
 	 */
 	public static Font getFont() {
 		return font;
-	}
-	
-	/**
-	 * Gets the current user.
-	 *
-	 * @return	the current user
-	 */
-	public static User getUser() {
-		return user;
 	}
 	
 	/**

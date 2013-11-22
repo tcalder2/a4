@@ -35,9 +35,6 @@ public final class User {
 	
 	/** The array of levels. */
 	private ArrayList<Level> levels;
-	
-	/** The security question number between 0 and 2 inclusive. */
-	private int questionNum;
 
 	/**
 	 * Instantiates a new user.
@@ -65,8 +62,6 @@ public final class User {
 			instance.setLastName((String) userObj.get("last_name"));
 			instance.setProgenyList(ProgenyService.getProgenies());
 			instance.setLevels(LevelService.getLevels());
-			//TODO: once fixed uncomment this
-			//instance.setSecurityQuestionNumber(Integer.parseInt((String) userObj.get("question")));
 		}
 		return instance;
 	}
@@ -204,23 +199,5 @@ public final class User {
 			return levels.get(number - 1);
 		}
 		return null;
-	}
-	
-	/**
-	 * Sets the user's chosen security question number between 0 and 2 inclusive.	
-	 * 
-	 * @param questionNum		the user's chosen security question number.
-	 */
-	public void setSecurityQuestionNumber(int questionNum) {
-		this.questionNum = questionNum;
-	}
-	
-	/**
-	 * Gets the user's chosen security question number between 0 and 2 inclusive.
-	 * 
-	 * @return		the user's chosen security question number.
-	 */
-	public int getSecurityQuestionNumber() {
-		return questionNum;
 	}
 }

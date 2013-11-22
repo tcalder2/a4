@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
+import service.ProgenyService;
 import ttable.Progeny;
 
 /**
@@ -50,10 +51,9 @@ public class Welcome extends BackgroundPanel {
 
 		c.gridy = 1;
 		c.insets = new Insets(25,100,0,100);
-		Controller.getUser();
 		ArrayList<Progeny> progenyList;
 		try {
-			progenyList = Controller.getUser().getProgenyList();
+			progenyList = ProgenyService.getProgenies();
 		}
 		catch (Exception e) {
 			progenyList = new ArrayList<Progeny>();
