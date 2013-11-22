@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import javax.swing.JApplet;
 import javax.swing.JLabel;
@@ -22,8 +23,6 @@ public class TTApplet extends JApplet {
 	 */
 	@Override
 	public void init() {
-		GeneralDialogue gd = new GeneralDialogue(null, null);
-		gd.setVisible(true);
 		try {
 			//Sets up the GUI controller
 			Controller.initialise();
