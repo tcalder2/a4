@@ -21,20 +21,22 @@ import javax.swing.JPanel;
 /**
  * The class FGame, a populated BackgroundPanel.
  * 
+ * @author Taylor Calder
  * @author James Anderson
- * @version 0.1
+ * @version 1.0
  */
 @SuppressWarnings("serial")
 public class FGame extends BackgroundPanel implements Runnable {
 
-	private int x, y, op1, op2, a1, a2, a3, ansCorrect, a1x, a1y, a2x, a2y, a3x, a3y, correct, incorrect, lockout;
+	private int x, y, op1, op2, a1, a2, a3, ansCorrect, a1x, a1y, a2x, a2y,
+			a3x, a3y, score, incorrect, lockout;
 	private Random rand = new Random();
 	private boolean left, right, up, down;
 	int fallCount = 0;
 	private boolean isQ = false;
 	private String question, ans1, ans2, ans3, rightCounter, wrongCounter;
 	private boolean answerRight, answerWrong;
-	
+	private Font font = new Font(Font.SERIF, Font.BOLD, 30);
 
 	/** The background graphic. */
 	private Image background;
@@ -47,16 +49,17 @@ public class FGame extends BackgroundPanel implements Runnable {
 		// Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png",
 				new GridBagLayout());
-		
+
 		this.setFocusable(true);
 		this.requestFocusInWindow();
 
 		lockout = 0; // the cool down between when you can select answers
-		correct = 0;
+		score = 0;
 		incorrect = 0;
-		rightCounter = ("" + correct);
-		wrongCounter = ("" + incorrect);
-		
+		String.format("%08d", score);
+		rightCounter = ("Score " + score);
+		wrongCounter = ("Mistakes: " + incorrect);
+
 		try {
 			// Load the graphic and set the dimensions of the panel
 			Image img = ImageIO.read(new URL(
@@ -79,8 +82,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 		}
 
 		newQuestion();
-		
-		
+
 		x = 300;
 		y = 300;
 		this.addKeyListener(new ButtonHandler());
@@ -93,43 +95,45 @@ public class FGame extends BackgroundPanel implements Runnable {
 	 * 
 	 */
 	public void newQuestion() {
-		
+
 		op1 = rand.nextInt(11) + 1;
 		op2 = rand.nextInt(11) + 1;
-		
+
 		ansCorrect = op1 * op2;
 		a1 = (op1 + (rand.nextInt(2) + 1)) * op2;
 		a2 = ansCorrect - (rand.nextInt(6) + 3);
-		
+
 		// A3 is the correct answer
-		a3x = rand.nextInt(700) + 50;
-		a3y = rand.nextInt(400) + 50;
-		
-		a2x = rand.nextInt(700) + 50;
-		while ((a3x - a2x) < 50 &&  (a3x - a2x) > -50) {
-			a2x = rand.nextInt(700) + 50;
+		a3x = rand.nextInt(600) + 50;
+		a3y = rand.nextInt(300) + 100;
+
+		a2x = rand.nextInt(600) + 50;
+		while ((a3x - a2x) < 50 && (a3x - a2x) > -50) {
+			a2x = rand.nextInt(600) + 50;
 		}
-		a2y = rand.nextInt(400) + 50;
-		while ((a3y - a2y) < 50 &&  (a3y - a2y) > -50) {
-			a2y = rand.nextInt(400) + 50;
+		a2y = rand.nextInt(300) + 100;
+		while ((a3y - a2y) < 50 && (a3y - a2y) > -50) {
+			a2y = rand.nextInt(300) + 100;
 		}
 
-		a1x = rand.nextInt(700) + 50;
-		while ((a3x - a1x) < 50 &&  (a3x - a1x) > -50) {
-			a1x = rand.nextInt(700) + 50;
+		a1x = rand.nextInt(600) + 50;
+		while (((a3x - a1x) < 50 && (a3x - a1x) > -50)
+				&& ((a2x - a1x) < 50 && (a2x - a1x) > -50)) {
+			a1x = rand.nextInt(600) + 50;
 		}
-		a1y = rand.nextInt(400) + 50;
-		while ((a3y - a1y) < 50 &&  (a3y - a1y) > -50) {
-			a1y = rand.nextInt(400) + 50;
+		a1y = rand.nextInt(300) + 100;
+		while (((a3y - a1y) < 50 && (a3y - a1y) > -50)
+				&& ((a2y - a1y) < 50 && (a2y - a1y) > -50)) {
+			a1y = rand.nextInt(300) + 100;
 		}
-		
+
 		ans1 = ("" + a1);
 		ans2 = ("" + a2);
 		ans3 = ("" + ansCorrect);
-		
+
 		question = (op1 + " x " + op2);
 		System.out.println(question);
-		
+
 	}
 
 	/**
@@ -141,69 +145,103 @@ public class FGame extends BackgroundPanel implements Runnable {
 		if (lockout > 0) {
 			lockout--;
 		}
-		
+
 		if (answerRight == true) {
-			
+
 			answerRight = false;
 			answerWrong = false;
-			correct++;
+			score += 100;
 			isQ = false;
-			rightCounter = ("" + correct);
-			wrongCounter = ("" + incorrect);
-			
-		}
-		else if (answerWrong == true) {
-			
+			rightCounter = ("Score: " + score);
+			wrongCounter = ("Mistakes: " + incorrect);
+
+		} else if (answerWrong == true) {
+
 			answerRight = false;
 			answerWrong = false;
+			score -= 25;
 			incorrect++;
 			isQ = false;
-			rightCounter = ("" + correct);
-			wrongCounter = ("" + incorrect);
-			
+			rightCounter = ("Score: " + score);
+			wrongCounter = ("Mistakes: " + incorrect);
+
 		}
-		
-		if (((x - a3x) < 30 && (x - a3x) > -30) && ((y - a3y) < 30 && (y - a3y) > -30) && lockout == 0) {
+
+		if (((x - a3x) < 15 && (x - a3x) > -30)
+				&& ((y - a3y) < 15 && (y - a3y) > -30) && lockout == 0) {
 			answerRight = true;
 			answerWrong = false;
 			lockout = 70;
 			newQuestion();
-		}
-		else if (((x - a2x) < 30 && (x - a2x) > -30) && ((y - a2y) < 30 && (y - a2y) > -30) && lockout == 0) {
+		} else if (((x - a2x) < 15 && (x - a2x) > -30)
+				&& ((y - a2y) < 15 && (y - a2y) > -30) && lockout == 0) {
+			answerRight = false;
+			answerWrong = true;
+			lockout = 70;
+			newQuestion();
+		} else if (((x - a1x) < 15 && (x - a1x) > -30)
+				&& ((y - a1y) < 15 && (y - a1y) > -30) && lockout == 0) {
 			answerRight = false;
 			answerWrong = true;
 			lockout = 70;
 			newQuestion();
 		}
-		else if (((x - a1x) < 30 && (x - a1x) > -30) && ((y - a1y) < 30 && (y - a1y) > -30) && lockout == 0) {
-			answerRight = false;
-			answerWrong = true;
-			lockout = 70;
-			newQuestion();
-		}
-		
-		
+
 		if (left) {
-			x--;
-			x--;
+
+			if (up) {
+				x--;
+				y--;
+			} else if (down) {
+				x--;
+				y++;
+			} else {
+				x--;
+				x--;
+			}
 			left = true;
 			right = false;
 		}
 		if (right) {
-			x++;
-			x++;
+			if (up) {
+				x++;
+				y--;
+			} else if (down) {
+				x++;
+				y++;
+			} else {
+				x++;
+				x++;
+			}
 			left = false;
 			right = true;
 		}
 		if (up) {
-			y--;
-			y--;
+
+			if (right) {
+				x++;
+				y--;
+			} else if (left) {
+				x--;
+				y--;
+			} else {
+				y--;
+				y--;
+			}
 			up = true;
 			down = false;
 		}
 		if (down) {
-			y++;
-			y++;
+			if (right) {
+				x++;
+				y++;
+			} else if (left) {
+				x--;
+				y++;
+			} else {
+				y++;
+				y++;
+			}
 			up = false;
 			down = true;
 		}
@@ -220,7 +258,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 		if (y < 55) {
 			y = 55;
 		}
-		
+
 	}
 
 	public void run() {
@@ -232,43 +270,50 @@ public class FGame extends BackgroundPanel implements Runnable {
 
 			this.setFocusable(true);
 			this.requestFocusInWindow();
-			
+
 			if (fallCount <= 0) {
 				y++;
 				fallCount = 2;
-			}
-			else {
+			} else {
 				fallCount--;
 			}
-			
+
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				Thread.currentThread().interrupt();// preserve the message
+				return;// Stop doing whatever I am doing and terminate
 			}
 
 		}
 	}
 
 	public void paintComponent(Graphics g) {
-		
-		
+
 		super.paintComponent(g);
+		g.setFont(font);
 		g.drawImage(background, 0, 0, null);
 		g.setColor(Color.black);
 		g.drawRect(x, y, 20, 20);
-		g.drawString(question, 360, 55);
+
+		g.fillRect(112, 31, 180, 30); // score
+		g.fillRect(532, 31, 160, 30); // mistakes
+		g.fillRect(359, 31, 95, 30); // question
+
 		g.drawString(ans1, a1x, a1y);
 		g.drawString(ans2, a2x, a2y);
 		g.drawString(ans3, a3x, a3y);
-		g.drawString(rightCounter, 200, 55);
-		g.drawString(wrongCounter, 550, 55);
+
+		g.setColor(Color.white);
+		g.drawString(question, 365, 55);
+		g.drawString(rightCounter, 120, 55);
+		g.drawString(wrongCounter, 540, 55);
 	}
 
 	public class ButtonHandler extends KeyAdapter {
 
 		public ButtonHandler() {
-			//System.out.println(" Button handler initialised! ");
+			// System.out.println(" Button handler initialised! ");
 
 		}
 
@@ -298,18 +343,14 @@ public class FGame extends BackgroundPanel implements Runnable {
 			switch (key.getKeyCode()) {
 			case KeyEvent.VK_UP:
 				up = false;
-				//System.out.println(" Released UP!");
 				break;
 			case KeyEvent.VK_DOWN:
-				//System.out.println(" Released DOWN!");
 				down = false;
 				break;
 			case KeyEvent.VK_LEFT:
-				//System.out.println(" Released LEFT!");
 				left = false;
 				break;
 			case KeyEvent.VK_RIGHT:
-				//System.out.println(" Released RIGHT!");
 				right = false;
 				break;
 
