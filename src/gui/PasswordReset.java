@@ -17,6 +17,7 @@ import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 
 import service.UserService;
+import ttable.User;
 import json.JSONFailureException;
 
 /**
@@ -63,7 +64,7 @@ public class PasswordReset extends BackgroundPanel {
 			oldField = new JPasswordField("000000");
 			newField = new JPasswordField("000000");
 			retypeField = new JPasswordField("000000");
-			JLabel question = new JLabel(UserService.getSecurityQuestions().get(UserService.getSecurityQuestionNumber()));
+			JLabel question = new JLabel(UserService.getSecurityQuestions().get(User.getInstance().getSecurityQuestionNumber()));
 			answerField = new JTextField("-- Answer --");
 			JButton reset = new JButton();
 			
@@ -72,7 +73,7 @@ public class PasswordReset extends BackgroundPanel {
 			newField.addMouseListener(new SelectAllTextOnClick(newField));
 			retypeField.addMouseListener(new SelectAllTextOnClick(retypeField));
 			answerField.addMouseListener(new SelectAllTextOnClick(answerField));
-			reset.addActionListener(new PressUpdate3(this));
+			reset.addActionListener(new PressUpdate5(this));
 
 			//Set label alignment
 			oldField.setAlignmentX(JLabel.RIGHT_ALIGNMENT);
@@ -279,7 +280,7 @@ public class PasswordReset extends BackgroundPanel {
  * @author James Anderson
  * @version 1.0
  */
-class PressUpdate3 implements ActionListener {
+class PressUpdate5 implements ActionListener {
 
 	/** The security pane. */
 	private PasswordReset screen;
@@ -289,7 +290,7 @@ class PressUpdate3 implements ActionListener {
 	 * 
 	 * @param security		the password reset screen.
 	 */
-	public PressUpdate3(PasswordReset screen) {
+	public PressUpdate5(PasswordReset screen) {
 		super();
 		this.screen = screen;
 	}

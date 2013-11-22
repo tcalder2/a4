@@ -82,7 +82,7 @@ public class UserService {
 	public static boolean setPasswordWithQ(String questionAns, String newpassword) throws JSONFailureException {
 		Json json = new Json();
 		
-		json.sendRequest(""); //TODO: COMPLETE REQUEST!!!
+		json.sendRequest("https://jbaron6.cs2212.ca/resetpassword?answer=" + questionAns + "&new_password=" + newpassword);
 		
 		return true;
 	}
@@ -203,31 +203,6 @@ public class UserService {
 		// TODO: make server call and parse list
 		
 		return progenyList;
-	}
-	
-	/**
-	 * Adds a progeny.
-	 *
-	 * @param  progeny				the progeny to add
-	 * @return 						the newly added progeny
-	 * @throws JSONFailureException the jSON failure exception
-	 */
-	public static Progeny addProgeny(String firstName, Date birthday) throws JSONFailureException {
-		
-		// TODO: server request
-		Progeny result = new Progeny(); //TODO: replace this line with parsed info
-		return result;
-	}
-	
-
-	/**
-	 * Gets the user's chosen security question number, or (-1) if this is there first login.
-	 * 
-	 * @return	the user's chosen security question number, or (-1) if this is the first login.
-	 */
-	public static int getSecurityQuestionNumber() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	// ** NOTE ** //

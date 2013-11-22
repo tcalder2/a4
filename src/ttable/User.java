@@ -35,12 +35,15 @@ public final class User {
 	
 	/** The array of levels. */
 	private ArrayList<Level> levels;
+	
+	/** The security question number between 0 and 2 inclusive. */
+	private int questionNum;
 
 	/**
 	 * Instantiates a new user.
 	 */
 	private User() {
-		// Exists only to defeat instantiation.
+		// Exists to defeat foreign instantiation
 	}
 
 	/**
@@ -57,12 +60,12 @@ public final class User {
 			JSONObject userObj = (JSONObject) jsonObj.get("user");
 
 			instance = new User();
-			instance.setFbId(((String) userObj.get("fb_id")));
-			instance.setFirstName(((String) userObj.get("first_name")));
-			instance.setLastName(((String) userObj.get("last_name")));
+			instance.setFbId((String) userObj.get("fb_id"));
+			instance.setFirstName((String) userObj.get("first_name"));
+			instance.setLastName((String) userObj.get("last_name"));
 			instance.setProgenyList(ProgenyService.getProgenies());
 			instance.setLevels(LevelService.getLevels());
-			
+			instance.setSecurityQuestionNumber(Integer.parseInt((String) userObj.get("question")));
 		}
 		return instance;
 	}
@@ -200,5 +203,23 @@ public final class User {
 			return levels.get(number - 1);
 		}
 		return null;
+	}
+	
+	/**
+	 * Sets the user's chosen security question number between 0 and 2 inclusive.	
+	 * 
+	 * @param questionNum		the user's chosen security question number.
+	 */
+	public void setSecurityQuestionNumber(int questionNum) {
+		this.questionNum = questionNum;
+	}
+	
+	/**
+	 * Gets the user's chosen security question number between 0 and 2 inclusive.
+	 * 
+	 * @return		the user's chosen security question number.
+	 */
+	public int getSecurityQuestionNumber() {
+		return questionNum;
 	}
 }

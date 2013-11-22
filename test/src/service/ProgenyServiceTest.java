@@ -168,7 +168,7 @@ public class ProgenyServiceTest {
 		assertEquals(fiveMinutes, progeny.getTimeAllowed());		
 		
 		try {
-			ProgenyService.changeTimeAllowed(progeny, sixMinutes);
+			ProgenyService.setTimeAllowed(progeny, sixMinutes);
 		} catch (JSONFailureException e1) {
 			fail(e1.getMessages().get(0));
 		}
