@@ -12,12 +12,20 @@ class LevelProgeny {
 
  function __construct()
  {
+  $this->final_completion_time = 0;
+  $this->final_game_high_score = 0;
+  $this->final_mistakes = 0;
+  $this->attempts = 0;
  }
 
  public function toArray()
  {
   return array(
    'id' => $this->getId(),
+   'attempts' => $this->getAttempts(),
+   'final_mistakes' => $this->getFinalMistakes(),
+   'final_game_high_score' => $this->final_game_high_score,
+   'final_completion_time' => $this->final_completion_time,
   );
  }
 
@@ -53,13 +61,6 @@ class LevelProgeny {
 
  /** @ORM\Column(type="integer") */
  protected $final_mistakes;
-
- public function exchangeArray($data)
- {
-  $this->final_completion_time = (isset($data['final_completion_time'])) ? $data['final_completion_time'] : null;
-  $this->final_game_high_score = (isset($data['final_game_high_score'])) ? $data['final_game_high_score'] : null;
-  $this->final_mistakes = (isset($data['final_mistakes'])) ? $data['final_mistakes'] : null;
- }
 
  /**
   * @param mixed $attempts
@@ -188,6 +189,32 @@ class LevelProgeny {
  {
   return $this->user;
  }
+
+ /**
+  * @param mixed $final_mistakes
+  */
+ public function setFinalMistakes($final_mistakes)
+ {
+  $this->final_mistakes = $final_mistakes;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getFinalMistakes()
+ {
+  return $this->final_mistakes;
+ }
+
+
+ public function exchangeArray($data)
+ {
+  $this->final_completion_time = (isset($data['final_completion_time'])) ? $data['final_completion_time'] : null;
+  $this->final_game_high_score = (isset($data['final_game_high_score'])) ? $data['final_game_high_score'] : null;
+  $this->final_mistakes = (isset($data['final_mistakes'])) ? $data['final_mistakes'] : null;
+  $this->attempts = (isset($data['attempts'])) ? $data['attempts'] : null;
+ }
+
 
 }
 

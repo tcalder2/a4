@@ -43,17 +43,22 @@ class LevelProgenyTable
   $this->em->flush();
  }
 
- public function newLevelProgeny($data)
+ public function newLevelProgenys(Progeny $progeny)
  {
-  $levelProgeny = new LevelProgeny();
+  $user = $this->sm->get('User\Service\User');
 
-  $levelProgeny->exchangeArray($data);
-  $levelProgeny->setUser($this->sm->get('User\Service\User'));
+  for($x = 1; $x < 13; ++$x)
+  {
+   $levelProgeny = new LevelProgeny();
 
-  $this->em->persist($levelProgeny);
+   $levelProgeny->setUser($user);
+   $levelProgeny->setProgeny($progeny);
+   $levelProgeny->setLevel($x);
+
+   $this->em->persist($levelProgeny);
+  }
+
   $this->em->flush();
-
-  return $levelProgeny;
  }
 
  /**
@@ -72,7 +77,7 @@ class LevelProgenyTable
    ));
  }
 
- public function getLevelProgenies()
+ public function getLevelProgenys()
  {
   $levelProgenies = $this->em->getRepository('LevelProgeny\Entity\LevelProgeny')->findBy(array('user' => $this->sm->get('User\Service\User')), array('levelProgeny' => 'ASC'));
 
