@@ -65,8 +65,7 @@ public final class User {
 			instance.setLastName((String) userObj.get("last_name"));
 			instance.setProgenyList(ProgenyService.getProgenies());
 			instance.setLevels(LevelService.getLevels());
-			instance.setSecurityQuestionNumber(Integer.parseInt((String) userObj.get("answer")));
-			
+			instance.setSecurityQuestionNumber(Integer.parseInt((String) userObj.get("question")));
 		}
 		return instance;
 	}

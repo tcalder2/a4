@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -16,8 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import json.JSONFailureException;
+import service.LevelService;
 import service.ProgenyService;
-import service.UserService;
 import ttable.Level;
 import ttable.Progeny;
 
@@ -29,6 +30,12 @@ import ttable.Progeny;
  */
 @SuppressWarnings("serial")
 public class LevelSettingsTab extends JPanel {
+
+	/** The list of progeny. */
+	private ArrayList<Progeny> progenyList;
+
+	/** The list of levels. */
+	private ArrayList<Level> levelList;
 
 	/**
 	 * Instantiates a LevelSettingsTab instance.
@@ -44,16 +51,26 @@ public class LevelSettingsTab extends JPanel {
 			levels.add("Level " + i);
 		}
 
-		//Create List of child names
+		//Create list children
 		ArrayList<Progeny> progenyList = new ArrayList<Progeny>();
 		try {
 			progenyList = ProgenyService.getProgenies();
 		} catch (JSONFailureException e) {
 			// TODO: popup
 		}
+
+		//Create a list of child names
 		Vector<String> childNames = new Vector<String>();
 		for (int i = 0; i < progenyList.size(); i++) {
 			childNames.add(progenyList.get(i).getFirstName());
+		}
+
+		//Creates list of levels
+		ArrayList<Level> levelList = new ArrayList<Level>();
+		try {
+			levelList = LevelService.getLevels();
+		} catch (JSONFailureException e) {
+			// TODO: popup
 		}
 
 		//Creates a list of times in 5 second intervals for populating time limit drop down
@@ -89,6 +106,19 @@ public class LevelSettingsTab extends JPanel {
 		ButtonGroup testState = new ButtonGroup();
 		testState.add(testOff);
 		testState.add(testOn);
+
+		//Set display attributes
+		sect1.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
+		childLabel.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
+		timeLabel.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
+		sect2.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
+		levelLabel.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
+		errorsLabel.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
+		testingLabel.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
+		testOff.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
+		testOn.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
+
+
 		
 		//Add action listeners
 		childSelector.addActionListener(new SelectChild(childSelector, time));
@@ -107,11 +137,11 @@ public class LevelSettingsTab extends JPanel {
 		c.gridy = 0;
 		c.gridx = 0;
 		add(sect1, c);
-		
+
 		c.anchor = GridBagConstraints.EAST;
 		c.gridy = 1;
 		add(childLabel, c);
-		
+
 		c.gridy = 2;
 		add(timeLabel, c);
 
@@ -119,40 +149,40 @@ public class LevelSettingsTab extends JPanel {
 		c.insets = new Insets(30,50,0,0);
 		c.gridy = 3;
 		add(sect2, c);
-		
+
 		c.anchor = GridBagConstraints.EAST;
 		c.insets = new Insets(0,50,0,0);
 		c.gridy = 4;
 		add(levelLabel, c);
-		
+
 		c.gridy = 5;
 		add(errorsLabel, c);
-		
+
 		c.anchor = GridBagConstraints.WEST;
 		c.insets = new Insets(30,50,0,0);
 		c.gridwidth = 1;
 		c.gridy = 6;
 		add(testingLabel, c);
-		
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30,0,0,0);
 		c.gridx = 1;
 		add(testOff, c);
-		
+
 		c.gridx = 2;
 		add(testOn, c);
-		
+
 		c.insets = new Insets(0,0,0,50);
 		c.gridx = 3;
 		c.gridy = 1;
 		add(childSelector, c);
-		
+
 		c.gridy = 2;
 		add(time, c);
 
 		c.gridy = 4;
 		add(levelSelector, c);
-		
+
 		c.gridy = 5;
 		add(errors, c);
 
@@ -160,11 +190,10 @@ public class LevelSettingsTab extends JPanel {
 		c.gridx = 4;
 		c.gridy = 2;
 		add(update1, c);
-		
+
 		c.gridy = 5;
 		add(update2, c);
 	}
-
 }
 
 /**
@@ -178,10 +207,10 @@ class SelectChild implements ActionListener {
 
 	/** The child selection drop down. */
 	private JComboBox<String> childSelector;
-	
+
 	/** The drop down for selecting the time the child is allowed per level. */
 	private JComboBox<String> time;
-	
+
 	/**
 	 * Constructs an action listener responsible for setting the time drop down to the
 	 * current setting for the selected child each time the child selection changes.
@@ -195,14 +224,19 @@ class SelectChild implements ActionListener {
 		this.childSelector = childSelector;
 		this.time = time;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		Progeny child;
+		try {
+			child = ProgenyService.getProgenies().get(childSelector.getSelectedIndex());
+			time.setSelectedItem(child.getTimeAllowed() + " sec");
+		} catch (JSONFailureException e1) {
+			// TODO: popup
+		}
 	}
 }
 
@@ -214,13 +248,13 @@ class SelectChild implements ActionListener {
  * @version 1.0
  */
 class SelectLevel implements ActionListener {
-	
+
 	/** The level selection drop down. */
 	private JComboBox<String> levelSelector;
-	
+
 	/** The drop down for selecting the number of errors allowed per level. */
 	private JComboBox<String> errors;
-	
+
 	/**
 	 * Constructs an action listener responsible for setting the errors drop down to the current
 	 * setting on change of the level selected.
@@ -234,15 +268,20 @@ class SelectLevel implements ActionListener {
 		this.levelSelector = levelSelector;
 		this.errors = errors;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
+		Level level;
+		try {
+			level = LevelService.getLevels().get(levelSelector.getSelectedIndex());
+			errors.setSelectedItem(level.getMistakesAllowed());
+		} catch (JSONFailureException e1) {
+			// TODO: popup
+		}
 	}
 }
 
@@ -257,32 +296,40 @@ class PressUpdate1 implements ActionListener {
 
 	/** The child selection drop down. */
 	private JComboBox<String> childSelector;
-	
-	/** The time allowed for level completion drop down. */
+
+	/** The drop down for selecting the time allowed for level completion. */
 	private JComboBox<String> time;
-	
+
 	/**
 	 * Constructs an action listener for the time the child is allowed per level's update
 	 * button.
 	 * 
-	 * @param childSelector
-	 * @param time
+	 * @param childSelector		the child selection drop down.
+	 * @param time				the drop down for selecting the time allowed for level completion
 	 */
 	public PressUpdate1(JComboBox<String> childSelector, JComboBox<String> time) {
 		super();
 		this.childSelector = childSelector;
 		this.time = time;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		try {
+			Progeny child = ProgenyService.getProgenies().get(childSelector.getSelectedIndex());
+			int newTime = (time.getSelectedIndex() + 1) * 5;
+			if (child.getTimeAllowed() != newTime) {
+				ProgenyService.setTimeAllowed(child, newTime);
+			}
+			childSelector.setSelectedIndex(0);
+		} catch (JSONFailureException e1) {
+			// TODO: popup
+		}
 	}
-	
+
 }
 
 /**
@@ -296,10 +343,10 @@ class PressUpdate2 implements ActionListener {
 
 	/** The level selection drop down. */
 	private JComboBox<String> levelSelector;
-	
+
 	/** The drop down for the number of errors allowed per level. */
 	private JComboBox<String> errors;
-	
+
 	/**
 	 * Constructs an action listener for the errors per level setting's update button.
 	 * 
@@ -312,14 +359,22 @@ class PressUpdate2 implements ActionListener {
 		this.levelSelector = levelSelector;
 		this.errors = errors;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		try {
+			Level level = LevelService.getLevels().get(levelSelector.getSelectedIndex());
+			int newMistakesAllowed = errors.getSelectedIndex();
+			if (level.getMistakesAllowed() != newMistakesAllowed) {
+				LevelService.changeMistakesAllowed(level, newMistakesAllowed);
+			}
+			levelSelector.setSelectedIndex(0);
+		} catch (JSONFailureException e1) {
+			// TODO: popup
+		}
 	}
 }
 
@@ -339,7 +394,7 @@ class ChangeTestState implements ActionListener {
 	public ChangeTestState() {
 		super();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
