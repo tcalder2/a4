@@ -64,7 +64,7 @@ public class SecurityTab extends JPanel {
 		try {
 			qList = new Vector<String>(UserService.getSecurityQuestions());
 		} catch (JSONFailureException e) {
-			//TODO: add popup
+			new GeneralDialogue(e.getMessages(), "JSON Error", 1);
 		}
 
 		//Create the components
@@ -200,7 +200,7 @@ public class SecurityTab extends JPanel {
 					}
 
 				} catch (JSONFailureException e1) {
-					//TODO: popup
+					new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 				}
 			}
 		}
@@ -228,5 +228,4 @@ class PressUpdate4 implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		security.update();
 	}
-
 }

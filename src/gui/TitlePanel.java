@@ -125,7 +125,7 @@ class PressSettings implements ActionListener {
 				Controller.setScreen(new LockScreen());
 			}
 		} catch (JSONFailureException e1) {
-			//TODO: popup
+			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		}
 	}
 }

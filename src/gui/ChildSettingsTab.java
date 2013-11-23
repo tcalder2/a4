@@ -354,7 +354,7 @@ public class ChildSettingsTab extends JPanel {
 			//Populate the level drop down
 			level.setModel(new DefaultComboBoxModel<String>(l));
 		} catch (JSONFailureException e) {
-			//TODO: popup
+			new GeneralDialogue(e.getMessages(), "JSON Error", 1);
 		}
 	}
 
@@ -382,7 +382,7 @@ public class ChildSettingsTab extends JPanel {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			/*NULL BODY*/
 		} catch (JSONFailureException e) {
-			//TODO: popup
+			new GeneralDialogue(e.getMessages(), "JSON Error", 1);
 		}
 	}
 
@@ -508,7 +508,7 @@ public class ChildSettingsTab extends JPanel {
 		} catch (ParseException e1) {
 			return;
 		} catch (JSONFailureException e1) {
-			//TODO: popup
+			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		}
 	}
 
@@ -574,14 +574,9 @@ public class ChildSettingsTab extends JPanel {
 			settings.changeTabContent(0, new ChildSettingsTab(settings));
 			
 		} catch (ParseException e1) {
-			System.out.print("Add error - parse");
-			//TODO: add exception handling, popup?
+			new GeneralDialogue(e1.getMessage(), "Parse Error", 1);
 		} catch (JSONFailureException e1) {
-			ArrayList<String> messages = e1.getMessages();
-			for (int i = 0; i < messages.size(); i++) {
-				System.out.print(messages.get(i));
-			}
-			//TODO: add exception handling, popup??
+			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		}
 	}
 
@@ -603,10 +598,9 @@ public class ChildSettingsTab extends JPanel {
 				throw new Exception("Unknown Error");
 			}
 		} catch (JSONFailureException e1) {
-			new GeneralDialogue(e1.getMessages(), "Error", 1);
+			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		} catch (Exception e1) {
-			System.out.print(e1.getMessage());
-			//TODO
+			new GeneralDialogue(e1.getMessage(), "Error", 1);
 		}
 
 		//Update the screen
@@ -667,9 +661,9 @@ class PressProgress implements ActionListener {
 			settingsPane.changeTabContent(0, screen);
 
 		} catch (NullPointerException e1) {
-			/*NULL BODY*/		//If there is no child selected, do nothing
+			new GeneralDialogue("Please first select a child from the drop donw.", "", 2);
 		} catch (JSONFailureException e1) {
-			//TODO: popup
+			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		}
 	}
 }

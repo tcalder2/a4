@@ -50,7 +50,7 @@ public class LevelSettingsTab extends JPanel {
 		try {
 			progenyList = ProgenyService.getProgenies();
 		} catch (JSONFailureException e) {
-			// TODO: popup
+			new GeneralDialogue(e.getMessages(), "JSON Error", 1);
 		}
 
 		//Create a list of child names
@@ -228,7 +228,7 @@ class SelectChild implements ActionListener {
 			child = ProgenyService.getProgenies().get(childSelector.getSelectedIndex());
 			time.setSelectedItem(child.getTimeAllowed() + " sec");
 		} catch (JSONFailureException e1) {
-			// TODO: popup
+			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		}
 	}
 }
@@ -273,7 +273,7 @@ class SelectLevel implements ActionListener {
 			level = LevelService.getLevels().get(levelSelector.getSelectedIndex());
 			errors.setSelectedItem(level.getMistakesAllowed());
 		} catch (JSONFailureException e1) {
-			// TODO: popup
+			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		}
 	}
 }
@@ -319,7 +319,7 @@ class PressUpdate1 implements ActionListener {
 			}
 			childSelector.setSelectedIndex(0);
 		} catch (JSONFailureException e1) {
-			// TODO: popup
+			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		}
 	}
 
@@ -366,7 +366,7 @@ class PressUpdate2 implements ActionListener {
 			}
 			levelSelector.setSelectedIndex(0);
 		} catch (JSONFailureException e1) {
-			// TODO: popup
+			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		}
 	}
 }

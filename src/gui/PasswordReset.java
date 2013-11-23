@@ -41,7 +41,7 @@ public class PasswordReset extends BackgroundPanel {
 	/** Security question answer. */
 	private JTextField answerField;
 
-	/** The type of password reset. */
+	/** The type of password reset, 1 is using the old password, 2 is using the security question. */
 	private int version;
 
 	/**
@@ -255,21 +255,19 @@ public class PasswordReset extends BackgroundPanel {
 				else {
 					UserService.setPasswordWithQ(answer, newPwdS);
 				}
-				//TODO: display success popup
+				
+				new GeneralDialogue("Password was successfully reset.", "Success", 3);
+				
 				oldPwdS = "000000";
 				newPwdS = "000000";
 				retypePwdS = "000000";
 				Controller.setScreen(new LockScreen());
 			} catch (JSONFailureException e) {
-				errors = e.getMessages();
-				for (int i = 0; i < errors.size(); i++) {
-					System.out.print(errors.get(i) + "\n");
-				}
 				if (version == 1) {
-					Controller.setScreen(new PasswordReset(version, errors));
+					Controller.setScreen(new PasswordReset(version, e.getMessages()));
 				}
 				else if (version == 2) {
-					//TODO: display popup
+					new GeneralDialogue("Authenification failed, password reset to default.", "Passord Reset", 1);
 					Controller.setScreen(new MainMenu());
 				}
 			}
