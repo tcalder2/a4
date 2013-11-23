@@ -57,8 +57,8 @@ public class ChildProgress extends JPanel {
 		
 		//Create instance of GridBagConstraints to control layout
 		GridBagConstraints c = new GridBagConstraints();
-		c.insets = new Insets(0,0,0,0);
 		c.anchor = GridBagConstraints.WEST;
+		c.insets = new Insets(0,5,0,0);
 		c.gridwidth = 1;
 		c.weightx = 0;
 		c.gridx = 0;
@@ -70,8 +70,8 @@ public class ChildProgress extends JPanel {
 		backArrow.setBorderPainted(false);
 		backArrow.addActionListener(new BackToSettings(settingsPane, childSettingsTab));
 		try {
-			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/main/backarr.png"));
-			backArrow.setIcon(new ImageIcon(img));
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/b_arrow.png"));
+			backArrow.setIcon(new ImageIcon(img.getScaledInstance(40, 40, Image.SCALE_DEFAULT)));
 		} catch (IOException e) {
 			backArrow.setText("<--");
 		}
@@ -81,12 +81,12 @@ public class ChildProgress extends JPanel {
 		JLabel title = new JLabel(child.getFirstName() + "'s Progress");
 		title.setFont(Controller.getFont().deriveFont(Font.BOLD, 32));
 		c.fill = GridBagConstraints.BOTH;
-		c.insets = new Insets(10,75,5,75);
+		c.insets = new Insets(0,75,5,75);
 		c.gridy = 1;
 		add(title, c);
 
 		//Create vector of column headers
-		Vector<String> columnNames = new Vector<String>(Arrays.asList(new String[]{"Level","Attempts","Final Time (sec)","Final Mistakes"}));
+		Vector<String> columnNames = new Vector<String>(Arrays.asList(new String[]{"Level","Attempts","Final Time","Final Mistakes"}));
 
 		//Create a vector structure containing the child's progress details
 		Vector<Vector<String>> progress = new Vector<Vector<String>>();
@@ -136,10 +136,10 @@ public class ChildProgress extends JPanel {
 		JScrollPane scroll = new JScrollPane(table);
 		scroll.setOpaque(false);
 		scroll.getViewport().setOpaque(false);
-		c.insets = new Insets(0,75,0,75);
+		c.insets = new Insets(0,75,10,75);
 		c.gridwidth = 1;
 		c.gridy = 2;
-		c.ipady = 300;
+		c.ipady = 192;
 		c.ipadx = 500;
 		add(scroll,c);
 		

@@ -56,7 +56,7 @@ public class GeneralDialogue extends JDialog {
 			//NULL BODY
 		}
 
-        JLabel label = new JLabel(new ImageIcon(img.getScaledInstance(90, 90, Image.SCALE_DEFAULT)));
+        JLabel label = new JLabel(new ImageIcon(img.getScaledInstance(90, 90, Image.SCALE_SMOOTH)));
         c.anchor = GridBagConstraints.WEST;
         add(label, c);
         

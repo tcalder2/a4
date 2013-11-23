@@ -595,20 +595,17 @@ public class ChildSettingsTab extends JPanel {
 				ProgenyService.removeProgeny(toRemove);
 			}
 			else {
-				throw new Exception("Unknown Error");
+				throw new Exception();
 			}
 		} catch (JSONFailureException e1) {
 			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		} catch (Exception e1) {
-			new GeneralDialogue(e1.getMessage(), "Error", 1);
+			new GeneralDialogue("No child selected.", "Error", 1);
 		}
 
 		//Update the screen
 		settings.changeTabContent(0, new ChildSettingsTab(settings));
 	}
-
-
-
 }
 
 /**
