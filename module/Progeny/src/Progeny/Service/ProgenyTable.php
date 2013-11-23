@@ -61,7 +61,7 @@ class ProgenyTable
   $this->em->persist($progeny);
   $this->em->flush();
 
-  $level_progeny_table->newLevelProgenys($progeny);
+  //$level_progeny_table->newLevelProgenys($progeny);
 
   return $progeny;
  }
