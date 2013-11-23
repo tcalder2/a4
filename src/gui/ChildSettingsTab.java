@@ -603,7 +603,7 @@ public class ChildSettingsTab extends JPanel {
 				throw new Exception("Unknown Error");
 			}
 		} catch (JSONFailureException e1) {
-			//TODO: popup
+			new GeneralDialogue(e1.getMessages(), "Error", 1);
 		} catch (Exception e1) {
 			System.out.print(e1.getMessage());
 			//TODO
