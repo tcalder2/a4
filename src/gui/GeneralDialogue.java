@@ -1,6 +1,7 @@
 package gui;
 
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -38,7 +39,7 @@ public class GeneralDialogue extends JDialog {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridheight = messages.size();
-		c.insets = new Insets(20,20,0,15);
+		c.insets = new Insets(20,20,0,0);
        	Image img = null;
 		try {
 			switch(type) {
@@ -70,20 +71,21 @@ public class GeneralDialogue extends JDialog {
         }
 
         c.fill = GridBagConstraints.BOTH;
+        c.gridwidth = 2;
         c.gridx = 1;
         add(panel, c);
 
         c.gridx = 0;
         c.gridy = 1;
         c.fill = GridBagConstraints.BOTH;
-        c.gridwidth = 1;
+        c.gridwidth = 2;
         c.weightx = 1.0;
         c.weighty = 1.0;
         add(Box.createGlue(), c);
         
         JButton close = new JButton("Close");
         close.addActionListener(new DialogueClose(this));
-        c.insets = new Insets(0,0,15,20);   
+        c.insets = new Insets(5,0,15,20);   
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.SOUTH;
         c.weightx = 0;

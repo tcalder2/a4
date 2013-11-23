@@ -55,33 +55,15 @@ public class UserService {
 	 * Sets the user's password.
 	 *
 	 * @param oldPassword the old password
-	 * @param newpassword the new password
+	 * @param newPassword the new password
 	 * @return true, if successful
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static boolean setPassword(String oldPassword, String newpassword) throws JSONFailureException
+	public static boolean setPassword(String oldPassword, String newPassword) throws JSONFailureException
 	{
 		Json json = new Json();
 		
-		json.sendRequest("https://jbaron6.cs2212.ca/setpassword?new_password=" + newpassword + "&old_password=" + oldPassword);
-		
-		return true;
-	}
-	
-	/**
-	 * Sets the user's password using the security question instead of old password.  If the
-	 *  security question is input incorrectly, the password is automatically reset to the
-	 *  default, cs2212.
-	 *  
-	 * @param questionAns			the input answer to the security question.
-	 * @param newpassword			the new password to be changed to.
-	 * @return						true if successful, false otherwise.
-	 * @throws JSONFailureException	the JSON exception thrown if the password change is unsuccessful.
-	 */
-	public static boolean setPasswordWithQ(String questionAns, String newpassword) throws JSONFailureException {
-		Json json = new Json();
-		
-		json.sendRequest("https://jbaron6.cs2212.ca/resetpassword?answer=" + questionAns + "&new_password=" + newpassword);
+		json.sendRequest("https://jbaron6.cs2212.ca/setpassword?new_password=" + newPassword + "&old_password=" + oldPassword);
 		
 		return true;
 	}
@@ -172,17 +154,19 @@ public class UserService {
 	
 	
 	/**
-	 * Reset the user's password.
-	 *
-	 * @param oldPassword			the old password
-	 * @param newPassword			the new password
-	 * @return 						true, if successful
-	 * @throws JSONFailureException the jSON failure exception
+	 *  Resets the user's password using the security question for validation.  If the
+	 *  security question is input incorrectly, the password is automatically reset to the
+	 *  default, cs2212.
+	 *  
+	 * @param answer				the answer input for the security question.
+	 * @param newpassword			the new password to be changed to.
+	 * @return						true if successful, false otherwise.
+	 * @throws JSONFailureException	the JSON exception thrown if the password change is unsuccessful.
 	 */
-	public static boolean resetPassword(String oldPassword, String newPassword) throws JSONFailureException
+	public static boolean resetPassword(String answer, String newPassword) throws JSONFailureException
 	{
 		Json json = new Json();
-		json.sendRequest("https://jbaron6.cs2212.ca/resetpassword?answer=" + oldPassword + "&new_password=" + newPassword);
+		json.sendRequest("https://jbaron6.cs2212.ca/resetpassword?answer=" + answer + "&new_password=" + newPassword);
 		
 		return true;
 	}

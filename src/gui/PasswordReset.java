@@ -266,10 +266,10 @@ public class PasswordReset extends BackgroundPanel {
 		if (newPwdS.equals(retypePwdS)) {
 			try {
 				if (version == 1) {
-					UserService.resetPassword(oldPwdS, newPwdS);
+					UserService.setPassword(oldPwdS, newPwdS);
 				}
 				else {
-					UserService.setPasswordWithQ(answer, newPwdS);
+					UserService.resetPassword(answer, newPwdS);
 				}
 				
 				new GeneralDialogue("Password was successfully reset.", "Success", 3);
