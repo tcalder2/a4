@@ -171,6 +171,13 @@ public class UserService {
 		return true;
 	}
 	
+	/**
+	 * Gets the security question number chosen by the current user.  The index will be a number
+	 * between 0 and 2 inclusive.
+	 * 
+	 * @return						the index of the user's chosen security question.
+	 * @throws JSONFailureException	the exception thrown if there is an issue retrieving the index.
+	 */
 	public static int getQuestionIndex() throws JSONFailureException
 	{
 		Json json = new Json();
