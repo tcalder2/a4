@@ -423,6 +423,8 @@ public class ChildSettingsTab extends JPanel {
 	}
 
 	public void updateChild() {
+		//TODO: add warning popup
+		
 		try {
 			//Boolean set to false if any values are invalid
 			boolean valid = true;
@@ -504,11 +506,13 @@ public class ChildSettingsTab extends JPanel {
 
 				//Update the screen
 				settings.changeTabContent(0, new ChildSettingsTab(settings));
+				
+				new GeneralDialogue("Child successfully updated.", "Success!", 3);
 			}
-		} catch (ParseException e1) {
-			return;
 		} catch (JSONFailureException e1) {
 			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
+		} catch (Exception e1) {
+			new GeneralDialogue("Unknown Error", "Error", 1);
 		}
 	}
 
@@ -573,6 +577,8 @@ public class ChildSettingsTab extends JPanel {
 			//Update the screen
 			settings.changeTabContent(0, new ChildSettingsTab(settings));
 			
+			new GeneralDialogue("Child successfully added.", "Success!", 3);
+
 		} catch (ParseException e1) {
 			new GeneralDialogue(e1.getMessage(), "Parse Error", 1);
 		} catch (JSONFailureException e1) {
@@ -585,6 +591,8 @@ public class ChildSettingsTab extends JPanel {
 	 * 
 	 */
 	public void removeProgeny() {
+		//TODO: add warning popup
+		
 		//Get the selected child index
 		int index = childSelect.getSelectedIndex();
 
@@ -597,14 +605,16 @@ public class ChildSettingsTab extends JPanel {
 			else {
 				throw new Exception();
 			}
+			//Update the screen
+			settings.changeTabContent(0, new ChildSettingsTab(settings));
+			
+			new GeneralDialogue("Child successfully removed.", "Success!", 3);
+			
 		} catch (JSONFailureException e1) {
 			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		} catch (Exception e1) {
 			new GeneralDialogue("No child selected.", "Error", 1);
 		}
-
-		//Update the screen
-		settings.changeTabContent(0, new ChildSettingsTab(settings));
 	}
 }
 

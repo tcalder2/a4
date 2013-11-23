@@ -267,8 +267,8 @@ public class PasswordReset extends BackgroundPanel {
 					Controller.setScreen(new PasswordReset(version, e.getMessages()));
 				}
 				else if (version == 2) {
-					new GeneralDialogue("Authenification failed, password reset to default.", "Passord Reset", 1);
 					Controller.setScreen(new MainMenu());
+					new GeneralDialogue("Authenification failed, password reset to default.", "Passord Reset", 1);
 				}
 			}
 
