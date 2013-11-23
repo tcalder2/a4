@@ -22,7 +22,6 @@ import javax.swing.JPanel;
  * The class FGame, a populated BackgroundPanel.
  * 
  * @author Taylor Calder
- * @author James Anderson
  * @version 1.0
  */
 @SuppressWarnings("serial")
