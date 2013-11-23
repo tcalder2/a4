@@ -105,7 +105,7 @@ public class ConfirmDialogue extends JDialog {
         c.weighty = 1.0;
         add(Box.createGlue(), c);			//A blank space to ensure correct layout
         
-        c.insets = new Insets(5,0,15,0);
+        c.insets = new Insets(5,0,15,20);
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.SOUTH;
         c.weightx = 0;
