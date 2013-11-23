@@ -96,9 +96,9 @@ public class FGameMenu extends BackgroundPanel {
 		Vector<String> columnNames = new Vector<String>(Arrays.asList(new String[]{"High Scores"}));
 
 		//Get child's high scores 
-		int[] tmp = Controller.getCurrentProgeny().getHighScores();
+		int[] tmp = {100,88,68,23,1};//TODO: Controller.getCurrentProgeny().getHighScores();
 		Vector<Vector<String>> highScores = new Vector<Vector<String>>();
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < tmp.length; i++) {
 			Vector<String> v = new Vector<String>();
 			v.add("" + tmp[i]);
 			highScores.add(v);
@@ -125,7 +125,7 @@ public class FGameMenu extends BackgroundPanel {
 		col.setCellRenderer(renderer);
 
 		//Add the table to the panel
-		c.insets = new Insets(0,150,0,150);
+		c.insets = new Insets(0,150,50,150);
 		c.gridy = 3;
 		c.ipady = 0;
 		add(table,c);
@@ -154,7 +154,7 @@ class StartFinal implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		FGame menu = new FGame();
-		Controller.setScreen(menu);
+		FGame screen = new FGame();
+		Controller.setScreen(screen);
 	}
 }
