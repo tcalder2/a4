@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -17,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 /**
  * The class FGame, a populated BackgroundPanel.
@@ -27,15 +30,17 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class FGame extends BackgroundPanel implements Runnable {
 
-	private int x, y, op1, op2, a1, a2, a3, ansCorrect, a1x, a1y, a2x, a2y,
-			a3x, a3y, score, incorrect, lockout;
+	private int x, y, op1, op2, a1, a2, ansCorrect, a1x, a1y, a2x, a2y, a3x,
+			a3y, score, cooldowm, timeLeft;
+	final private int MIN_X = 100;
+	final private int MIN_Y = 100;
 	private Random rand = new Random();
 	private boolean left, right, up, down;
 	int fallCount = 0;
-	private boolean isQ = false;
-	private String question, ans1, ans2, ans3, rightCounter, wrongCounter;
+	private String question, ans1, ans2, ans3, rightCounter, timeCounter;
 	private boolean answerRight, answerWrong;
 	private Font font = new Font(Font.SERIF, Font.BOLD, 30);
+	private Timer clock;
 
 	/** The background graphic. */
 	private Image background;
@@ -52,12 +57,13 @@ public class FGame extends BackgroundPanel implements Runnable {
 		this.setFocusable(true);
 		this.requestFocusInWindow();
 
-		lockout = 0; // the cool down between when you can select answers
+		timeLeft = 60;
+		cooldowm = 0; // the cool down between when you can select answers
 		score = 0;
-		incorrect = 0;
 		String.format("%08d", score);
 		rightCounter = ("Score " + score);
-		wrongCounter = ("Mistakes: " + incorrect);
+		timeCounter = ("Time: " + timeLeft + "s");
+		clock = new Timer(1000, new TimerActionF(this, timeLeft));
 
 		try {
 			// Load the graphic and set the dimensions of the panel
@@ -85,6 +91,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 		x = 300;
 		y = 300;
 		this.addKeyListener(new ButtonHandler());
+		clock.start();
 		new Thread(this).start();
 
 	}
@@ -106,23 +113,25 @@ public class FGame extends BackgroundPanel implements Runnable {
 		a3x = rand.nextInt(600) + 50;
 		a3y = rand.nextInt(300) + 100;
 
+		// Generate Question Positions
+
+		a3x = rand.nextInt(600) + 50;
+		a3y = rand.nextInt(300) + 100;
+
 		a2x = rand.nextInt(600) + 50;
-		while ((a3x - a2x) < 50 && (a3x - a2x) > -50) {
-			a2x = rand.nextInt(600) + 50;
-		}
 		a2y = rand.nextInt(300) + 100;
-		while ((a3y - a2y) < 50 && (a3y - a2y) > -50) {
+
+		while (((a3x - a2x) < MIN_X && (a3x - a2x) > -MIN_X)
+				&& ((a3y - a2y) < MIN_Y && (a3y - a2y) > -MIN_Y)) {
+			a2x = rand.nextInt(600) + 50;
 			a2y = rand.nextInt(300) + 100;
 		}
 
 		a1x = rand.nextInt(600) + 50;
-		while (((a3x - a1x) < 50 && (a3x - a1x) > -50)
-				&& ((a2x - a1x) < 50 && (a2x - a1x) > -50)) {
-			a1x = rand.nextInt(600) + 50;
-		}
 		a1y = rand.nextInt(300) + 100;
-		while (((a3y - a1y) < 50 && (a3y - a1y) > -50)
-				&& ((a2y - a1y) < 50 && (a2y - a1y) > -50)) {
+		while ((((a3x - a1x) < MIN_X && (a3x - a1x) > -MIN_X) && ((a2x - a1x) < MIN_X && (a2x - a1x) > -MIN_X))
+				&& (((a3y - a1y) < MIN_Y && (a3y - a1y) > -MIN_Y) && ((a2y - a1y) < MIN_Y && (a2y - a1y) > -MIN_Y))) {
+			a1x = rand.nextInt(600) + 50;
 			a1y = rand.nextInt(300) + 100;
 		}
 
@@ -131,115 +140,124 @@ public class FGame extends BackgroundPanel implements Runnable {
 		ans3 = ("" + ansCorrect);
 
 		question = (op1 + " x " + op2);
-		System.out.println(question);
+
+	}
+
+	public void setTime(int time) {
+		timeLeft = time;
 
 	}
 
 	/**
 	 * Update the game state
-	 * 
 	 */
 	public void update() {
 
-		if (lockout > 0) {
-			lockout--;
+
+		// After answering a question there is a cooldown before the next question can be answered
+		// Helps prevent you accidentally selecting an answer that spawns close to you
+		if (cooldowm > 0) {
+			cooldowm--;
+		}
+		
+		// Update timer
+		if (timeLeft >= 0) {
+			timeCounter = ("Time: " + timeLeft + "s");
+		} 
+		// End game if timer is < 0
+		else if (timeLeft < 0) {
+			end(false, score);
+			return;
 		}
 
+		// + 50 points for correct answer
 		if (answerRight == true) {
-
 			answerRight = false;
 			answerWrong = false;
 			score += 50;
-			isQ = false;
 			rightCounter = ("Score: " + score);
-			wrongCounter = ("Mistakes: " + incorrect);
 
-		} else if (answerWrong == true) {
+		} 
+		// - 25 points for incorrect answer
+		else if (answerWrong == true) {
 
 			answerRight = false;
 			answerWrong = false;
 			score -= 25;
-			incorrect++;
-			isQ = false;
 			rightCounter = ("Score: " + score);
-			wrongCounter = ("Mistakes: " + incorrect);
-
 		}
 
-		if (((x - a3x) < 15 && (x - a3x) > -30)
-				&& ((y - a3y) < 15 && (y - a3y) > -30) && lockout == 0) {
+		// Collision detection
+		if (((x - a3x) < 60 && (x - a3x) > -30)
+				&& ((y - a3y) < 20 && (y - a3y) > -50) && cooldowm == 0) {
 			answerRight = true;
 			answerWrong = false;
-			lockout = 70;
+			cooldowm = 80;
 			newQuestion();
-		} else if (((x - a2x) < 15 && (x - a2x) > -30)
-				&& ((y - a2y) < 15 && (y - a2y) > -30) && lockout == 0) {
+		} else if (((x - a2x) < 60 && (x - a2x) > -30)
+				&& ((y - a2y) < 20 && (y - a2y) > -50) && cooldowm == 0) {
 			answerRight = false;
 			answerWrong = true;
-			lockout = 70;
+			cooldowm = 80;
 			newQuestion();
-		} else if (((x - a1x) < 15 && (x - a1x) > -30)
-				&& ((y - a1y) < 15 && (y - a1y) > -30) && lockout == 0) {
+		} else if (((x - a1x) < 60 && (x - a1x) > -30)
+				&& ((y - a1y) < 20 && (y - a1y) > -50) && cooldowm == 0) {
 			answerRight = false;
 			answerWrong = true;
-			lockout = 70;
+			cooldowm = 80;
 			newQuestion();
 		}
 
-		if (left) {
+		// ************************************
+		// Movement Control
+		// ************************************
 
-			if (up) {
-				x--;
-				y--;
-			} else if (down) {
-				x--;
-				y++;
-			} else {
-				x--;
-				x--;
-			}
+		// Moving Left
+		if (left && !right) {
 			left = true;
 			right = false;
-		}
-		if (right) {
 			if (up) {
-				x++;
-				y--;
+				x -= 2;
+				y -= 2;
 			} else if (down) {
-				x++;
-				y++;
+				x -= 2;
+				y += 2;
 			} else {
-				x++;
-				x++;
+				x -= 3;
 			}
+		}
+
+		// Moving Right
+		else if (right && !left) {
 			left = false;
 			right = true;
+			if (up) {
+				x += 2;
+				y -= 2;
+			} else if (down) {
+				x += 2;
+				y += 2;
+			} else {
+				x += 3;
+			}
+
 		}
+
+		// Moving Up
 		if (up) {
 
-			if (right) {
-				x++;
-				y--;
-			} else if (left) {
-				x--;
-				y--;
-			} else {
-				y--;
-				y--;
+			if (!right && !left) {
+				y -= 3;
 			}
 			up = true;
 			down = false;
+
 		}
-		if (down) {
-			if (right) {
-				x++;
-				y++;
-			} else if (left) {
-				x--;
-				y++;
-			} else {
-				y++;
-				y++;
+
+		// Moving Down
+		else if (down) {
+			if (!right && !left) {
+				y += 3;
 			}
 			up = false;
 			down = true;
@@ -260,16 +278,21 @@ public class FGame extends BackgroundPanel implements Runnable {
 
 	}
 
+	/**
+	 * Runs the game state
+	 */
 	public void run() {
 		while (true) {
 
 			update();
 			repaint();
+			
 			this.addKeyListener(new ButtonHandler());
 
 			this.setFocusable(true);
 			this.requestFocusInWindow();
 
+			// The player moves 1 pixel down every 3 tics or 30ms
 			if (fallCount <= 0) {
 				y++;
 				fallCount = 2;
@@ -277,16 +300,32 @@ public class FGame extends BackgroundPanel implements Runnable {
 				fallCount--;
 			}
 
+			// Game Loop
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt();// preserve the message
-				return;// Stop doing whatever I am doing and terminate
+				// End the thread in case of exception
+				Thread.currentThread().interrupt();
+				return;
 			}
 
 		}
 	}
 
+	/**
+	 * Ends the game
+	 * @param win	whether the player lost before time ran out
+	 * @param score	the players score
+	 */
+	public void end(boolean win, int score) {
+
+		Controller.setScreen(new ScoreReportF(this, score));
+
+	}
+
+	/**
+	 * Repaints the graphics
+	 */
 	public void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
@@ -306,13 +345,27 @@ public class FGame extends BackgroundPanel implements Runnable {
 		g.setColor(Color.white);
 		g.drawString(question, 365, 55);
 		g.drawString(rightCounter, 120, 55);
-		g.drawString(wrongCounter, 540, 55);
-	}
 
+		// Timer turns red if the player has 10 seconds or less left
+		if (timeLeft <= 10) {
+			
+			
+			g.drawString(timeCounter, 539, 55);
+			g.drawString(timeCounter, 541, 55);
+			g.drawString(timeCounter, 540, 54);
+			g.drawString(timeCounter, 540, 56);
+			g.setColor(Color.red);
+		}
+		g.drawString(timeCounter, 540, 55);
+	}
+	/**
+	 * Handles Key input 
+	 * @author Taylor Calder
+	 * @version 1.0
+	 */
 	public class ButtonHandler extends KeyAdapter {
 
 		public ButtonHandler() {
-			// System.out.println(" Button handler initialised! ");
 
 		}
 
@@ -356,6 +409,45 @@ public class FGame extends BackgroundPanel implements Runnable {
 			}
 		}
 
+	}
+
+	/**
+	 * The class TimerAction, an action listener.
+	 * 
+	 * @author Taylor Calder
+	 * @version 1.0
+	 */
+	class TimerActionF implements ActionListener {
+
+		/** The the number of seconds remaining. */
+		private int time;
+		private FGame fgame;
+
+		/**
+		 * Instantiates the Timer Action.
+		 * 
+		 * @param int the time left
+		 */
+		public TimerActionF(FGame game, int timeLeft) {
+			this.time = timeLeft;
+			this.fgame = game;
+			fgame.setTime(time);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
+		 * )
+		 */
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (time > -1) {
+				time--;
+			}
+			fgame.setTime(time);
+		}
 	}
 
 }
