@@ -45,14 +45,27 @@ public class PasswordReset extends BackgroundPanel {
 	private int version;
 
 	/**
-	 * Instantiates a PasswordReset instance.
+	 * Constructor with error messages.  Version 1 is using the old password to validate, and version
+	 * 2 is using the security question to validate.
 	 * 
+	 * @param version					the type of password reset to display.
+	 * @param errors					the list of error messages.
+	 * @throws IllegalArgumentException the exception thrown if the version is not 1 or 2.
 	 */
-	public PasswordReset(int version, ArrayList<String> errors) {
+	public PasswordReset(int version, ArrayList<String> errors) throws IllegalArgumentException {
 
 		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
-
+		
+		//Confirm version is valid
+		if (version < 1 || version > 2) {
+			throw new IllegalArgumentException("Invalid password reset version.");
+		}
+		else {
+			//Store the version type
+			this.version = version;
+		}
+		
 		try {
 			//Create the components
 			JLabel instruct = new JLabel("Please complete the following");
@@ -203,11 +216,14 @@ public class PasswordReset extends BackgroundPanel {
 	}
 
 	/**
-	 * Constructor without error messages.
+	 * Constructor without error messages.  Version 1 is using the old password to validate, and version
+	 * 2 is using the security question to validate.
 	 * 
-	 * @param version		the type of password reset
+	 * @param version					the type of password reset to display.
+	 * @param errors					the list of error messages.
+	 * @throws IllegalArgumentException the exception thrown if the version is not 1 or 2.
 	 */
-	public PasswordReset(int version) {
+	public PasswordReset(int version) throws IllegalArgumentException {
 		this(version, new ArrayList<String>());
 	}
 
@@ -266,7 +282,7 @@ public class PasswordReset extends BackgroundPanel {
 				if (version == 1) {
 					Controller.setScreen(new PasswordReset(version, e.getMessages()));
 				}
-				else if (version == 2) {
+				else {
 					Controller.setScreen(new MainMenu());
 					new GeneralDialogue("Authenification failed, password reset to default.", "Passord Reset", 1);
 				}

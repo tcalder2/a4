@@ -216,7 +216,7 @@ class PressOk implements ActionListener {
 		} catch (JSONFailureException e1) {
 			//If exception is thrown it means authentication failed
 
-			//If more than three failed attempts go to the security question screen
+			//If more than three failed attempts go to the password reset with security question validation
 			if (e1.getMessages().get(0).compareTo("Too many login attempts") == 0) {
 				Controller.setScreen(new PasswordReset(2));
 			}
