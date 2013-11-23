@@ -70,7 +70,7 @@ public class Welcome extends BackgroundPanel {
 			label.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
 			add(label,c);
 			
-			nameSelector.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
+			//nameSelector.setFont(Controller.getFont().deriveFont(Font.PLAIN, 26));
 			c.gridy = 2;
 			add(nameSelector, c);
 		}
