@@ -122,9 +122,7 @@ class PressSettings implements ActionListener {
 			
 			//If not first login go to the lock screen
 			else {
-				Controller.setScreen(new Settings());
-				//TODO: replace with this once managed to reset password
-				//Controller.setScreen(new LockScreen());
+				Controller.setScreen(new LockScreen());
 			}
 		} catch (JSONFailureException e1) {
 			//TODO: popup

@@ -46,6 +46,9 @@ import ttable.Progeny;
 @SuppressWarnings("serial")
 public class ChildSettingsTab extends JPanel {
 
+	/** The settings pane. */
+	private Settings settings;
+
 	/** The list of currently added progeny. */
 	private ArrayList<Progeny> progenyList;
 
@@ -82,7 +85,6 @@ public class ChildSettingsTab extends JPanel {
 	/** The table model. */
 	private DefaultTableModel tableModel;
 
-
 	/**
 	 * Instantiates an ChildSettingsTab instance.
 	 * 
@@ -93,6 +95,7 @@ public class ChildSettingsTab extends JPanel {
 
 		//Instantiate the JPanel with a GridBagLayout
 		super(new GridBagLayout());
+		this.settings = settings;
 
 		//Makes panel transparent
 		setOpaque(false);
@@ -134,7 +137,7 @@ public class ChildSettingsTab extends JPanel {
 			}
 
 			//Create and populate the table
-			DefaultTableModel tableModel = new DefaultTableModel(tableData, columnNames);
+			tableModel = new DefaultTableModel(tableData, columnNames);
 			JTable table = new JTable(tableModel) {
 				public boolean isCellEditable(int rowIndex, int colIndex) {
 					return false;
@@ -419,7 +422,7 @@ public class ChildSettingsTab extends JPanel {
 		}
 	}
 
-	public void updateSelectedProgeny() {
+	public void updateChild() {
 		try {
 			//Boolean set to false if any values are invalid
 			boolean valid = true;
@@ -488,50 +491,19 @@ public class ChildSettingsTab extends JPanel {
 
 			//If all values are valid, actually go ahead and update
 			if (valid) {
-				try {
-					//If the date of birth has changed, update progeny's birthday
-					if (!child.getBirthDate().equals(birthdate)) {
-						ProgenyService.changeBirthDate(child, birthdate);
-					}
-
-					//If the level number has changed, update the progeny's level
-					if (child.getLevelNumber() != newLevel) {
-						//TODO: add a warning popup to inform that there is no going back and data will be lost
-						GameService.setLevel(child, newLevel);
-					}
-				} catch (JSONFailureException e) {
-					//TODO: popup
+				//If the date of birth has changed, update progeny's birthday
+				if (!child.getBirthDate().equals(birthdate)) {
+					ProgenyService.changeBirthDate(child, birthdate);
 				}
 
-				//Read info from newly updated progeny
-				progenyList = ProgenyService.getProgenies();
-				String name = (String) childSelect.getSelectedItem();
-				Progeny newProgeny = null;
-				for (int i = 0; i < progenyList.size(); i++) {
-					if (progenyList.get(i).getFirstName().equals(name)) {
-						newProgeny = progenyList.get(i);
-						break;
-					}
+				//If the level number has changed, update the progeny's level
+				if (child.getLevelNumber() != newLevel) {
+					//TODO: add a warning popup to inform that there is no going back and data will be lost
+					GameService.setLevel(child, newLevel);
 				}
 
-				//Create new entry to replace old in table
-				Vector<String> entry = new Vector<String>();
-				Date birthday = newProgeny.getBirthDate();
-				format = new SimpleDateFormat("d");
-				entry.set(1, format.format(birthday));
-
-				format = new SimpleDateFormat("MMMM");
-				entry.set(2, format.format(birthday));
-
-				format = new SimpleDateFormat("yyyy");
-				entry.set(3, format.format(birthday));
-
-				entry.set(4, "" + ProgenyService.getAge(newProgeny.getBirthDate()));
-				entry.set(5, "" + newProgeny.getLevelNumber());
-
-				//Replace the old entry in the table with the new one
-				tableData.set(index, entry);
-				tableModel.fireTableDataChanged();
+				//Update the screen
+				settings.changeTabContent(0, new ChildSettingsTab(settings));
 			}
 		} catch (ParseException e1) {
 			return;
@@ -540,7 +512,7 @@ public class ChildSettingsTab extends JPanel {
 		}
 	}
 
-	public void addProgeny() {
+	public void addChild() {
 		String firstName = "";
 		year.setForeground(Color.RED);
 
@@ -598,37 +570,17 @@ public class ChildSettingsTab extends JPanel {
 			//Actually add the new child (with default level time of 30 seconds)
 			ProgenyService.addProgeny(firstName, birthdate, 30);
 
-			//Read info from newly added progeny
-			ArrayList<Progeny> progenyList = ProgenyService.getProgenies();
-			Progeny newProgeny = null;
-			for (int i = 0; i < progenyList.size(); i++) {
-				if (progenyList.get(i).getFirstName().equals(firstName)) {
-					newProgeny = progenyList.get(i);
-					break;
-				}
-			}
-			Vector<String> v = new Vector<String>();
-			v.add(newProgeny.getFirstName());
-
-			Date birthday = newProgeny.getBirthDate();
-			format = new SimpleDateFormat("d");
-			v.add(format.format(birthday));
-
-			format = new SimpleDateFormat("MMMM");
-			v.add(format.format(birthday));
-
-			format = new SimpleDateFormat("yyyy");
-			v.add(format.format(birthday));
-
-			v.add("" + ProgenyService.getAge(newProgeny.getBirthDate()));
-			v.add("" + newProgeny.getLevelNumber());
-
-			//Update the child details table with details of newly added child
-			tableData.add(v);
-			tableModel.fireTableDataChanged();
+			//Update the screen
+			settings.changeTabContent(0, new ChildSettingsTab(settings));
+			
 		} catch (ParseException e1) {
+			System.out.print("Add error - parse");
 			//TODO: add exception handling, popup?
 		} catch (JSONFailureException e1) {
+			ArrayList<String> messages = e1.getMessages();
+			for (int i = 0; i < messages.size(); i++) {
+				System.out.print(messages.get(i));
+			}
 			//TODO: add exception handling, popup??
 		}
 	}
@@ -643,16 +595,22 @@ public class ChildSettingsTab extends JPanel {
 
 		//Remove the selected child's entry in the database
 		try {
-			ProgenyService.removeProgeny(progenyList.get(index));
+			Progeny toRemove = progenyList.get(index);
+			if (toRemove.getFirstName().equals(childSelect.getSelectedItem())) {
+				ProgenyService.removeProgeny(toRemove);
+			}
+			else {
+				throw new Exception("Unknown Error");
+			}
 		} catch (JSONFailureException e1) {
 			//TODO: popup
+		} catch (Exception e1) {
+			System.out.print(e1.getMessage());
+			//TODO
 		}
 
-		//Remove the selected child's entry in the table
-		tableData.remove(index);
-
-		//Update the table display
-		tableModel.fireTableDataChanged();
+		//Update the screen
+		settings.changeTabContent(0, new ChildSettingsTab(settings));
 	}
 
 
@@ -882,7 +840,7 @@ class PressAdd implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		childSettings.addProgeny();
+		childSettings.addChild();
 	}
 }
 
@@ -943,6 +901,6 @@ class PressUpdate implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		childSettings.updateSelectedProgeny();
+		childSettings.updateChild();
 	}
 }

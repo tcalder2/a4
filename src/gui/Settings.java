@@ -53,7 +53,7 @@ public class Settings extends BackgroundPanel {
 		}
 		
 		//Create a new tab pane
-		JTabbedPane tabPane = new JTabbedPane();
+		tabPane = new JTabbedPane();
 		
 		//Populate the tabs
 		tabPane.add("Child Settings", new ChildSettingsTab(this));
