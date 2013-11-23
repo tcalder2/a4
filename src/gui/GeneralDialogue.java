@@ -1,7 +1,6 @@
 package gui;
 
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -24,7 +23,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * Dialogue for display of general messages such as success/error display.
+ * Dialogue for display of general messages such as success/error display. Program execution
+ * will continue in the background with this kind of dialogue.
  * 
  * @author James Anderson
  * @version 1.0
@@ -32,14 +32,16 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class GeneralDialogue extends JDialog {
 
+	/**
+	 * Constructor for multi-line messages.
+	 * 
+	 * @param messages		the lines of message to display.
+	 * @param title			the title to display.
+	 * @param type			the type of dialogue: 1 for error, 2 for warning, 3 for success.
+	 */
 	public GeneralDialogue(ArrayList<String> messages, String title, int type) {
 		
-		setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 0;
-		c.gridheight = messages.size();
-		c.insets = new Insets(20,20,0,0);
+		//Create the label with the specified image type
        	Image img = null;
 		try {
 			switch(type) {
@@ -56,35 +58,43 @@ public class GeneralDialogue extends JDialog {
 		} catch (IOException e) {
 			//NULL BODY
 		}
-
         JLabel label = new JLabel(new ImageIcon(img.getScaledInstance(90, 90, Image.SCALE_SMOOTH)));
-        c.anchor = GridBagConstraints.WEST;
-        add(label, c);
         
+        //Create the panel displaying the message
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        
         for (int i = 0; i < messages.size(); i++) {
         	JLabel name = new JLabel(messages.get(i));
             name.setFont(new Font("Serif", Font.BOLD, 13));
             panel.add(name);
         }
 
+        //Create the close button and set its action listener
+        JButton close = new JButton("Close");
+        close.addActionListener(new DialogueClose(this));
+        
+        //Add components to display
+        setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridheight = messages.size();
+		c.insets = new Insets(20,20,0,0);
+        c.anchor = GridBagConstraints.WEST;
+        add(label, c);
+        
         c.fill = GridBagConstraints.BOTH;
         c.gridwidth = 2;
         c.gridx = 1;
-        add(panel, c);
+        add(panel, c);						//The panel containing the message
 
         c.gridx = 0;
         c.gridy = 1;
-        c.fill = GridBagConstraints.BOTH;
         c.gridwidth = 2;
         c.weightx = 1.0;
         c.weighty = 1.0;
-        add(Box.createGlue(), c);
+        add(Box.createGlue(), c);			//A blank space to ensure correct layout
         
-        JButton close = new JButton("Close");
-        close.addActionListener(new DialogueClose(this));
         c.insets = new Insets(5,0,15,20);   
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.SOUTH;
@@ -92,25 +102,49 @@ public class GeneralDialogue extends JDialog {
         c.weighty = 0;
         c.gridy = 1;
         c.gridx = 2;
-		add(close, c);
+		add(close, c);						//The close button
 		
+		//Sets the focus to the close button
+        close.requestFocus();
+
+		//Sets the window attributes
 		setTitle(title);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setSize(380,170);
-		setVisible(true);
+		setVisible(true);		//Causes the dialogue to be displayed
 	}
 	
+	/**
+	 * Constructor for single line messages.
+	 * 
+	 * @param message		the single line message to display.
+	 * @param title			the title to display.
+	 * @param type			the type of dialogue: 1 for error, 2 for warning, 3 for success.
+	 */
 	public GeneralDialogue(String message, String title, int type) {
 		this(new ArrayList<String>(Collections.singletonList(message)), title, type);
 	}
 }
 
+/**
+ * The class DialogueClose, an action listener that closes the dialogue when the button
+ * is clicked.
+ * 
+ * @author James Anderson
+ * @version 1.0
+ */
 class DialogueClose implements ActionListener {
 	
+	/** The dialogue that is to be closed on action. */
 	private GeneralDialogue dialogue;
 	
+	/**
+	 * Constructor.
+	 * 
+	 * @param dialogue		the dialogue box to be closed on action.
+	 */
 	public DialogueClose(GeneralDialogue dialogue) {
 		super();
 		this.dialogue = dialogue;
