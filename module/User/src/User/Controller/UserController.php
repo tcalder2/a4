@@ -103,7 +103,7 @@ class UserController extends AbstractActionController
   if (strtolower($this->getUserTable()->getUser()->getAnswer()) != strtolower($answer))
   {
    $this->getUserTable()->setPassword('cs2212');
-   return new JsonModel(array('success' => false, 'messages' => 'Could not verify answer, reset to default'));
+   return new JsonModel(array('success' => false, 'message' => 'Could not verify answer, reset to default'));
   }
 
   //validate the answer
