@@ -1,12 +1,15 @@
 package gui;
 
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
@@ -82,7 +85,6 @@ public class FGameMenu extends BackgroundPanel {
 		//Load and add the high scores title graphic
 		c.gridwidth = GridBagConstraints.CENTER;
 		c.weightx = 0;
-		c.gridx = 0;
 		c.gridy = 2;
 		c.insets = new Insets(10,150,0,150);
 		try	{
@@ -93,10 +95,11 @@ public class FGameMenu extends BackgroundPanel {
 		}
 
 		//Create table header titles
-		Vector<String> columnNames = new Vector<String>(Arrays.asList(new String[]{"High Scores"}));
+		//Vector<String> columnNames = new Vector<String>(Arrays.asList(new String[]{"Friends", "Children", "High Scores"}));
 
 		//Get child's high scores 
-		int[] tmp = {100,88,68,23,1};//TODO: Controller.getCurrentProgeny().getHighScores();
+		
+		int[] tmp = {100,88,681};//TODO: Controller.getCurrentProgeny().getHighScores();
 		Vector<Vector<String>> highScores = new Vector<Vector<String>>();
 		for (int i = 0; i < tmp.length; i++) {
 			Vector<String> v = new Vector<String>();
@@ -105,31 +108,86 @@ public class FGameMenu extends BackgroundPanel {
 		}
 
 		//Create the high scores table
-		DefaultTableModel tableModel = new DefaultTableModel(highScores, columnNames);
-		tableModel.setRowCount(5);
-		JTable table = new JTable(tableModel) {
-			public boolean isCellEditable(int rowIndex, int colIndex) {
-				return false;
-			}
-		};
+		//DefaultTableModel tableModel = new DefaultTableModel(highScores, columnNames);
+		String[] header = {"Friend", "Child", "Times"};
+		Object[][] array = new Object[3][3];
+		
+		//TODO get high scores, names, parent pics as per 4.f.2
+		
+		for (int i= 0; i < 3; i++) {
+		try	{
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/profilePictures/1.jpg"));
+			ImageIcon pic = (new ImageIcon(getScaledImage(img, 55,55)));
+			array[i][0] = pic;
+		} catch (IOException e) {
+			array[i][0] = "no picture available";
+		}
+		}
+		array[0][1] = "Molly";
+		array[1][1] = "Case";
+		array[2][1] = "Armitage";
+		array[0][2] = "11050";
+		array[1][2] = "11000";
+		array[2][2] = "09001";
+
+		
+		
+		//tableModel.setRowCount(4);
+		//tableModel.setColumnCount(3);
+		JTable table = new JTable(array, header);
+		
+		
+//		{
+//			public boolean isCellEditable(int rowIndex, int colIndex) {
+//				return false;
+//			}
+//		};
 
 		//Set the high scores table display attributes
 		table.setOpaque(false);
-		table.setRowHeight(32);
+		table.setRowHeight(60);
 		table.setShowGrid(false);
 		table.setFont(Controller.getFont().deriveFont(Font.BOLD, 30));
 		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 		renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
 		renderer.setOpaque(false);
-		TableColumn col = table.getColumnModel().getColumn(0);
+		TableColumn col;
+		
+		// Set pictures renderer
+		col = table.getColumnModel().getColumn(0);
+		col.setCellRenderer(table.getDefaultRenderer(ImageIcon.class));
+		((DefaultTableCellRenderer)table.getDefaultRenderer(ImageIcon.class)).setOpaque(false);
+		// Set name renderer
+		col = table.getColumnModel().getColumn(1);
+		col.setCellRenderer(renderer);
+		// Set score renderer
+		col = table.getColumnModel().getColumn(2);
 		col.setCellRenderer(renderer);
 
 		//Add the table to the panel
-		c.insets = new Insets(0,150,50,150);
+		c.insets = new Insets(0,30,50,30);
 		c.gridy = 3;
 		c.ipady = 0;
 		add(table,c);
 	}
+	
+	/**
+	 * Gets the scaled image.
+	 *
+	 * @param srcImg	the source image
+	 * @param w			the width
+	 * @param h			the height
+	 * @return 			the scaled image
+	 */
+	private Image getScaledImage(Image srcImg, int w, int h){
+		BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g2 = resizedImg.createGraphics();
+		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		g2.drawImage(srcImg, 0, 0, w, h, null);
+		g2.dispose();
+		return resizedImg;
+	}
+	
 }
 
 /**

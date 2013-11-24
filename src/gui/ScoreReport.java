@@ -26,25 +26,30 @@ public class ScoreReport extends BackgroundPanel {
 	 * 
 	 */
 	
-	private static int lvl;
+	private static int level, time, timeLeft, average;
 	
-	public ScoreReport(int correct, int level) {
+	public ScoreReport(int timeArg, int timeLeftArg, int levelArg) {
 
 		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 
-		lvl = level;
+		level = levelArg;
+		time = timeArg;
+		timeLeft = timeLeftArg;
+		
+		// TODO server call to get average score
+		average = 31;
 		
 		//Create the components
 		int max = 12;
 		if (Controller.getTestMode()) {
 			max = 4;
 		}
-		JLabel score1 = new JLabel("You got " + correct + " out of " + max + " questions right.");
-		JLabel score2 = new JLabel("Your previous high score was " + "<highscore goes here>");
+		JLabel score1 = new JLabel("You finished in " + (time - timeLeft) + " seconds!!");
+		JLabel score2 = new JLabel("The average time is " + average + " seconds.");
 		
-		JButton fbB = new JButton("Post to Facebook!");
-		JButton levelB = new JButton("Play the level game!");
+		JButton fbB = new JButton("Post this to Facebook!");
+		JButton levelB = new JButton("Play the Level Game!");
 		
 		levelB.setMaximumSize(new Dimension(200,20));
 		levelB.setMinimumSize(new Dimension(200,20));
@@ -88,7 +93,7 @@ public class ScoreReport extends BackgroundPanel {
 	
 	private static int getLevel() {
 		// TODO Auto-generated method stub
-		return lvl;
+		return level;
 	}
 	
 	/**

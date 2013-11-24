@@ -61,7 +61,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 		cooldowm = 0; // the cool down between when you can select answers
 		score = 0;
 		scoreStr = String.format("%05d", score);
-		scoreCounter = ("Score " + scoreStr);
+		scoreCounter = ("Score: " + scoreStr);
 		timeCounter = ("Time: " + timeLeft + "s");
 		clock = new Timer(1000, new TimerActionF(this, timeLeft));
 
@@ -184,7 +184,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 
 			answerRight = false;
 			answerWrong = false;
-			if ((score -= 25) < 0) 
+			if ((score - 25) < 0) 
 			{
 				score = 0;
 			}

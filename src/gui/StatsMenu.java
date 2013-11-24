@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -215,7 +216,6 @@ public class StatsMenu extends BackgroundPanel {
 				array[i][0] = "no picture available";
 			}
 		}
-		
 		
 		scroll = new JScrollPane(table);
 		scroll.setPreferredSize(new Dimension(400,290));

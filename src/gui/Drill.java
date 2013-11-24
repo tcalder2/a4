@@ -38,6 +38,12 @@ public class Drill extends BackgroundPanel {
 	/** The number of lives remaining. */
 	private static int lives;
 
+	/** The max time allowed **/
+	private int timeMax;
+	
+	/** The time remaining **/
+	private int timeLeft;
+	
 	/** The number of questions answered correctly. */
 	private static int correct;
 
@@ -112,6 +118,13 @@ public class Drill extends BackgroundPanel {
 		incorrect = 0;
 		end = false;
 
+		try {
+			setTimeMax(Controller.getCurrentProgeny().getTimeAllowed());
+		}
+		catch (Exception e) {
+			setTimeMax(Drill.getDefaultTime());
+		}
+		
 		//Create components
 		rand = new Random();
 		livesCount = new JLabel();
@@ -259,7 +272,7 @@ public class Drill extends BackgroundPanel {
 	}
 
 	/**
-	 * Updates the drill state.
+	 * Updates the Drill Game state.
 	 * 
 	 */
 	public void update() {
@@ -269,7 +282,7 @@ public class Drill extends BackgroundPanel {
 		answerField.requestFocus();
 		submit.setVisible(true);
 		
-		//Randomise display of the question
+		//Randomize display of the question
 		//Random.nextInt is already from 0 to n-1 your correction causes error, changed back
 		currentQ = rand.nextInt(questions.size());
 		if (rand.nextInt(2) > 0) {
@@ -287,6 +300,7 @@ public class Drill extends BackgroundPanel {
 	 */
 	public void setTime(int time) {
 		timer.setText(time + "sec");
+		setTimeLeft(time);
 		if (time == 0) {
 			clock.stop();
 			end = true;
@@ -412,6 +426,22 @@ public class Drill extends BackgroundPanel {
 	public static int getIncorrect() {	
 		return incorrect;
 	}
+
+	public int getTimeLeft() {
+		return timeLeft;
+	}
+
+	public void setTimeLeft(int timeLeft) {
+		this.timeLeft = timeLeft;
+	}
+
+	public int getTimeMax() {
+		return timeMax;
+	}
+
+	public void setTimeMax(int timeMax) {
+		this.timeMax = timeMax;
+	}
 }
 
 /**
@@ -501,7 +531,7 @@ class Submit implements ActionListener {
 }
 
 /**
- * The class Reset, an action listener.
+ * The class Next, an action listener.
  * 
  * @author Taylor Calder
  * @version 1.0
@@ -532,7 +562,7 @@ class PressNext implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		//If there are no more questions, then end the game.  Else, display next question
 		if (drill.isEnd()) {
-			Controller.setScreen(new ScoreReport(Drill.getCorrect(), level));
+			Controller.setScreen(new ScoreReport(drill.getTimeMax(), drill.getTimeLeft(), level));
 		}
 		else {
 			drill.update();
