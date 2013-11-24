@@ -1,7 +1,9 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -25,16 +27,26 @@ public class ScoreReportF extends BackgroundPanel {
 	 */
 	
 	private static int score;
+	public String scoreStr;
+	public Font font;
+	
 	
 	public ScoreReportF(FGame game, int s) {
 
 		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 
+		font = new Font(Font.SERIF, Font.BOLD, 60);
+		
 		score = s;
 		
 		//Create the components
-		JLabel score1 = new JLabel("Your score is " + score + "!!" );
+		JLabel score1 = new JLabel("Your score is:");
+
+		scoreStr = String.format("%05d", score);
+
+		repaint();
+		
 		JLabel score2 = new JLabel("Your previous high score was " + "<highscore goes here>");
 		
 		JButton fbB = new JButton("Post your score to Facebook!");
@@ -55,8 +67,16 @@ public class ScoreReportF extends BackgroundPanel {
 		c.gridx = 0;
 		c.gridy = 0;
 		add(score1, c);		//Score message 1
-
-		c.gridy++;
+		
+		c.gridy += 1;
+		add(new JLabel(""), c);
+		c.gridy += 1;
+		add(new JLabel(""), c);
+		c.gridy += 1;
+		add(new JLabel(""), c);
+		
+		
+		
 		add(score2, c);		//Score message 2
 
 //		c.gridy++;
@@ -70,7 +90,28 @@ public class ScoreReportF extends BackgroundPanel {
 
 	}
 	
+	public void paintComponent(Graphics g) {
+
+		super.paintComponent(g);
+
+		
+		g.setFont(font);
+		g.setColor(Color.white);
+		g.drawString(scoreStr, 326, 235);
+		g.drawString(scoreStr, 324, 235);
+		g.drawString(scoreStr, 324, 236);
+		g.drawString(scoreStr, 324, 234);
+		g.setColor(Color.black);
+		g.drawString(scoreStr, 325, 235);
+
 	
+	}
+	
+	/**
+	 * Posts the user's score to Facebook
+	 * 
+	 * @author Taylor
+	 */
 	class PostToFacebookF implements ActionListener {
 		
 		public void actionPerformed(ActionEvent e) {

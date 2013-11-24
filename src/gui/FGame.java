@@ -37,7 +37,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 	private Random rand = new Random();
 	private boolean left, right, up, down;
 	int fallCount = 0;
-	private String question, ans1, ans2, ans3, rightCounter, timeCounter;
+	private String question, ans1, ans2, ans3, scoreCounter, timeCounter, scoreStr;
 	private boolean answerRight, answerWrong;
 	private Font font = new Font(Font.SERIF, Font.BOLD, 30);
 	private Timer clock;
@@ -60,8 +60,8 @@ public class FGame extends BackgroundPanel implements Runnable {
 		timeLeft = 60;
 		cooldowm = 0; // the cool down between when you can select answers
 		score = 0;
-		String.format("%08d", score);
-		rightCounter = ("Score " + score);
+		scoreStr = String.format("%05d", score);
+		scoreCounter = ("Score " + scoreStr);
 		timeCounter = ("Time: " + timeLeft + "s");
 		clock = new Timer(1000, new TimerActionF(this, timeLeft));
 
@@ -175,7 +175,8 @@ public class FGame extends BackgroundPanel implements Runnable {
 			answerRight = false;
 			answerWrong = false;
 			score += 50;
-			rightCounter = ("Score: " + score);
+			scoreStr = String.format("%05d", score);
+			scoreCounter = ("Score: " + scoreStr);
 
 		} 
 		// - 25 points for incorrect answer
@@ -183,8 +184,16 @@ public class FGame extends BackgroundPanel implements Runnable {
 
 			answerRight = false;
 			answerWrong = false;
-			score -= 25;
-			rightCounter = ("Score: " + score);
+			if ((score -= 25) < 0) 
+			{
+				score = 0;
+			}
+			else {
+				score -= 25;
+			}
+			scoreStr = String.format("%05d", score);
+			scoreCounter = ("Score: " + scoreStr);
+
 		}
 
 		// Collision detection
@@ -345,7 +354,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 
 		g.setColor(Color.white);
 		g.drawString(question, 365, 55);
-		g.drawString(rightCounter, 120, 55);
+		g.drawString(scoreCounter, 120, 55);
 
 		// Timer turns red if the player has 10 seconds or less left
 		if (timeLeft <= 10) {
