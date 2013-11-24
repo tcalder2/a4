@@ -97,6 +97,9 @@ public class Drill extends BackgroundPanel {
 	
 	/** Tells whether the end of the drill has been reached. */
 	private boolean end;
+	
+	/** Whether people won **/
+	private boolean win;
 
 
 	/**
@@ -117,6 +120,7 @@ public class Drill extends BackgroundPanel {
 		correct = 0;
 		incorrect = 0;
 		end = false;
+		win = true;
 
 		try {
 			setTimeMax(Controller.getCurrentProgeny().getTimeAllowed());
@@ -304,6 +308,7 @@ public class Drill extends BackgroundPanel {
 		if (time == 0) {
 			clock.stop();
 			end = true;
+			setWin(false);
 			submit.doClick();
 		}
 	}
@@ -442,6 +447,14 @@ public class Drill extends BackgroundPanel {
 	public void setTimeMax(int timeMax) {
 		this.timeMax = timeMax;
 	}
+
+	public boolean isWin() {
+		return win;
+	}
+
+	public void setWin(boolean win) {
+		this.win = win;
+	}
 }
 
 /**
@@ -562,7 +575,7 @@ class PressNext implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		//If there are no more questions, then end the game.  Else, display next question
 		if (drill.isEnd()) {
-			Controller.setScreen(new ScoreReport(drill.getTimeMax(), drill.getTimeLeft(), level));
+			Controller.setScreen(new ScoreReport(drill.isWin(), drill.getTimeMax(), drill.getTimeLeft(), level));
 		}
 		else {
 			drill.update();
