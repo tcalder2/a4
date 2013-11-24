@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import ttable.LevelProgeny;
+
 /**
  * The class ScoreREport, a populated BackgroundPanel.
  * 
@@ -99,7 +101,16 @@ public class ScoreReport extends BackgroundPanel {
 
 		
 		public void actionPerformed(ActionEvent e) {
-			LGame screen = new LGame(ScoreReport.getLevel());
+
+			LGame screen;
+			try {
+			screen = new LGame(Controller.getCurrentProgeny().getLevels().get(ScoreReport.getLevel() - 1));
+			}
+			catch (Exception e2) {
+				LevelProgeny prog = new LevelProgeny();
+				prog.setLevelNumber(ScoreReport.getLevel());
+				screen = new LGame(prog);
+			}
 			Controller.setScreen(screen);
 		}
 

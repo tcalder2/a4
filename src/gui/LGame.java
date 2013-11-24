@@ -48,20 +48,20 @@ public class LGame extends BackgroundPanel {
 	 *
 	 * @param level			the level
 	 */
-	public LGame(int level) {
+	public LGame(LevelProgeny level) {
 
 		//Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
 
-		this.level = Controller.getCurrentProgeny().getLevels().get(level - 1);
+		this.level = level;
 		//TODO: complete class
 		
 		// Initialize
-		this.intLevel = level;
+
 		lblBombTimer = new JLabel();
 		lblScore= new JLabel();
-		lblNum1= new JLabel();
-		lblNum2= new JLabel();
+		lblNum1= new JLabel("5");
+		lblNum2= new JLabel("2");
 		lblx= new JLabel("x");
 		txtAnswer = new JTextField();
 		tmrBomb = new Timer(1000, new Listener(this));
@@ -74,28 +74,33 @@ public class LGame extends BackgroundPanel {
 		c.gridx = 2;
 		c.gridy = 0;
 		add(lblx, c);
+		lblx.setFont(Controller.getFont().deriveFont(Font.BOLD, 80));
 		
 		//Numbers
 		c.gridx=1;
 		add(lblNum1, c);
+		lblNum1.setFont(Controller.getFont().deriveFont(Font.BOLD, 140));
 		c.gridx=3;
 		add(lblNum2, c);
+		lblNum2.setFont(Controller.getFont().deriveFont(Font.BOLD, 140));
 		
 		// Textfield
 		c.gridx=1;
 		c.gridy=1;
 		c.gridwidth = 3;
 		add(txtAnswer, c);
+		txtAnswer.setFont(Controller.getFont().deriveFont(Font.BOLD, 60));
 		
 		//Timer
 		c.gridx=2;
 		c.gridy=2;
 		c.gridwidth=1;
 		add(lblBombTimer, c);
+		lblBombTimer.setFont(Controller.getFont().deriveFont(Font.BOLD, 90));
 		
 	}
 	public void setTime(int time) {
-		lblBombTimer.setText(time + "sec");
+		lblBombTimer.setText(":"+ time);
 		if (time == 0) {
 			tmrBomb.stop();
 			end = true;

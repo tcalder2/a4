@@ -14,6 +14,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import ttable.LevelProgeny;
+
 /**
  * The class LGameMenu, a populated BackgroundPanel.
  * 
@@ -120,13 +122,17 @@ class SelectLGame implements ActionListener {
 		this.level = level;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		LGame screen = new LGame(level);
+		LGame screen;
+		try {
+		screen = new LGame(Controller.getCurrentProgeny().getLevels().get(level - 1));
+		}
+		catch (Exception e2) {
+			LevelProgeny prog = new LevelProgeny();
+			prog.setLevelNumber(level);
+			screen = new LGame(prog);
+		}
 		Controller.setScreen(screen);
 	}
 }
