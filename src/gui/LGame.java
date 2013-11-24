@@ -44,7 +44,7 @@ public class LGame extends BackgroundPanel implements KeyListener{
 	private boolean end;
 	private int intLevel;
 	private int answer=10;
-	
+	private DelayTimer delay;
 	
 	
 	/**
@@ -68,8 +68,10 @@ public class LGame extends BackgroundPanel implements KeyListener{
 		lblNum2= new JLabel("2");
 		lblx= new JLabel(" x");
 		txtAnswer = new JTextField();
+		
 		tmrBomb = new Timer(1000, new Listener(this));
-		tmrDelay = new Timer(1000, new DelayTimer(this));
+		delay = new DelayTimer(this);
+		tmrDelay = new Timer(1000, delay);
 		rnd = new Random();
 		end= false;
 		
@@ -124,6 +126,9 @@ public class LGame extends BackgroundPanel implements KeyListener{
 	public Timer getDelayTimer(){
 		return tmrDelay;
 	}
+	public JLabel getBombLabel(){
+		return lblBombTimer;
+	}
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
@@ -132,44 +137,67 @@ public class LGame extends BackgroundPanel implements KeyListener{
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+		try{
+			int text = Integer.valueOf(txtAnswer.getText());
+			char c = e.getKeyChar();
+			
+			// Check if key press was a number or backspace, if so:
+			if(Character.isDigit(c) || (c==KeyEvent.VK_BACK_SPACE)){ 
+				// If right answer
+				if (text==answer){
+					txtAnswer.setText("");
+					//if not delayed
+					if(tmrBomb.isRunning()){
+						tmrBomb.stop();
+						delay.start();
+						tmrDelay.start();
+						lblBombTimer.setForeground(Color.white);
+					}else{
+						//If delay is already on, extend it
+						delay.increaseTime();	
+					}
+
+				}
+
+			}
+		} catch (Exception e3){}
 		
 	}
 	@Override
 	public void keyTyped(KeyEvent e) {
 		char c = e.getKeyChar();
+		// Prevents all keys from working except numbers and backspace
 		if(!(Character.isDigit(c) || (c==KeyEvent.VK_BACK_SPACE))){
 			e.consume();
 		}
-		System.out.println(txtAnswer.getText());
-		int text = Integer.valueOf("2");
-		if (text==answer){
-			tmrBomb.stop();
-			tmrDelay.start();
-		}
-		
 	}
 
 }
 class DelayTimer implements ActionListener{
 	private LGame lgame;
 	private int time;
-	private static int DELAY_TIME = 2;
+	private static int DELAY_TIME = 1;
 	
 	public DelayTimer(LGame game) {
 		this.lgame = game;
-		this.time = 0;
+		this.time = DELAY_TIME;
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (time < (DELAY_TIME +1)) {
-			time++;
+		if (time > 0) {
+			time--;
 		}else{
 			lgame.getDelayTimer().stop();
 			lgame.getBombTimer().start();
+			lgame.getBombLabel().setForeground(Color.black);
 		}
 	}
-	
+	public void increaseTime(){
+		this.time+= DELAY_TIME;
+	}
+	public void start(){
+		this.time = DELAY_TIME;
+	}
 }
 
 class Listener implements ActionListener {
