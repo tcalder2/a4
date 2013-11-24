@@ -3,6 +3,8 @@ package gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,11 +27,11 @@ import ttable.LevelProgeny;
  * @version 0.1
  */
 @SuppressWarnings("serial")
-public class LGame extends BackgroundPanel {
+public class LGame extends BackgroundPanel implements KeyListener{
 
 	/** The level progeny holding the level details. */
 	private LevelProgeny level;
-	private static int BOMB_TIME = 10;
+	private static int BOMB_TIME = 100;
 	private JLabel lblBombTimer;
 	private JLabel lblScore;
 	private JLabel lblNum1;
@@ -37,9 +39,11 @@ public class LGame extends BackgroundPanel {
 	private JLabel lblx;
 	private JTextField txtAnswer;
 	private Timer tmrBomb;
+	private Timer tmrDelay;
 	private Random rnd;
 	private boolean end;
 	private int intLevel;
+	private int answer=10;
 	
 	
 	
@@ -62,9 +66,10 @@ public class LGame extends BackgroundPanel {
 		lblScore= new JLabel();
 		lblNum1= new JLabel("5");
 		lblNum2= new JLabel("2");
-		lblx= new JLabel("x");
+		lblx= new JLabel(" x");
 		txtAnswer = new JTextField();
 		tmrBomb = new Timer(1000, new Listener(this));
+		tmrDelay = new Timer(1000, new DelayTimer(this));
 		rnd = new Random();
 		end= false;
 		
@@ -90,6 +95,8 @@ public class LGame extends BackgroundPanel {
 		c.gridwidth = 3;
 		add(txtAnswer, c);
 		txtAnswer.setFont(Controller.getFont().deriveFont(Font.BOLD, 60));
+		txtAnswer.addKeyListener(this);
+		((AbstractDocument) txtAnswer.getDocument()).setDocumentFilter(new DocumentLengthFilter(3));
 		
 		//Timer
 		c.gridx=2;
@@ -97,9 +104,10 @@ public class LGame extends BackgroundPanel {
 		c.gridwidth=1;
 		add(lblBombTimer, c);
 		lblBombTimer.setFont(Controller.getFont().deriveFont(Font.BOLD, 90));
+		tmrBomb.start();
 		
 	}
-	public void setTime(int time) {
+	public void setBombTime(int time) {
 		lblBombTimer.setText(":"+ time);
 		if (time == 0) {
 			tmrBomb.stop();
@@ -110,8 +118,60 @@ public class LGame extends BackgroundPanel {
 	public static int getBombTime(){
 		return BOMB_TIME;
 	}
+	public Timer getBombTimer(){
+		return tmrBomb;
+	}
+	public Timer getDelayTimer(){
+		return tmrDelay;
+	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		char c = e.getKeyChar();
+		if(!(Character.isDigit(c) || (c==KeyEvent.VK_BACK_SPACE))){
+			e.consume();
+		}
+		System.out.println(txtAnswer.getText());
+		int text = Integer.valueOf("2");
+		if (text==answer){
+			tmrBomb.stop();
+			tmrDelay.start();
+		}
+		
+	}
+
+}
+class DelayTimer implements ActionListener{
+	private LGame lgame;
+	private int time;
+	private static int DELAY_TIME = 2;
+	
+	public DelayTimer(LGame game) {
+		this.lgame = game;
+		this.time = 0;
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (time < (DELAY_TIME +1)) {
+			time++;
+		}else{
+			lgame.getDelayTimer().stop();
+			lgame.getBombTimer().start();
+		}
+	}
 	
 }
+
 class Listener implements ActionListener {
 
 	/** The game. */
@@ -131,7 +191,7 @@ class Listener implements ActionListener {
 
 		this.timeRemaining = LGame.getBombTime();
 	
-		game.setTime(timeRemaining);
+		game.setBombTime(timeRemaining);
 	}
 
 	/**
@@ -139,7 +199,7 @@ class Listener implements ActionListener {
 	 * 
 	 * @param time	the new amount of time remaining
 	 */
-	public void setTime(int time) {
+	public void setBombTime(int time) {
 
 		timeRemaining = time;
 	}
@@ -153,6 +213,6 @@ class Listener implements ActionListener {
 		if (timeRemaining > 0) {
 			timeRemaining--;
 		}
-		lgame.setTime(timeRemaining);
+		lgame.setBombTime(timeRemaining);
 	}
 }
