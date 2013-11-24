@@ -1,8 +1,21 @@
 package gui;
 
-import java.awt.GridBagLayout;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Random;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.text.AbstractDocument;
+
+import json.JSONFailureException;
+import service.LevelService;
 import ttable.LevelProgeny;
+
 
 /**
  * The class LGame, a populated BackgroundPanel.
@@ -16,7 +29,20 @@ public class LGame extends BackgroundPanel {
 
 	/** The level progeny holding the level details. */
 	private LevelProgeny level;
-
+	private static int BOMB_TIME = 10;
+	private JLabel lblBombTimer;
+	private JLabel lblScore;
+	private JLabel lblNum1;
+	private JLabel lblNum2;
+	private JLabel lblx;
+	private JTextField txtAnswer;
+	private Timer tmrBomb;
+	private Random rnd;
+	private boolean end;
+	private int intLevel;
+	
+	
+	
 	/**
 	 * Instantiates an LGame instance.
 	 *
@@ -29,5 +55,99 @@ public class LGame extends BackgroundPanel {
 
 		this.level = Controller.getCurrentProgeny().getLevels().get(level - 1);
 		//TODO: complete class
+		
+		// Initialize
+		this.intLevel = level;
+		lblBombTimer = new JLabel();
+		lblScore= new JLabel();
+		lblNum1= new JLabel();
+		lblNum2= new JLabel();
+		lblx= new JLabel("x");
+		txtAnswer = new JTextField();
+		tmrBomb = new Timer(1000, new Listener(this));
+		rnd = new Random();
+		end= false;
+		
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		// Multiplication sign
+		c.gridx = 2;
+		c.gridy = 0;
+		add(lblx, c);
+		
+		//Numbers
+		c.gridx=1;
+		add(lblNum1, c);
+		c.gridx=3;
+		add(lblNum2, c);
+		
+		// Textfield
+		c.gridx=1;
+		c.gridy=1;
+		c.gridwidth = 3;
+		add(txtAnswer, c);
+		
+		//Timer
+		c.gridx=2;
+		c.gridy=2;
+		c.gridwidth=1;
+		add(lblBombTimer, c);
+		
+	}
+	public void setTime(int time) {
+		lblBombTimer.setText(time + "sec");
+		if (time == 0) {
+			tmrBomb.stop();
+			end = true;
+		}
+	}
+	
+	public static int getBombTime(){
+		return BOMB_TIME;
+	}
+	
+}
+class Listener implements ActionListener {
+
+	/** The game. */
+	private LGame lgame;
+
+	/** The the number of seconds remaining. */
+	private int timeRemaining;
+
+
+	/**
+	 * Instantiates the Timer Action.
+	 * 
+	 * @param drill		the drill pane
+	 */
+	public Listener(LGame game) {
+		this.lgame = game;
+
+		this.timeRemaining = LGame.getBombTime();
+	
+		game.setTime(timeRemaining);
+	}
+
+	/**
+	 * Set the amount of time remaining for this time
+	 * 
+	 * @param time	the new amount of time remaining
+	 */
+	public void setTime(int time) {
+
+		timeRemaining = time;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {					
+		if (timeRemaining > 0) {
+			timeRemaining--;
+		}
+		lgame.setTime(timeRemaining);
 	}
 }
