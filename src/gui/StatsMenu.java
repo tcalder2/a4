@@ -7,6 +7,8 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -38,6 +40,12 @@ import ttable.User;
 @SuppressWarnings("serial")
 public class StatsMenu extends BackgroundPanel {
 
+	JComboBox<String> levels, ages;
+	JLabel nameFirst, nameSecond, nameThird, nameFirst2, nameSecond2, nameThird2;
+	JLabel ageFirst, ageSecond, ageThird, ageFirst2, ageSecond2, ageThird2;
+	JLabel timeFirst, timeSecond, timeThird, timeFirst2, timeSecond2, timeThird2;
+	BoxListener box;
+	
 	/**
 	 * Instantiates a StatsMenu instance.
 	 *
@@ -70,6 +78,28 @@ public class StatsMenu extends BackgroundPanel {
 		JPanel tab2 = new JPanel();
 		JPanel tab3 = new JPanel();
 		
+		nameFirst = new JLabel();
+		nameSecond = new JLabel();
+		nameThird = new JLabel();
+		nameFirst2 = new JLabel();
+		nameSecond2 = new JLabel();
+		nameThird2 = new JLabel();
+		
+		ageFirst = new JLabel();
+		ageSecond = new JLabel();
+		ageThird = new JLabel();
+		ageFirst2 = new JLabel();
+		ageSecond2 = new JLabel();
+		ageThird2 = new JLabel();
+		
+		timeFirst = new JLabel();
+		timeSecond = new JLabel();
+		timeThird = new JLabel();
+		timeFirst2 = new JLabel();
+		timeSecond2 = new JLabel();
+		timeThird2 = new JLabel();
+		
+		box = new BoxListener(this);
 		JTable table = new JTable();
 		JScrollPane scroll = new JScrollPane(tab1);
 		
@@ -101,7 +131,7 @@ public class StatsMenu extends BackgroundPanel {
 	 * @param tab1 the tab1
 	 * @param c the c
 	 */
-	private void fillTabFriends(JPanel tab1, JScrollPane scroll, JTable table){
+	private void fillTabFriends(JPanel tab1, JScrollPane scroll, JTable table){		
 		
 		// Headers
 		String[] header = {"", "Friends", "Children", "Age", "Level"};
@@ -119,11 +149,11 @@ public class StatsMenu extends BackgroundPanel {
 		
 		// array of friend data
 		//-------------------------------------------------------------------------------------------------		
-		// Row 1 - picture
-		// Row 2 - name
-		// Row 3 - chidren's names
-		// Row 4 - children's ages
-		// Row 5 - children's levels
+		// Column 1 - picture
+		// Column 2 - name
+		// Column 3 - chidren's names
+		// Column 4 - children's ages
+		// Column 5 - children's levels
 		//-------------------------------------------------------------------------------------------------		
 		Object[][] array = new Object[n][5];
 	
@@ -215,7 +245,8 @@ public class StatsMenu extends BackgroundPanel {
 		for(int i=1;i<13;i++){
 			m.add(Integer.toString(i));
 		}
-		JComboBox<String> levels = new JComboBox<String>(m);
+		levels = new JComboBox<String>(m);
+		levels.addActionListener(box);
 		c.gridx = 2;
 		tab.add(levels, c);
 
@@ -272,29 +303,29 @@ public class StatsMenu extends BackgroundPanel {
 		//Child Names
 		c.gridx = 3;
 		c.gridy=5;
-		tab.add(new JLabel("Jim"), c);
+		tab.add(nameFirst, c);
 		c.gridy+=2;
-		tab.add(new JLabel("Lisa"), c);
+		tab.add(nameSecond, c);
 		c.gridy+=2;
-		tab.add(new JLabel("Leslie"), c);
+		tab.add(nameThird, c);
 		//------------------------------------------------------------------------
 		//Ages
 		c.gridx = 4;
 		c.gridy=5;
-		tab.add(new JLabel("8"), c);
+		tab.add(ageFirst, c);
 		c.gridy+=2;
-		tab.add(new JLabel("7"), c);
+		tab.add(ageSecond, c);
 		c.gridy+=2;
-		tab.add(new JLabel("9"), c);
+		tab.add(ageThird, c);
 		//------------------------------------------------------------------------
 		//Fastest Times
 		c.gridx = 5;
 		c.gridy=5;
-		tab.add(new JLabel("0:27"), c);
+		tab.add(timeFirst, c);
 		c.gridy+=2;
-		tab.add(new JLabel("0:35"), c);
+		tab.add(timeSecond, c);
 		c.gridy+=2;
-		tab.add(new JLabel("1:20"), c);
+		tab.add(timeThird, c);
 		//-------------------------------------------------------------------------------------------------		
 		// Separators
 		c.insets = new Insets(0,0,0,0);
@@ -329,14 +360,15 @@ public class StatsMenu extends BackgroundPanel {
 		tab.add(new JLabel("Age "),c);
 
 		//-------------------------------------------------------------------------------------------------	
-		//Level Combo Box
+		//Age Combo Box
 		Vector<String> m = new Vector<String>();
 		for(int i=3;i<14;i++){
 			m.add(Integer.toString(i));
 		}
-		JComboBox<String> levels = new JComboBox<String>(m);
+		ages = new JComboBox<String>(m);
+		ages.addActionListener(box);
 		c.gridx = 2;
-		tab.add(levels, c);
+		tab.add(ages, c);
 		//------------------------------------------------------------------------
 		//Rank		
 		c.gridx = 0;
@@ -390,29 +422,29 @@ public class StatsMenu extends BackgroundPanel {
 		//Child Names
 		c.gridx = 3;
 		c.gridy=5;
-		tab.add(new JLabel("Jim"), c);
+		tab.add(nameFirst2, c);
 		c.gridy+=2;
-		tab.add(new JLabel("Lisa"), c);
+		tab.add(nameSecond2, c);
 		c.gridy+=2;
-		tab.add(new JLabel("Leslie"), c);
+		tab.add(nameThird2, c);
 		//------------------------------------------------------------------------
 		//Ages
 		c.gridx = 4;
 		c.gridy=5;
-		tab.add(new JLabel("8"), c);
+		tab.add(ageFirst2, c);
 		c.gridy+=2;
-		tab.add(new JLabel("7"), c);
+		tab.add(ageSecond2, c);
 		c.gridy+=2;
-		tab.add(new JLabel("9"), c);
+		tab.add(ageThird2, c);
 		//------------------------------------------------------------------------
 		//Fastest Times
 		c.gridx = 5;
 		c.gridy=5;
-		tab.add(new JLabel("0:27"), c);
+		tab.add(timeFirst2, c);
 		c.gridy+=2;
-		tab.add(new JLabel("0:35"), c);
+		tab.add(timeSecond2, c);
 		c.gridy+=2;
-		tab.add(new JLabel("1:20"), c);
+		tab.add(timeThird2, c);
 		//-------------------------------------------------------------------------------------------------		
 		// Separators
 		c.insets = new Insets(0,0,0,0);
@@ -447,4 +479,101 @@ public class StatsMenu extends BackgroundPanel {
 		g2.dispose();
 		return resizedImg;
 	}
+	
+	/**
+	 * Updates the list of children based on current level/age selected
+	 */
+	private void updateList() {
+		
+		int age, level;
+		age = Integer.parseInt((String) ages.getSelectedItem());
+		level = Integer.parseInt((String) levels.getSelectedItem());
+		
+		ArrayList<String> topThree = getTopThree(age, level);
+		
+		nameFirst.setText(topThree.get(0));
+		ageFirst.setText(topThree.get(1));
+		timeFirst.setText(topThree.get(2));
+		nameSecond.setText(topThree.get(3));
+		ageSecond.setText(topThree.get(4));
+		timeSecond.setText(topThree.get(5));
+		nameThird.setText(topThree.get(6));
+		ageThird.setText(topThree.get(7));
+		timeThird.setText(topThree.get(8));
+
+		nameFirst2.setText(topThree.get(0));
+		ageFirst2.setText(topThree.get(1));
+		timeFirst2.setText(topThree.get(2));
+		nameSecond2.setText(topThree.get(3));
+		ageSecond2.setText(topThree.get(4));
+		timeSecond2.setText(topThree.get(5));
+		nameThird2.setText(topThree.get(6));
+		ageThird2.setText(topThree.get(7));
+		timeThird2.setText(topThree.get(8));
+			
+	}
+	
+	/**
+	 * Returns the top three children for a given age and level
+	 * @param age
+	 * @param level
+	 */
+	private ArrayList<String> getTopThree(int age, int level) {
+	
+		String firstName, firstAge, firstTime, secondName, secondAge, secondTime, thirdName, thirdAge, thirdTime;
+		
+		ArrayList<String> topThree = new ArrayList<String>();
+		
+		// Time the child took to complete the level on seconds
+		int time;
+		
+		//TODO Make JSON call to get top 3 children
+	
+		firstName = ("Molly");
+		firstAge = ("" + age);
+		firstTime = ("0:19");
+		secondName = ("Case");
+		secondAge = ("" + age);
+		secondTime = ("0:22");
+		thirdName = ("Armitage");
+		thirdAge = ("" + age);
+		thirdTime = ("0:23");
+		
+		topThree.add(firstName);
+		topThree.add(firstAge);
+		topThree.add(firstTime);
+		topThree.add(secondName);
+		topThree.add(secondAge);
+		topThree.add(secondTime);
+		topThree.add(thirdName);
+		topThree.add(thirdAge);
+		topThree.add(thirdTime);
+		
+		return topThree;
+		
+	}
+	
+	/**
+	 * ActionListener for the JComboBox
+	 * 
+	 * @author Taylor Calder
+	 * @version 0.1
+	 */
+	class BoxListener implements ActionListener {
+
+		StatsMenu menu;
+		
+		public BoxListener(StatsMenu m) {
+			this.menu = m;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			menu.updateList();
+		}
+		
+		
+	}
+	
 }

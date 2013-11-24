@@ -319,6 +319,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 	 */
 	public void end(boolean win, int score) {
 
+		Thread.currentThread().interrupt();
 		Controller.setScreen(new ScoreReportF(this, score));
 
 	}
