@@ -297,6 +297,11 @@ public class Drill extends BackgroundPanel {
 		}
 	}
 
+
+	public void setWin(boolean win) {
+		this.win = win;
+	}
+	
 	/**
 	 * Sets the time.
 	 *
@@ -452,9 +457,6 @@ public class Drill extends BackgroundPanel {
 		return win;
 	}
 
-	public void setWin(boolean win) {
-		this.win = win;
-	}
 }
 
 /**
