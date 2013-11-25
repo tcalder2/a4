@@ -43,9 +43,9 @@ public class LGame extends BackgroundPanel implements KeyListener{
 	private Random rnd;
 	private boolean end;
 	private int intLevel;
-	private int answer=10;
+	private int answer;
+	private int oldQ;
 	private DelayTimer delay;
-	
 	
 	/**
 	 * Instantiates an LGame instance.
@@ -64,10 +64,16 @@ public class LGame extends BackgroundPanel implements KeyListener{
 
 		lblBombTimer = new JLabel();
 		lblScore= new JLabel();
-		lblNum1= new JLabel("5");
-		lblNum2= new JLabel("2");
-		lblx= new JLabel(" x");
+		lblNum1= new JLabel("");
+		lblNum2= new JLabel("");
+		lblx= new JLabel(" x ");
 		txtAnswer = new JTextField();
+
+		rnd = new Random();
+		
+		newQuestion();
+		
+		oldQ = -1;
 		
 		tmrBomb = new Timer(1000, new Listener(this));
 		delay = new DelayTimer(this);
@@ -130,6 +136,25 @@ public class LGame extends BackgroundPanel implements KeyListener{
 		return lblBombTimer;
 	}
 
+	/**
+	 * Creates and sets a new question
+	 */
+	public void newQuestion() {
+		
+		int currentQ = rnd.nextInt(11)+1;
+		int level = this.level.getLevelNumber();
+		answer = currentQ * level;
+		if (rnd.nextInt(2) > 0) {
+			lblNum1.setText("" + currentQ);
+			lblNum2.setText("" + level);
+		}
+		else {
+			lblNum1.setText("" + level);
+			lblNum2.setText("" + currentQ);
+		}
+		
+	}
+	
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		// TODO Auto-generated method stub
@@ -141,11 +166,13 @@ public class LGame extends BackgroundPanel implements KeyListener{
 			int text = Integer.valueOf(txtAnswer.getText());
 			char c = e.getKeyChar();
 			
+		
 			// Check if key press was a number or backspace, if so:
 			if(Character.isDigit(c) || (c==KeyEvent.VK_BACK_SPACE)){ 
 				// If right answer
 				if (text==answer){
 					txtAnswer.setText("");
+					newQuestion();
 					//if not delayed
 					if(tmrBomb.isRunning()){
 						tmrBomb.stop();

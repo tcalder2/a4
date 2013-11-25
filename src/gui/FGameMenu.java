@@ -147,6 +147,7 @@ public class FGameMenu extends BackgroundPanel {
 		table.setOpaque(false);
 		table.setRowHeight(60);
 		table.setShowGrid(false);
+		table.setEnabled(false);
 		table.setFont(Controller.getFont().deriveFont(Font.BOLD, 30));
 		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 		renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
