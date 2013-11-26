@@ -21,7 +21,8 @@ public class ScoreReportL extends BackgroundPanel {
 
 	private JLabel lblResult;
 	private JButton butTryAgain;
-	private JButton butContinue;
+	private JButton butDrills;
+	private JButton butLGame;
 	private JLabel lblPicture;
 	
 	private int level;
@@ -36,6 +37,7 @@ public class ScoreReportL extends BackgroundPanel {
 		lblResult.setFont(font);
 		c.gridx=0;
 		c.gridy=0;
+		c.gridwidth =3;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		add(lblResult, c);
 		
@@ -46,24 +48,39 @@ public class ScoreReportL extends BackgroundPanel {
 		c.fill = GridBagConstraints.NONE;
 		c.gridwidth=1;
 		add(butTryAgain, c);
+
+		//Level Games button
+		butLGame = new JButton("More Level Games");
+		butLGame.addActionListener(new ToLevelGames());
+		c.gridx =1;
+		add(butLGame, c);
 		
-		//Continue Button
-		butContinue = new JButton("Continue");
+		//Drills Button
+		butDrills = new JButton("More Drills");
 		c.gridx = 2;
-		butTryAgain.addActionListener(new Continue());
-		add(butContinue, c);
+		butDrills.addActionListener(new MoreDrills());
+		add(butDrills, c);
+		
 		
 		if (pass){
 			lblResult.setText("You safely defused the Bomb!");
 			butTryAgain.setVisible(false);
+
 		}else{
 			lblResult.setText("You couldn't defuse the bomb in time...");
 			butTryAgain.setVisible(true);
+
 		}
 	}
-	class Continue implements ActionListener {
+	class MoreDrills implements ActionListener {
 		public void actionPerformed(ActionEvent e){
-			
+			Controller.setScreen(new DrillMenu());
+		}
+		
+	}
+	class ToLevelGames implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+			Controller.setScreen(new LGameMenu());
 		}
 		
 	}

@@ -22,7 +22,7 @@ import ttable.LevelProgeny;
 /**
  * The class LGame, a populated BackgroundPanel.
  * 
- * @author James Anderson
+ * @author Taylor Calder
  * @author Yaqzan Ali
  * @version 0.1
  */
@@ -31,24 +31,25 @@ public class LGame extends BackgroundPanel implements KeyListener{
 
 	/** The level progeny holding the level details. */
 	private LevelProgeny level;
-	private static int BOMB_TIME = 30;
-	private static int SCORE_NEEDED = 20000;
-	private static int BASIC_SCORE= 500;
-	private JLabel lblBombTimer;
-	private JLabel lblNum1;
-	private JLabel lblNum2;
-	private JLabel lblx;
-	private JLabel lblScore;
-	private JLabel lblScoreNeeded;
-	private JLabel lblMultiplier;
-	private JTextField txtAnswer;
-	private Random rnd;
-	private Timer tmrBomb;
-	private Timer tmrDelay;
-	private int answer;
-	private DelayTimer delay;
-	private int score;
-	private int multiplier;
+	private static int BOMB_TIME = 50; 			// Bomb Timer
+	private static int SCORE_NEEDED = 20000;	// Score needed to defuse bomb
+	private static int BASIC_SCORE= 500;		// Points awarded for getting a right answer
+	private JLabel lblBombTimer;		// The label for the bomb timer
+	private JLabel lblNum1;				// Label holding the first number
+	private JLabel lblNum2;				// Label holding second number
+	private JLabel lblx;				// Label holding "x"
+	private JLabel lblScore;			// Label holding the score
+	private JLabel lblScoreNeeded;		// Label holding the required score
+	private JLabel lblMultiplier;		// Label holding the multiplier
+	private JTextField txtAnswer;		// Answer field
+	private Random rnd;					// Random number generator
+	private Timer tmrBomb;				// Bomb timer
+	private Timer tmrDelay;				// Delay timer
+	private int answer;					// Int holding the answer
+	private DelayTimer delay;			// ActionListener for the delay
+	private int score;					// Int holding the score
+	private int multiplier;				// Int holding the multiplier
+	private JProgressBar bar;			// Progress bar
 	
 	
 	/**
@@ -78,6 +79,7 @@ public class LGame extends BackgroundPanel implements KeyListener{
 		tmrDelay = new Timer(1000, delay);
 		score = 0;
 		multiplier = 1;
+		bar = new JProgressBar(0, SCORE_NEEDED);
 		
 		rnd = new Random();
 		
@@ -128,6 +130,13 @@ public class LGame extends BackgroundPanel implements KeyListener{
 		lblScoreNeeded.setFont(Controller.getFont().deriveFont(Font.BOLD, 30));
 		lblScoreNeeded.setText("Need "+ SCORE_NEEDED);
 		
+		//Progress Bar
+		c.gridx=2;
+		bar.setValue(0);
+		bar.setStringPainted(true);
+		add(bar, c);
+		bar.setForeground(Color.green);
+		
 		// Textfield
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx=2;
@@ -137,6 +146,7 @@ public class LGame extends BackgroundPanel implements KeyListener{
 		txtAnswer.setFont(Controller.getFont().deriveFont(Font.BOLD, 60));
 		txtAnswer.addKeyListener(this);
 		((AbstractDocument) txtAnswer.getDocument()).setDocumentFilter(new DocumentLengthFilter(3));
+		txtAnswer.requestFocus();
 		
 		//Timer
 
@@ -177,9 +187,12 @@ public class LGame extends BackgroundPanel implements KeyListener{
 		lblScore.setText("Score: "+ score);
 		lblMultiplier.setText("x"+multiplier);
 		
-		if (score > SCORE_NEEDED){
+		if (score >= SCORE_NEEDED){
+			tmrBomb.stop();
+			tmrDelay.stop();
 			Controller.setScreen(new ScoreReportL(true, level.getLevelNumber()));
 		}
+		bar.setValue(score);
 	}
 	
 	public static int getBombTime(){
@@ -252,7 +265,7 @@ public class LGame extends BackgroundPanel implements KeyListener{
 class DelayTimer implements ActionListener{
 	private LGame lgame;
 	private int time;
-	private static int DELAY_TIME = 1;
+	private static int DELAY_TIME = 5;
 	
 	public DelayTimer(LGame game) {
 		this.lgame = game;
@@ -271,7 +284,7 @@ class DelayTimer implements ActionListener{
 		}
 	}
 	public void increaseTime(){
-		this.time+= DELAY_TIME;
+		this.time+= (DELAY_TIME/2);
 	}
 	public void start(){
 		this.time = DELAY_TIME;
