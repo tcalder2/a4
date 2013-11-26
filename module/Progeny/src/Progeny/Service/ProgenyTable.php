@@ -51,7 +51,7 @@ class ProgenyTable
  public function newProgeny($data)
  {
   /** @var \LevelProgeny\Service\LevelProgenyTable $level_progeny_table */
-  $level_progeny_table = $this->sm->get('Progeny\Service\LevelProgenyTable');
+  $level_progeny_table = $this->sm->get('LevelProgeny\Service\LevelProgenyTable');
 
   $progeny = new Progeny();
 
