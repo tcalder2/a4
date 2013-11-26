@@ -44,7 +44,7 @@ class LevelProgeny {
  /** @ORM\Column(type="integer") */
  protected $level;
 
- /** @ORM\OneToOne (targetEntity="Progeny\Entity\Progeny") */
+ /** @ORM\ManyToOne (targetEntity="Progeny\Entity\Progeny") */
  protected $progeny;
 
  /** @ORM\ManyToOne(targetEntity="User\Entity\User") */
