@@ -41,6 +41,8 @@ public class LGame extends BackgroundPanel implements KeyListener{
 	private JLabel lblScore;			// Label holding the score
 	private JLabel lblScoreNeeded;		// Label holding the required score
 	private JLabel lblMultiplier;		// Label holding the multiplier
+	private JLabel lblBombLit;			// Picture of the bomb
+	private JLabel lblBombFrz;			// Picture of the frozen bomb	
 	private JTextField txtAnswer;		// Answer field
 	private Random rnd;					// Random number generator
 	private Timer tmrBomb;				// Bomb timer
@@ -65,7 +67,6 @@ public class LGame extends BackgroundPanel implements KeyListener{
 		this.level = level;
 		
 		// Initialize
-
 		lblBombTimer = new JLabel();
 		lblScore= new JLabel();
 		lblNum1= new JLabel();
@@ -86,38 +87,92 @@ public class LGame extends BackgroundPanel implements KeyListener{
 		newQuestion();
 				
 		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.BOTH;
-		c.anchor = GridBagConstraints.CENTER;
-		// Multiplication sign
-		c.gridx = 2;
-		c.gridy = 0;
-		add(lblx, c);
-		lblx.setFont(Controller.getFont().deriveFont(Font.BOLD, 80));
+		
+		//Score
+		c.gridx=0;
+		c.gridy=3;
+		c.gridwidth=2;
+		c.anchor= GridBagConstraints.LINE_START;
+		add(lblScore, c);
+		lblScore.setFont(Controller.getFont().deriveFont(Font.BOLD, 40));
+		lblScore.setText(""+score);
+		lblScore.setForeground(Color.green);
 		
 		//Numbers
 		c.gridx=1;
+		c.gridwidth=1;
+		c.gridy=0;
 		c.anchor= GridBagConstraints.LINE_END;
 		add(lblNum1, c);
 		lblNum1.setFont(Controller.getFont().deriveFont(Font.BOLD, 200));
 		
-		c.gridx=3;
+		c.gridx=4;
 		c.anchor= GridBagConstraints.LINE_START;
 		add(lblNum2, c);
 		lblNum2.setFont(Controller.getFont().deriveFont(Font.BOLD, 200));
 		newQuestion();
 		
-		//Score
-		c.gridx=0;
-		c.gridy=3;
+		// Multiplication sign
+		c.gridwidth=2;
+		c.anchor= GridBagConstraints.CENTER;
+		c.gridx = 2;
+		add(lblx, c);
+		lblx.setFont(Controller.getFont().deriveFont(Font.BOLD, 80));
 		
-		add(lblScore, c);
-		lblScore.setFont(Controller.getFont().deriveFont(Font.BOLD, 40));
-		lblScore.setText("Score: "+ score);
-		lblScore.setForeground(Color.green);
+		// Textfield
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridy=1;
+		add(txtAnswer, c);
+		txtAnswer.setFont(Controller.getFont().deriveFont(Font.BOLD, 60));
+		txtAnswer.addKeyListener(this);
+		((AbstractDocument) txtAnswer.getDocument()).setDocumentFilter(new DocumentLengthFilter(3));
+		txtAnswer.requestFocus();
+		
+		//Progress Bar
+		c.gridy=3;
+		c.ipady=20;
+		c.insets = new Insets(10,0,0,0);
+		bar.setValue(0);
+		bar.setStringPainted(true);
+		add(bar, c);
+		bar.setForeground(Color.green);
+		
+		//Timer
+		c.ipady=0;
+		c.gridwidth=1;
+		c.gridx=2;
+		c.gridy=2;
+		c.anchor = GridBagConstraints.LINE_START;
+		add(lblBombTimer, c);
+		Font fntBomb = new Font("Stencil", Font.BOLD, 40);
+		lblBombTimer.setFont(fntBomb);
+		lblBombTimer.setForeground(Color.red);
+		tmrBomb.start();
+		
+		// Bomb Pictures
+		try {
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/bomb_lit.png"));
+			lblBombLit = new JLabel(new ImageIcon(img));
+		} catch (Exception e) {
+			lblBombLit = new JLabel("Ticking...");
+		}
+		
+		try {
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/bomb_frozen.png"));
+			lblBombFrz = new JLabel(new ImageIcon(img));
+		} catch (Exception e) {
+			lblBombFrz = new JLabel("Frozen");
+		}
+		c.anchor = GridBagConstraints.LINE_END;
+		c.gridx=3;
+		add(lblBombLit,c);
+		add(lblBombFrz,c);
+		lblBombFrz.setVisible(false);
 		
 		//Multiplier
-		c.gridx = 3;
+		c.gridx = 4;
 		c.gridy=1;
+		c.anchor = GridBagConstraints.LINE_START;
 		add(lblMultiplier, c);
 		lblMultiplier.setFont(Controller.getFont().deriveFont(Font.BOLD, 90));
 		lblMultiplier.setText("x" + multiplier);
@@ -126,38 +181,10 @@ public class LGame extends BackgroundPanel implements KeyListener{
 		//Score needed
 		c.gridy =3;
 		c.gridx=4;
+		c.gridwidth=2;
 		add(lblScoreNeeded, c);
 		lblScoreNeeded.setFont(Controller.getFont().deriveFont(Font.BOLD, 30));
 		lblScoreNeeded.setText("Need "+ SCORE_NEEDED);
-		
-		//Progress Bar
-		c.gridx=2;
-		bar.setValue(0);
-		bar.setStringPainted(true);
-		add(bar, c);
-		bar.setForeground(Color.green);
-		
-		// Textfield
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx=2;
-		c.gridy=1;
-
-		add(txtAnswer, c);
-		txtAnswer.setFont(Controller.getFont().deriveFont(Font.BOLD, 60));
-		txtAnswer.addKeyListener(this);
-		((AbstractDocument) txtAnswer.getDocument()).setDocumentFilter(new DocumentLengthFilter(3));
-		txtAnswer.requestFocus();
-		
-		//Timer
-
-		c.gridx=2;
-		c.gridy=2;
-		c.anchor = GridBagConstraints.CENTER;
-		add(lblBombTimer, c);
-		Font fntBomb = new Font("Stencil", Font.BOLD, 40);
-		lblBombTimer.setFont(fntBomb);
-		lblBombTimer.setForeground(Color.red);
-		tmrBomb.start();
 	}
 	
 	public void newQuestion(){
@@ -184,8 +211,8 @@ public class LGame extends BackgroundPanel implements KeyListener{
 	}
 	public void calculateScore(){
 		score = score + ((BASIC_SCORE)*multiplier);
-		lblScore.setText("Score: "+ score);
-		lblMultiplier.setText("x"+multiplier);
+		lblScore.setText(""+score);
+		lblMultiplier.setText(multiplier+"x");
 		
 		if (score >= SCORE_NEEDED){
 			tmrBomb.stop();
@@ -213,6 +240,12 @@ public class LGame extends BackgroundPanel implements KeyListener{
 	public JLabel getMultiplierLabel(){
 		return lblMultiplier;
 	}
+	public JLabel getBombLit(){
+		return lblBombLit;
+	}
+	public JLabel getBombFrz(){
+		return lblBombFrz;
+	}
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
@@ -238,12 +271,14 @@ public class LGame extends BackgroundPanel implements KeyListener{
 						tmrBomb.stop();
 						delay.start();
 						tmrDelay.start();
-						lblBombTimer.setForeground(Color.black);						
+						lblBombTimer.setForeground(Color.black);
+						lblBombLit.setVisible(false);
+						lblBombFrz.setVisible(true);
 					}else{
 						//If delay is already on, extend it
 						delay.increaseTime();	
 						multiplier+=1;	
-						lblMultiplier.setText("x"+multiplier);
+						lblMultiplier.setText(multiplier+"x");
 						lblMultiplier.setVisible(true);
 					}
 				}
@@ -281,6 +316,8 @@ class DelayTimer implements ActionListener{
 			lgame.getBombLabel().setForeground(Color.red);
 			lgame.setMultiplier(1);
 			lgame.getMultiplierLabel().setVisible(false);
+			lgame.getBombLit().setVisible(true);
+			lgame.getBombFrz().setVisible(false);
 		}
 	}
 	public void increaseTime(){
