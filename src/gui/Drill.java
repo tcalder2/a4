@@ -62,9 +62,6 @@ public class Drill extends BackgroundPanel {
 	/** The solution. */
 	private JLabel solution;
 
-	/** The next. */
-	private JButton next;
-
 	/** The submit. */
 	private JButton submit;
 
@@ -100,7 +97,11 @@ public class Drill extends BackgroundPanel {
 	
 	/** Whether people won **/
 	private boolean win;
-
+	
+	/** Timer dictating how long the answer is shown **/
+	private Timer tmrAnswer;
+	
+	private AnswerTimer delay;
 
 	/**
 	 * Instantiates a new drill.
@@ -137,12 +138,13 @@ public class Drill extends BackgroundPanel {
 		answerField = new JTextField(2);
 		submit = new JButton("Submit");
 		clock = new Timer(1000, new TimerAction(this));
+		delay = new AnswerTimer(this);
+		tmrAnswer = new Timer(1000, delay);
 		solution = new JLabel(" ");
 		corrCounter = new JLabel("" + correct);
-		next = new JButton("Next");
 		incorrCounter = new JLabel("" + incorrect);
 		JPanel imageSpace = new JPanel();
-
+		
 		//Set component display attributes
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/heart.png"));
@@ -201,11 +203,6 @@ public class Drill extends BackgroundPanel {
 		submit.setMinimumSize(d);
 		submit.setPreferredSize(d);
 		
-		next.setMaximumSize(d);
-		next.setMinimumSize(d);
-		next.setPreferredSize(d);
-		next.setVisible(false);
-		
 		corrCounter.setForeground(Color.GREEN);
 		corrCounter.setFont(Controller.getFont().deriveFont(Font.BOLD, 40));
 		corrCounter.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -217,10 +214,7 @@ public class Drill extends BackgroundPanel {
 		//Add action listeners
 		answerField.addKeyListener(new EnterListener(submit));
 		submit.addActionListener(new Submit(this, answerField));
-		next.addActionListener(new PressNext(this.level.getLevelNumber(), this));
-		next.addKeyListener(new EnterListener(next));
-
-
+		
 		//Add components to view
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
@@ -247,7 +241,6 @@ public class Drill extends BackgroundPanel {
 		c.gridx = 3;
 		c.insets = new Insets(50,0,0,50);
 		add(submit, c);
-		add(next, c);
 
 		c.gridx = 2;
 		c.gridy = 2;
@@ -281,11 +274,10 @@ public class Drill extends BackgroundPanel {
 	 */
 	public void update() {
 
-		solution.setText(" ");			
+					
 		answerField.setText("");
 		answerField.requestFocus();
-		submit.setVisible(true);
-		
+
 		//Randomize display of the question
 		//Random.nextInt is already from 0 to n-1 your correction causes error, changed back
 		currentQ = rand.nextInt(questions.size());
@@ -344,8 +336,7 @@ public class Drill extends BackgroundPanel {
 			}
 			incorrImg.setVisible(false);
 			correctImg.setVisible(true);
-			next.setVisible(true);
-			submit.setVisible(false);
+			solution.setText(" ");
 			correct++;
 			if (questions.size() == 0) {
 				end = true;
@@ -364,11 +355,6 @@ public class Drill extends BackgroundPanel {
 			incorrect++;
 		}
 		
-		if (isEnd()) {
-			next.setText("Finish");
-		}
-		submit.setVisible(false);
-		next.setVisible(true);
 		corrCounter.setText("" + correct);
 		incorrCounter.setText("" + incorrect);
 		
@@ -378,7 +364,19 @@ public class Drill extends BackgroundPanel {
 		} catch (Exception e) {
 			livesCount.setText("<3 x " + lives);
 		}
-		next.requestFocus();
+		
+		if (isEnd()) {
+			Controller.setScreen(new ScoreReport(isWin(), getTimeMax(), getTimeLeft(), level.getLevelNumber()));
+		}
+		else {
+			update();
+		}
+		
+		answerField.requestFocus();
+		delay.reset();
+		if(!tmrAnswer.isRunning())
+			tmrAnswer.start();
+		
 	}
 
 	/**
@@ -457,6 +455,62 @@ public class Drill extends BackgroundPanel {
 		return win;
 	}
 
+	class AnswerTimer implements ActionListener{
+
+		private int time;
+		private int ANSWER_TIME = 2;
+		
+		public AnswerTimer(Drill drill) {
+			this.time = ANSWER_TIME;
+		}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (time > 0) {
+				time--;
+			}else{
+				correctImg.setVisible(false);
+				incorrImg.setVisible(false);
+				solution.setText(" ");
+				tmrAnswer.stop();
+			}
+		}
+		public void reset(){
+			this.time = ANSWER_TIME;
+		}
+
+	}
+	/**
+	 * The class Submit, an action listener.
+	 * 
+	 * @author James Anderson
+	 * @version 1.0
+	 */
+	class Submit implements ActionListener {
+
+		/** The drill. */
+		private Drill drill;
+
+		/**
+		 * Instantiates a Submit instance.
+		 * 
+		 * @param drill		the drill pane
+		 * @param answer	the answer field
+		 */
+		public Submit(Drill drill, JTextField answer) {
+			this.drill = drill;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			//Purposefully removed your safeguard as it prevents end of game click on time out
+			tmrAnswer.start();
+			drill.checkAnswer();
+		}
+	}
 }
 
 /**
@@ -513,74 +567,7 @@ class TimerAction implements ActionListener {
 	}
 }
 
-/**
- * The class Submit, an action listener.
- * 
- * @author James Anderson
- * @version 1.0
- */
-class Submit implements ActionListener {
 
-	/** The drill. */
-	private Drill drill;
 
-	/**
-	 * Instantiates a Submit instance.
-	 * 
-	 * @param drill		the drill pane
-	 * @param answer	the answer field
-	 */
-	public Submit(Drill drill, JTextField answer) {
-		this.drill = drill;
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		//Purposefully removed your safeguard as it prevents end of game click on time out
-		drill.checkAnswer();
-	}
-}
 
-/**
- * The class Next, an action listener.
- * 
- * @author Taylor Calder
- * @version 1.0
- */
-class PressNext implements ActionListener {
-
-	/** The level number. */
-	private int level;
-	
-	/** The drill. */
-	private Drill drill;
-
-	/**
-	 * Constructor requiring the level number be passed as an argument.
-	 * 
-	 * @param level		the level number.
-	 * @param drill		the drill.
-	 */
-	public PressNext(int level, Drill drill) {
-		this.level = level;
-		this.drill = drill;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
-	public void actionPerformed(ActionEvent e) {
-		//If there are no more questions, then end the game.  Else, display next question
-		if (drill.isEnd()) {
-			Controller.setScreen(new ScoreReport(drill.isWin(), drill.getTimeMax(), drill.getTimeLeft(), level));
-		}
-		else {
-			drill.update();
-		}
-	}
-}
