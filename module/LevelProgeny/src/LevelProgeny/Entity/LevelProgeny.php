@@ -24,7 +24,7 @@ class LevelProgeny {
    'id' => $this->getId(),
    'attempts' => $this->getAttempts(),
    'final_mistakes' => $this->getFinalMistakes(),
-   'final_game_high_score' => $this->high_score,
+   'high_score' => $this->high_score,
    'final_completion_time' => $this->final_completion_time,
   );
  }
