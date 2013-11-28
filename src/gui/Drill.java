@@ -168,7 +168,7 @@ public class Drill extends BackgroundPanel {
 		((AbstractDocument) answerField.getDocument()).setDocumentFilter(new DocumentLengthFilter(3));
 
 		try {
-			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/faces/rface.png"));
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/drill_right.png"));
 			correctImg = new JLabel(new ImageIcon(img));
 		} catch (Exception e) {
 			correctImg = new JLabel("CORRECT!");
@@ -177,7 +177,7 @@ public class Drill extends BackgroundPanel {
 		
 		Dimension d;
 		try {
-			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/faces/xface.png"));
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/drill_wrong.png"));
 			ImageIcon icon = new ImageIcon(img);
 			incorrImg = new JLabel(icon);
 			d = new Dimension(icon.getIconWidth(), icon.getIconHeight() + 20);
