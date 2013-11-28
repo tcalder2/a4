@@ -31,7 +31,7 @@ class LevelProgenyTable
   $level_progeny = $this->getLevelProgeny($level, $progeny);
 
   $level_progeny->setFinalCompletionTime($time);
-  $level_progeny->setFinalGameHighScore($score);
+  $level_progeny->setHighScore($score);
   $level_progeny->getMistakes($mistakes);
 
 
