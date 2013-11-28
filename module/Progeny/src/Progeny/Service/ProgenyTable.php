@@ -79,6 +79,18 @@ class ProgenyTable
    ));
  }
 
+ public function getProgenyDataArray(Progeny $progeny)
+ {
+  /** @var \LevelProgeny\Service\LevelProgenyTable $level_progeny_table */
+  $level_progeny_table = $this->sm->get('LevelProgeny\Service\LevelProgenyTable');
+
+  $level_progenys = $level_progeny_table->getLevelProgenys($progeny);
+  $progeny_array = $progeny->toArray();
+  $progeny_array['level_progenys'] = $level_progenys;
+
+  return $progeny_array;
+ }
+
  public function updateBirthDate($progeny, $birth_date)
  {
   $progeny->setBirthDate($birth_date);

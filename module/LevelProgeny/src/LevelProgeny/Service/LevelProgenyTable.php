@@ -77,9 +77,10 @@ class LevelProgenyTable
    ));
  }
 
- public function getLevelProgenys()
+ public function getLevelProgenys(Progeny $progeny)
  {
-  $levelProgenies = $this->em->getRepository('LevelProgeny\Entity\LevelProgeny')->findBy(array('user' => $this->sm->get('User\Service\User')), array('levelProgeny' => 'ASC'));
+  $levelProgenies = $this->em->getRepository('LevelProgeny\Entity\LevelProgeny')->
+    findBy(array('progeny' => $progeny, array('level' => 'ASC')));
 
   $levelProgenies_array = array();
 
