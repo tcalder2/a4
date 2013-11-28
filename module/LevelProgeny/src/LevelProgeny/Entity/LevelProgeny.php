@@ -26,6 +26,7 @@ class LevelProgeny {
    'final_mistakes' => $this->getFinalMistakes(),
    'high_score' => $this->high_score,
    'final_completion_time' => $this->final_completion_time,
+   'level' => $this->getLevel(),
   );
  }
 
