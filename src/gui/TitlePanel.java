@@ -32,7 +32,7 @@ public class TitlePanel extends BackgroundPanel {
 		JButton toMain = new JButton();
 		toMain.setContentAreaFilled(false);
 		toMain.setBorderPainted(false);
-		toMain.addActionListener(new PressMain());
+		toMain.addActionListener(new PressBack());
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/back.png"));
 			toMain.setIcon(new ImageIcon(img));
@@ -65,13 +65,13 @@ public class TitlePanel extends BackgroundPanel {
 /**
  * The Class PressMain.
  */
-class PressMain implements ActionListener {
+class PressBack implements ActionListener {
 		
 	/**
 	 * Instantiates the press main listener
 	 * 
 	 */
-	public PressMain() {
+	public PressBack() {
 		super();
 	}
 	
@@ -81,7 +81,11 @@ class PressMain implements ActionListener {
 	 * @param the action event
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (Controller.getCurrentProgeny() != null) {
+		if (Controller.getPane().getBottomComponent() instanceof MainMenu) {
+			Welcome screen = new Welcome();
+			Controller.setScreen(screen);
+		}
+		else if (Controller.getCurrentProgeny() != null) {
 			MainMenu screen = new MainMenu();
 			Controller.setScreen(screen);
 		}

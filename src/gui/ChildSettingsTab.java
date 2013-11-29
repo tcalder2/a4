@@ -200,7 +200,7 @@ public class ChildSettingsTab extends JPanel {
 			nameInput = new JTextField("--First Name--");
 			JLabel editChild = new JLabel("Review and Modify Child:");
 			year = new JComboBox<String>(y);
-			month = new JComboBox<String>();
+			month = new JComboBox<String>(m);
 			day = new JComboBox<String>();
 			childSelect = new JComboBox<String>(childNames);
 			year2 = new JComboBox<String>(y);
@@ -214,7 +214,8 @@ public class ChildSettingsTab extends JPanel {
 			//Limit the number of characters that can be input into the name input field
 			((AbstractDocument) nameInput.getDocument()).setDocumentFilter(new DocumentLengthFilter(20));
 
-			//Populate the months drop-down with correct number of days
+			//Populate the day drop-downs
+			updateDaysInMonth(year, month, day);
 			updateDaysInMonth(year2, month2, day2);
 
 			//Populates the months list according to selected child
@@ -373,6 +374,7 @@ public class ChildSettingsTab extends JPanel {
 			year2.setSelectedItem(f.format(birth));
 			f = new SimpleDateFormat("MMMM");
 			month2.setSelectedItem(f.format(birth));
+			updateDaysInMonth(year2,month2,day2);
 			f = new SimpleDateFormat("d");
 			day2.setSelectedItem(f.format(birth));
 
@@ -424,11 +426,8 @@ public class ChildSettingsTab extends JPanel {
 
 	public void updateChild() {
 		//TODO: add warning popup
-		
+		ArrayList<String> errors = new ArrayList<String>();
 		try {
-			//Boolean set to false if any values are invalid
-			boolean valid = true;
-
 			//Get the list of progeny
 			ArrayList<Progeny> progenyList = ProgenyService.getProgenies();
 
@@ -446,7 +445,7 @@ public class ChildSettingsTab extends JPanel {
 			}
 			else {
 				day2.setForeground(Color.RED);
-				valid = false;
+				errors.add("Date of Birth contains invalid day");
 			}
 
 			//Check the birth-month is valid and add to string
@@ -457,7 +456,7 @@ public class ChildSettingsTab extends JPanel {
 			}
 			else {
 				month.setForeground(Color.RED);
-				valid = false;
+				errors.add("Date of Birth contains invalid month");
 			}
 
 			//Check the birth-year is valid and add to string
@@ -468,12 +467,11 @@ public class ChildSettingsTab extends JPanel {
 					year2.setForeground(Color.BLACK);
 				}
 				else {
-					year2.setForeground(Color.RED);
-					valid = false;
+					throw new IndexOutOfBoundsException();
 				}
-			} catch (NumberFormatException e1) {
+			} catch (NumberFormatException | IndexOutOfBoundsException e1) {
 				year2.setForeground(Color.RED);
-				valid = false;
+				errors.add("Date of Birth contains invalid year");
 			}
 
 			//Check the level is valid
@@ -483,16 +481,21 @@ public class ChildSettingsTab extends JPanel {
 			}
 			else {
 				level.setForeground(Color.RED);
-				valid = false;
+				errors.add("Level is invalid");
 			}
-
+			
 			//Create the final date instance
 			DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 			String birthdayStr = dd + "/" + mm + "/" + yyyy;
-			Date birthdate = format.parse(birthdayStr);
+			Date birthdate = new Date();
+			try {
+				birthdate = format.parse(birthdayStr);
+			} catch (ParseException e1) {
+				errors.add("Date parse error of unknown origin occured");
+			}
 
-			//If all values are valid, actually go ahead and update
-			if (valid) {
+			//If all values were found valid, actually go ahead and update
+			if (errors.isEmpty()) {
 				//If the date of birth has changed, update progeny's birthday
 				if (!child.getBirthDate().equals(birthdate)) {
 					ProgenyService.changeBirthDate(child, birthdate);
@@ -500,7 +503,6 @@ public class ChildSettingsTab extends JPanel {
 
 				//If the level number has changed, update the progeny's level
 				if (child.getLevelNumber() != newLevel) {
-					//TODO: add a warning popup to inform that there is no going back and data will be lost
 					GameService.setLevel(child, newLevel);
 				}
 
@@ -509,10 +511,13 @@ public class ChildSettingsTab extends JPanel {
 				
 				new GeneralDialogue("Child successfully updated.", "Success!", 3);
 			}
+			else {
+				errors.add("Unable to update child");
+				new GeneralDialogue(errors, "Error: Unable to update child", 1);
+			}
+
 		} catch (JSONFailureException e1) {
 			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
-		} catch (Exception e1) {
-			new GeneralDialogue("Unknown Error", "Error", 1);
 		}
 	}
 
@@ -576,6 +581,7 @@ public class ChildSettingsTab extends JPanel {
 
 			//Update the screen
 			settings.changeTabContent(0, new ChildSettingsTab(settings));
+			settings.changeTabContent(1, new LevelSettingsTab(settings));
 			
 			new GeneralDialogue("Child successfully added.", "Success!", 3);
 
@@ -607,6 +613,7 @@ public class ChildSettingsTab extends JPanel {
 			}
 			//Update the screen
 			settings.changeTabContent(0, new ChildSettingsTab(settings));
+			settings.changeTabContent(1, new LevelSettingsTab(settings));
 			
 			new GeneralDialogue("Child successfully removed.", "Success!", 3);
 			

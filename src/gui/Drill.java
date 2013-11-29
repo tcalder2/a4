@@ -537,6 +537,9 @@ class TimerAction implements ActionListener {
 		this.drill = drill;
 		try {
 			this.timeRemaining = Controller.getCurrentProgeny().getTimeAllowed();
+			if (timeRemaining > 120) {
+				throw new Exception();
+			}
 		}
 		catch (Exception e) {
 			this.timeRemaining = Drill.getDefaultTime();

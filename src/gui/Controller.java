@@ -6,11 +6,13 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JSplitPane;
 
 import json.JSONFailureException;
+import service.ProgenyService;
 import ttable.Progeny;
 
 /**
@@ -125,6 +127,32 @@ public class Controller {
 	 */
 	public static Progeny getCurrentProgeny() {
 		return currentProgeny;
+	}
+	
+	/**
+	 * Refreshes the applet data for the current progeny, to ensure it is in sync with the
+	 * data on the server.
+	 * 
+	 * @return		the refreshed progeny instance, or null on error
+	 */
+	public static Progeny refreshCurrentProgeny() {
+		try {
+			ArrayList<Progeny> progenyList = ProgenyService.getProgenies();
+			Progeny child = null;
+			for (int i = 0; i < progenyList.size(); i++) {
+				child = progenyList.get(i);
+				if (child.getId() == getCurrentProgeny().getId()) {
+					setCurrentProgeny(child);
+					break;
+				}
+			}
+			return child;
+			
+		} catch (JSONFailureException e) {
+			new GeneralDialogue(e.getMessages(), "JSON Error", 1);
+			return null;
+		}
+		
 	}
 	
 	/**

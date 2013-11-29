@@ -47,6 +47,12 @@ public class TTApplet extends JApplet {
 					+ "It appears we are having some issues!<br>"
 					+ "Make sure you are logged into Facebook and try again.</html>"));
 			this.add(screen);
+		} catch (Exception e) {
+			String error = e.getMessage();
+			if (error == null) {
+				error = "An unknown error has occured";
+			}
+			new GeneralDialogue(error, "Error!", 1);
 		}
 	}
 }

@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -31,6 +30,18 @@ import ttable.Progeny;
 @SuppressWarnings("serial")
 public class LevelSettingsTab extends JPanel {
 
+	/** The child selection drop down. */
+	private JComboBox<String> childSelector;
+	
+	/** The drop down for setting the time. */
+	private JComboBox<String> time;
+	
+	/** The level selection drop down. */
+	private JComboBox<String> levelSelector;
+	
+	/** The drop down for setting the errors allowed for that level. */
+	private JComboBox<String> errors;
+	
 	/**
 	 * Instantiates a LevelSettingsTab instance.
 	 * 
@@ -74,14 +85,14 @@ public class LevelSettingsTab extends JPanel {
 		//Create components
 		JLabel sect1 = new JLabel("Child Specific Drill Settings: ");
 		JLabel childLabel = new JLabel("Select a child to set: ");
-		JComboBox<String> childSelector = new JComboBox<String>(childNames);
+		childSelector = new JComboBox<String>(childNames);
 		JLabel timeLabel = new JLabel("Select the time per level: ");
-		JComboBox<String> time = new JComboBox<String>(t);
+		time = new JComboBox<String>(t);
 		JLabel sect2 = new JLabel("Level Specific Drill Settings: ");
 		JLabel levelLabel = new JLabel("Select a level to set: ");
-		JComboBox<String> levelSelector = new JComboBox<String>(levels);
+		levelSelector = new JComboBox<String>(levels);
 		JLabel errorsLabel = new JLabel("Select number of errors allowed: ");
-		JComboBox<String> errors = new JComboBox<String>(err);
+		errors = new JComboBox<String>(err);
 		JLabel testingLabel = new JLabel("Testing mode: ");
 		JRadioButton testOff = new JRadioButton(" Off  ");
 		JRadioButton testOn = new JRadioButton(" On");
@@ -92,30 +103,20 @@ public class LevelSettingsTab extends JPanel {
 		ButtonGroup testState = new ButtonGroup();
 		testState.add(testOff);
 		testState.add(testOn);
-
-		//Set display attributes
-		/*
-		sect1.setFont(Controller.getFont().deriveFont(Font.BOLD, 26));
-		childLabel.setFont(Controller.getFont().deriveFont(Font.BOLD, 26));
-		timeLabel.setFont(Controller.getFont().deriveFont(Font.BOLD, 26));
-		sect2.setFont(Controller.getFont().deriveFont(Font.BOLD, 26));
-		levelLabel.setFont(Controller.getFont().deriveFont(Font.BOLD, 26));
-		errorsLabel.setFont(Controller.getFont().deriveFont(Font.BOLD, 26));
-		testingLabel.setFont(Controller.getFont().deriveFont(Font.BOLD, 26));
-		testOff.setFont(Controller.getFont().deriveFont(Font.BOLD, 26));
-		testOn.setFont(Controller.getFont().deriveFont(Font.BOLD, 26));
-		*/
+		
+		//Set initial selections to current values
 		if (Controller.getTestMode()) {
 			testOn.setSelected(true);
 		}
 		else {
 			testOff.setSelected(true);
 		}
+		setTimeSelection();
+		setErrorsSelection();
 
-		
 		//Add action listeners
-		childSelector.addActionListener(new SelectChild(childSelector, time));
-		levelSelector.addActionListener(new SelectLevel(levelSelector, errors));
+		childSelector.addActionListener(new SelectChild(this));
+		levelSelector.addActionListener(new SelectLevel(this));
 		update1.addActionListener(new PressUpdate1(childSelector, time));
 		update2.addActionListener(new PressUpdate2(levelSelector, errors));
 		ChangeTestState testListener = new ChangeTestState();
@@ -187,6 +188,26 @@ public class LevelSettingsTab extends JPanel {
 		c.gridy = 5;
 		add(update2, c);
 	}
+	
+	void setTimeSelection() {
+		Progeny child;
+		try {
+			child = ProgenyService.getProgenies().get(childSelector.getSelectedIndex());
+			time.setSelectedItem(child.getTimeAllowed() + " sec");
+		} catch (JSONFailureException e1) {
+			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
+		}
+	}
+	
+	void setErrorsSelection() {
+		Level level;
+		try {
+			level = LevelService.getLevels().get(levelSelector.getSelectedIndex());
+			errors.setSelectedItem(level.getMistakesAllowed());
+		} catch (JSONFailureException e1) {
+			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
+		}
+	}
 }
 
 /**
@@ -198,11 +219,8 @@ public class LevelSettingsTab extends JPanel {
  */
 class SelectChild implements ActionListener {
 
-	/** The child selection drop down. */
-	private JComboBox<String> childSelector;
-
-	/** The drop down for selecting the time the child is allowed per level. */
-	private JComboBox<String> time;
+	/** The level settings tab of the settings pane. */
+	private LevelSettingsTab levelSettings;
 
 	/**
 	 * Constructs an action listener responsible for setting the time drop down to the
@@ -212,10 +230,9 @@ class SelectChild implements ActionListener {
 	 * @param time				the drop down for selecting the time the child is allowed
 	 * 							per level.
 	 */
-	public SelectChild(JComboBox<String> childSelector, JComboBox<String> time) {
+	public SelectChild(LevelSettingsTab levelSettings) {
 		super();
-		this.childSelector = childSelector;
-		this.time = time;
+		this.levelSettings = levelSettings;
 	}
 
 	/* (non-Javadoc)
@@ -223,13 +240,7 @@ class SelectChild implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Progeny child;
-		try {
-			child = ProgenyService.getProgenies().get(childSelector.getSelectedIndex());
-			time.setSelectedItem(child.getTimeAllowed() + " sec");
-		} catch (JSONFailureException e1) {
-			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
-		}
+		levelSettings.setTimeSelection();
 	}
 }
 
@@ -242,11 +253,8 @@ class SelectChild implements ActionListener {
  */
 class SelectLevel implements ActionListener {
 
-	/** The level selection drop down. */
-	private JComboBox<String> levelSelector;
-
-	/** The drop down for selecting the number of errors allowed per level. */
-	private JComboBox<String> errors;
+	/** The level settings tab of the settings pane. */
+	private LevelSettingsTab levelSettings;
 
 	/**
 	 * Constructs an action listener responsible for setting the errors drop down to the current
@@ -256,10 +264,9 @@ class SelectLevel implements ActionListener {
 	 * @param errors				the drop down for selecting the number of errors allowed per
 	 * 								level.
 	 */
-	public SelectLevel(JComboBox<String> levelSelector, JComboBox<String> errors) {
+	public SelectLevel(LevelSettingsTab levelSettings) {
 		super();
-		this.levelSelector = levelSelector;
-		this.errors = errors;
+		this.levelSettings = levelSettings;
 	}
 
 	/*
@@ -268,13 +275,7 @@ class SelectLevel implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Level level;
-		try {
-			level = LevelService.getLevels().get(levelSelector.getSelectedIndex());
-			errors.setSelectedItem(level.getMistakesAllowed());
-		} catch (JSONFailureException e1) {
-			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
-		}
+		levelSettings.setErrorsSelection();
 	}
 }
 
@@ -317,7 +318,8 @@ class PressUpdate1 implements ActionListener {
 			if (child.getTimeAllowed() != newTime) {
 				ProgenyService.setTimeAllowed(child, newTime);
 			}
-			childSelector.setSelectedIndex(0);
+			//childSelector.setSelectedIndex(0);
+			new GeneralDialogue("Time allowed was updated successfully.", "Success!", 3);
 		} catch (JSONFailureException e1) {
 			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		}
@@ -364,7 +366,8 @@ class PressUpdate2 implements ActionListener {
 			if (level.getMistakesAllowed() != newMistakesAllowed) {
 				LevelService.changeMistakesAllowed(level, newMistakesAllowed);
 			}
-			levelSelector.setSelectedIndex(0);
+			//levelSelector.setSelectedIndex(0);
+			new GeneralDialogue("Mistakes allowed was updated successfully.", "Success!", 3);
 		} catch (JSONFailureException e1) {
 			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		}
