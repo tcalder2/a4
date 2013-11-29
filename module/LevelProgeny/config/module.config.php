@@ -17,16 +17,18 @@ return array(
  'router' => array(
   'routes' => array(
 
-   'changemistakesallowed' => array(
+   'savegame' => array(
     'type' => 'Zend\Mvc\Router\Http\Literal',
     'options' => array(
-     'route' => '/changelevelprogenymistakesallowed',
+     'route' => '/savegame',
      'defaults' => array(
       'controller' => 'Levelprogeny\Controller\Levelprogeny',
-      'action' => 'changemistakesallowed',
+      'action' => 'savegame',
      ),
     ),
    ),
+
+
 
 
   ),

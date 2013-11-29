@@ -26,15 +26,25 @@ class LevelProgenyTable
   $this->em = $this->sm->get('Doctrine\ORM\EntityManager');
  }
 
- public function saveGame($time, $score, $mistakes, Progeny $progeny, Level $level)
+ public function saveGame($time, $score, $mistakes, Progeny $progeny, $level)
  {
+  /** @var \LevelProgeny\Service\LevelProgenyTable $level_progeny_table */
+  $level_progeny_table = $this->sm->get('LevelProgeny\Service\LevelProgenyTable');
+
+  $level_progeny_table->getLevelProgeny($level, $progeny);
+
   $level_progeny = $this->getLevelProgeny($level, $progeny);
 
+  if ($score > $level_progeny->getHighScore())
+   $level_progeny->setHighScore($score);
+
   $level_progeny->setFinalCompletionTime($time);
-  $level_progeny->setHighScore($score);
   $level_progeny->getMistakes($mistakes);
 
+  $level_progeny->setAttempts($level_progeny->getAttempts() + 1);
 
+  $this->em->persist($level_progeny);
+  $this->em->flush();
  }
 
  public function removeLevelProgeny($levelProgeny)
