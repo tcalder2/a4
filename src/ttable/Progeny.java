@@ -44,6 +44,7 @@ public class Progeny {
 	 */
 	private ArrayList<LevelProgeny> levels;
 
+	private int level;
 	
 	/**
 	 * Instantiates a new progeny.
@@ -189,6 +190,24 @@ public class Progeny {
 	 */
 	public void setLevelProgenys(ArrayList<LevelProgeny> levelProgenys) {
 		this.levelProgenys = levelProgenys;
+	}
+
+	/**
+	 * Gets the level.
+	 *
+	 * @return the level
+	 */
+	public int getLevel() {
+		return level;
+	}
+
+	/**
+	 * Sets the level.
+	 *
+	 * @param level the new level
+	 */
+	public void setLevel(int level) {
+		this.level = level;
 	}
 }
 

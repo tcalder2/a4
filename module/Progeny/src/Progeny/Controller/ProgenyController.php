@@ -70,10 +70,8 @@ class ProgenyController extends AbstractActionController
   if (!$this->getProgenyTable()->checkFirstNameUnique($first_name))
    return new JsonModel(array('success' => false, 'message' => 'You have already added a child with this name'));
 
-  $data = array('first_name' => $first_name, 'birth_date' =>  date_create($birth_date), 'time_allowed' => $time_allowed);
-
+  $data = array('first_name' => $first_name, 'birth_date' =>  date_create($birth_date), 'time_allowed' => $time_allowed, 'level' => 1);
   $progeny_table = $this->getProgenyTable();
-
   $progeny = $progeny_table->newProgeny($data);
 
   return new JsonModel(array('success' => true, 'progeny' => $progeny_table->getProgenyDataArray($progeny)));
@@ -99,7 +97,7 @@ class ProgenyController extends AbstractActionController
   return new JsonModel(array('success' => true, 'progeny' => $progeny_table->getProgenyDataArray($progeny)));
  }
 
- public function ChangeLevel()
+ public function ChangeLevelAction()
  {
   $level = $this->params()->fromQuery("level");
   $level_validator = new Digits();
@@ -114,7 +112,7 @@ class ProgenyController extends AbstractActionController
 
   $this->getProgenyTable()->setLevel($progeny, $level);
 
-  return new JsonModel(array('success' => true, 'progeny' => $progeny->toArray()));
+  return new JsonModel(array('success' => true, 'progeny' => $this->getProgenyTable()->getProgenyDataArray($progeny)));
  }
 
  public function getProgenyAction()

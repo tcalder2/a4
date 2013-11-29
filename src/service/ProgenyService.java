@@ -80,6 +80,14 @@ public class ProgenyService {
 		return progeny;
 	}
 	
+	public static void changeLevel(Progeny progeny, int level) throws JSONFailureException
+	{
+		Json json = new Json();
+		JSONObject progeny_data = (JSONObject)json.sendRequest("https://jbaron6.cs2212.ca/changeprogenylevel?progeny_id=" + progeny.getId() + "&level=" + level).get("progeny");
+		
+		fillProgeny(progeny, progeny_data);
+	}
+	
 	public static void fillProgeny(Progeny progeny, JSONObject progeny_data)
 	{
 		progeny.setFirstName((String)progeny_data.get("first_name"));
@@ -89,8 +97,8 @@ public class ProgenyService {
 		} catch (ParseException e) {}
 		
 		progeny.setTimeAllowed(Integer.parseInt(progeny_data.get("time_allowed").toString()));
-		
 		progeny.setId(progeny_data.get("id").toString());
+		progeny.setLevel(Integer.parseInt(progeny_data.get("level").toString()));
 		
 		ArrayList<LevelProgeny> levelProgenys = new ArrayList<LevelProgeny>();
 		
