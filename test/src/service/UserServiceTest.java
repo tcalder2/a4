@@ -64,7 +64,11 @@ public class UserServiceTest {
 
 	@Test
 	public void testResetPassword() {
-		fail("Not yet implemented");
+		try {
+			UserService.resetPassword("beer", "cs2212");
+		} catch (JSONFailureException e) {
+			fail(e.getMessage());
+		}
 	}
 
 	@Test

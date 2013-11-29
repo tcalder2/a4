@@ -1,8 +1,13 @@
 package service;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
+import org.json.simple.JSONObject;
+
 import json.JSONFailureException;
+import json.Json;
+import ttable.Level;
 import ttable.LevelProgeny;
 import ttable.Progeny;
 
@@ -25,6 +30,23 @@ public class GameService {
 	 */
 	public static void setLevel(Progeny progeny, int level) throws JSONFailureException {
 		//TODO: add server request
+	}
+	
+	public static void fillLevelProgeny(LevelProgeny levelProgeny, JSONObject level_progeny_data)
+	{
+		levelProgeny.setAttempts(Integer.parseInt(level_progeny_data.get("attempts").toString()));
+		levelProgeny.setMistakes(Integer.parseInt(level_progeny_data.get("final_mistakes").toString()));
+		levelProgeny.setLevelHighScore(Integer.parseInt(level_progeny_data.get("high_score").toString()));
+		levelProgeny.setLevelNumber(Integer.parseInt(level_progeny_data.get("level").toString()));
+		levelProgeny.setCompletionTime(Integer.parseInt(level_progeny_data.get("final_completion_time").toString()));
+	}
+
+	public static void saveGame(Progeny progeny, int levelNumber, int mistakes, int score, int time) throws JSONFailureException
+	{
+		Json json = new Json();
+		json.sendRequest("https://jbaron6.cs2212.ca/savegame?progeny_id=" + 
+				progeny.getId() + "&level=" + levelNumber + "&mistakes=" + mistakes + "&score=" + score + "&time=" + time);
+
 	}
 	
 	/**

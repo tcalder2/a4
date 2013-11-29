@@ -32,6 +32,8 @@ public class Progeny {
 	 */
 	private int[] highScores;
 	
+	private ArrayList<LevelProgeny> levelProgenys;
+	
 	/** 
 	 * The amount of time the child is allowed to complete drill levels.
 	 */
@@ -174,6 +176,19 @@ public class Progeny {
 			}
 		}
 	}
-	
+
+	/**
+	 * @return
+	 */
+	public ArrayList<LevelProgeny> getLevelProgenys() {
+		return levelProgenys;
+	}
+
+	/**
+	 * @param levelProgenys
+	 */
+	public void setLevelProgenys(ArrayList<LevelProgeny> levelProgenys) {
+		this.levelProgenys = levelProgenys;
+	}
 }
 
