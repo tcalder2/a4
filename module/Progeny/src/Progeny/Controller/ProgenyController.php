@@ -71,9 +71,7 @@ class ProgenyController extends AbstractActionController
    return new JsonModel(array('success' => false, 'message' => 'You have already added a child with this name'));
 
   $data = array('first_name' => $first_name, 'birth_date' =>  date_create($birth_date), 'time_allowed' => $time_allowed, 'level' => 1);
-
   $progeny_table = $this->getProgenyTable();
-
   $progeny = $progeny_table->newProgeny($data);
 
   return new JsonModel(array('success' => true, 'progeny' => $progeny_table->getProgenyDataArray($progeny)));
