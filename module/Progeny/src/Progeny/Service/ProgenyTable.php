@@ -33,8 +33,6 @@ class ProgenyTable
    $this->em->remove($level_progeny);
   }
 
-  $this->em->flush();
-
   $this->em->remove($progeny);
   $this->em->flush();
  }
