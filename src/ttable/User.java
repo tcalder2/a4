@@ -39,9 +39,13 @@ public final class User {
 	/** The current Drill Game skin **/
 	public static int drillSkin = 0;
 	
-	/** URL to the current background **/
-	public static String background = "http://jbaron6.cs2212.ca/img/default_background.png";
+	/** URL to the current drill game menu background **/
+	public static String backgroundMenu = "http://jbaron6.cs2212.ca/img/level_background.png";
 
+	/** URL to the current drill game background **/
+	public static String background = "http://jbaron6.cs2212.ca/img/default_background.png";
+	
+	
 	/**
 	 * Instantiates a new user.
 	 */
@@ -72,6 +76,31 @@ public final class User {
 		return instance;
 	}
 
+	/**
+	 * Method updates the theme for the drill game
+	 * 
+	 * @param theme	the theme - 0 = default, 1 = airplanes, 2 = castles
+	 */
+	public static void updateTheme(int theme) {
+		
+		if (theme == 0) {
+			 backgroundMenu = "http://jbaron6.cs2212.ca/img/level_background.png";
+			 background = "http://jbaron6.cs2212.ca/img/default_background.png";
+			 drillSkin = 0;
+		}
+		else if (theme == 1) {
+			background = "http://jbaron6.cs2212.ca/img/themes/theme1_bg.png";
+			backgroundMenu = "http://jbaron6.cs2212.ca/img/themes/theme1_bg.png";
+			drillSkin = 1;
+		}
+		else if (theme == 2) {
+			 background = "http://jbaron6.cs2212.ca/img/themes/theme2_bg.png";
+			 backgroundMenu = "http://jbaron6.cs2212.ca/img/themes/theme2_bg.png";
+			 drillSkin = 2;
+		}
+		
+	}
+	
 	// ** NOTE ** //
 	/**
 	 * This is a dummy method that emulates how getFriends will work I'm
