@@ -6,6 +6,7 @@ use Progeny\Entity\Progeny;
 use Zend\Config\Writer\Json;
 use Zend\Db\Sql\Ddl\Column\Date;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Validator\Digits;
 use Zend\View\Model\JsonModel;
 
 class ProgenyController extends AbstractActionController
@@ -96,6 +97,24 @@ class ProgenyController extends AbstractActionController
   $progeny_table->setTimeAllowed($progeny, (int)$time_allowed);
 
   return new JsonModel(array('success' => true, 'progeny' => $progeny_table->getProgenyDataArray($progeny)));
+ }
+
+ public function getLevel()
+ {
+  $level = $this->params()->fromQuery("level");
+  $level_validator = new Digits();
+
+  $progeny = $this->getProgenyTable()->getProgeny($this->params()->fromQuery('progeny_id'));
+
+  if (!$level_validator->isValid($level))
+   return new JsonModel(array('success' => false, 'messages' => $level_validator->getMessages()));
+
+  if(!$progeny)
+   return new JsonModel(array('success' => false, 'message' => 'Could not find a progeny with that ID.'));
+
+  $this->getProgenyTable()->setLevel($progeny, $level);
+
+  return new JsonModel(array('success' => true));
  }
 
  public function getProgenyAction()
