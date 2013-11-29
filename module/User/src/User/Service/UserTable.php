@@ -137,6 +137,7 @@ class UserTable
    array_push($friends_array, $friend_array);
   }
 
+  return $friends_array;
  }
 
  public function newUser($data)
