@@ -97,7 +97,7 @@ class UserTable
  public function getFriends()
  {
 
-  if(array_key_exists($_GET, 'fb_test'))
+  if(array_key_exists('fb_test', $_GET))
   {
    $friends = $this->getFacebook()->api(array(
     'method' => 'fql.query',
