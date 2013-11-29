@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -30,6 +31,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.text.AbstractDocument;
 
 import json.JSONFailureException;
@@ -80,7 +82,7 @@ public class ChildSettingsTab extends JPanel {
 	private JComboBox<String> level;
 
 	/** The child details for the table. */
-	private Vector<Vector<String>> tableData;
+	private Vector<Vector<Object>> tableData;
 
 	/** The table model. */
 	private DefaultTableModel tableModel;
@@ -111,41 +113,57 @@ public class ChildSettingsTab extends JPanel {
 			c.gridwidth = 1;
 
 			//Create vector containing column headers for the child info table
-			Vector<String> columnNames = new Vector<String>(Arrays.asList(new String[]{"Name"," ","Date of Birth"," ","Age","Level"}));
+			Vector<String> columnNames = new Vector<String>(Arrays.asList(new String[]{"Name","Date of Birth","Age","Level"}));
 
 			//Create vector structure containing table data
 			progenyList = ProgenyService.getProgenies();
-			tableData = new Vector<Vector<String>>();
+			tableData = new Vector<Vector<Object>>();
 			for (int i = 0; i < progenyList.size(); i++) {
-				Vector<String> v = new Vector<String>();
+				Vector<Object> v = new Vector<Object>();
 				Progeny p = progenyList.get(i);
 				v.add(p.getFirstName());
 
-				Date birthday = p.getBirthDate();
-				DateFormat format = new SimpleDateFormat("d");
-				v.add(format.format(birthday));
+				v.add(p.getBirthDate());
 
-				format = new SimpleDateFormat("MMMM");
-				v.add(format.format(birthday));
-
-				format = new SimpleDateFormat("yyyy");
-				v.add(format.format(birthday));
-
-				v.add("" + ProgenyService.getAge(p.getBirthDate()));
-				v.add("" + (p.getLevelNumber()));
+				v.add(ProgenyService.getAge(p.getBirthDate()));
+				v.add(p.getLevelNumber());
 				tableData.add(v);
 			}
 
 			//Create and populate the table
-			tableModel = new DefaultTableModel(tableData, columnNames);
-			JTable table = new JTable(tableModel) {
-				public boolean isCellEditable(int rowIndex, int colIndex) {
-					return false;
+			tableModel = new DefaultTableModel(tableData, columnNames) {
+				@Override
+			    public Class<?> getColumnClass(int col) {
+					if (col == 0) {
+						return String.class;
+					}
+					else if (col == 1) {
+						return Date.class;
+					}
+					else {
+						return Integer.class;
+					}
 				}
 			};
+			JTable table = new JTable(tableModel);
 
 			//Set view attributes of table
-			DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+			DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+				public Component getTableCellRendererComponent  
+				(JTable table, Object obj, boolean isSelected, boolean hasFocus,  
+						int row, int col)  
+				{  
+					if (col == 1 && row != -1) {
+						return super.getTableCellRendererComponent  
+								(table, new SimpleDateFormat("d MMM yyyy").format(obj),
+										isSelected, hasFocus, row, col);
+					}
+					else {
+						return super.getTableCellRendererComponent  
+								(table, obj, isSelected, hasFocus, row, col);
+					}
+				}
+			};
 			renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
 			renderer.setOpaque(false);
 			TableColumn col = null;
@@ -153,13 +171,15 @@ public class ChildSettingsTab extends JPanel {
 				col = table.getColumnModel().getColumn(i);
 				col.setCellRenderer(renderer);
 			}
-			table.setAutoCreateRowSorter(true);
+			table.setEnabled(false);
 			table.setOpaque(false);
-			table.setRowHeight(24);
+			table.setRowHeight(18);
 			table.setShowGrid(false);
+			table.setAutoCreateRowSorter(true);
+			table.setFont(new Font("Sarif", Font.PLAIN, 14));
+			table.getTableHeader().setReorderingAllowed(false);
 			table.getTableHeader().setDefaultRenderer(renderer);
-			table.setFont(Controller.getFont().deriveFont(Font.BOLD, 18));
-			table.getTableHeader().setFont(Controller.getFont().deriveFont(Font.BOLD, 18));
+			table.getTableHeader().setFont(new Font("Sarif", Font.BOLD, 14));
 
 			//Put the table into a scroll pane to allow scrolling when the table is too large to fit
 			JScrollPane scroll = new JScrollPane(table);
@@ -483,7 +503,7 @@ public class ChildSettingsTab extends JPanel {
 				level.setForeground(Color.RED);
 				errors.add("Level is invalid");
 			}
-			
+
 			//Create the final date instance
 			DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 			String birthdayStr = dd + "/" + mm + "/" + yyyy;
@@ -508,7 +528,7 @@ public class ChildSettingsTab extends JPanel {
 
 				//Update the screen
 				settings.changeTabContent(0, new ChildSettingsTab(settings));
-				
+
 				new GeneralDialogue("Child successfully updated.", "Success!", 3);
 			}
 			else {
@@ -582,7 +602,7 @@ public class ChildSettingsTab extends JPanel {
 			//Update the screen
 			settings.changeTabContent(0, new ChildSettingsTab(settings));
 			settings.changeTabContent(1, new LevelSettingsTab(settings));
-			
+
 			new GeneralDialogue("Child successfully added.", "Success!", 3);
 
 		} catch (ParseException e1) {
@@ -598,7 +618,7 @@ public class ChildSettingsTab extends JPanel {
 	 */
 	public void removeProgeny() {
 		//TODO: add warning popup
-		
+
 		//Get the selected child index
 		int index = childSelect.getSelectedIndex();
 
@@ -614,9 +634,9 @@ public class ChildSettingsTab extends JPanel {
 			//Update the screen
 			settings.changeTabContent(0, new ChildSettingsTab(settings));
 			settings.changeTabContent(1, new LevelSettingsTab(settings));
-			
+
 			new GeneralDialogue("Child successfully removed.", "Success!", 3);
-			
+
 		} catch (JSONFailureException e1) {
 			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		} catch (Exception e1) {
@@ -912,3 +932,4 @@ class PressUpdate implements ActionListener {
 		childSettings.updateChild();
 	}
 }
+

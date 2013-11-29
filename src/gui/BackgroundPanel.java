@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * The BackgroundPanel class.
+ * The class BackgroundPanel, a JPanel with a graphic used as a backdrop for most GUI screens.
  * 
  * @author James Anderson
  * @version 1.0
@@ -27,9 +27,9 @@ public class BackgroundPanel extends JPanel {
 	private Image background;
 	
 	/**
-	 * Instantiates a new background panel with graphic.
+	 * Constructor requiring the image URL be passed as an argument.
 	 *
-	 * @param imgURL	the URL of the image
+	 * @param imgURL	the URL of the background graphic.
 	 */
 	public BackgroundPanel(String imgURL) {
 
@@ -53,12 +53,13 @@ public class BackgroundPanel extends JPanel {
 	}
 	
 	/**
-	 * Instantiates a new background panel with graphic of specified size and with the specified layout.
+	 * Constructor requiring the image URL, the the dimensions and the layout be passed as
+	 * arguments.
 	 *
-	 * @param imgURL	the URL of the image
-	 * @param width		the width
-	 * @param height	the height
-	 * @param layout 	the layout
+	 * @param imgURL	the URL of the background image.
+	 * @param width		the desired width of the new background panel.
+	 * @param height	the desired height of the new background panel.
+	 * @param layout 	the layout for the new background panel.
 	 */
 	public BackgroundPanel(String imgURL, int width, int height, LayoutManager layout) {
 		
@@ -89,8 +90,8 @@ public class BackgroundPanel extends JPanel {
 	/**
 	 * Instantiates a new background panel with graphic and specified layout.
 	 *
-	 * @param imgURL	the URL of the image
-	 * @param layout	the layout
+	 * @param imgURL	the URL of the background image.
+	 * @param layout	the layout for the new background panel.
 	 */
 	public BackgroundPanel(String imgURL, LayoutManager layout) {
 		
