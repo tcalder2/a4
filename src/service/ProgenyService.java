@@ -13,6 +13,7 @@ import org.json.simple.JSONObject;
 
 import json.JSONFailureException;
 import json.Json;
+import ttable.LevelProgeny;
 import ttable.Progeny;
 
 /**
@@ -90,6 +91,21 @@ public class ProgenyService {
 		progeny.setTimeAllowed(Integer.parseInt(progeny_data.get("time_allowed").toString()));
 		
 		progeny.setId(progeny_data.get("id").toString());
+		
+		ArrayList<LevelProgeny> levelProgenys = new ArrayList<LevelProgeny>();
+		
+		JSONArray levelsProgenyArray = (JSONArray) progeny_data.get("level_progenys");
+		
+		Iterator<?> levelsProgeniesIt = levelsProgenyArray.iterator();
+		
+		while(levelsProgeniesIt.hasNext())
+		{
+			JSONObject level_progeny_object = (JSONObject)levelsProgeniesIt.next();
+			
+			LevelProgeny levelProgeny = new LevelProgeny();
+			GameService.fillLevelProgeny(levelProgeny, level_progeny_object);
+			levelProgenys.add(levelProgeny);
+		}
 	}
 	
 	public static void changeBirthDate(Progeny progeny, Date birthDate) throws JSONFailureException
