@@ -97,6 +97,17 @@ class UserController extends AbstractActionController
   return new JsonModel(array('success' => true, 'friends' => $friends));
  }
 
+ public function PostMessageAction()
+ {
+  $message = $this->params()->fromQuery('message');
+
+  $this->getFacebook()->api('/me/feed', 'POST', array(
+   'message' => 'testing'
+  ));
+
+  return new JsonModel(array('success' => true));
+ }
+
  public function ResetPasswordAction()
  {
   $answer = $this->params()->fromQuery('answer');

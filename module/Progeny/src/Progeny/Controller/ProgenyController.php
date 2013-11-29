@@ -6,6 +6,7 @@ use Progeny\Entity\Progeny;
 use Zend\Config\Writer\Json;
 use Zend\Db\Sql\Ddl\Column\Date;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Validator\Between;
 use Zend\Validator\Digits;
 use Zend\View\Model\JsonModel;
 
@@ -100,12 +101,15 @@ class ProgenyController extends AbstractActionController
  public function ChangeLevelAction()
  {
   $level = $this->params()->fromQuery("level");
-  $level_validator = new Digits();
+  $level_validator_chain = new \Zend\Validator\ValidatorChain();
+
+  $level_validator_chain->attach(new Digits());
+  $level_validator_chain->attach(new Between(array('inclusive' => true, 'min' => 1, 'max' => 12)));
 
   $progeny = $this->getProgenyTable()->getProgeny($this->params()->fromQuery('progeny_id'));
 
-  if (!$level_validator->isValid($level))
-   return new JsonModel(array('success' => false, 'messages' => $level_validator->getMessages()));
+  if (!$level_validator_chain->isValid($level))
+   return new JsonModel(array('success' => false, 'messages' => $level_validator_chain->getMessages()));
 
   if(!$progeny)
    return new JsonModel(array('success' => false, 'message' => 'Could not find a progeny with that ID.'));
