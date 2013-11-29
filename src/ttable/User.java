@@ -35,6 +35,12 @@ public final class User {
 	
 	/** The array of levels. */
 	private ArrayList<Level> levels;
+	
+	/** The current Drill Game skin **/
+	public static int drillSkin = 0;
+	
+	/** URL to the current background **/
+	public static String background = "http://jbaron6.cs2212.ca/img/default_background.png";
 
 	/**
 	 * Instantiates a new user.

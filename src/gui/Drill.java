@@ -108,8 +108,8 @@ public class Drill extends BackgroundPanel {
 	 *
 	 * @param level the level
 	 */
-	public Drill(LevelProgeny level) {
-		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
+	public Drill(LevelProgeny level, String background) {
+		super(background, new GridBagLayout());
 		
 		// Refresh child values
 		Controller.refreshCurrentProgeny();
@@ -117,7 +117,7 @@ public class Drill extends BackgroundPanel {
 		//Initialise values
 		this.level = level;
 		try {
-			lives = LevelService.getLevel(level.getLevelNumber()).getMistakesAllowed();
+			lives = LevelService.getLevel(level.getLevelNumber()).getMistakesAllowed() + 1;
 		} catch (JSONFailureException e1) {
 			lives = 3;
 		}
@@ -389,6 +389,10 @@ public class Drill extends BackgroundPanel {
 			livesCount.setIcon(heart);
 		} catch (Exception e) {
 			livesCount.setText("<3 x " + lives);
+		}
+		
+		if (lives <= 0) {
+			Controller.setScreen(new ScoreReport(false, getTimeMax(), getTimeLeft(), level.getLevelNumber(), incorrect));
 		}
 		
 		if (isEnd()) {
