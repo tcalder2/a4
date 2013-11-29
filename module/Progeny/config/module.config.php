@@ -39,6 +39,18 @@ return array(
     ),
    ),
 
+
+   'changeprogenylevel' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+     'route' => '/changeprogenylevel',
+     'defaults' => array(
+      'controller' => 'Progeny\Controller\Progeny',
+      'action' => 'changelevel',
+     ),
+    ),
+   ),
+
    'removeprogeny' => array(
     'type' => 'Zend\Mvc\Router\Http\Literal',
     'options' => array(

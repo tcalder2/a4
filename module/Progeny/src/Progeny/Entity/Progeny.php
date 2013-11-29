@@ -52,6 +52,7 @@ class Progeny
    'birth_date' => $this->getBirthDate()->format("Y-m-d"),
    'id' => $this->getId(),
    'time_allowed' => $this->getTimeAllowed(),
+   'level' => $this->getLevel(),
   );
  }
 
@@ -65,6 +66,7 @@ class Progeny
   $this->first_name = (isset($data['first_name'])) ? $data['first_name'] : null;
   $this->birth_date = (isset($data['birth_date'])) ? $data['birth_date'] : null;
   $this->time_allowed = (isset($data['time_allowed'])) ? $data['time_allowed'] : null;
+  $this->level = (isset($data['level'])) ? $data['level'] : null;
  }
 
  /**
@@ -164,6 +166,23 @@ class Progeny
  }
 
  /**
+  * @param mixed $level
+  */
+ public function setLevel($level)
+ {
+  $this->level = $level;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getLevel()
+ {
+  return $this->level;
+ }
+
+
+ /**
   * @ORM\Id
   * @ORM\GeneratedValue(strategy="AUTO")
   * @ORM\Column(type="integer")
@@ -187,5 +206,9 @@ class Progeny
 
  /** @ORM\Column(type="integer") */
  protected $time_allowed;
+
+ /** @ORM\Column(type="integer") */
+ protected $level;
+
 }
 

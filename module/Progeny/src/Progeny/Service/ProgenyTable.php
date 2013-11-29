@@ -87,6 +87,14 @@ class ProgenyTable
    ));
  }
 
+ public function setLevel(Progeny $progeny, $level)
+ {
+  $progeny->setLevel($level);
+
+  $this->em->persist($progeny);
+  $this->em->flush();
+ }
+
  public function getProgenyDataArray(Progeny $progeny)
  {
   /** @var \LevelProgeny\Service\LevelProgenyTable $level_progeny_table */
