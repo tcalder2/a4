@@ -37,7 +37,7 @@ public class Settings extends BackgroundPanel {
 		//Create a new GridBagLayout instance to control the layout
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
-		c.insets = new Insets(10,150,10,150);
+		c.insets = new Insets(10,50,10,50);
 		c.gridx = 0;
 		c.gridy = 0;
 
@@ -63,7 +63,7 @@ public class Settings extends BackgroundPanel {
 		
 		//Add the tab pane to the view
 		c.gridy = 1;
-		c.insets = new Insets(0,50,0,50);
+		c.insets = new Insets(0,25,0,25);
 		add(tabPane, c);
 	}
 	
