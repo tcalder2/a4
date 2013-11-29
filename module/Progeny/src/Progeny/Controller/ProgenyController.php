@@ -97,7 +97,7 @@ class ProgenyController extends AbstractActionController
   return new JsonModel(array('success' => true, 'progeny' => $progeny_table->getProgenyDataArray($progeny)));
  }
 
- public function ChangeLevel()
+ public function ChangeLevelAction()
  {
   $level = $this->params()->fromQuery("level");
   $level_validator = new Digits();
