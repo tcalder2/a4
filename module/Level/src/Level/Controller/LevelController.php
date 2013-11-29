@@ -4,6 +4,7 @@ namespace Level\Controller;
 
 use Level\Entity\Level;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Validator\Digits;
 use Zend\View\Model\JsonModel;
 
 class LevelController extends AbstractActionController
@@ -42,9 +43,9 @@ class LevelController extends AbstractActionController
   /** @var \Progeny\Service\ProgenyTable $progeny */
   $progeny = $this->getServiceLocator()->get('Progeny\Entity\ProgenyTable')->getProgeny($progeny_id);
 
-  $mistakes_validator = new \Zend\Validator\Digits();
-  $score_validator = new \Zend\Validator\Digits();
-  $time_validator = new \Zend\Validator\Digits();
+  $mistakes_validator = new Digits();
+  $score_validator = new Digits();
+  $time_validator = new Digits();
 
   if(!$mistakes_validator->isValid($mistakes))
    return new JsonModel(array('success' => false, 'messages' => $mistakes_validator->getMessages()));
@@ -63,7 +64,7 @@ class LevelController extends AbstractActionController
   $level = $this->getLevelTable()->getLevel($level_number);
 
   $mistakes_allowed = $this->params()->fromQuery('mistakes_allowed');
-  $mistakes_allowed_validator = Level::getMistakesAllowedValidator();
+  $mistakes_allowed_validator = new Digits();
 
   if(!$mistakes_allowed_validator->isValid($mistakes_allowed))
    return new JsonModel(array('success' => false, 'messages' => $mistakes_allowed_validator->getMessages()));
