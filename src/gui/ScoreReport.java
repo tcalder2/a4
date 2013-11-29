@@ -13,6 +13,7 @@ import javax.swing.*;
 import json.JSONFailureException;
 import service.GameService;
 import ttable.LevelProgeny;
+import ttable.User;
 
 /**
  * The class ScoreREport, a populated BackgroundPanel.
@@ -29,21 +30,25 @@ public class ScoreReport extends BackgroundPanel {
 	 */
 
 	private static int level, time, timeLeft, average;
-	
-	public ScoreReport(boolean win, int timeArg, int timeLeftArg, int levelArg, int incorrect) {
-		
+
+	public ScoreReport(boolean win, int timeArg, int timeLeftArg, int levelArg,
+			int incorrect) {
+
 		// Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png",
 				new GridBagLayout());
 
 		// Save the game state
-		try {
-			GameService.saveGame(Controller.getCurrentProgeny(), level, incorrect, 0, timeLeftArg);
-		} catch (JSONFailureException e) {
-			// Error pop-up if attempt is unsuccessful
-			new GeneralDialogue(e.getMessages(), "JSON Error", 1);
+		if (win) {
+			try {
+				GameService.saveGame(Controller.getCurrentProgeny(), levelArg,
+						incorrect, 0, timeLeftArg);
+			} catch (JSONFailureException e) {
+				// Error pop-up if attempt is unsuccessful
+				new GeneralDialogue(e.getMessages(), "JSON Error", 1);
+			}
 		}
-		
+
 		level = levelArg;
 		time = timeArg;
 		timeLeft = timeLeftArg;
@@ -68,12 +73,11 @@ public class ScoreReport extends BackgroundPanel {
 
 		JButton fbB = new JButton("Post this to Facebook!");
 		JButton levelB;
-		
+
 		if (win) {
 			levelB = new JButton("Play the Level Game!");
 			levelB.addActionListener(new ToLevelGame());
-		}
-		else {
+		} else {
 			levelB = new JButton("Try Again?");
 			levelB.addActionListener(new TryAgain(level));
 		}
@@ -181,11 +185,11 @@ public class ScoreReport extends BackgroundPanel {
 			Drill screen;
 			try {
 				screen = new Drill(Controller.getCurrentProgeny().getLevels()
-						.get(levelNum - 1));
+						.get(levelNum - 1), User.background);
 			} catch (Exception e2) {
 				LevelProgeny prog = new LevelProgeny();
 				prog.setLevelNumber(levelNum);
-				screen = new Drill(prog);
+				screen = new Drill(prog, User.background);
 			}
 			Controller.setScreen(screen);
 		}

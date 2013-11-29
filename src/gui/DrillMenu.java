@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import ttable.LevelProgeny;
+import ttable.User;
 
 /**
  * The class DrillMenu, a populated BackgroundPanel.
@@ -32,6 +33,7 @@ public class DrillMenu extends BackgroundPanel {
 	public DrillMenu() {
 
 		//Calls superclass constructor to create the background panel
+		
 		super("http://jbaron6.cs2212.ca/img/level_background.png", new GridBagLayout());
 
 		//Create a GridBagConstraints instance to control layout
@@ -60,7 +62,7 @@ public class DrillMenu extends BackgroundPanel {
 		c.gridwidth = 1;
 
 		//Get the current level of the child
-		int level = 6; //TODO: add proper service call
+		int level = Controller.getCurrentProgeny().getLevelNumber()+1;
 		
 		//Loop through adding the level buttons with custom button graphics
 		int position = 0;
@@ -130,12 +132,12 @@ class StartDrill implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Drill screen;
 		try {
-		screen = new Drill(Controller.getCurrentProgeny().getLevels().get(levelNum - 1));
+		screen = new Drill(Controller.getCurrentProgeny().getLevels().get(levelNum - 1), User.background);
 		}
 		catch (Exception e2) {
 			LevelProgeny prog = new LevelProgeny();
 			prog.setLevelNumber(levelNum);
-			screen = new Drill(prog);
+			screen = new Drill(prog, User.background);
 		}
 		Controller.setScreen(screen);
 	}
