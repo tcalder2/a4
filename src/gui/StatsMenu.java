@@ -14,6 +14,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
@@ -27,7 +28,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 import json.JSONFailureException;
+import service.FriendService;
+import service.ProgenyService;
 import service.UserService;
+import ttable.Friend;
+import ttable.Progeny;
 import ttable.User;
 
 /**
@@ -41,6 +46,7 @@ import ttable.User;
 @SuppressWarnings("serial")
 public class StatsMenu extends BackgroundPanel {
 
+	private String path, progNames, progAges, progLevels;
 	JComboBox<String> levels, ages;
 	JLabel nameFirst, nameSecond, nameThird, nameFirst2, nameSecond2, nameThird2;
 	JLabel ageFirst, ageSecond, ageThird, ageFirst2, ageSecond2, ageThird2;
@@ -136,11 +142,11 @@ public class StatsMenu extends BackgroundPanel {
 		
 		// Headers
 		String[] header = {"", "Friends", "Children", "Age", "Level"};
-		ArrayList<String> friends = new ArrayList<String>();
-		String hold;
+		ArrayList<Friend> friends = new ArrayList<Friend>();
+		Friend hold;
 		
 		try {
-			friends = UserService.getFriendsTest();
+			friends = FriendService.getFriends();
 		} catch (JSONFailureException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -198,23 +204,59 @@ public class StatsMenu extends BackgroundPanel {
 		table.setCellSelectionEnabled(false);
 		table.getTableHeader().setReorderingAllowed(false);
 		
-		// Store friend information in the array
+		// ***********************************************************
+		// 			STORE FRIEND INFORMATION IN THE ARRAY
+		// ***********************************************************
+				
+
 		
-		/**
-		 * NB - so far this only stores the names and profile pictures
-		 * It's also a little slow, even with just 5 people
-		 */
+		// int user for size of progeny list
+		int m;
+		
 		for (int i = 0; i < n; i++) {
 
 			hold = friends.get(i);
-			array[i][1] = hold.substring(0, hold.indexOf(';'));
+			
+			// Picture
+			path = ("http://graph.facebook.com/" + hold.getFbId() + "/picture?type=large");
 			try	{
-				Image img = ImageIO.read(new URL(hold.substring(hold.indexOf(';')+1, hold.length())));
+				Image img = ImageIO.read(new URL(path));
 				ImageIcon pic = (new ImageIcon(getScaledImage(img, 55,55)));
 				array[i][0] = pic;
 			} catch (IOException e) {
 				array[i][0] = "no picture available";
 			}
+
+			// Name
+			array[i][1] = (hold.getFirstName() + " " + hold.getLastName());
+			
+			ArrayList<Progeny> progenies = hold.getProgenies();
+			
+			m = progenies.size();
+			
+			progNames = "";
+			// Children Names
+			
+			for (i = 0; i < m; i++) {
+				progNames = (progNames + progenies.get(i).getFirstName() + '\n');
+			}
+			array[i][2] = progNames;
+			
+			progAges = "";
+			// Children Ages
+			
+			for (i = 0; i < m; i++) {
+				progAges = (progAges + ProgenyService.getAge(progenies.get(i).getBirthDate()) + '\n');
+			}
+			array[i][3] = progNames;
+			
+			
+			progLevels = "";
+			// Children Levels
+			for (i = 0; i < m; i++) {
+				progLevels = (progNames + progenies.get(i).getLevelNumber() + '\n');
+			}
+			array[i][5] = progNames;
 		}
 		
 		scroll = new JScrollPane(table);
