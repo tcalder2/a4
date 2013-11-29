@@ -327,7 +327,7 @@ public class Drill extends BackgroundPanel {
 			clock.stop();
 			end = true;
 			setWin(false);
-			submit.doClick();
+			Controller.setScreen(new ScoreReport(isWin(), getTimeMax(), getTimeLeft(), level.getLevelNumber(), incorrect));
 		}
 	}
 	
