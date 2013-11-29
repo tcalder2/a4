@@ -27,8 +27,8 @@ class ProgenyTable
 
  public function removeProgeny(Progeny $progeny)
  {
-
-  foreach($this->getLevelProgenyTable()->getLevelProgenys($progeny) as $level_progeny)
+  $level_progenys = $this->em->getRepository('LevelProgeny\Entity\LevelProgeny')->findBy(array('progeny' => $progeny));
+  foreach($level_progenys as $level_progeny)
   {
    $this->em->remove($level_progeny);
   }
