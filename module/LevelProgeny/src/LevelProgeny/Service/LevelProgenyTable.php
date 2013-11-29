@@ -39,7 +39,7 @@ class LevelProgenyTable
    $level_progeny->setHighScore($score);
 
   $level_progeny->setFinalCompletionTime($time);
-  $level_progeny->getFinalMistakes($mistakes);
+  $level_progeny->setFinalMistakes($mistakes);
 
   $level_progeny->setAttempts($level_progeny->getAttempts() + 1);
 
