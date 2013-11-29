@@ -1,13 +1,11 @@
 package service;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 
 import org.json.simple.JSONObject;
 
 import json.JSONFailureException;
 import json.Json;
-import ttable.Level;
 import ttable.LevelProgeny;
 import ttable.Progeny;
 
@@ -16,6 +14,7 @@ import ttable.Progeny;
  * This information pertains to child specific drill and game, data and settings.
  * 
  * @author James Anderson
+ * @author James Baron
  * @version 1.0
  */
 public class GameService {
@@ -50,7 +49,7 @@ public class GameService {
 	}
 	
 	/**
-	 * 
+	 * Method returns the LevelProgeny for a given Progeny
 	 * 
 	 * @param progeny
 	 * @throws JSONFailureException

@@ -110,7 +110,10 @@ public class Drill extends BackgroundPanel {
 	 */
 	public Drill(LevelProgeny level) {
 		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
-
+		
+		// Refresh child values
+		Controller.refreshCurrentProgeny();
+		
 		//Initialise values
 		this.level = level;
 		try {
@@ -118,6 +121,7 @@ public class Drill extends BackgroundPanel {
 		} catch (JSONFailureException e1) {
 			lives = 3;
 		}
+		
 		correct = 0;
 		incorrect = 0;
 		end = false;
@@ -289,7 +293,24 @@ public class Drill extends BackgroundPanel {
 		}
 	}
 
-
+	public boolean isValid (String answer){
+		int answerInt = 0;
+		
+		   try{
+		      answerInt = Integer.parseInt(answer);
+		   } catch (NumberFormatException nfe) {
+		      return false;
+		   }
+		   
+		   if (answerInt > 0) {
+			   return true;
+		   }
+		   else {
+			   return false;
+		   }
+		   
+		}
+	
 	public void setWin(boolean win) {
 		this.win = win;
 	}
@@ -306,7 +327,7 @@ public class Drill extends BackgroundPanel {
 			clock.stop();
 			end = true;
 			setWin(false);
-			submit.doClick();
+			Controller.setScreen(new ScoreReport(isWin(), getTimeMax(), getTimeLeft(), level.getLevelNumber(), incorrect));
 		}
 	}
 	
@@ -326,6 +347,12 @@ public class Drill extends BackgroundPanel {
 	 */
 	public void checkAnswer() {
 
+		// Check to see if the user entered numeric input
+		
+		// If they did, check the answer
+		
+		if (isValid(answerField.getText()) == true) {
+		
 		//Calculate the answer
 		int answer = questions.get(currentQ) * level.getLevelNumber();
 
@@ -345,7 +372,6 @@ public class Drill extends BackgroundPanel {
 		else {
 			//If the answer is wrong add a second instance of the question in the list
 			questions.add(questions.get(currentQ));
-
 			correctImg.setVisible(false);
 			incorrImg.setVisible(true);
 			solution.setText("Answer: " + answer);
@@ -366,7 +392,7 @@ public class Drill extends BackgroundPanel {
 		}
 		
 		if (isEnd()) {
-			Controller.setScreen(new ScoreReport(isWin(), getTimeMax(), getTimeLeft(), level.getLevelNumber()));
+			Controller.setScreen(new ScoreReport(isWin(), getTimeMax(), getTimeLeft(), level.getLevelNumber(), incorrect));
 		}
 		else {
 			update();
@@ -377,7 +403,18 @@ public class Drill extends BackgroundPanel {
 		if(!tmrAnswer.isRunning())
 			tmrAnswer.start();
 		
+		}
+		
+		// If they did not, clear the text field
+		
+		else {
+			
+			answerField.setText("");
+			
+		}
+		
 	}
+		
 
 	/**
 	 * Sets up the questions array.
@@ -537,6 +574,9 @@ class TimerAction implements ActionListener {
 		this.drill = drill;
 		try {
 			this.timeRemaining = Controller.getCurrentProgeny().getTimeAllowed();
+			if (timeRemaining > 120) {
+				throw new Exception();
+			}
 		}
 		catch (Exception e) {
 			this.timeRemaining = Drill.getDefaultTime();

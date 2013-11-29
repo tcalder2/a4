@@ -32,7 +32,8 @@ import ttable.LevelProgeny;
 import ttable.Progeny;
 
 /**
- * The ChildProgress class.
+ * The class ChildProgress, a screen displaying the specified child's progress in the game
+ * in tabular form.
  * 
  * @author James Anderson
  * @version 1.1
@@ -41,11 +42,15 @@ import ttable.Progeny;
 public class ChildProgress extends JPanel {
 
 	/**
-	 * Instantiates a new child progress.
+	 * Constructor requiring the superseding settings pane, the alternately displayed child
+	 * settings tab, and the child to be displayed to be passed as arguments.
 	 *
-	 * @param settingsPane the settings pane
+	 * @param settingsPane		the superseding settings pane.
+	 * @param childSettings		the child settings tab that the progress screen is to replace.
+	 * @param child				the progeny object for the child whose progress is to be
+	 * 							displayed.
 	 */
-	public ChildProgress(Settings settingsPane, ChildSettingsTab childSettingsTab, Progeny child) {
+	public ChildProgress(Settings settingsPane, ChildSettingsTab childSettings, Progeny child) {
 
 		//Create the panel with a GridBagLayout
 		super(new GridBagLayout());
@@ -68,7 +73,7 @@ public class ChildProgress extends JPanel {
 		JButton backArrow = new JButton();
 		backArrow.setContentAreaFilled(false);
 		backArrow.setBorderPainted(false);
-		backArrow.addActionListener(new BackToSettings(settingsPane, childSettingsTab));
+		backArrow.addActionListener(new BackToSettings(settingsPane, childSettings));
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/b_arrow.png"));
 			backArrow.setIcon(new ImageIcon(img.getScaledInstance(40, 40, Image.SCALE_DEFAULT)));
@@ -79,7 +84,7 @@ public class ChildProgress extends JPanel {
 
 		//Add a label to state the child whose progress is currently being displayed
 		JLabel title = new JLabel(child.getFirstName() + "'s Progress");
-		title.setFont(Controller.getFont().deriveFont(Font.BOLD, 32));
+		title.setFont(new Font("Serif", Font.BOLD, 26));
 		c.fill = GridBagConstraints.BOTH;
 		c.insets = new Insets(0,75,5,75);
 		c.gridy = 1;
@@ -126,11 +131,18 @@ public class ChildProgress extends JPanel {
 			col.setWidth(100);
 		}
 		table.setOpaque(false);
-		table.setRowHeight(24);
+		table.setRowHeight(18);
 		table.setShowGrid(false);
+		table.setDragEnabled(false);
+		table.setRowSorter(null);
+		table.setRowSelectionAllowed(false);
+		table.setColumnSelectionAllowed(false);
+		table.setEnabled(false);
+		table.setCellSelectionEnabled(false);
+		table.setFont(new Font("Serif", Font.PLAIN, 14));
+		table.getTableHeader().setReorderingAllowed(false);
 		table.getTableHeader().setDefaultRenderer(renderer);
-		table.setFont(Controller.getFont().deriveFont(Font.BOLD, 18));
-		table.getTableHeader().setFont(Controller.getFont().deriveFont(Font.BOLD, 18));
+		table.getTableHeader().setFont(new Font("Serif", Font.BOLD, 14));
 
 		//Embed the table in a scroll pane and add to panel.
 		JScrollPane scroll = new JScrollPane(table);
@@ -150,7 +162,7 @@ public class ChildProgress extends JPanel {
 			for (int i = 0; i < messages.size(); i++) {
 				JLabel error = new JLabel();
 				error.setForeground(Color.RED);
-				error.setFont(Controller.getFont().deriveFont(Font.PLAIN, 18));
+				error.setFont(new Font("Serif", Font.PLAIN, 18));
 				screen.add(error);
 			}
 			Controller.setScreen(screen);
@@ -160,29 +172,31 @@ public class ChildProgress extends JPanel {
 }
 
 /**
- * The BackToSettings class, an action listener.
+ * The BackToSettings class, an action listener responsible for swapping the contents of the
+ * tab containing the child progress, back to the child settings screen.
  * 
  * @author James Anderson
  * @version 1.0
  */
 class BackToSettings implements ActionListener {
 
-	/** The current settings pane instance. */
+	/** The superseding settings pane. */
 	private Settings settingsPane;
 
-	/** The current child settings tab instance. */
+	/** The child settings tab that alternatively occupies the current tab. */
 	private ChildSettingsTab childSettingsTab;
 
 	/**
-	 * Instantiates a new BackToSettings listener.
+	 * Constructor requiring the superseding settings pane and the alternatively displayed
+	 * child settings tab be passed as arguments.
 	 * 
 	 * @param settingsPane		the current settings pane instance
-	 * @param childSettingsTab	the current child settings tab instance
+	 * @param childSettings	the current child settings tab instance
 	 */
-	public BackToSettings(Settings settingsPane, ChildSettingsTab childSettingsTab) {
+	public BackToSettings(Settings settingsPane, ChildSettingsTab childSettings) {
 		super();
 		this.settingsPane = settingsPane;
-		this.childSettingsTab = childSettingsTab;
+		this.childSettingsTab = childSettings;
 	}
 
 	/*

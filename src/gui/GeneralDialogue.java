@@ -15,12 +15,13 @@ import java.util.Collections;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
 /**
  * Dialogue for display of general messages such as success/error display. Program execution
@@ -60,15 +61,22 @@ public class GeneralDialogue extends JDialog {
 		}
         JLabel label = new JLabel(new ImageIcon(img.getScaledInstance(90, 90, Image.SCALE_SMOOTH)));
         
-        //Create the panel displaying the message
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        for (int i = 0; i < messages.size(); i++) {
-        	JLabel name = new JLabel(messages.get(i));
-            name.setFont(new Font("Serif", Font.BOLD, 13));
-            panel.add(name);
-        }
-
+		//Create the scrollable text area containing the message
+		JTextArea text = new JTextArea();
+		text.setFont(new Font("Serif", Font.BOLD, 13));
+		text.setLineWrap(true);
+		text.setWrapStyleWord(true);
+		text.setOpaque(false);
+		text.setEditable(false);
+		for (int i = 0; i < messages.size(); i++) {
+			text.append(messages.get(i) + "\n");
+		}
+		JScrollPane scroll = new JScrollPane(text);
+		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scroll.setOpaque(false);
+		scroll.getViewport().setOpaque(false);
+		
         //Create the close button and set its action listener
         JButton close = new JButton("Close");
         close.addActionListener(new DialogueClose(this));
@@ -86,7 +94,7 @@ public class GeneralDialogue extends JDialog {
         c.fill = GridBagConstraints.BOTH;
         c.gridwidth = 2;
         c.gridx = 1;
-        add(panel, c);						//The panel containing the message
+        add(scroll, c);						//The panel containing the message
 
         c.gridx = 0;
         c.gridy = 1;
@@ -98,6 +106,7 @@ public class GeneralDialogue extends JDialog {
         c.insets = new Insets(5,0,15,20);   
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.SOUTH;
+        c.gridwidth = 1;
         c.weightx = 0;
         c.weighty = 0;
         c.gridy = 1;

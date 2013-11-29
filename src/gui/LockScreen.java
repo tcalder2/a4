@@ -121,6 +121,7 @@ public class LockScreen extends BackgroundPanel {
 		
 		//Add action listeners
 		passwordField.addKeyListener(new EnterListener(ok));
+		passwordField.addMouseListener(new SelectAllTextOnClick(passwordField));
 		ok.addActionListener(new PressOk(passwordField));
 		reset.addActionListener(new PressReset());
 
