@@ -94,6 +94,51 @@ class UserTable
   return $authenticated;
  }
 
+ public function getFriends()
+ {
+  $friends = $this->getFacebook()->api(array(
+   'method' => 'fql.query',
+   'query' => 'SELECT first_name, last_name, uid, name, is_app_user FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1=me()) AND is_app_user=1'
+  ));
+
+  $friends_array = array();
+
+  $user_repository = $this->em->getRepository('User\Entity\User');
+  $progeny_repository = $this->em->getRepository('Progeny\Entity\Progeny');
+  $level_progeny_repository = $this->em->getRepository('LevelProgeny\Entity\LevelProgeny');
+
+  /** @var \Progeny\Service\ProgenyTable $progeny_table */
+  $progeny_table = $this->sm->get('Progeny\Service\ProgenyTable');
+
+  foreach($friends as $friend)
+  {
+   $friend_array = array();
+
+   $friend_array['first_name'] = $friend['first_name'];
+   $friend_array['last_name'] = $friend['last_name'];
+   $friend_array['fb_id'] = $friend['uid'];
+
+   $progenies_array = array();
+
+   /** @var \User\Entity\User $friend */
+   $friend = $user_repository->findBy(array('fb_id' => $friend['uid']));
+
+   $progenies = $progeny_repository->findBy(array('user' => $friend));
+
+   foreach($progenies as $progeny)
+   {
+    /** @var \Progeny\Entity\Progeny $progeny */
+
+    array_push($progenies, $progeny_table->getProgenyDataArray($progeny));
+   }
+
+   $friend_array['progenies'] = $progenies;
+
+   array_push($friends_array, $friend_array);
+  }
+
+ }
+
  public function newUser($data)
  {
   //create a new user from the incomming data
