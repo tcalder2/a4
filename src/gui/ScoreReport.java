@@ -45,7 +45,7 @@ public class ScoreReport extends BackgroundPanel {
 						incorrect, 0, timeLeftArg);
 			} catch (JSONFailureException e) {
 				// Error pop-up if attempt is unsuccessful
-				new GeneralDialogue(e.getMessages(), "JSON Error", 1);
+				new GeneralDialogue(e.getMessages(), "Progress Not Saved :(", 1);
 			}
 		}
 
@@ -104,9 +104,6 @@ public class ScoreReport extends BackgroundPanel {
 
 		c.gridy++;
 		add(score2, c); // Score message 2
-
-		// c.gridy++;
-		// add(score3, c); //Score message 3
 
 		c.gridwidth = 1;
 		c.gridy++;

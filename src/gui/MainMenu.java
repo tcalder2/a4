@@ -9,6 +9,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import ttable.User;
 import gui.Controller;
 
 /**
@@ -140,7 +141,7 @@ class PressDrill implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		//Swap screen for the drill menu
-		Controller.setScreen(new DrillMenu());
+		Controller.setScreen(new DrillMenu(User.backgroundMenu));
 	}
 }
 

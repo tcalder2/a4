@@ -30,11 +30,11 @@ public class DrillMenu extends BackgroundPanel {
 	 * Instantiates a new drill menu.
 	 *
 	 */
-	public DrillMenu() {
+	public DrillMenu(String background) {
 
 		//Calls superclass constructor to create the background panel
 		
-		super("http://jbaron6.cs2212.ca/img/level_background.png", new GridBagLayout());
+		super(background, new GridBagLayout());
 
 		//Create a GridBagConstraints instance to control layout
 		GridBagConstraints c = new GridBagConstraints();
@@ -90,8 +90,18 @@ public class DrillMenu extends BackgroundPanel {
 				}
 				
 				try {
-					Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/levels/lvl" + order[position] + lockStatus + ".png"));
-					button.setIcon(new ImageIcon(img));
+					if (User.drillSkin == 1) {
+						Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/themes/theme1_levels" + lockStatus + ".png"));
+						button.setIcon(new ImageIcon(img));
+					}
+					else if (User.drillSkin == 2) {
+						Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/themes/theme2_levels" + lockStatus + ".png"));						
+						button.setIcon(new ImageIcon(img));
+					}
+					else {
+						Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/levels/lvl" + order[position] + lockStatus + ".png"));
+						button.setIcon(new ImageIcon(img));
+					}
 				} catch (IOException e) {
 					button.setText("Level " + order[position]);  //If the custom button fails to download a text placeholder is added
 				}

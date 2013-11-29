@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import ttable.LevelProgeny;
+import ttable.User;
 /**
  * The class ScoreREport, a populated BackgroundPanel.
  * 
@@ -102,7 +103,7 @@ public class ScoreReportL extends BackgroundPanel {
 	}
 	class MoreDrills implements ActionListener {
 		public void actionPerformed(ActionEvent e){
-			Controller.setScreen(new DrillMenu());
+			Controller.setScreen(new DrillMenu(User.backgroundMenu));
 		}
 		
 	}
