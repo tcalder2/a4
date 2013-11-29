@@ -49,7 +49,7 @@ public class GameService {
 	}
 	
 	/**
-	 * 
+	 * Method returns the LevelProgeny for a given Progeny
 	 * 
 	 * @param progeny
 	 * @throws JSONFailureException

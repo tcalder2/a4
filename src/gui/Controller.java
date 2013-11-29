@@ -139,9 +139,10 @@ public class Controller {
 		try {
 			ArrayList<Progeny> progenyList = ProgenyService.getProgenies();
 			Progeny child = null;
+			Progeny current = getCurrentProgeny();
 			for (int i = 0; i < progenyList.size(); i++) {
 				child = progenyList.get(i);
-				if (child.getId() == getCurrentProgeny().getId()) {
+				if (child.getId().equals(current.getId())) {
 					setCurrentProgeny(child);
 					break;
 				}

@@ -32,16 +32,16 @@ public class LevelSettingsTab extends JPanel {
 
 	/** The child selection drop down. */
 	private JComboBox<String> childSelector;
-	
+
 	/** The drop down for setting the time. */
 	private JComboBox<String> time;
-	
+
 	/** The level selection drop down. */
 	private JComboBox<String> levelSelector;
-	
+
 	/** The drop down for setting the errors allowed for that level. */
 	private JComboBox<String> errors;
-	
+
 	/**
 	 * Instantiates a LevelSettingsTab instance.
 	 * 
@@ -50,13 +50,13 @@ public class LevelSettingsTab extends JPanel {
 		super(new GridBagLayout());
 		setOpaque(false);
 
-		//Creates a list of the levels
+		// Creates a list of the levels
 		Vector<String> levels = new Vector<String>();
 		for (int i = 1; i <= 12; i++) {
 			levels.add("Level " + i);
 		}
 
-		//Create list children
+		// Create list children
 		ArrayList<Progeny> progenyList = new ArrayList<Progeny>();
 		try {
 			progenyList = ProgenyService.getProgenies();
@@ -64,25 +64,27 @@ public class LevelSettingsTab extends JPanel {
 			new GeneralDialogue(e.getMessages(), "JSON Error", 1);
 		}
 
-		//Create a list of child names
+		// Create a list of child names
 		Vector<String> childNames = new Vector<String>();
 		for (int i = 0; i < progenyList.size(); i++) {
 			childNames.add(progenyList.get(i).getFirstName());
 		}
 
-		//Creates a list of times in 5 second intervals for populating time limit drop down
+		// Creates a list of times in 5 second intervals for populating time
+		// limit drop down
 		Vector<String> t = new Vector<String>();
 		for (int i = 5; i <= 120; i += 5) {
 			t.add(i + " sec");
 		}
 
-		//Creates a list of numbers from 0 to 5 for populating allowable errors drop down
+		// Creates a list of numbers from 0 to 5 for populating allowable errors
+		// drop down
 		Vector<String> err = new Vector<String>();
 		for (int i = 0; i <= 5; i++) {
 			err.add("" + i);
 		}
 
-		//Create components
+		// Create components
 		JLabel sect1 = new JLabel("Child Specific Drill Settings: ");
 		JLabel childLabel = new JLabel("Select a child to set: ");
 		childSelector = new JComboBox<String>(childNames);
@@ -99,22 +101,21 @@ public class LevelSettingsTab extends JPanel {
 		JButton update1 = new JButton("Update");
 		JButton update2 = new JButton("Update");
 
-		//Create button group to link testing mode toggle buttons
+		// Create button group to link testing mode toggle buttons
 		ButtonGroup testState = new ButtonGroup();
 		testState.add(testOff);
 		testState.add(testOn);
-		
-		//Set initial selections to current values
+
+		// Set initial selections to current values
 		if (Controller.getTestMode()) {
 			testOn.setSelected(true);
-		}
-		else {
+		} else {
 			testOff.setSelected(true);
 		}
 		setTimeSelection();
 		setErrorsSelection();
 
-		//Add action listeners
+		// Add action listeners
 		childSelector.addActionListener(new SelectChild(this));
 		levelSelector.addActionListener(new SelectLevel(this));
 		update1.addActionListener(new PressUpdate1(childSelector, time));
@@ -123,9 +124,9 @@ public class LevelSettingsTab extends JPanel {
 		testOn.addActionListener(testListener);
 		testOff.addActionListener(testListener);
 
-		//Add components to view
+		// Add components to view
 		GridBagConstraints c = new GridBagConstraints();
-		c.insets = new Insets(0,50,0,0);
+		c.insets = new Insets(0, 50, 0, 0);
 		c.anchor = GridBagConstraints.WEST;
 		c.gridwidth = 3;
 		c.gridy = 0;
@@ -140,12 +141,12 @@ public class LevelSettingsTab extends JPanel {
 		add(timeLabel, c);
 
 		c.anchor = GridBagConstraints.WEST;
-		c.insets = new Insets(30,50,0,0);
+		c.insets = new Insets(30, 50, 0, 0);
 		c.gridy = 3;
 		add(sect2, c);
 
 		c.anchor = GridBagConstraints.EAST;
-		c.insets = new Insets(0,50,0,0);
+		c.insets = new Insets(0, 50, 0, 0);
 		c.gridy = 4;
 		add(levelLabel, c);
 
@@ -153,20 +154,20 @@ public class LevelSettingsTab extends JPanel {
 		add(errorsLabel, c);
 
 		c.anchor = GridBagConstraints.WEST;
-		c.insets = new Insets(30,50,0,0);
+		c.insets = new Insets(30, 50, 0, 0);
 		c.gridwidth = 1;
 		c.gridy = 6;
 		add(testingLabel, c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(30,0,0,0);
+		c.insets = new Insets(30, 0, 0, 0);
 		c.gridx = 1;
 		add(testOff, c);
 
 		c.gridx = 2;
 		add(testOn, c);
 
-		c.insets = new Insets(0,0,0,50);
+		c.insets = new Insets(0, 0, 0, 50);
 		c.gridx = 3;
 		c.gridy = 1;
 		add(childSelector, c);
@@ -180,7 +181,7 @@ public class LevelSettingsTab extends JPanel {
 		c.gridy = 5;
 		add(errors, c);
 
-		c.insets = new Insets(0,0,0,50);
+		c.insets = new Insets(0, 0, 0, 50);
 		c.gridx = 4;
 		c.gridy = 2;
 		add(update1, c);
@@ -188,21 +189,23 @@ public class LevelSettingsTab extends JPanel {
 		c.gridy = 5;
 		add(update2, c);
 	}
-	
+
 	void setTimeSelection() {
 		Progeny child;
 		try {
-			child = ProgenyService.getProgenies().get(childSelector.getSelectedIndex());
+			child = ProgenyService.getProgenies().get(
+					childSelector.getSelectedIndex());
 			time.setSelectedItem(child.getTimeAllowed() + " sec");
 		} catch (JSONFailureException e1) {
 			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		}
 	}
-	
+
 	void setErrorsSelection() {
 		Level level;
 		try {
-			level = LevelService.getLevels().get(levelSelector.getSelectedIndex());
+			level = LevelService.getLevels().get(
+					levelSelector.getSelectedIndex());
 			errors.setSelectedItem(level.getMistakesAllowed());
 		} catch (JSONFailureException e1) {
 			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
@@ -211,8 +214,8 @@ public class LevelSettingsTab extends JPanel {
 }
 
 /**
- * The class SelectChild, and action listener responsible for setting the time allowed
- * per level drop down to the current setting for the selected child.
+ * The class SelectChild, and action listener responsible for setting the time
+ * allowed per level drop down to the current setting for the selected child.
  * 
  * @author James Anderson
  * @version 1.0
@@ -223,20 +226,26 @@ class SelectChild implements ActionListener {
 	private LevelSettingsTab levelSettings;
 
 	/**
-	 * Constructs an action listener responsible for setting the time drop down to the
-	 * current setting for the selected child each time the child selection changes.
+	 * Constructs an action listener responsible for setting the time drop down
+	 * to the current setting for the selected child each time the child
+	 * selection changes.
 	 * 
-	 * @param childSelector		the child selection drop down.
-	 * @param time				the drop down for selecting the time the child is allowed
-	 * 							per level.
+	 * @param childSelector
+	 *            the child selection drop down.
+	 * @param time
+	 *            the drop down for selecting the time the child is allowed per
+	 *            level.
 	 */
 	public SelectChild(LevelSettingsTab levelSettings) {
 		super();
 		this.levelSettings = levelSettings;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -245,8 +254,8 @@ class SelectChild implements ActionListener {
 }
 
 /**
- * The class SelectLevel, an action listener responsible for setting the errors drop down to
- * the current setting for the number of errors allowed per level 
+ * The class SelectLevel, an action listener responsible for setting the errors
+ * drop down to the current setting for the number of errors allowed per level
  * 
  * @author James Anderson
  * @version 1.0
@@ -257,12 +266,14 @@ class SelectLevel implements ActionListener {
 	private LevelSettingsTab levelSettings;
 
 	/**
-	 * Constructs an action listener responsible for setting the errors drop down to the current
-	 * setting on change of the level selected.
+	 * Constructs an action listener responsible for setting the errors drop
+	 * down to the current setting on change of the level selected.
 	 * 
-	 * @param levelSelector			the level selection drop down.
-	 * @param errors				the drop down for selecting the number of errors allowed per
-	 * 								level.
+	 * @param levelSelector
+	 *            the level selection drop down.
+	 * @param errors
+	 *            the drop down for selecting the number of errors allowed per
+	 *            level.
 	 */
 	public SelectLevel(LevelSettingsTab levelSettings) {
 		super();
@@ -271,7 +282,9 @@ class SelectLevel implements ActionListener {
 
 	/*
 	 * (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -280,8 +293,9 @@ class SelectLevel implements ActionListener {
 }
 
 /**
- * The PressUpdate1 class, an action listener responsible for testing for a change in time
- * the selected child is allowed per level, if there is a change it updates the value.
+ * The PressUpdate1 class, an action listener responsible for testing for a
+ * change in time the selected child is allowed per level, if there is a change
+ * it updates the value.
  * 
  * @author James Anderson
  * @version 1.0
@@ -295,11 +309,14 @@ class PressUpdate1 implements ActionListener {
 	private JComboBox<String> time;
 
 	/**
-	 * Constructs an action listener for the time the child is allowed per level's update
-	 * button.
+	 * Constructs an action listener for the time the child is allowed per
+	 * level's update button.
 	 * 
-	 * @param childSelector		the child selection drop down.
-	 * @param time				the drop down for selecting the time allowed for level completion
+	 * @param childSelector
+	 *            the child selection drop down.
+	 * @param time
+	 *            the drop down for selecting the time allowed for level
+	 *            completion
 	 */
 	public PressUpdate1(JComboBox<String> childSelector, JComboBox<String> time) {
 		super();
@@ -307,19 +324,27 @@ class PressUpdate1 implements ActionListener {
 		this.time = time;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			Progeny child = ProgenyService.getProgenies().get(childSelector.getSelectedIndex());
+			Progeny child = ProgenyService.getProgenies().get(
+					childSelector.getSelectedIndex());
 			int newTime = (time.getSelectedIndex() + 1) * 5;
 			if (child.getTimeAllowed() != newTime) {
 				ProgenyService.setTimeAllowed(child, newTime);
 			}
-			//childSelector.setSelectedIndex(0);
-			new GeneralDialogue("Time allowed was updated successfully.", "Success!", 3);
+			
+			Controller.refreshCurrentProgeny();
+
+			// childSelector.setSelectedIndex(0);
+			new GeneralDialogue("Time allowed was updated successfully.",
+					"Success!", 3);
 		} catch (JSONFailureException e1) {
 			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		}
@@ -328,8 +353,9 @@ class PressUpdate1 implements ActionListener {
 }
 
 /**
- * The class PressUpdate2, an action listener responsible for testing for change in errors allowed
- * for the specified level and updating the value if it has changed.
+ * The class PressUpdate2, an action listener responsible for testing for change
+ * in errors allowed for the specified level and updating the value if it has
+ * changed.
  * 
  * @author James Anderson
  * @version 1.0
@@ -343,31 +369,42 @@ class PressUpdate2 implements ActionListener {
 	private JComboBox<String> errors;
 
 	/**
-	 * Constructs an action listener for the errors per level setting's update button.
+	 * Constructs an action listener for the errors per level setting's update
+	 * button.
 	 * 
-	 * @param levelSelector		the level selection drop down.
-	 * @param errors			the drop down for selecting the number of errors allowed per
-	 * 							level.
+	 * @param levelSelector
+	 *            the level selection drop down.
+	 * @param errors
+	 *            the drop down for selecting the number of errors allowed per
+	 *            level.
 	 */
-	public PressUpdate2(JComboBox<String> levelSelector, JComboBox<String> errors) {
+	public PressUpdate2(JComboBox<String> levelSelector,
+			JComboBox<String> errors) {
 		super();
 		this.levelSelector = levelSelector;
 		this.errors = errors;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			Level level = LevelService.getLevels().get(levelSelector.getSelectedIndex());
+			Level level = LevelService.getLevels().get(
+					levelSelector.getSelectedIndex());
 			int newMistakesAllowed = errors.getSelectedIndex();
 			if (level.getMistakesAllowed() != newMistakesAllowed) {
 				LevelService.changeMistakesAllowed(level, newMistakesAllowed);
+				// Update the current progeny's information
+				Controller.refreshCurrentProgeny();
 			}
-			//levelSelector.setSelectedIndex(0);
-			new GeneralDialogue("Mistakes allowed was updated successfully.", "Success!", 3);
+			// levelSelector.setSelectedIndex(0);
+			new GeneralDialogue("Mistakes allowed was updated successfully.",
+					"Success!", 3);
 		} catch (JSONFailureException e1) {
 			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		}
@@ -375,8 +412,8 @@ class PressUpdate2 implements ActionListener {
 }
 
 /**
- * The class ChangeTestState, an action listener that detects toggling of test mode
- * setting buttons and causes a toggle in the test mode boolean.
+ * The class ChangeTestState, an action listener that detects toggling of test
+ * mode setting buttons and causes a toggle in the test mode boolean.
  * 
  * @author James Anderson
  * @version 1.0
@@ -384,15 +421,19 @@ class PressUpdate2 implements ActionListener {
 class ChangeTestState implements ActionListener {
 
 	/**
-	 * Constructs default action listener for the toggling of the test mode buttons.
+	 * Constructs default action listener for the toggling of the test mode
+	 * buttons.
 	 * 
 	 */
 	public ChangeTestState() {
 		super();
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
