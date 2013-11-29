@@ -27,6 +27,41 @@ public class ProgenyServiceTest {
 	}
 
 	@Test
+	public void testSetLevel()
+	{
+		Date birthDate = null;
+		int fiveMinutes = 3000;
+		
+		try {
+			birthDate = ProgenyService.getBirthDateFormat().parse("1982-05-19");
+		} catch (ParseException e1) {
+		}
+		
+		String name = "Scotchsta";
+		Progeny progeny = null;
+		
+		try {
+			progeny = ProgenyService.addProgeny(name, birthDate, fiveMinutes);
+		} catch (JSONFailureException e) {
+			fail(e.getMessages().get(0));
+		}
+
+		try {
+			ProgenyService.changeLevel(progeny, 4);
+		} catch (JSONFailureException e1) {
+			fail(e1.getMessages().get(0));
+		}
+		
+		assertEquals(4, progeny.getLevel());
+		
+		try {
+			ProgenyService.removeProgeny(progeny);
+		} catch (JSONFailureException e) {
+			fail(e.getMessages().get(0));
+		}
+	}
+	
+	@Test
 	public void testGetProgenies() {
 	
 		Date birthDate = null;
