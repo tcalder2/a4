@@ -112,7 +112,7 @@ class ProgenyController extends AbstractActionController
 
   $this->getProgenyTable()->setLevel($progeny, $level);
 
-  return new JsonModel(array('success' => true, 'progeny' => $progeny->toArray()));
+  return new JsonModel(array('success' => true, 'progeny' => $this->getProgenyTable()->getProgenyDataArray($progeny)));
  }
 
  public function getProgenyAction()
