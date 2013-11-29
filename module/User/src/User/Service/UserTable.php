@@ -140,10 +140,10 @@ class UserTable
    {
     /** @var \Progeny\Entity\Progeny $progeny */
 
-    array_push($progenies, $progeny_table->getProgenyDataArray($progeny));
+    array_push($progenies_array, $progeny_table->getProgenyDataArray($progeny));
    }
 
-   $friend_array['progenies'] = $progenies;
+   $friend_array['progenies'] = $progenies_array;
 
    array_push($friends_array, $friend_array);
   }
