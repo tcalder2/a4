@@ -2,10 +2,12 @@
 
 namespace Progeny\Service;
 
+use LevelProgeny\Entity\LevelProgeny;
 use Progeny\Entity\Progeny;
 
 class ProgenyTable
 {
+ private $level_progeny_table;
  /** @var \Doctrine\ORM\EntityManager $progenyTable */
  protected $em;
 
@@ -23,8 +25,16 @@ class ProgenyTable
   $this->em = $this->sm->get('Doctrine\ORM\EntityManager');
  }
 
- public function removeProgeny($progeny)
+ public function removeProgeny(Progeny $progeny)
  {
+
+  foreach($this->getLevelProgenyTable()->getLevelProgenys($progeny) as $level_progeny)
+  {
+   $this->em->remove($level_progeny);
+  }
+
+  $this->em->flush();
+
   $this->em->remove($progeny);
   $this->em->flush();
  }
@@ -50,8 +60,8 @@ class ProgenyTable
 
  public function newProgeny($data)
  {
-  /** @var \LevelProgeny\Service\LevelProgenyTable $level_progeny_table */
-  $level_progeny_table = $this->sm->get('LevelProgeny\Service\LevelProgenyTable');
+  $level_progeny_table = $this->getLevelProgenyTable();
+
 
   $progeny = new Progeny();
 
@@ -161,6 +171,19 @@ class ProgenyTable
  public function getFacebook()
  {
   return $this->facebook;
+ }
+
+ /**
+  * @return \LevelProgeny\Service\LevelProgenyTable
+  */
+ public function getLevelProgenyTable()
+ {
+  if ($this->level_progeny_table) return $this->level_progeny_table;
+
+  /** @var \LevelProgeny\Service\LevelProgenyTable $level_progeny_table */
+  $this->level_progeny_table = $this->sm->get('LevelProgeny\Service\LevelProgenyTable');
+
+  return $this->level_progeny_table;
  }
 
 }
