@@ -71,9 +71,11 @@ class ProgenyController extends AbstractActionController
 
   $data = array('first_name' => $first_name, 'birth_date' =>  date_create($birth_date), 'time_allowed' => $time_allowed);
 
-  $progeny = $this->getProgenyTable()->newProgeny($data);
+  $progeny_table = $this->getProgenyTable();
 
-  return new JsonModel(array('success' => true, 'progeny' => $progeny->toArray()));
+  $progeny = $progeny_table->newProgeny($data);
+
+  return new JsonModel(array('success' => true, 'progeny' => $progeny_table->getProgenyDataArray($progeny)));
  }
 
  public function changeTimeAllowedAction()
