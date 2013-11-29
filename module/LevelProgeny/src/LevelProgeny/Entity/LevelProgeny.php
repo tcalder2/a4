@@ -144,22 +144,6 @@ class LevelProgeny {
  }
 
  /**
-  * @param mixed $mistakes
-  */
- public function setMistakes($mistakes)
- {
-  $this->mistakes = $mistakes;
- }
-
- /**
-  * @return mixed
-  */
- public function getMistakes()
- {
-  return $this->mistakes;
- }
-
- /**
   * @param mixed $progeny
   */
  public function setProgeny($progeny)
