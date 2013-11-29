@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import json.JSONFailureException;
+import service.GameService;
 import ttable.LevelProgeny;
 
 /**
@@ -27,13 +29,21 @@ public class ScoreReport extends BackgroundPanel {
 	 */
 
 	private static int level, time, timeLeft, average;
-
-	public ScoreReport(boolean win, int timeArg, int timeLeftArg, int levelArg) {
-
+	
+	public ScoreReport(boolean win, int timeArg, int timeLeftArg, int levelArg, int incorrect) {
+		
 		// Calls superclass constructor to create the background panel
 		super("http://jbaron6.cs2212.ca/img/default_background.png",
 				new GridBagLayout());
 
+		// Save the game state
+		try {
+			GameService.saveGame(Controller.getCurrentProgeny(), level, incorrect, 0, timeLeftArg);
+		} catch (JSONFailureException e) {
+			// Error pop-up if attempt is unsuccessful
+			new GeneralDialogue(e.getMessages(), "JSON Error", 1);
+		}
+		
 		level = levelArg;
 		time = timeArg;
 		timeLeft = timeLeftArg;

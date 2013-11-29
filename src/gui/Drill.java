@@ -345,7 +345,6 @@ public class Drill extends BackgroundPanel {
 		else {
 			//If the answer is wrong add a second instance of the question in the list
 			questions.add(questions.get(currentQ));
-
 			correctImg.setVisible(false);
 			incorrImg.setVisible(true);
 			solution.setText("Answer: " + answer);
@@ -366,7 +365,7 @@ public class Drill extends BackgroundPanel {
 		}
 		
 		if (isEnd()) {
-			Controller.setScreen(new ScoreReport(isWin(), getTimeMax(), getTimeLeft(), level.getLevelNumber()));
+			Controller.setScreen(new ScoreReport(isWin(), getTimeMax(), getTimeLeft(), level.getLevelNumber(), incorrect));
 		}
 		else {
 			update();
