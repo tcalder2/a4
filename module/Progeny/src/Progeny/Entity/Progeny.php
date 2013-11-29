@@ -66,6 +66,7 @@ class Progeny
   $this->first_name = (isset($data['first_name'])) ? $data['first_name'] : null;
   $this->birth_date = (isset($data['birth_date'])) ? $data['birth_date'] : null;
   $this->time_allowed = (isset($data['time_allowed'])) ? $data['time_allowed'] : null;
+  $this->level = (isset($data['level'])) ? $data['level'] : null;
  }
 
  /**
