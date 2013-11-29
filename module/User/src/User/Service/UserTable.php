@@ -96,10 +96,21 @@ class UserTable
 
  public function getFriends()
  {
-  $friends = $this->getFacebook()->api(array(
-   'method' => 'fql.query',
-   'query' => 'SELECT first_name, last_name, uid, name, is_app_user FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1=me()) AND is_app_user=1'
-  ));
+
+  if(array_key_exists('fb_test', $_GET))
+  {
+   $friends = $this->getFacebook()->api(array(
+    'method' => 'fql.query',
+    'query' => 'SELECT first_name, last_name, uid, name, is_app_user FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1=me()) AND is_app_user=1'
+   ));
+  }
+  else
+  {
+   $friends = $this->getFacebook()->api(array(
+    'method' => 'fql.query',
+    'query' => 'SELECT first_name, last_name, uid, name, is_app_user FROM user WHERE uid =\'' + $this->getUser()->getId() + '\' AND is_app_user=1'
+   ));
+  }
 
   $friends_array = array();
 
