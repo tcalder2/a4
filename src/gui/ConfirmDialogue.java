@@ -14,17 +14,15 @@ import java.util.Collections;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 /**
  * Dialogue of warning user before carrying out risky or irreversible actions, that is capable of
- * getting input to allow the action to proceed or not.  Program execution will pause until this
- * kind of dialogue is closed.
+ * getting input to allow the action to proceed or not.
  * 
  * @author James Anderson
  * @version 1.0
@@ -66,14 +64,16 @@ public class ConfirmDialogue extends JDialog {
 		}
 		JLabel label = new JLabel(new ImageIcon(img.getScaledInstance(90, 90, Image.SCALE_DEFAULT)));
 		
-		//Create the panel containing the message
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		//Create the scrollable text area containing the message
+		JTextArea text = new JTextArea();
+		text.setFont(new Font("Serif", Font.BOLD, 13));
+		text.setLineWrap(true);
+		text.setWrapStyleWord(true);
+		text.setOpaque(false);
+		text.setEditable(false);
 		for (int i = 0; i < messages.size(); i++) {
-			JLabel name = new JLabel(messages.get(i));
-			name.setFont(new Font("Serif", Font.BOLD, 13));
-			panel.add(name);
-		}
+			text.append(messages.get(i) + "\n");
+		}		
 		
 		//Create the buttons
 		JButton cancel = new JButton("Cancel");
@@ -94,27 +94,29 @@ public class ConfirmDialogue extends JDialog {
         add(label, c);
         
         c.fill = GridBagConstraints.BOTH;
+        c.insets = new Insets(20, 5, 0, 5);
         c.gridwidth = 3;
         c.gridx = 1;
-        add(panel, c);						//The panel containing the message
+        add(text, c);						//The panel containing the message
 
         c.gridx = 0;
         c.gridy = 1;
-        c.gridwidth = 2;
+        c.gridwidth = 3;
         c.weightx = 1.0;
         c.weighty = 1.0;
         add(Box.createGlue(), c);			//A blank space to ensure correct layout
         
-        c.insets = new Insets(5,0,15,20);
+        c.insets = new Insets(10,95,10,3);
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.SOUTH;
+        c.gridwidth = 1;
         c.weightx = 0;
         c.weighty = 0;
         c.gridy = 1;
         c.gridx = 2;
         add(cancel, c);						//The cancel button
         
-        c.insets = new Insets(5,0,15,20);   
+        c.insets = new Insets(10,0,10,20);   
         c.gridx = 3;
 		add(ok, c);							//The ok button
 
@@ -125,10 +127,10 @@ public class ConfirmDialogue extends JDialog {
 		setTitle(title);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
-		setResizable(false);
+		//setResizable(false);
 		setSize(380,170);
-		setModalityType(JDialog.DEFAULT_MODALITY_TYPE);	//Prevents program from continuing to execute in the background
-		setVisible(true);				//Will cause the dialogue to be displayed
+		setModalityType(JDialog.DEFAULT_MODALITY_TYPE);
+		setVisible(true);		//Will cause the dialogue to be displayed
 	}
 
 	/**

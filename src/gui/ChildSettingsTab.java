@@ -31,7 +31,6 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 import javax.swing.text.AbstractDocument;
 
 import json.JSONFailureException;
@@ -133,7 +132,7 @@ public class ChildSettingsTab extends JPanel {
 			//Create and populate the table
 			tableModel = new DefaultTableModel(tableData, columnNames) {
 				@Override
-			    public Class<?> getColumnClass(int col) {
+				public Class<?> getColumnClass(int col) {
 					if (col == 0) {
 						return String.class;
 					}
@@ -445,99 +444,102 @@ public class ChildSettingsTab extends JPanel {
 	}
 
 	public void updateChild() {
-		//TODO: add warning popup
-		ArrayList<String> errors = new ArrayList<String>();
-		try {
-			//Get the list of progeny
-			ArrayList<Progeny> progenyList = ProgenyService.getProgenies();
-
-			//Get index of selected child
-			int index = childSelect.getSelectedIndex();
-
-			//Get the progeny instance for the selected child
-			Progeny child = progenyList.get(index);
-
-			//Check the birth-day is valid and add to string
-			int dd = 0;
-			if (day2.getItemCount() > 0 && day2.getSelectedIndex() > -1) {
-				dd = day2.getSelectedIndex() + 1;
-				day2.setForeground(Color.BLACK);
-			}
-			else {
-				day2.setForeground(Color.RED);
-				errors.add("Date of Birth contains invalid day");
-			}
-
-			//Check the birth-month is valid and add to string
-			int mm = 0;
-			if (month2.getItemCount() > 0 && month2.getSelectedIndex() > -1) {
-				mm = month2.getSelectedIndex() + 1;
-				month2.setForeground(Color.BLACK);
-			}
-			else {
-				month.setForeground(Color.RED);
-				errors.add("Date of Birth contains invalid month");
-			}
-
-			//Check the birth-year is valid and add to string
-			int yyyy = 0;
+		ConfirmDialogue confirm = new ConfirmDialogue("Warning! Updating a child's information is irreversible"
+				+ " and data may be lost. Press Cancel to abort.", "Warning!", 2);
+		if (confirm.getConfirmation()) {
+			ArrayList<String> errors = new ArrayList<String>();
 			try {
-				if (year2.getItemCount() > 0 && year2.getSelectedIndex() > -1) {
-					yyyy = Integer.parseInt((String) year2.getSelectedItem());
-					year2.setForeground(Color.BLACK);
+				//Get the list of progeny
+				ArrayList<Progeny> progenyList = ProgenyService.getProgenies();
+
+				//Get index of selected child
+				int index = childSelect.getSelectedIndex();
+
+				//Get the progeny instance for the selected child
+				Progeny child = progenyList.get(index);
+
+				//Check the birth-day is valid and add to string
+				int dd = 0;
+				if (day2.getItemCount() > 0 && day2.getSelectedIndex() > -1) {
+					dd = day2.getSelectedIndex() + 1;
+					day2.setForeground(Color.BLACK);
 				}
 				else {
-					throw new IndexOutOfBoundsException();
-				}
-			} catch (NumberFormatException | IndexOutOfBoundsException e1) {
-				year2.setForeground(Color.RED);
-				errors.add("Date of Birth contains invalid year");
-			}
-
-			//Check the level is valid
-			int newLevel = 1;
-			if (level.getSelectedIndex() > -1) {
-				newLevel = level.getSelectedIndex() + 1;
-			}
-			else {
-				level.setForeground(Color.RED);
-				errors.add("Level is invalid");
-			}
-
-			//Create the final date instance
-			DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-			String birthdayStr = dd + "/" + mm + "/" + yyyy;
-			Date birthdate = new Date();
-			try {
-				birthdate = format.parse(birthdayStr);
-			} catch (ParseException e1) {
-				errors.add("Date parse error of unknown origin occured");
-			}
-
-			//If all values were found valid, actually go ahead and update
-			if (errors.isEmpty()) {
-				//If the date of birth has changed, update progeny's birthday
-				if (!child.getBirthDate().equals(birthdate)) {
-					ProgenyService.changeBirthDate(child, birthdate);
+					day2.setForeground(Color.RED);
+					errors.add("Date of Birth contains invalid day");
 				}
 
-				//If the level number has changed, update the progeny's level
-				if (child.getLevelNumber() != newLevel) {
-					GameService.setLevel(child, newLevel);
+				//Check the birth-month is valid and add to string
+				int mm = 0;
+				if (month2.getItemCount() > 0 && month2.getSelectedIndex() > -1) {
+					mm = month2.getSelectedIndex() + 1;
+					month2.setForeground(Color.BLACK);
+				}
+				else {
+					month.setForeground(Color.RED);
+					errors.add("Date of Birth contains invalid month");
 				}
 
-				//Update the screen
-				settings.changeTabContent(0, new ChildSettingsTab(settings));
+				//Check the birth-year is valid and add to string
+				int yyyy = 0;
+				try {
+					if (year2.getItemCount() > 0 && year2.getSelectedIndex() > -1) {
+						yyyy = Integer.parseInt((String) year2.getSelectedItem());
+						year2.setForeground(Color.BLACK);
+					}
+					else {
+						throw new IndexOutOfBoundsException();
+					}
+				} catch (NumberFormatException | IndexOutOfBoundsException e1) {
+					year2.setForeground(Color.RED);
+					errors.add("Date of Birth contains invalid year");
+				}
 
-				new GeneralDialogue("Child successfully updated.", "Success!", 3);
-			}
-			else {
-				errors.add("Unable to update child");
-				new GeneralDialogue(errors, "Error: Unable to update child", 1);
-			}
+				//Check the level is valid
+				int newLevel = 1;
+				if (level.getSelectedIndex() > -1) {
+					newLevel = level.getSelectedIndex() + 1;
+				}
+				else {
+					level.setForeground(Color.RED);
+					errors.add("Level is invalid");
+				}
 
-		} catch (JSONFailureException e1) {
-			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
+				//Create the final date instance
+				DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+				String birthdayStr = dd + "/" + mm + "/" + yyyy;
+				Date birthdate = new Date();
+				try {
+					birthdate = format.parse(birthdayStr);
+				} catch (ParseException e1) {
+					errors.add("Date parse error of unknown origin occured");
+				}
+
+				//If all values were found valid, actually go ahead and update
+				if (errors.isEmpty()) {
+					//If the date of birth has changed, update progeny's birthday
+					if (!child.getBirthDate().equals(birthdate)) {
+						ProgenyService.changeBirthDate(child, birthdate);
+					}
+
+					//If the level number has changed, update the progeny's level
+					if (child.getLevelNumber() != newLevel) {
+						GameService.setLevel(child, newLevel);
+					}
+
+					//Update the screen
+					settings.changeTabContent(0, new ChildSettingsTab(settings));
+
+					new GeneralDialogue("Child successfully updated.", "Success!", 3);
+				}
+				else {
+					errors.add("Unable to update child");
+					new GeneralDialogue(errors, "Error: Unable to update child", 1);
+				}
+
+			} catch (JSONFailureException e1) {
+				new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
+			}
 		}
 	}
 
@@ -617,30 +619,32 @@ public class ChildSettingsTab extends JPanel {
 	 * 
 	 */
 	public void removeProgeny() {
-		//TODO: add warning popup
+		ConfirmDialogue confirm = new ConfirmDialogue("Warning! Removing a child is irreversible,"
+				+ " their game data will be lost! Press Cancel to abort.", "Warning!", 2);
+		if (confirm.getConfirmation()) {
+			//Get the selected child index
+			int index = childSelect.getSelectedIndex();
 
-		//Get the selected child index
-		int index = childSelect.getSelectedIndex();
+			//Remove the selected child's entry in the database
+			try {
+				Progeny toRemove = progenyList.get(index);
+				if (toRemove.getFirstName().equals(childSelect.getSelectedItem())) {
+					ProgenyService.removeProgeny(toRemove);
+				}
+				else {
+					throw new Exception();
+				}
+				//Update the screen
+				settings.changeTabContent(0, new ChildSettingsTab(settings));
+				settings.changeTabContent(1, new LevelSettingsTab(settings));
 
-		//Remove the selected child's entry in the database
-		try {
-			Progeny toRemove = progenyList.get(index);
-			if (toRemove.getFirstName().equals(childSelect.getSelectedItem())) {
-				ProgenyService.removeProgeny(toRemove);
+				new GeneralDialogue("Child successfully removed.", "Success!", 3);
+
+			} catch (JSONFailureException e1) {
+				new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
+			} catch (Exception e1) {
+				new GeneralDialogue("No child selected.", "Error", 1);
 			}
-			else {
-				throw new Exception();
-			}
-			//Update the screen
-			settings.changeTabContent(0, new ChildSettingsTab(settings));
-			settings.changeTabContent(1, new LevelSettingsTab(settings));
-
-			new GeneralDialogue("Child successfully removed.", "Success!", 3);
-
-		} catch (JSONFailureException e1) {
-			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
-		} catch (Exception e1) {
-			new GeneralDialogue("No child selected.", "Error", 1);
 		}
 	}
 }
