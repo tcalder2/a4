@@ -90,6 +90,19 @@ class UserController extends AbstractActionController
   return new JsonModel(array('success' => true, 'user' => $user->toArray()));
  }
 
+ public function GetFriendsAction()
+ {
+  $this->getUserTable()->getUser();
+
+  $friends = $this->getFacebook()->api(array(
+   'method' => 'fql.query',
+   'query' => 'SELECT uid, name, is_app_user FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1=me()) AND is_app_user=1'
+   ));
+
+
+  return new JsonModel($friends);
+ }
+
  public function ResetPasswordAction()
  {
   $answer = $this->params()->fromQuery('answer');

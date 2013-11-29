@@ -30,6 +30,17 @@ return array(
     ),
    ),
 
+   'getfriends' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+     'route' => '/getfriends',
+     'defaults' => array(
+      'controller' => 'User\Controller\User',
+      'action' => 'getfriends',
+     ),
+    ),
+   ),
+
    'login' => array(
     'type' => 'Zend\Mvc\Router\Http\Literal',
     'options' => array(
