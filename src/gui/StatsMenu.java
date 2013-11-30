@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Vector;
 import java.util.logging.Level;
 
@@ -29,6 +30,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import java.util.Iterator;
 
 import json.JSONFailureException;
 import service.FriendService;
@@ -124,15 +126,15 @@ public class StatsMenu extends BackgroundPanel {
 		picThird1 = new JLabel();
 		picFirst2 = new JLabel();
 		picSecond2 = new JLabel();
-		picThird2 = new JLabel();		
-		
+		picThird2 = new JLabel();
+
 		parentFirst1 = new JLabel();
 		parentSecond1 = new JLabel();
 		parentThird1 = new JLabel();
 		parentFirst2 = new JLabel();
 		parentSecond2 = new JLabel();
 		parentThird2 = new JLabel();
-		
+
 		box = new BoxListener(this);
 		JTable table = new JTable();
 		JScrollPane scroll = new JScrollPane(tab1);
@@ -727,17 +729,121 @@ public class StatsMenu extends BackgroundPanel {
 	 */
 	private ArrayList<String> getTopThree(int age, int level) {
 
+		// ****************************************************************************
+		// This is a bunch of fucking bullshit and has been replace with
+		// FriendService.getHighTopThreeProgeniesPerParentByLevel(friend list,
+		// level)
+		// ****************************************************************************
+
 		String firstName, firstAge, firstTime, secondName, secondAge, secondTime, thirdName, thirdAge, thirdTime, firstPic, secondPic, thirdPic, firstParent, secondParent, thirdParent;
 
-		Progeny first = null, second = null, third = null, prog;
+		Progeny first = null, second = null, third = null;
 		Friend firstFriend = null, secondFriend = null, thirdFriend = null;
-		int holdTime, compareTime, size;
-		Level temp1, temp2;
-		holdTime = 0;
-		compareTime = 0;
-		int firstT = 0;
-		int secondT = 0;
-		int thirdT = 0;
+		// int holdTime, compareTime, size;
+		// Level temp1, temp2;
+		// holdTime = 0;
+		// compareTime = 0;
+		//int firstT = 0;
+		//int secondT = 0;
+		//int thirdT = 0;
+		//
+		// ArrayList<Friend> friends = new ArrayList<Friend>();
+		// try {
+		// friends = FriendService.getFriends();
+		// } catch (JSONFailureException e1) {
+		// // TODO Auto-generated catch block
+		// e1.printStackTrace();
+		// }
+		//
+		// int n = friends.size();
+		// int m;
+		// Friend temp;
+		// ArrayList<Progeny> progList;
+		//
+		// for (int i = 0; i < n; i++) {
+		//
+		// progList = friends.get(i).getProgenies();
+		//
+		// m = progList.size();
+		//
+		// for (int j = 0; j < m; j++) {
+		//
+		// prog = progList.get(i);
+		// try {
+		// holdTime = prog.getLevels().get(level).getCompletionTime();
+		// } catch (NullPointerException e) {
+		//
+		// }
+		//
+		// if (ProgenyService.getAge(prog.getBirthDate()) == age) {
+		//
+		// if (holdTime > firstT) {
+		// try {
+		// third = second;
+		// thirdFriend = secondFriend;
+		// thirdT = secondT;
+		// } catch (NullPointerException e) {
+		// ;
+		// }
+		// try {
+		// second = first;
+		// secondFriend = firstFriend;
+		// secondT = firstT;
+		// } catch (NullPointerException e) {
+		// ;
+		// }
+		// first = prog;
+		// firstFriend = friends.get(i);
+		// firstT = prog.getLevels().get(level)
+		// .getCompletionTime();
+		// }
+		//
+		// else if (holdTime > secondT) {
+		// try {
+		// third = second;
+		// thirdFriend = secondFriend;
+		// thirdT = secondT;
+		// } catch (NullPointerException e) {
+		// ;
+		// }
+		// second = prog;
+		// secondFriend = friends.get(i);
+		// secondT = prog.getLevels().get(level)
+		// .getCompletionTime();
+		// }
+		//
+		// else if (holdTime > thirdT) {
+		//
+		// third = prog;
+		// thirdFriend = friends.get(i);
+		// thirdT = prog.getLevels().get(level)
+		// .getCompletionTime();
+		// }
+		// }
+		// }
+		// }
+		//
+		// ArrayList<String> topThree = new ArrayList<String>();
+		//
+		// try {
+		// firstName = (first.getFirstName());
+		// firstAge = ("" + ProgenyService.getAge(first.getBirthDate()));
+		// firstTime = ("" + firstT);
+		// secondName = (second.getFirstName());
+		// secondAge = ("" + ProgenyService.getAge(second.getBirthDate()));
+		// secondTime = ("" + secondT);
+		// thirdName = (third.getFirstName());
+		// thirdAge = ("" + ProgenyService.getAge(third.getBirthDate()));
+		// thirdTime = ("" + thirdT);
+		// firstParent = firstFriend.getFirstName();
+		// secondParent = secondFriend.getFirstName();
+		// thirdParent = thirdFriend.getFirstName();
+		// firstPic = "http://graph.facebook.com/" + firstFriend.getFbId()
+		// + "/picture?type=large";
+		// secondPic = "http://graph.facebook.com/" + secondFriend.getFbId()
+		// + "/picture?type=large";
+		// thirdPic = "http://graph.facebook.com/" + thirdFriend.getFbId()
+		// + "/picture?type=large";
 
 		ArrayList<Friend> friends = new ArrayList<Friend>();
 		try {
@@ -746,87 +852,40 @@ public class StatsMenu extends BackgroundPanel {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
-		int n = friends.size();
-		int m;
-		Friend temp;
-		ArrayList<Progeny> progList;
-
-		for (int i = 0; i < n; i++) {
-
-			progList = friends.get(i).getProgenies();
-
-			m = progList.size();
-
-			for (int j = 0; j < m; j++) {
-
-				prog = progList.get(i);
-				try {
-					holdTime = prog.getLevels().get(level).getCompletionTime();
-				} catch (NullPointerException e) {
-
-				}
-
-				if (ProgenyService.getAge(prog.getBirthDate()) == age) {
-
-					if (holdTime > firstT) {
-						try {
-							third = second;
-							thirdFriend = secondFriend;
-							thirdT = secondT;
-						} catch (NullPointerException e) {
-							;
-						}
-						try {
-							second = first;
-							secondFriend = firstFriend;
-							secondT = firstT;
-						} catch (NullPointerException e) {
-							;
-						}
-						first = prog;
-						firstFriend = friends.get(i);
-						firstT = prog.getLevels().get(level)
-								.getCompletionTime();
-					}
-
-					else if (holdTime > secondT) {
-						try {
-							third = second;
-							thirdFriend = secondFriend;
-							thirdT = secondT;
-						} catch (NullPointerException e) {
-							;
-						}
-						second = prog;
-						secondFriend = friends.get(i);
-						secondT = prog.getLevels().get(level)
-								.getCompletionTime();
-					}
-
-					else if (holdTime > thirdT) {
-
-						third = prog;
-						thirdFriend = friends.get(i);
-						thirdT = prog.getLevels().get(level)
-								.getCompletionTime();
-					}
-				}
-			}
+		
+		LinkedHashMap<Progeny, Friend> topThreeHash = null;
+		
+		try {
+			topThreeHash = FriendService
+					.getHighTopThreeProgeniesPerParentByLevel(friends, level);
+		} catch (NullPointerException e) {
+			new GeneralDialogue(e.getMessage(), "JSON Error", 1);
 		}
+
+		Iterator<Progeny> progeny = topThreeHash.keySet().iterator();
+
+		first = progeny.next();
+		second = progeny.next();
+		third = progeny.next();
 
 		ArrayList<String> topThree = new ArrayList<String>();
 
-		try {
-		firstName = (first.getFirstName());
+		firstFriend = topThreeHash.get(first);
+		secondFriend = topThreeHash.get(second);
+		thirdFriend = topThreeHash.get(third);
+
+		firstName = first.getFirstName();
 		firstAge = ("" + ProgenyService.getAge(first.getBirthDate()));
-		firstTime = ("" + firstT);
+		firstTime = ("" + first.getLevelProgenys().get(level - 1)
+				.getCompletionTime());
 		secondName = (second.getFirstName());
 		secondAge = ("" + ProgenyService.getAge(second.getBirthDate()));
-		secondTime = ("" + secondT);
+		secondTime = ("" + second.getLevelProgenys().get(level - 1)
+				.getCompletionTime());
 		thirdName = (third.getFirstName());
 		thirdAge = ("" + ProgenyService.getAge(third.getBirthDate()));
-		thirdTime = ("" + thirdT);
+		thirdTime = ("" + third.getLevelProgenys().get(level - 1)
+				.getCompletionTime());
 		firstParent = firstFriend.getFirstName();
 		secondParent = secondFriend.getFirstName();
 		thirdParent = thirdFriend.getFirstName();
@@ -852,20 +911,14 @@ public class StatsMenu extends BackgroundPanel {
 		topThree.add(thirdTime);
 		topThree.add(thirdParent);
 		topThree.add(thirdPic);
-		}
-		catch (NullPointerException e) {
-			;
-		}
-
 		return topThree;
-
 	}
 
 	/**
 	 * ActionListener for the JComboBox
 	 * 
 	 * @author Taylor Calder
-	 * @version 0.1
+	 * @version 0.2
 	 */
 	class BoxListener implements ActionListener {
 

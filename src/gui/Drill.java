@@ -360,6 +360,7 @@ public class Drill extends BackgroundPanel {
 			questions.remove(currentQ);
 			if (questions.size() == 0) {
 				clock.stop();
+				setWin(true);
 			}
 			incorrImg.setVisible(false);
 			correctImg.setVisible(true);
