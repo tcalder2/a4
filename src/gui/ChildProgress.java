@@ -30,6 +30,7 @@ import json.JSONFailureException;
 import service.GameService;
 import ttable.LevelProgeny;
 import ttable.Progeny;
+import ttable.User;
 
 /**
  * The class ChildProgress, a screen displaying the specified child's progress in the game
@@ -198,7 +199,7 @@ public class ChildProgress extends JPanel {
 		add(scroll,c);
 		
 		} catch (JSONFailureException e) {
-			JPanel screen = new JPanel();
+			BackgroundPanel screen = new BackgroundPanel(User.background);
 			screen.setLayout(new BoxLayout(screen, BoxLayout.PAGE_AXIS));
 			ArrayList<String> messages = e.getMessages();
 			for (int i = 0; i < messages.size(); i++) {
