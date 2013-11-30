@@ -184,6 +184,8 @@ class UserTable
   $user->exchangeArray($data);
   $user->setPassword(md5('cs2212'));
   $user->setSkin(0);
+  $user->setQuestion(0);
+  $user->setIncorrectPasswordAttempts(0);
 
   $this->em->persist($user);
   $this->em->flush();
