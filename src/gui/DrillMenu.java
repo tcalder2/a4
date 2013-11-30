@@ -62,7 +62,7 @@ public class DrillMenu extends BackgroundPanel {
 		c.gridwidth = 1;
 
 		//Get the current level of the child
-		int level = Controller.getCurrentProgeny().getLevelNumber()+1;
+		int level = Controller.getCurrentProgeny().getLevel();
 		
 		//Loop through adding the level buttons with custom button graphics
 		int position = 0;
@@ -91,11 +91,11 @@ public class DrillMenu extends BackgroundPanel {
 				
 				try {
 					if (User.drillSkin == 1) {
-						Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/themes/theme1_levels" + lockStatus + ".png"));
+						Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/themes/theme_1/levels/lvl" + order[position] + lockStatus + ".png"));
 						button.setIcon(new ImageIcon(img));
 					}
 					else if (User.drillSkin == 2) {
-						Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/themes/theme2_levels" + lockStatus + ".png"));						
+						Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/themes/theme_2/levels/lvl" + order[position] + lockStatus + ".png"));						
 						button.setIcon(new ImageIcon(img));
 					}
 					else {

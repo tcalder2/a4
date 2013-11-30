@@ -261,7 +261,7 @@ public class StatsMenu extends BackgroundPanel {
 			progLevels = new ArrayList<String>();
 			// Children Levels
 			for (int j = 0; j < m; j++) {
-				progLevels.add("" + progenies.get(j).getLevelNumber());
+				progLevels.add("" + progenies.get(j).getLevel());
 			}
 			array[i][4] = progLevels;
 		}

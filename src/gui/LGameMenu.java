@@ -60,7 +60,7 @@ public class LGameMenu extends BackgroundPanel {
 		c.gridwidth = 1;
 
 		//Get the current level of the child
-		int level = Controller.getCurrentProgeny().getLevelNumber();
+		int level = Controller.getCurrentProgeny().getLevel();
 				
 		//Loop through adding the level buttons with custom button graphics
 		int position = 0;
@@ -124,15 +124,15 @@ class SelectLGame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		LGame screen;
+		Instructions inst;
 		try {
-		screen = new LGame(Controller.getCurrentProgeny().getLevels().get(level - 1));
+		inst = new Instructions(Controller.getCurrentProgeny().getLevels().get(level - 1));
 		}
 		catch (Exception e2) {
 			LevelProgeny prog = new LevelProgeny();
 			prog.setLevelNumber(level);
-			screen = new LGame(prog);
+			inst = new Instructions(prog);
 		}
-		Controller.setScreen(screen);
+		Controller.setScreen(inst);
 	}
 }

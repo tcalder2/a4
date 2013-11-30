@@ -98,7 +98,13 @@ public class ProgenyService {
 		
 		progeny.setTimeAllowed(Integer.parseInt(progeny_data.get("time_allowed").toString()));
 		progeny.setId(progeny_data.get("id").toString());
+		try {
 		progeny.setLevel(Integer.parseInt(progeny_data.get("level").toString()));
+		}
+		catch (Exception e) {
+			
+		}
+		
 		
 		ArrayList<LevelProgeny> levelProgenys = new ArrayList<LevelProgeny>();
 		

@@ -42,10 +42,9 @@ public class UserService {
 	 * @return true, if successful
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static boolean postMessage(String name, int score, int level) throws JSONFailureException
+	public static boolean postMessage(String message) throws JSONFailureException
 	{
 		Json json = new Json();
-		String message = (name + " just reached a score of " + score + " on level " + level + "!");
 		json.sendRequest("https://jbaron6.cs2212.ca/postmessage?message=" + message);
 		
 		return true;

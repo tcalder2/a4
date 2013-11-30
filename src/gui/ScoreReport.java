@@ -12,6 +12,8 @@ import javax.swing.*;
 
 import json.JSONFailureException;
 import service.GameService;
+import service.ProgenyService;
+import service.UserService;
 import ttable.LevelProgeny;
 import ttable.User;
 
@@ -43,10 +45,21 @@ public class ScoreReport extends BackgroundPanel {
 			try {
 				GameService.saveGame(Controller.getCurrentProgeny(), levelArg,
 						incorrect, 0, timeLeftArg);
+
 			} catch (JSONFailureException e) {
 				// Error pop-up if attempt is unsuccessful
 				new GeneralDialogue(e.getMessages(), "Progress Not Saved :(", 1);
 			}
+		}
+
+		if (levelArg >= Controller.getCurrentProgeny().getLevel()) {
+			try {
+				ProgenyService.changeLevel(Controller.getCurrentProgeny(), levelArg+1);
+			} catch (JSONFailureException e) {
+				// TODO Auto-generated catch block
+				new GeneralDialogue(e.getMessages(), "Couldn't Update Level :(", 1);
+			}
+			Controller.refreshCurrentProgeny();
 		}
 
 		level = levelArg;
@@ -89,7 +102,7 @@ public class ScoreReport extends BackgroundPanel {
 		fbB.setMaximumSize(new Dimension(200, 20));
 		fbB.setMinimumSize(new Dimension(200, 20));
 		fbB.setPreferredSize(new Dimension(200, 20));
-		fbB.addActionListener(new PostToFacebook());
+		fbB.addActionListener(new PostToFacebook(this));
 
 		score1.setFont(Controller.getFont().deriveFont(Font.PLAIN, 28));
 		score2.setFont(Controller.getFont().deriveFont(Font.PLAIN, 28));
@@ -133,17 +146,17 @@ public class ScoreReport extends BackgroundPanel {
 	class ToLevelGame implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-
-			LGame screen;
+			Instructions inst;
 			try {
-				screen = new LGame(Controller.getCurrentProgeny().getLevels()
+			inst = new Instructions(Controller.getCurrentProgeny().getLevels()
 						.get(ScoreReport.getLevel() - 1));
-			} catch (Exception e2) {
+			}
+			catch (Exception e2) {
 				LevelProgeny prog = new LevelProgeny();
 				prog.setLevelNumber(ScoreReport.getLevel());
-				screen = new LGame(prog);
+				inst = new Instructions(prog);
 			}
-			Controller.setScreen(screen);
+			Controller.setScreen(inst);
 		}
 
 	}
@@ -199,8 +212,21 @@ public class ScoreReport extends BackgroundPanel {
 	 */
 	class PostToFacebook implements ActionListener {
 
+		ScoreReport scoreReport;
+		
+		public PostToFacebook(ScoreReport report) {
+			this.scoreReport = report;
+		}
+		
 		public void actionPerformed(ActionEvent e) {
-			// post to facebook code goes here
+			
+			try {
+				UserService.postMessage("" + Controller.getCurrentProgeny().getFirstName() + " just mastered the number " + scoreReport.level + " times table!");
+			} catch (JSONFailureException e1) {
+				// TODO Auto-generated catch block
+				new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
+			}
+			
 		}
 
 	}

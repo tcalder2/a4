@@ -12,6 +12,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import json.JSONFailureException;
+import service.UserService;
+import ttable.User;
+
 /**
  * The class ScoreREport, a populated BackgroundPanel.
  * 
@@ -47,14 +51,14 @@ public class ScoreReportF extends BackgroundPanel {
 
 		repaint();
 		
-		JLabel score2 = new JLabel("Your previous high score was " + "<highscore goes here>");
+		JLabel score2 = new JLabel("Congrats!");
 		
 		JButton fbB = new JButton("Post your score to Facebook!");
 
 		fbB.setMaximumSize(new Dimension(200,20));
 		fbB.setMinimumSize(new Dimension(200,20));
 		fbB.setPreferredSize(new Dimension(200,20));
-		fbB.addActionListener(new PostToFacebookF());
+		fbB.addActionListener(new PostToFacebookF(this));
 		
 		score1.setFont(Controller.getFont().deriveFont(Font.PLAIN, 28));
 		score2.setFont(Controller.getFont().deriveFont(Font.PLAIN, 28));
@@ -75,12 +79,7 @@ public class ScoreReportF extends BackgroundPanel {
 		c.gridy += 1;
 		add(new JLabel(""), c);
 		
-		
-		
 		add(score2, c);		//Score message 2
-
-//		c.gridy++;
-//		add(score3, c);		//Score message 3
 
 		c.gridwidth = 1;
 		c.gridy++;
@@ -93,7 +92,6 @@ public class ScoreReportF extends BackgroundPanel {
 	public void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
-
 		
 		g.setFont(font);
 		g.setColor(Color.white);
@@ -114,8 +112,21 @@ public class ScoreReportF extends BackgroundPanel {
 	 */
 	class PostToFacebookF implements ActionListener {
 		
+		ScoreReportF scoreReport;
+		
+		public PostToFacebookF(ScoreReportF report) {
+			this.scoreReport = report;
+		}
+		
 		public void actionPerformed(ActionEvent e) {
-			// post to facebook code goes here
+			
+			try {
+				UserService.postMessage("" + Controller.getCurrentProgeny().getFirstName() + " just scored " + scoreReport.score + " points on the level game!");
+			} catch (JSONFailureException e1) {
+				// TODO Auto-generated catch block
+				new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
+			}
+			
 		}
 
 
