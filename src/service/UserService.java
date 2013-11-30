@@ -1,7 +1,5 @@
 package service;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -83,15 +81,6 @@ public class UserService {
 		json.sendRequest("https://jbaron6.cs2212.ca/setquestion?question=" + questionNumber + "&password=" + password);		
 		
 		return true;
-	}
-	
-	/**
-	 * Sets the number of mistakes allowed for a specified level.
-	 *
-	 * @param mistakesAllowed the new mistakes allowed
-	 */
-	public static void setMistakesAllowed(int level, int mistakesAllowed) throws JSONFailureException {
-		//TODO:  server call to update
 	}
 	
 	/**
