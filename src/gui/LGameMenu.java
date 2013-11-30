@@ -25,8 +25,7 @@ import ttable.LevelProgeny;
 @SuppressWarnings("serial")
 public class LGameMenu extends BackgroundPanel {
 
-	
-	private int lastLevelCompletion;
+	private boolean allUnlocked;
 	
 	/**
 	 * Instantiates a LGameMenu instance.
@@ -48,11 +47,12 @@ public class LGameMenu extends BackgroundPanel {
 
 		// If the completion time for the last drill level is > -1, then it means you have completed it
 		// And can access all level games
+
 		try {
-			lastLevelCompletion = Controller.getCurrentProgeny().getLevels().get(11).getCompletionTime();
+			allUnlocked = (Controller.getCurrentProgeny().getLevelProgenys().get(11).getCompletionTime() == 0);
 		}
 		catch (NullPointerException e) {
-			lastLevelCompletion = -1;
+			;
 		}
 		
 		//Loads and adds the level game menu title graphic
@@ -94,7 +94,7 @@ public class LGameMenu extends BackgroundPanel {
 				String lockStatus = "_l";
 				
 				//If the level being added should be unlocked, change icon to unlocked and add action listener
-				if (order[position] < level || lastLevelCompletion > 1) {
+				if (order[position] < level || allUnlocked) {
 					button.addActionListener(new SelectLGame(order[position]));
 					lockStatus = "_u";
 				}
