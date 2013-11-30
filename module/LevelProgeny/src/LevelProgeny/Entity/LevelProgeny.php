@@ -27,6 +27,7 @@ class LevelProgeny {
    'high_score' => $this->high_score,
    'final_completion_time' => $this->final_completion_time,
    'level' => $this->getLevel(),
+   'cumulative_score' => $this->getCumlativeScore(),
   );
  }
 
