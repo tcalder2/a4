@@ -3,12 +3,15 @@ package service;
 import static org.junit.Assert.*;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 
 import json.JSONFailureException;
 
 import org.junit.Test;
 
+import ttable.Friend;
 import ttable.Progeny;
 
 public class GameServiceTest {
@@ -16,6 +19,24 @@ public class GameServiceTest {
 	@Test
 	public void testSetLevel() {
 		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testGetHighScores()
+	{
+		try {
+			ArrayList<Friend> friends = FriendService.getFriends();
+			LinkedHashMap<Progeny, Friend> top_progenies = FriendService.getHighTopThreeProgeniesPerParentByLevel(friends, 1);
+
+			for(Progeny progeny : top_progenies.keySet())
+			{
+				System.out.println(progeny.getLevelProgenys().get(0).getLevelHighScore());
+			}
+			
+		} catch (JSONFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test

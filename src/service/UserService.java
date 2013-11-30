@@ -1,7 +1,5 @@
 package service;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -9,6 +7,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import ttable.Progeny;
+import ttable.User;
 import json.JSONFailureException;
 import json.Json;
 /**
@@ -35,6 +34,14 @@ public class UserService {
 		return true;
 	}
 
+	public static void changeSkin(int skin) throws JSONFailureException
+	{
+		Json json = new Json();
+		json.sendRequest("https://jbaron6.cs2212.ca/changeskin?skin=" + skin);
+		
+		User.setDrillSkin(skin);
+	}
+	
 	/**
 	 * Posts a message to Facebook to indicate a child's score
 	 *
@@ -83,15 +90,6 @@ public class UserService {
 		json.sendRequest("https://jbaron6.cs2212.ca/setquestion?question=" + questionNumber + "&password=" + password);		
 		
 		return true;
-	}
-	
-	/**
-	 * Sets the number of mistakes allowed for a specified level.
-	 *
-	 * @param mistakesAllowed the new mistakes allowed
-	 */
-	public static void setMistakesAllowed(int level, int mistakesAllowed) throws JSONFailureException {
-		//TODO:  server call to update
 	}
 	
 	/**

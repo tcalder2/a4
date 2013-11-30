@@ -7,6 +7,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import ttable.User;
+
 public class UserServiceTest {
 
 	@BeforeClass
@@ -18,50 +20,22 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void testSetAnswer() {
-		fail("Not yet implemented");
+	public void testChangeSkin()
+	{
+		try{
+			UserService.changeSkin(2);
+			assertEquals(2, User.getDrillSkin());
+			UserService.changeSkin(0);	
+			assertEquals(0, User.getDrillSkin());
+		}
+		catch(JSONFailureException e)
+		{
+			fail(e.getMessages().get(0));
+		}
+		
+		
 	}
-
-	@Test
-	public void testPostMessage() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetPassword() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetPasswordWithQ() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetQuestion() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetMistakesAllowed() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetSecurityQuestions() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testAuthenticate() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetFriends() {
-		fail("Not yet implemented");
-	}
-
+	
 	@Test
 	public void testResetPassword() {
 		try {

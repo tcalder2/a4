@@ -25,6 +25,7 @@ class User {
    'fb_id' => $this->getFbId(),
    'first_name' => $this->getFirstName(),
    'last_name' => $this->getLastName(),
+   'skin' => $this->getSkin(),
   );
 
 
@@ -81,8 +82,11 @@ class User {
  /** @ORM\Column(type="string", nullable=true) */
  protected $skin;
 
+
  /** @ORM\Column(type="string", nullable=true) */
  protected $incorrect_password_attempts;
+
+
 
  public function exchangeArray($data)
  {
