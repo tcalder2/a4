@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Vector;
@@ -23,7 +22,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import json.JSONFailureException;
@@ -35,6 +33,7 @@ import ttable.Progeny;
  * The class FGameMenu, a populated BackgroundPanel.
  * 
  * @author James Anderson
+ * @author Taylor Calder
  * @version 1.1
  */
 @SuppressWarnings("serial")
@@ -101,39 +100,14 @@ public class FGameMenu extends BackgroundPanel {
 			add(new JLabel("High Scores"), c);
 		}
 
-		//Create table header titles
-		//Vector<String> columnNames = new Vector<String>(Arrays.asList(new String[]{"Friends", "Children", "High Scores"}));
-
 		//Get child's high scores 
-		
-		int[] tmp = {100,88,681};//TODO: Controller.getCurrentProgeny().getHighScores();
+		int[] tmp = {100,88,681};
 		Vector<Vector<String>> highScores = new Vector<Vector<String>>();
 		for (int i = 0; i < tmp.length; i++) {
 			Vector<String> v = new Vector<String>();
 			v.add("" + tmp[i]);
 			highScores.add(v);
 		}
-
-		//Create the high scores table
-		//DefaultTableModel tableModel = new DefaultTableModel(highScores, columnNames);
-		
-		//TODO get high scores, names, parent pics as per 4.f.2
-		
-//		for (int i= 0; i < 3; i++) {
-//		try	{
-//			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/profilePictures/1.jpg"));
-//			ImageIcon pic = (new ImageIcon(getScaledImage(img, 55,55)));
-//			array[i][0] = pic;
-//		} catch (IOException e) {
-//			array[i][0] = "no picture available";
-//		}
-//		}
-//		array[0][1] = "Molly";
-//		array[1][1] = "Case";
-//		array[2][1] = "Armitage";
-//		array[0][2] = "11050";
-//		array[1][2] = "11000";
-//		array[2][2] = "09001";
 
 		LinkedHashMap<Progeny, Friend> butts;
 		try {
@@ -199,17 +173,7 @@ public class FGameMenu extends BackgroundPanel {
 			array[2][2] = "--";
 		}
 		
-		
-		//tableModel.setRowCount(4);
-		//tableModel.setColumnCount(3);
 		JTable table = new JTable(array, header);
-		
-		
-//		{
-//			public boolean isCellEditable(int rowIndex, int colIndex) {
-//				return false;
-//			}
-//		};
 
 		//Set the high scores table display attributes
 		table.setOpaque(false);

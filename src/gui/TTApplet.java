@@ -41,18 +41,13 @@ public class TTApplet extends JApplet {
 			this.add(Controller.getPane());
 		
 		//If there is a communication error display a panel with an error message
-		} catch (JSONFailureException e) {
-			JPanel screen = new JPanel();
-			screen.add(new JLabel("<html>Oops!<br>"
-					+ "It appears we are having some issues!<br>"
-					+ "Make sure you are logged into Facebook and try again.</html>"));
-			this.add(screen);
 		} catch (Exception e) {
 			String error = e.getMessage();
 			if (error == null) {
-				error = "An unknown error has occured";
+				error = "Oops! It appears we are having some issues! Make sure you"
+						+ " are logged into Facebook and try again.";
 			}
-			new GeneralDialogue(error, "Error!", 1);
+			new GeneralDialogue(error, "Unknown Error!", 1);
 		}
 	}
 }

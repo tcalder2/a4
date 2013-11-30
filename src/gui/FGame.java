@@ -16,9 +16,7 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.Timer;
 
 /**
@@ -327,7 +325,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 	 * @param score	the players score
 	 */
 	public void end(boolean win, int score) {
-
+		clock.stop();
 		Thread.currentThread().interrupt();
 		Controller.setScreen(new ScoreReportF(this, score));
 
@@ -368,6 +366,15 @@ public class FGame extends BackgroundPanel implements Runnable {
 		}
 		g.drawString(timeCounter, 540, 55);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see gui.BackgroundPanel#close()
+	 */
+	public void close() {
+		clock.stop();
+	}
+	
 	/**
 	 * Handles Key input 
 	 * @author Taylor Calder

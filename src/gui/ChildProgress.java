@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,12 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -26,18 +23,16 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import json.JSONFailureException;
-import service.GameService;
 import ttable.LevelProgeny;
 import ttable.Progeny;
-import ttable.User;
 
 /**
  * The class ChildProgress, a screen displaying the specified child's progress in the game
  * in tabular form.
  * 
  * @author James Anderson
- * @version 1.1
+ * @author Taylor Calder
+ * @version 2.0
  */
 @SuppressWarnings("serial")
 public class ChildProgress extends JPanel {
@@ -58,8 +53,6 @@ public class ChildProgress extends JPanel {
 
 		//Set the panel to be transparent
 		setOpaque(false);
-
-		try {
 		
 		//Create instance of GridBagConstraints to control layout
 		GridBagConstraints c = new GridBagConstraints();
@@ -96,34 +89,12 @@ public class ChildProgress extends JPanel {
 
 		//Create a vector structure containing the child's progress details
 		Vector<Vector<String>> progress = new Vector<Vector<String>>();
-		ArrayList<LevelProgeny> levels = GameService.getLevels(child);
-		//for (int i = 0; i < levels.size(); i++) {
-			//Vector<String> v = new Vector<String>();
-			//v.add("" + levels.get(i).getLevelNumber());
-			//v.add("" + levels.get(i).getAttempts());
-			//v.add("" + levels.get(i).getCompletionTime());
-			//v.add("" + levels.get(i).getMistakes());
-			//progress.add(v);
-			//Vector<String> v1 = new Vector<String>();
-			//v1.add("2");
-			//v1.add("5");
-			//v1.add("26");
-			//v1.add("2");
-			//progress.add(v1);
-		//}
-
+		
 		//Create and populate table showing details of child progress
 		DefaultTableModel tableModel = new DefaultTableModel(progress, columnNames);
 		tableModel.setNumRows(12);
 		
 		Object[][] array = new Object[12][4];
-		
-//		JTable table = new JTable(tableModel) {
-//			public boolean isCellEditable(int rowIndex, int colIndex) {
-//				return false;
-//			}
-//		};
-
 		String[] header = {"Level","Attempts","Final Time","Final Mistakes"};
 		JTable table = new JTable(array, header);
 		
@@ -197,19 +168,6 @@ public class ChildProgress extends JPanel {
 		c.ipady = 192;
 		c.ipadx = 500;
 		add(scroll,c);
-		
-		} catch (JSONFailureException e) {
-			BackgroundPanel screen = new BackgroundPanel(User.background);
-			screen.setLayout(new BoxLayout(screen, BoxLayout.PAGE_AXIS));
-			ArrayList<String> messages = e.getMessages();
-			for (int i = 0; i < messages.size(); i++) {
-				JLabel error = new JLabel();
-				error.setForeground(Color.RED);
-				error.setFont(new Font("Serif", Font.PLAIN, 18));
-				screen.add(error);
-			}
-			Controller.setScreen(screen);
-		}
 	}
 
 }

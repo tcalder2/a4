@@ -19,7 +19,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Vector;
 
-import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -36,7 +35,6 @@ import javax.swing.text.AbstractDocument;
 import json.JSONFailureException;
 import service.ProgenyService;
 import ttable.Progeny;
-import ttable.User;
 
 /**
  * The Class ChildSettingsTab.
@@ -210,7 +208,7 @@ public class ChildSettingsTab extends JPanel {
 					date = f1.parse("" + i);
 					m.add(f2.format(date));
 				} catch (ParseException e) {
-					/* NULL BODY */
+					new GeneralDialogue(e.getMessage(), "Internal Error", 1);
 				}
 			}
 
@@ -342,16 +340,7 @@ public class ChildSettingsTab extends JPanel {
 			add(update, c); // The button to update the selected child with
 							// selected details
 		} catch (JSONFailureException e) {
-			BackgroundPanel screen = new BackgroundPanel(User.background);
-			screen.setLayout(new BoxLayout(screen, BoxLayout.PAGE_AXIS));
-			ArrayList<String> messages = e.getMessages();
-			for (int i = 0; i < messages.size(); i++) {
-				JLabel error = new JLabel();
-				error.setForeground(Color.RED);
-				error.setFont(Controller.getFont().deriveFont(Font.PLAIN, 18));
-				screen.add(error);
-			}
-			Controller.setScreen(screen);
+			new GeneralDialogue(e.getMessages(), "JSON Error", 1);
 		}
 	}
 
@@ -377,7 +366,12 @@ public class ChildSettingsTab extends JPanel {
 			// Create the vector for use populating the level drop down
 			Vector<String> l = new Vector<String>();
 			for (int i = 1; i <= maxLevel; i++) {
-				l.add("Level " + i);
+				if (i < 10) {
+					l.add("Level " + i + " ");
+				}
+				else {
+					l.add("Level " + i);
+				}
 			}
 
 			// Populate the level drop down
@@ -412,7 +406,7 @@ public class ChildSettingsTab extends JPanel {
 			level.setSelectedIndex(level.getItemCount() - 1);
 
 		} catch (ArrayIndexOutOfBoundsException e) {
-			/* NULL BODY */
+			new GeneralDialogue(e.getMessage(), "Internal Error", 1);
 		} catch (JSONFailureException e) {
 			new GeneralDialogue(e.getMessages(), "JSON Error", 1);
 		}
@@ -553,8 +547,7 @@ public class ChildSettingsTab extends JPanel {
 							"Success!", 3);
 				} else {
 					errors.add("Unable to update child");
-					new GeneralDialogue(errors,
-							"Error: Unable to update child", 1);
+					new GeneralDialogue(errors, "Error: Unable to update child", 1);
 				}
 
 			} catch (JSONFailureException e1) {
@@ -727,7 +720,7 @@ class PressProgress implements ActionListener {
 
 		} catch (NullPointerException e1) {
 			new GeneralDialogue(
-					"Please first select a child from the drop donw.", "", 2);
+					"Please first select a child from the list.", "Error", 2);
 		} catch (JSONFailureException e1) {
 			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		}
