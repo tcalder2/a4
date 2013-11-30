@@ -80,6 +80,62 @@ public class FriendService {
 		return hashMap;
 	}
 
+	public static LinkedHashMap<Progeny, Friend> getHighTopThreeProgeniesPerParentForFinal(
+			ArrayList<Friend> friends) {
+		
+		LinkedHashMap<Progeny, Friend> sourceHashMap = getProgenyFriendHashMap(friends);
+		LinkedHashMap<Progeny, Friend> hashMap = new LinkedHashMap<Progeny, Friend>();
+
+		Progeny sorted_progenies[] = new Progeny[3];
+
+		for (Progeny progeny : sourceHashMap.keySet()) {
+
+			if (progeny.getFinalGameHighScore() == 0) continue;
+			
+			if (sorted_progenies[0] == null) {
+				sorted_progenies[0] = progeny;
+				continue;
+			}
+
+			if (sorted_progenies[0].getFinalGameHighScore() < progeny.getFinalGameHighScore()) {
+				
+				sorted_progenies[2] = sorted_progenies[1];
+				sorted_progenies[1] = sorted_progenies[0];
+				sorted_progenies[0] = progeny;
+				continue;
+			}
+
+			if (sorted_progenies[1] == null) {
+				sorted_progenies[1] = progeny;
+				continue;
+			}
+
+			if (sorted_progenies[1].getFinalGameHighScore() < progeny.getFinalGameHighScore()) {
+				sorted_progenies[2] = sorted_progenies[1];
+				sorted_progenies[1] = progeny;
+				continue;
+			}
+
+			if (sorted_progenies[2] == null) {
+				sorted_progenies[2] = progeny;
+				continue;
+			}
+
+			if (sorted_progenies[2].getFinalGameHighScore() < progeny.getFinalGameHighScore()) {
+				sorted_progenies[2] = progeny;
+				continue;
+			}
+
+		}
+		
+		for(Progeny progeny : sorted_progenies)
+		{
+			hashMap.put(progeny, sourceHashMap.get(progeny));
+		}
+		
+		return hashMap;
+	}
+
 	public static LinkedHashMap<Progeny, Friend> getProgenyFriendHashMap(
 			ArrayList<Friend> friends) {
 		LinkedHashMap<Progeny, Friend> progeny_friend_dictoinary = new LinkedHashMap<Progeny, Friend>();
