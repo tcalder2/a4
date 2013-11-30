@@ -111,7 +111,7 @@ class UserController extends AbstractActionController
   return new JsonModel(array('success' => true));
  }
 
- public function SetSkinAction()
+ public function ChangeSkinAction()
  {
   $skin = $this->params()->fromQuery('skin');
   $skin_validator_chain = new ValidatorChain();

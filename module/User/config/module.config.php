@@ -33,7 +33,7 @@ return array(
    'setskin' => array(
     'type' => 'Zend\Mvc\Router\Http\Literal',
     'options' => array(
-     'route' => '/setskin',
+     'route' => '/changeskin',
      'defaults' => array(
       'controller' => 'User\Controller\User',
       'action' => 'setskin',
