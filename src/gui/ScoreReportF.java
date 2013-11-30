@@ -148,7 +148,7 @@ public class ScoreReportF extends BackgroundPanel {
 		public void actionPerformed(ActionEvent e) {
 			
 			try {
-				UserService.postMessage(new String("" + Controller.getCurrentProgeny().getFirstName() + " just scored " + scoreReport.score + " points on the level game!"));
+				UserService.postMessage(new String("" + Controller.getCurrentProgeny().getFirstName() + " just scored " + scoreReport.score + " points on the final game!"));
 			} catch (JSONFailureException e1) {
 				// TODO Auto-generated catch block
 				new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
