@@ -102,7 +102,7 @@ class UserController extends AbstractActionController
   $message = $this->params()->fromQuery('message');
 
   $this->getFacebook()->api('/me/feed', 'POST', array(
-   'message' => 'testing'
+   'message' => $message
   ));
 
   return new JsonModel(array('success' => true));
