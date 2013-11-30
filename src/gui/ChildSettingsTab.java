@@ -34,7 +34,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.text.AbstractDocument;
 
 import json.JSONFailureException;
-import service.GameService;
 import service.ProgenyService;
 import ttable.Progeny;
 
@@ -988,6 +987,5 @@ class PressUpdate implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		childSettings.updateChild();
-		//Controller.refreshCurrentProgeny();
 	}
 }

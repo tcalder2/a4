@@ -34,11 +34,12 @@ public class ConfirmDialogue extends JDialog {
 	private boolean confirmed;
 
 	/**
-	 * Constructor
+	 * Constructor taking an array of messages, the title and a type code as arguments. Codes are
+	 * 1 for error, 2 for warning and 3 for success.
 	 * 
-	 * @param messages
-	 * @param title
-	 * @param type
+	 * @param messages		the array of messages to display.
+	 * @param title			the title string.
+	 * @param type			the dialogue type code (1=error,2=warning,3=sucess).
 	 */
 	public ConfirmDialogue(ArrayList<String> messages, String title, int type) {
 
@@ -134,11 +135,12 @@ public class ConfirmDialogue extends JDialog {
 	}
 
 	/**
-	 * Constructor
+	 * Constructor taking a single message string, the title, and a type code as arguments. Codes are
+	 * 1 for error, 2 for warning and 3 for success.
 	 * 
-	 * @param message
-	 * @param title
-	 * @param type
+	 * @param message		the message string to be displayed.
+	 * @param title			the title string.
+	 * @param type			the dialogue type code (1=error,2=warning,3=sucess).
 	 */
 	public ConfirmDialogue(String message, String title, int type) {
 		this(new ArrayList<String>(Collections.singletonList(message)), title, type);
