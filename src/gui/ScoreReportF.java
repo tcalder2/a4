@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import json.JSONFailureException;
+import service.GameService;
 import service.UserService;
 import ttable.User;
 
@@ -59,8 +60,14 @@ public class ScoreReportF extends BackgroundPanel {
 		
 		if (score > highscore && highscore >= 0) {
 			Controller.getCurrentProgeny().setFinalGameHighScore(score);
-			//Controller.refreshCurrentProgeny();
 			highScoreStr = ("You beat your old high score! (" + String.format("%05d", highscore) + ")");
+			try {
+				GameService.saveFinalGame(Controller.getCurrentProgeny(), score);
+				Controller.refreshCurrentProgeny();
+			} catch (JSONFailureException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else if (score <= highscore && highscore >= 0){
 			highScoreStr = ("Try to beat your high score next time. (" + String.format("%05d", highscore) + ")");
@@ -68,6 +75,7 @@ public class ScoreReportF extends BackgroundPanel {
 		else {
 			highScoreStr = ("Try to beat your high score next time.");
 		}
+		
 		
 		JLabel score2 = new JLabel(highScoreStr);
 		repaint();

@@ -977,7 +977,6 @@ class PressUpdate implements ActionListener {
 	public PressUpdate(ChildSettingsTab childSettings) {
 		super();
 		this.childSettings = childSettings;
-		Controller.refreshCurrentProgeny();
 	}
 
 	/*
@@ -989,7 +988,6 @@ class PressUpdate implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		childSettings.updateChild();
-		
-		
+		//Controller.refreshCurrentProgeny();
 	}
 }
