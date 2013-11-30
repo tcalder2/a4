@@ -17,7 +17,7 @@ import json.Json;
 
 public class FriendService {
 
-	public static HashMap<Progeny, Friend> getProgenyFriendDictionary(ArrayList<Friend> friends)
+	public static HashMap<Progeny, Friend> getProgenyFriendHashMap(ArrayList<Friend> friends)
 	{
 		HashMap<Progeny, Friend> progeny_friend_dictoinary = new HashMap<Progeny,Friend>();
 
