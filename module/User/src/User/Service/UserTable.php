@@ -136,6 +136,8 @@ class UserTable
    /** @var \User\Entity\User $friend */
    $friend_obj = $user_repository->findBy(array('fb_id' => $friend['uid']));
 
+   if(!$friend_obj) continue;
+
    $progenies = $progeny_repository->findBy(array('user' => $friend_obj));
 
    foreach($progenies as $progeny)
