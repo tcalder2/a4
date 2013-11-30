@@ -38,8 +38,8 @@ class LevelProgenyController extends AbstractActionController
   if (!$mistakes_validator->isValid($mistakes))
    return new JsonModel(array('success' => false, 'messages' => $mistakes_validator->getMessages()));
 
-  if (!$score_validator->isValid($score))
-   return new JsonModel(array('success' => false, 'messages' => $score_validator->getMessages()));
+  if (!$time_validator->isValid($time))
+   return new JsonModel(array('success' => false, 'messages' => $time_validator->getMessages()));
 
   if (!$level_validator->isValid($level))
    return new JsonModel(array('success' => false, 'messages' => $level_validator->getMessages()));
