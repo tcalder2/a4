@@ -96,30 +96,36 @@ public class ChildProgress extends JPanel {
 		//Create a vector structure containing the child's progress details
 		Vector<Vector<String>> progress = new Vector<Vector<String>>();
 		ArrayList<LevelProgeny> levels = GameService.getLevels(child);
-		for (int i = 0; i < levels.size(); i++) {
-			Vector<String> v = new Vector<String>();
-			v.add("" + levels.get(i).getLevelNumber());
-			v.add("" + levels.get(i).getAttempts());
-			v.add("" + levels.get(i).getCompletionTime());
-			v.add("" + levels.get(i).getMistakes());
-			progress.add(v);
-			Vector<String> v1 = new Vector<String>();
-			v1.add("2");
-			v1.add("5");
-			v1.add("26");
-			v1.add("2");
-			progress.add(v1);
-		}
+		//for (int i = 0; i < levels.size(); i++) {
+			//Vector<String> v = new Vector<String>();
+			//v.add("" + levels.get(i).getLevelNumber());
+			//v.add("" + levels.get(i).getAttempts());
+			//v.add("" + levels.get(i).getCompletionTime());
+			//v.add("" + levels.get(i).getMistakes());
+			//progress.add(v);
+			//Vector<String> v1 = new Vector<String>();
+			//v1.add("2");
+			//v1.add("5");
+			//v1.add("26");
+			//v1.add("2");
+			//progress.add(v1);
+		//}
 
 		//Create and populate table showing details of child progress
 		DefaultTableModel tableModel = new DefaultTableModel(progress, columnNames);
 		tableModel.setNumRows(12);
-		JTable table = new JTable(tableModel) {
-			public boolean isCellEditable(int rowIndex, int colIndex) {
-				return false;
-			}
-		};
+		
+		Object[][] array = new Object[12][4];
+		
+//		JTable table = new JTable(tableModel) {
+//			public boolean isCellEditable(int rowIndex, int colIndex) {
+//				return false;
+//			}
+//		};
 
+		String[] header = {"Level","Attempts","Final Time","Final Mistakes"};
+		JTable table = new JTable(array, header);
+		
 		//Set table appearance attributes
 		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 		renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
@@ -130,6 +136,42 @@ public class ChildProgress extends JPanel {
 			col.setCellRenderer(renderer);
 			col.setWidth(100);
 		}
+		
+		LevelProgeny hold = null;
+		
+		// I don't know how any of that vectorized string shit works so I'm just using an array
+		// Sorry for overwriting some of your work :-/
+		
+		for (int i = 0; i < 12; i++) {
+			
+			hold = child.getLevelProgenys().get(i);
+			// Level
+			array[i][0] = new String("" + (i+1));
+			
+			// Attempts
+			array[i][1] = new String("" + hold.getAttempts());
+			
+			// Final Time
+			if (hold.getCompletionTime() == 0) {
+				array[i][2] = new String("-");
+
+			}
+			else {
+				array[i][2] = new String("" + (hold.getCompletionTime()/60) + ":" + (hold.getCompletionTime()%60));
+			}
+				
+						
+			// Final Mistakes
+			if (hold.getCompletionTime() == 0) {
+				array[i][3] = new String("-");
+			}
+			else {
+				array[i][3] = new String("" + hold.getMistakes());
+				
+			}
+			
+		}
+		
 		table.setOpaque(false);
 		table.setRowHeight(18);
 		table.setShowGrid(false);

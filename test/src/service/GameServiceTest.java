@@ -30,7 +30,7 @@ public class GameServiceTest {
 
 			for(Progeny progeny : top_progenies.keySet())
 			{
-				System.out.println(progeny.getLevelProgenys().get(0).getLevelHighScore());
+				System.out.println(progeny.getLevelProgenys().get(0).getCompletionTime());
 			}
 			
 		} catch (JSONFailureException e) {
