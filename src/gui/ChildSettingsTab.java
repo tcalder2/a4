@@ -129,7 +129,7 @@ public class ChildSettingsTab extends JPanel {
 				v.add(p.getBirthDate());
 
 				v.add(ProgenyService.getAge(p.getBirthDate()));
-				v.add(p.getLevelNumber());
+				v.add(new String("" + p.getLevel()));
 				tableData.add(v);
 			}
 
@@ -371,7 +371,7 @@ public class ChildSettingsTab extends JPanel {
 			ArrayList<Progeny> progeny = ProgenyService.getProgenies();
 			if (progeny.size() > 0) {
 				maxLevel = progeny.get(childSelect.getSelectedIndex())
-						.getLevelNumber();
+						.getLevel();
 			}
 
 			// Create the vector for use populating the level drop down
@@ -542,8 +542,8 @@ public class ChildSettingsTab extends JPanel {
 
 					// If the level number has changed, update the progeny's
 					// level
-					if (child.getLevelNumber() != newLevel) {
-						GameService.setLevel(child, newLevel);
+					if (child.getLevel() != newLevel) {
+						ProgenyService.changeLevel(child, newLevel);
 					}
 
 					// Update the screen
@@ -977,6 +977,7 @@ class PressUpdate implements ActionListener {
 	public PressUpdate(ChildSettingsTab childSettings) {
 		super();
 		this.childSettings = childSettings;
+		Controller.refreshCurrentProgeny();
 	}
 
 	/*

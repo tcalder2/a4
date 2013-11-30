@@ -60,7 +60,7 @@ public class LGameMenu extends BackgroundPanel {
 		c.gridwidth = 1;
 
 		//Get the current level of the child
-		int level = Controller.getCurrentProgeny().getLevelNumber();
+		int level = Controller.getCurrentProgeny().getLevel();
 				
 		//Loop through adding the level buttons with custom button graphics
 		int position = 0;

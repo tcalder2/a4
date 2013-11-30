@@ -20,28 +20,27 @@ import json.JSONFailureException;
  */
 public class Json {
 
-
 	/**
 	 * Send request.
-	 *
-	 * @param url the url
+	 * 
+	 * @param url
+	 *            the url
 	 * @return the jSON object
-	 * @throws JSONFailureException the jSON failure exception
+	 * @throws JSONFailureException
+	 *             the jSON failure exception
 	 */
 	public JSONObject sendRequest(String url) throws JSONFailureException {
 		String json_data = "";
 		URLConnection yc = null;
 		BufferedReader in = null;
 
-		if(settings.Settings.getFbTest())
-		{
-			if(url.contains("?"))
+		if (settings.Settings.getFbTest()) {
+			if (url.contains("?"))
 				url += "&fb_test=true";
 			else
 				url += "?fb_test=true";
 		}
-		
-		
+
 		try {
 			// Read in the data
 			yc = new URL(url).openConnection();
@@ -85,8 +84,9 @@ public class Json {
 
 	/**
 	 * Gets the messages.
-	 *
-	 * @param json the json
+	 * 
+	 * @param json
+	 *            the json
 	 * @return the messages
 	 */
 	public static ArrayList<String> getMessages(JSONObject json) {
