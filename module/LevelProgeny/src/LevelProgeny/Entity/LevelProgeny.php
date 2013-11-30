@@ -24,10 +24,8 @@ class LevelProgeny {
    'id' => $this->getId(),
    'attempts' => $this->getAttempts(),
    'final_mistakes' => $this->getFinalMistakes(),
-   'high_score' => $this->high_score,
    'final_completion_time' => $this->final_completion_time,
    'level' => $this->getLevel(),
-   'cumulative_score' => $this->getCumlativeScore(),
   );
  }
 
@@ -59,13 +57,7 @@ class LevelProgeny {
  protected $final_completion_time;
 
  /** @ORM\Column(type="integer") */
- protected $high_score;
-
- /** @ORM\Column(type="integer") */
  protected $final_mistakes;
-
- /** @ORM\Column(type="integer") */
- protected $cumlative_score;
 
  /**
   * @param mixed $attempts
@@ -97,22 +89,6 @@ class LevelProgeny {
  public function getFinalCompletionTime()
  {
   return $this->final_completion_time;
- }
-
- /**
-  * @param mixed $high_score
-  */
- public function setHighScore($high_score)
- {
-  $this->high_score = $high_score;
- }
-
- /**
-  * @return mixed
-  */
- public function getHighScore()
- {
-  return $this->high_score;
  }
 
  /**
@@ -193,22 +169,6 @@ class LevelProgeny {
  public function getFinalMistakes()
  {
   return $this->final_mistakes;
- }
-
- /**
-  * @param mixed $cumlative_score
-  */
- public function setCumlativeScore($cumlative_score)
- {
-  $this->cumlative_score = $cumlative_score;
- }
-
- /**
-  * @return mixed
-  */
- public function getCumlativeScore()
- {
-  return $this->cumlative_score;
  }
 
  public function exchangeArray($data)
