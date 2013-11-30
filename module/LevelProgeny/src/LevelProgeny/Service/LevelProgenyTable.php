@@ -26,7 +26,7 @@ class LevelProgenyTable
   $this->em = $this->sm->get('Doctrine\ORM\EntityManager');
  }
 
- public function saveGame($time, $score, $mistakes, Progeny $progeny, $level)
+ public function saveGame($time, $mistakes, Progeny $progeny, $level)
  {
   /** @var \LevelProgeny\Service\LevelProgenyTable $level_progeny_table */
   $level_progeny_table = $this->sm->get('LevelProgeny\Service\LevelProgenyTable');
@@ -35,10 +35,7 @@ class LevelProgenyTable
 
   $level_progeny = $this->getLevelProgeny($level, $progeny);
 
-  if ($score > $level_progeny->getHighScore())
-   $level_progeny->setHighScore($score);
-
-  $level_progeny->setCumlativeScore($level_progeny->getCumlativeScore() + $score);
+  $level_progeny->setCumulativeTime($level_progeny->getCumulativeTime() + $time);
   $level_progeny->setFinalCompletionTime($time);
   $level_progeny->setFinalMistakes($mistakes);
 
@@ -66,7 +63,7 @@ class LevelProgenyTable
    $levelProgeny->setProgeny($progeny);
    $levelProgeny->setLevel($x);
    $levelProgeny->setHighScore(0);
-   $levelProgeny->setCumlativeScore(0);
+   $levelProgeny->setCumulativeScore(0);
    $levelProgeny->setAttempts(0);
 
    $this->em->persist($levelProgeny);
