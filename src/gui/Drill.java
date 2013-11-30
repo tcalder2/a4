@@ -166,9 +166,9 @@ public class Drill extends BackgroundPanel {
 		timer.setPreferredSize(new Dimension(90,30));
 
 		question.setFont(Controller.getFont().deriveFont(Font.BOLD, 60));
-		question.setMinimumSize(new Dimension(200,65));
-		question.setMaximumSize(new Dimension(200,65));
-		question.setPreferredSize(new Dimension(200,65));
+		question.setMinimumSize(new Dimension(220,65));
+		question.setMaximumSize(new Dimension(220,65));
+		question.setPreferredSize(new Dimension(220,65));
 		
 		answerField.setFont(Controller.getFont().deriveFont(Font.BOLD, 60));
 		((AbstractDocument) answerField.getDocument()).setDocumentFilter(new DocumentLengthFilter(3));
