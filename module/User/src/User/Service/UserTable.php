@@ -106,20 +106,10 @@ class UserTable
  public function getFriends()
  {
 
-  if(array_key_exists('fb_test', $_GET))
-  {
    $friends = $this->getFacebook()->api(array(
     'method' => 'fql.query',
     'query' => 'SELECT first_name, last_name, uid, name, is_app_user FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1=me()) AND is_app_user=1'
    ));
-  }
-  else
-  {
-   $friends = $this->getFacebook()->api(array(
-    'method' => 'fql.query',
-    'query' => 'SELECT first_name, last_name, uid, name, is_app_user FROM user WHERE uid =\'' + $this->getUser()->getId() + '\' AND is_app_user=1'
-   ));
-  }
 
   $friends_array = array();
 
@@ -156,6 +146,32 @@ class UserTable
 
    array_push($friends_array, $friend_array);
   }
+
+  $friend_array = array();
+
+  $user = $this->getUser();
+
+  $friend_array['first_name'] = $user->getFirstName();
+  $friend_array['last_name'] = $user->getLastName();
+  $friend_array['fb_id'] = $user->getFbId();
+
+  $progenies_array = array();
+
+  /** @var \User\Entity\User $friend */
+  $friend = $user_repository->findBy(array('fb_id' => $user->getFbId()));
+
+  $progenies = $progeny_repository->findBy(array('user' => $user));
+
+  foreach($progenies as $progeny)
+  {
+   /** @var \Progeny\Entity\Progeny $progeny */
+
+   array_push($progenies_array, $progeny_table->getProgenyDataArray($progeny));
+  }
+
+  $friend_array['progenies'] = $progenies_array;
+
+  array_push($friends_array, $friend_array);
 
   return $friends_array;
  }

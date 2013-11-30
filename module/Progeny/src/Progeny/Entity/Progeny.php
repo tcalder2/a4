@@ -229,5 +229,6 @@ class Progeny
  /** @ORM\Column(type="integer") */
  protected $final_game_high_score;
 
+
 }
 

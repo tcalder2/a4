@@ -25,6 +25,8 @@ public class LevelProgeny {
 	
 	/** The time it took to complete the drill on the first time it was passed. */
 	private int completionTime;
+	
+	private int cumulativeScore;
 
 	
 	/**
@@ -124,6 +126,14 @@ public class LevelProgeny {
 		this.completionTime = completionTime;
 	}
 	
+	public int getCumulativeScore() {
+		return cumulativeScore;
+	}
+
+	public void setCumulativeScore(int cumulativeScore) {
+		this.cumulativeScore = cumulativeScore;
+	}
+
 	/**
 	 * Compares the class variables to the class variables of the level progeny passed as an argument.
 	 * 

@@ -13,8 +13,6 @@ class LevelProgenyController extends AbstractActionController
  protected $level_progeny_table;
  protected $progeny_table;
 
-
-
  public function indexAction()
  {
   return new ViewModel();

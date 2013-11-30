@@ -166,9 +166,9 @@ public class Drill extends BackgroundPanel {
 		timer.setPreferredSize(new Dimension(90,30));
 
 		question.setFont(Controller.getFont().deriveFont(Font.BOLD, 60));
-		question.setMinimumSize(new Dimension(200,65));
-		question.setMaximumSize(new Dimension(200,65));
-		question.setPreferredSize(new Dimension(200,65));
+		question.setMinimumSize(new Dimension(220,65));
+		question.setMaximumSize(new Dimension(220,65));
+		question.setPreferredSize(new Dimension(220,65));
 		
 		answerField.setFont(Controller.getFont().deriveFont(Font.BOLD, 60));
 		((AbstractDocument) answerField.getDocument()).setDocumentFilter(new DocumentLengthFilter(3));
@@ -360,6 +360,7 @@ public class Drill extends BackgroundPanel {
 			questions.remove(currentQ);
 			if (questions.size() == 0) {
 				clock.stop();
+				setWin(true);
 			}
 			incorrImg.setVisible(false);
 			correctImg.setVisible(true);
@@ -392,10 +393,12 @@ public class Drill extends BackgroundPanel {
 		}
 		
 		if (lives <= 0) {
+			clock.stop();
 			Controller.setScreen(new ScoreReport(false, getTimeMax(), getTimeLeft(), level.getLevelNumber(), incorrect));
 		}
 		
 		if (isEnd()) {
+			clock.stop();
 			Controller.setScreen(new ScoreReport(isWin(), getTimeMax(), getTimeLeft(), level.getLevelNumber(), incorrect));
 		}
 		else {
