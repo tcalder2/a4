@@ -92,7 +92,7 @@ class ProgenyController extends AbstractActionController
   if(!$progeny)
    return new JsonModel(array('success' => false, 'message' => 'Could not find a progeny with that ID'));
 
-  return new JsonModel(array('success' => true, 'progeny' => $progeny));
+  return new JsonModel(array('success' => true, 'progeny' => $progeny_table->getProgenyDataArray($progeny)));
  }
 
  public function changeTimeAllowedAction()

@@ -56,7 +56,7 @@ class LevelProgenyController extends AbstractActionController
   $level_progeny_table = $this->getLevelProgenyTable();
   $level_progeny_table->saveGame($time, $score, $mistakes, $progeny, $level);
 
-  return new JsonModel(array('success' => true, 'progeny' => $progeny));
+  return new JsonModel(array('success' => true, 'progeny' => $this->getProgenyTable()->getProgenyDataArray($progeny)));
  }
 
 
