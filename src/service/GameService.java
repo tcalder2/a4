@@ -40,12 +40,21 @@ public class GameService {
 		levelProgeny.setCompletionTime(Integer.parseInt(level_progeny_data.get("final_completion_time").toString()));
 	}
 
+	public static void saveFinalGame(Progeny progeny, int score) throws JSONFailureException
+	{
+		Json json = new Json();
+		JSONObject progeny_data = (JSONObject) json.sendRequest("https://jbaron6.cs2212.ca/savefinalgame?progeny_id=" + progeny.getId() + "&score=" + score ).get("progeny");
+
+		ProgenyService.fillProgeny(progeny, progeny_data);
+	}
+	
 	public static void saveGame(Progeny progeny, int levelNumber, int mistakes, int score, int time) throws JSONFailureException
 	{
 		Json json = new Json();
-		json.sendRequest("https://jbaron6.cs2212.ca/savegame?progeny_id=" + 
-				progeny.getId() + "&level=" + levelNumber + "&mistakes=" + mistakes + "&score=" + score + "&time=" + time);
-
+		JSONObject progeny_data = (JSONObject) json.sendRequest("https://jbaron6.cs2212.ca/savegame?progeny_id=" + 
+				progeny.getId() + "&level=" + levelNumber + "&mistakes=" + mistakes + "&score=" + score + "&time=" + time).get("progeny");
+		
+		ProgenyService.fillProgeny(progeny, progeny_data);
 	}
 	
 	/**

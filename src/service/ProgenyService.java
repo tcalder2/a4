@@ -98,13 +98,8 @@ public class ProgenyService {
 		
 		progeny.setTimeAllowed(Integer.parseInt(progeny_data.get("time_allowed").toString()));
 		progeny.setId(progeny_data.get("id").toString());
-		try {
 		progeny.setLevel(Integer.parseInt(progeny_data.get("level").toString()));
-		}
-		catch (Exception e) {
-			
-		}
-		
+		progeny.setFinalGameHighScore(Integer.parseInt(progeny_data.get("final_game_high_score").toString()));
 		
 		ArrayList<LevelProgeny> levelProgenys = new ArrayList<LevelProgeny>();
 		
