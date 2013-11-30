@@ -15,7 +15,6 @@ class User {
 
  function __construct()
  {
-  $this->answer = "-1";
  }
 
  public function toArray()
