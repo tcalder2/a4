@@ -34,6 +34,8 @@ public class Progeny {
 	
 	private ArrayList<LevelProgeny> levelProgenys;
 	
+	private int finalGameHighScore;
+	
 	/** 
 	 * The amount of time the child is allowed to complete drill levels.
 	 */
@@ -208,6 +210,14 @@ public class Progeny {
 	 */
 	public void setLevel(int level) {
 		this.level = level;
+	}
+
+	public int getFinalGameHighScore() {
+		return finalGameHighScore;
+	}
+
+	public void setFinalGameHighScore(int finalGameHighScore) {
+		this.finalGameHighScore = finalGameHighScore;
 	}
 }
 
