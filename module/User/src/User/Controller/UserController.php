@@ -3,6 +3,9 @@
 namespace User\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Validator\Between;
+use Zend\Validator\Digits;
+use Zend\Validator\ValidatorChain;
 use Zend\View\Model\JsonModel;
 
 class UserController extends AbstractActionController
@@ -60,8 +63,8 @@ class UserController extends AbstractActionController
   $password = $this->params()->fromQuery('password');
 
   //validate that the question set matches something in the array
-  $validator_chain = new \Zend\Validator\ValidatorChain();
-  $validator_chain->attach(new \Zend\Validator\Digits());
+  $validator_chain = new ValidatorChain();
+  $validator_chain->attach(new Digits());
   $validator_chain->attach(new \Zend\Validator\Between(array('inclusive' => true, 'min' => 0, 'max' => 2)));
 
   //Check if the user password expired
@@ -108,6 +111,22 @@ class UserController extends AbstractActionController
   return new JsonModel(array('success' => true));
  }
 
+ public function SetSkinAction()
+ {
+  $skin = $this->params()->fromQuery('skin');
+  $skin_validator_chain = new ValidatorChain();
+
+  $skin_validator_chain->attach(new Digits());
+  $skin_validator_chain->attach(new Between(array('inclusive' => true, 'min' => 0, 'max' => 2)));
+
+  if(!$skin_validator_chain->isValid($skin))
+   return new JsonModel(array('success' => false, 'messages' => $skin_validator_chain->getMessages()));
+
+
+
+  return new JsonModel(array('success' => true));
+ }
+
  public function ResetPasswordAction()
  {
   $answer = $this->params()->fromQuery('answer');
@@ -140,7 +159,7 @@ class UserController extends AbstractActionController
   $password = $this->params()->fromQuery('password');
 
   //we only need this validator once
-  $validator_chain = new \Zend\Validator\ValidatorChain();
+  $validator_chain = new ValidatorChain();
   $validator_chain->attach(new \Zend\Validator\StringLength(array('min' => 1, 'max' => 30)));
 
   //Check if the user password expired

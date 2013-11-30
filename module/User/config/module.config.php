@@ -30,6 +30,17 @@ return array(
     ),
    ),
 
+   'setskin' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+     'route' => '/setskin',
+     'defaults' => array(
+      'controller' => 'User\Controller\User',
+      'action' => 'setskin',
+     ),
+    ),
+   ),
+
    'getfriends' => array(
     'type' => 'Zend\Mvc\Router\Http\Literal',
     'options' => array(

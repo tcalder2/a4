@@ -32,6 +32,15 @@ class UserTable
   $this->em = $this->sm->get('Doctrine\ORM\EntityManager');
  }
 
+ public function setSkin($skin)
+ {
+  $user = $this->getUser();
+  $user->setSkin($skin);
+
+  $this->em->persist($user);
+  $this->em->flush();
+ }
+
  public function setAnswer($answer)
  {
   //persist answer
