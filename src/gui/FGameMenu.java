@@ -133,8 +133,8 @@ public class FGameMenu extends BackgroundPanel {
 					+ "/picture?type=large"));
 			ImageIcon pic = (new ImageIcon(getScaledImage(img, 55,55)));
 			array[0][0] = pic;
-			array[0][1] = (friend1.getFirstName() + " " + friend1.getLastName());
-			array[0][2] = prog1.getFirstName();
+			array[0][1] = prog1.getFirstName();
+			array[0][2] = "" + prog1.getFinalGameHighScore();
 		}
 		catch (Exception e) {
 			array[0][0] = "--";
@@ -149,8 +149,8 @@ public class FGameMenu extends BackgroundPanel {
 					+ "/picture?type=large"));
 			ImageIcon pic = (new ImageIcon(getScaledImage(img, 55,55)));
 			array[1][0] = pic;
-			array[1][1] = (friend2.getFirstName() + " " + friend2.getLastName());
-			array[1][2] = prog2.getFirstName();
+			array[1][1] = prog2.getFirstName();
+			array[1][2] = "" + prog2.getFinalGameHighScore();
 		}
 		catch (Exception e) {
 			array[1][0] = "--";
@@ -164,8 +164,8 @@ public class FGameMenu extends BackgroundPanel {
 					+ "/picture?type=large"));
 			ImageIcon pic = (new ImageIcon(getScaledImage(img, 55,55)));
 			array[2][0] = pic;
-			array[2][1] = (friend3.getFirstName() + " " + friend3.getLastName());
-			array[2][2] = prog3.getFirstName();
+			array[2][1] = prog3.getFirstName();
+			array[2][2] = "" + prog3.getFinalGameHighScore();
 		}
 		catch (Exception e) {
 			array[2][0] = "--";
