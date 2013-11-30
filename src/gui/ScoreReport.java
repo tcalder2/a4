@@ -78,7 +78,7 @@ public class ScoreReport extends BackgroundPanel {
 		}
 		JLabel score1;
 		if (win) {
-			score1 = new JLabel("You finished in " + (time - timeLeft)
+			score1 = new JLabel("You finished in " + (timeArg - timeLeftArg)
 					+ " seconds!!");
 		} else {
 			score1 = new JLabel("You didn't manage to finish...");
