@@ -71,6 +71,7 @@ public final class User {
 			instance.setFirstName((String) userObj.get("first_name"));
 			instance.setLastName((String) userObj.get("last_name"));
 			instance.setProgenyList(ProgenyService.getProgenies());
+			
 			instance.setLevels(LevelService.getLevels());
 		}
 		return instance;
@@ -235,4 +236,42 @@ public final class User {
 		}
 		return null;
 	}
+
+	public String getFbID() {
+		return fbID;
+	}
+
+	public void setFbID(String fbID) {
+		this.fbID = fbID;
+	}
+
+	public static int getDrillSkin() {
+		return drillSkin;
+	}
+
+	public static void setDrillSkin(int drillSkin) {
+		User.drillSkin = drillSkin;
+	}
+
+	public static String getBackgroundMenu() {
+		return backgroundMenu;
+	}
+
+	public static void setBackgroundMenu(String backgroundMenu) {
+		User.backgroundMenu = backgroundMenu;
+	}
+
+	public static String getBackground() {
+		return background;
+	}
+
+	public static void setBackground(String background) {
+		User.background = background;
+	}
+
+	public static void setInstance(User instance) {
+		User.instance = instance;
+	}
+	
+	
 }

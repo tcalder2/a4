@@ -21,6 +21,10 @@ import gui.Controller;
 @SuppressWarnings("serial")
 public class MainMenu extends BackgroundPanel {
 	
+	static boolean lGameLock = true;
+	static boolean fGameLock = true;
+	int lastLevelCompletion;
+	
 	/**
 	 * Instantiates a MainMenu instance.
 	 *
@@ -37,6 +41,13 @@ public class MainMenu extends BackgroundPanel {
 		c.weightx = 0;
 		c.gridx = 0;
 		c.gridy = 0;
+		
+		try {
+			fGameLock = (Controller.getCurrentProgeny().getLevelProgenys().get(11).getCompletionTime() == 0);
+		}
+		catch (NullPointerException e) {
+			;
+		}
 		
 		try	{
 			//Load and add the main menu title graphic
@@ -71,10 +82,19 @@ public class MainMenu extends BackgroundPanel {
 			toDrill.setText("Drills");
 		}
 		
+		
+		
 		toLGame.setContentAreaFilled(false);
 		toLGame.setBorderPainted(false);
+		Image img;
 		try {
-			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/main/lgames_l.png"));
+			if (Controller.getCurrentProgeny().getLevel() <= 1) {
+				img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/main/lgames_l.png"));
+			}
+			else {
+				lGameLock = false;
+				img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/main/lgames_u.png"));
+			}
 			toLGame.setIcon(new ImageIcon(img));
 		} catch (IOException e) {
 			toLGame.setText("Level Games");
@@ -83,7 +103,12 @@ public class MainMenu extends BackgroundPanel {
 		toFGame.setContentAreaFilled(false);
 		toFGame.setBorderPainted(false);
 		try {
-			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/main/fgame_l.png"));
+			if (fGameLock) {
+				img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/main/fgame_l.png"));
+			}
+			else {
+				img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/main/fgame_u.png"));
+			}
 			toFGame.setIcon(new ImageIcon(img));
 		} catch (IOException e) {
 			toFGame.setText("Final Game");
@@ -92,7 +117,7 @@ public class MainMenu extends BackgroundPanel {
 		toStats.setContentAreaFilled(false);
 		toStats.setBorderPainted(false);
 		try {
-			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/main/scores&stats.png"));
+			img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/main/scores&stats.png"));
 			toStats.setIcon(new ImageIcon(img));
 		} catch (IOException e) {
 			toStats.setText("Scores & Stats");
@@ -168,8 +193,10 @@ class PressLGame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		//Swap screen for the level game menu
-		Controller.setScreen(new LGameMenu());
+		if (!MainMenu.lGameLock) {
+			//Swap screen for the level game menu
+			Controller.setScreen(new LGameMenu());
+		}
 	}
 }
 
@@ -196,8 +223,10 @@ class PressFGame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		//Swap screen for the final game menu
-		Controller.setScreen(new FGameMenu());
+		if (!MainMenu.fGameLock) {
+			//Swap screen for the level game menu
+			Controller.setScreen(new FGameMenu());
+		}
 	}
 }
 

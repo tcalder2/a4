@@ -115,6 +115,8 @@ public class ProgenyService {
 			GameService.fillLevelProgeny(levelProgeny, level_progeny_object);
 			levelProgenys.add(levelProgeny);
 		}
+		
+		progeny.setLevelProgenys(levelProgenys);
 	}
 	
 	public static void changeBirthDate(Progeny progeny, Date birthDate) throws JSONFailureException
