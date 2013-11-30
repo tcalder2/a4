@@ -40,6 +40,8 @@ public class ScoreReport extends BackgroundPanel {
 		super("http://jbaron6.cs2212.ca/img/default_background.png",
 				new GridBagLayout());
 
+		
+		
 		// Save the game state
 		if (win) {
 			try {
