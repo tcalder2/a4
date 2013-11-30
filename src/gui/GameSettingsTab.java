@@ -125,8 +125,18 @@ public class GameSettingsTab extends JPanel {
 		} else {
 			testOff.setSelected(true);
 		}
-		setTimeSelection();
-		setErrorsSelection();
+		try {
+			setTimeSelection();
+		}
+		catch (Exception e) {
+			
+		}
+		try {
+			setErrorsSelection();
+		}
+		catch (Exception e) {
+			
+		}
 		themes.setSelectedIndex(User.drillSkin);
 
 		// Add action listeners

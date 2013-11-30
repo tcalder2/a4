@@ -29,30 +29,24 @@ class LevelProgenyController extends AbstractActionController
   $mistakes = $this->params()->fromQuery('mistakes');
   $mistakes_validator = new \Zend\Validator\Digits();
 
-  $score = $this->params()->fromQuery('score');
-  $score_validator = new \Zend\Validator\Digits();
-
   $level = $this->params()->fromQuery('level');
   $level_validator = new \Zend\Validator\Digits();
 
   if (!$progeny)
    return new JsonModel(array('success' => false, 'message' => 'Could not find a progeny with that ID.'));
 
-  if (!$time_validator->isValid($time))
-   return new JsonModel(array('success' => false, 'messages' => $time_validator->getMessages()));
-
   if (!$mistakes_validator->isValid($mistakes))
    return new JsonModel(array('success' => false, 'messages' => $mistakes_validator->getMessages()));
 
-  if (!$score_validator->isValid($score))
-   return new JsonModel(array('success' => false, 'messages' => $score_validator->getMessages()));
+  if (!$time_validator->isValid($time))
+   return new JsonModel(array('success' => false, 'messages' => $time_validator->getMessages()));
 
   if (!$level_validator->isValid($level))
    return new JsonModel(array('success' => false, 'messages' => $level_validator->getMessages()));
 
   /** @var \LevelProgeny\Service\LevelProgenyTable $level_progeny_table */
   $level_progeny_table = $this->getLevelProgenyTable();
-  $level_progeny_table->saveGame($time, $score, $mistakes, $progeny, $level);
+  $level_progeny_table->saveGame($time, $mistakes, $progeny, $level);
 
   return new JsonModel(array('success' => true, 'progeny' => $this->getProgenyTable()->getProgenyDataArray($progeny)));
  }

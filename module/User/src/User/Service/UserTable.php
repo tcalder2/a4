@@ -128,6 +128,9 @@ class UserTable
    $friend_array['last_name'] = $friend['last_name'];
    $friend_array['fb_id'] = $friend['uid'];
 
+   if(isset($progenies_array))
+    unset($progenies_array);
+
    $progenies_array = array();
 
    /** @var \User\Entity\User $friend */
@@ -184,6 +187,8 @@ class UserTable
   $user->exchangeArray($data);
   $user->setPassword(md5('cs2212'));
   $user->setSkin(0);
+  $user->setQuestion(0);
+  $user->setIncorrectPasswordAttempts(0);
 
   $this->em->persist($user);
   $this->em->flush();

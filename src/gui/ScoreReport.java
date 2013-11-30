@@ -78,7 +78,7 @@ public class ScoreReport extends BackgroundPanel {
 		}
 		JLabel score1;
 		if (win) {
-			score1 = new JLabel("You finished in " + (time - timeLeft)
+			score1 = new JLabel("You finished in " + (timeArg - timeLeftArg)
 					+ " seconds!!");
 		} else {
 			score1 = new JLabel("You didn't manage to finish...");
@@ -223,7 +223,7 @@ public class ScoreReport extends BackgroundPanel {
 		public void actionPerformed(ActionEvent e) {
 			
 			try {
-				UserService.postMessage("" + Controller.getCurrentProgeny().getFirstName() + " just mastered the number " + scoreReport.level + " times table!");
+				UserService.postMessage(new String("" + Controller.getCurrentProgeny().getFirstName() + " just mastered the number " + scoreReport.level + " times table!"));
 			} catch (JSONFailureException e1) {
 				// TODO Auto-generated catch block
 				new GeneralDialogue(e1.getMessages(), "JSON Error", 1);

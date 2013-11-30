@@ -35,7 +35,6 @@ class LevelProgenyTable
 
   $level_progeny = $this->getLevelProgeny($level, $progeny);
 
-  $level_progeny->setCumulativeTime($level_progeny->getCumulativeTime() + $time);
   $level_progeny->setFinalCompletionTime($time);
   $level_progeny->setFinalMistakes($mistakes);
 
