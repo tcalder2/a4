@@ -64,7 +64,7 @@ public class FriendService {
 			}
 
 			if (sorted_progenies[2].getLevelProgenys().get(level - 1)
-					.getCompletionTime() < progeny.getLevelProgenys()
+					.getCompletionTime() > progeny.getLevelProgenys()
 					.get(level - 1).getCompletionTime()) {
 				sorted_progenies[2] = progeny;
 				continue;
