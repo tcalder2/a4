@@ -40,6 +40,25 @@ public class GameServiceTest {
 	}
 
 	@Test
+	public void testGetFinalHighScores()
+	{
+		try {
+			ArrayList<Friend> friends = FriendService.getFriends();
+ 			LinkedHashMap<Progeny, Friend> top_progenies = FriendService.getHighTopThreeProgeniesPerParentForFinal(friends);
+
+			for(Progeny progeny : top_progenies.keySet())
+			{
+				System.out.println(progeny.getFinalGameHighScore());
+			}
+			
+		} catch (JSONFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	
+	@Test
 	public void saveFinalGame() {
 		Date birthDate = null;
 		int fiveMinutes = 3000;
