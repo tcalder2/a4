@@ -620,7 +620,7 @@ public class ChildSettingsTab extends JPanel {
 
 			// Update the screen
 			settings.changeTabContent(0, new ChildSettingsTab(settings));
-			settings.changeTabContent(1, new LevelSettingsTab(settings));
+			settings.changeTabContent(1, new GameSettingsTab(settings));
 
 			new GeneralDialogue("Child successfully added.", "Success!", 3);
 
@@ -655,7 +655,7 @@ public class ChildSettingsTab extends JPanel {
 				}
 				// Update the screen
 				settings.changeTabContent(0, new ChildSettingsTab(settings));
-				settings.changeTabContent(1, new LevelSettingsTab(settings));
+				settings.changeTabContent(1, new GameSettingsTab(settings));
 
 				new GeneralDialogue("Child successfully removed.", "Success!",
 						3);

@@ -20,15 +20,17 @@ import service.LevelService;
 import service.ProgenyService;
 import ttable.Level;
 import ttable.Progeny;
+import ttable.User;
 
 /**
  * The class LevelSettingsTab, a populated JPanel.
  * 
  * @author James Anderson
- * @version 2.0
+ * @author Taylor Calder
+ * @version 3.0
  */
 @SuppressWarnings("serial")
-public class LevelSettingsTab extends JPanel {
+public class GameSettingsTab extends JPanel {
 
 	/** The child selection drop down. */
 	private JComboBox<String> childSelector;
@@ -41,12 +43,15 @@ public class LevelSettingsTab extends JPanel {
 
 	/** The drop down for setting the errors allowed for that level. */
 	private JComboBox<String> errors;
+	
+	/** The drop down containing the possible themes. */
+	private JComboBox<String> themes;
 
 	/**
 	 * Instantiates a LevelSettingsTab instance.
 	 * 
 	 */
-	public LevelSettingsTab(Settings settings) {
+	public GameSettingsTab(Settings settings) {
 		super(new GridBagLayout());
 		setOpaque(false);
 
@@ -83,6 +88,12 @@ public class LevelSettingsTab extends JPanel {
 		for (int i = 0; i <= 5; i++) {
 			err.add("" + i);
 		}
+		
+		//Creates a list of themes
+		Vector<String> tList = new Vector<String>();
+		tList.add("Default");
+		tList.add("Airplanes");
+		tList.add("Castles");
 
 		// Create components
 		JLabel sect1 = new JLabel("Child Specific Drill Settings: ");
@@ -100,6 +111,8 @@ public class LevelSettingsTab extends JPanel {
 		JRadioButton testOn = new JRadioButton(" On");
 		JButton update1 = new JButton("Update");
 		JButton update2 = new JButton("Update");
+		JLabel themeLabel = new JLabel("Select a Theme: ");
+		themes = new JComboBox<String>(tList);
 
 		// Create button group to link testing mode toggle buttons
 		ButtonGroup testState = new ButtonGroup();
@@ -114,6 +127,7 @@ public class LevelSettingsTab extends JPanel {
 		}
 		setTimeSelection();
 		setErrorsSelection();
+		themes.setSelectedIndex(User.drillSkin);
 
 		// Add action listeners
 		childSelector.addActionListener(new SelectChild(this));
@@ -123,6 +137,7 @@ public class LevelSettingsTab extends JPanel {
 		ChangeTestState testListener = new ChangeTestState();
 		testOn.addActionListener(testListener);
 		testOff.addActionListener(testListener);
+		themes.addActionListener(new UpdateTheme(this));
 
 		// Add components to view
 		GridBagConstraints c = new GridBagConstraints();
@@ -157,8 +172,12 @@ public class LevelSettingsTab extends JPanel {
 		c.insets = new Insets(30, 50, 0, 0);
 		c.gridwidth = 1;
 		c.gridy = 6;
-		add(testingLabel, c);
+		add(testingLabel, c);		
 
+		c.gridx = 3;
+		//c.insets = new Insets(0,50,0,0);
+		add(themeLabel, c);
+		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30, 0, 0, 0);
 		c.gridx = 1;
@@ -166,7 +185,10 @@ public class LevelSettingsTab extends JPanel {
 
 		c.gridx = 2;
 		add(testOn, c);
-
+		
+		c.gridx = 4;
+		add(themes, c);
+		
 		c.insets = new Insets(0, 0, 0, 50);
 		c.gridx = 3;
 		c.gridy = 1;
@@ -211,6 +233,19 @@ public class LevelSettingsTab extends JPanel {
 			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		}
 	}
+	
+	void updateTheme() {
+		String selectedTheme = (String) themes.getSelectedItem();
+		if (selectedTheme.equals("Default")) {
+			User.updateTheme(0);
+		}
+		else if (selectedTheme.equals("Airplanes")) {
+			User.updateTheme(1);
+		}
+		else if (selectedTheme.equals("Castles")) {
+			User.updateTheme(2);
+		}
+	}
 }
 
 /**
@@ -223,7 +258,7 @@ public class LevelSettingsTab extends JPanel {
 class SelectChild implements ActionListener {
 
 	/** The level settings tab of the settings pane. */
-	private LevelSettingsTab levelSettings;
+	private GameSettingsTab levelSettings;
 
 	/**
 	 * Constructs an action listener responsible for setting the time drop down
@@ -236,7 +271,7 @@ class SelectChild implements ActionListener {
 	 *            the drop down for selecting the time the child is allowed per
 	 *            level.
 	 */
-	public SelectChild(LevelSettingsTab levelSettings) {
+	public SelectChild(GameSettingsTab levelSettings) {
 		super();
 		this.levelSettings = levelSettings;
 	}
@@ -263,7 +298,7 @@ class SelectChild implements ActionListener {
 class SelectLevel implements ActionListener {
 
 	/** The level settings tab of the settings pane. */
-	private LevelSettingsTab levelSettings;
+	private GameSettingsTab levelSettings;
 
 	/**
 	 * Constructs an action listener responsible for setting the errors drop
@@ -275,7 +310,7 @@ class SelectLevel implements ActionListener {
 	 *            the drop down for selecting the number of errors allowed per
 	 *            level.
 	 */
-	public SelectLevel(LevelSettingsTab levelSettings) {
+	public SelectLevel(GameSettingsTab levelSettings) {
 		super();
 		this.levelSettings = levelSettings;
 	}
@@ -440,3 +475,27 @@ class ChangeTestState implements ActionListener {
 		Controller.toggleTestMode();
 	}
 }
+
+class UpdateTheme implements ActionListener {
+
+	/** The related security tab instance. */
+	private GameSettingsTab levelSettings;
+
+	/**
+	 * The action listener for the update button on the security tab.
+	 * 
+	 * @param security			the related security tab instance.
+	 */
+	public UpdateTheme (GameSettingsTab levelSettings) {
+		this.levelSettings = levelSettings;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		levelSettings.updateTheme();
+	}
+}
+
