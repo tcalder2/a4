@@ -46,7 +46,8 @@ import ttable.User;
  * The class StatsMenu, a populated BackgroundPanel.
  * 
  * @author James Anderson
- * @authot Yaqzan Ali
+ * @author Yaqzan Ali
+ * @Author Taylor Calder
  * @version 1.2
  */
 @SuppressWarnings("serial")
@@ -149,8 +150,8 @@ public class StatsMenu extends BackgroundPanel {
 
 		// Add the tabs
 		tabs.addTab("Friends", tab1);
-		tabs.addTab("By Age", tab2);
-		tabs.addTab("By Level", tab3);
+		tabs.addTab("High Scores", tab2);
+
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.gridwidth = GridBagConstraints.CENTER;
