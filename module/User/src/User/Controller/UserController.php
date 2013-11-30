@@ -122,7 +122,7 @@ class UserController extends AbstractActionController
   if(!$skin_validator_chain->isValid($skin))
    return new JsonModel(array('success' => false, 'messages' => $skin_validator_chain->getMessages()));
 
-
+  $this->getUserTable()->setSkin($skin);
 
   return new JsonModel(array('success' => true));
  }
