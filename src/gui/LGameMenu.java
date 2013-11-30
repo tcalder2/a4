@@ -49,7 +49,7 @@ public class LGameMenu extends BackgroundPanel {
 		// And can access all level games
 
 		try {
-			allUnlocked = (Controller.getCurrentProgeny().getLevelProgenys().get(11).getCompletionTime() == 0);
+			allUnlocked = !(Controller.getCurrentProgeny().getLevelProgenys().get(11).getCompletionTime() == 0);
 		}
 		catch (NullPointerException e) {
 			;
