@@ -555,6 +555,15 @@ public class Drill extends BackgroundPanel {
 			drill.checkAnswer();
 		}
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see gui.BackgroundPanel#close()
+	 */
+	@Override
+	public void close() {
+		clock.stop();
+	}
 }
 
 /**

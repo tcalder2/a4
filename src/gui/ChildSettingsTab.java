@@ -36,6 +36,7 @@ import javax.swing.text.AbstractDocument;
 import json.JSONFailureException;
 import service.ProgenyService;
 import ttable.Progeny;
+import ttable.User;
 
 /**
  * The Class ChildSettingsTab.
@@ -341,7 +342,7 @@ public class ChildSettingsTab extends JPanel {
 			add(update, c); // The button to update the selected child with
 							// selected details
 		} catch (JSONFailureException e) {
-			JPanel screen = new JPanel();
+			BackgroundPanel screen = new BackgroundPanel(User.background);
 			screen.setLayout(new BoxLayout(screen, BoxLayout.PAGE_AXIS));
 			ArrayList<String> messages = e.getMessages();
 			for (int i = 0; i < messages.size(); i++) {
