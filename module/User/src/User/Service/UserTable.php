@@ -32,7 +32,7 @@ class UserTable
   $this->em = $this->sm->get('Doctrine\ORM\EntityManager');
  }
 
- public function setSkin($skin)
+ public function setSkinAction($skin)
  {
   $user = $this->getUser();
   $user->setSkin($skin);
