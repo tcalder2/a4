@@ -33,6 +33,11 @@ class IndexController extends AbstractActionController
   return new ViewModel(array('facebook' => $this->getFacebook()));
  }
 
+ public function redirectHomeAction()
+ {
+  $this->redirect()->toRoute('home');
+ }
+
  public function testAction()
  {
   if(!$this->getFbId())

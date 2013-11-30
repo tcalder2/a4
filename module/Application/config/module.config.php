@@ -79,6 +79,18 @@ return array(
      ),
     ),
 
+
+    'uwo' => array(
+     'type' => 'Zend\Mvc\Router\Http\Literal',
+     'options' => array(
+      'route' => '/uwottable4.php',
+      'defaults' => array(
+       'controller' => 'Application\Controller\Index',
+       'action' => 'redirecthome',
+      ),
+     ),
+    ),
+
     'loginfacebook' => array(
      'type' => 'Zend\Mvc\Router\Http\Literal',
      'options' => array(
