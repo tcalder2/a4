@@ -62,8 +62,6 @@ class LevelProgenyTable
    $levelProgeny->setUser($user);
    $levelProgeny->setProgeny($progeny);
    $levelProgeny->setLevel($x);
-   $levelProgeny->setHighScore(0);
-   $levelProgeny->setCumulativeScore(0);
    $levelProgeny->setAttempts(0);
 
    $this->em->persist($levelProgeny);
