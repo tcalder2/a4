@@ -56,6 +56,15 @@ class ProgenyTable
   return !$result;
  }
 
+ public function saveFinalGame(Progeny $progeny, $score)
+ {
+  if ($score <= $progeny->getFinalGameHighScore()) return;
+
+  $progeny->setFinalGameHighScore($score);
+  $this->em->persist($progeny);
+  $this->em->flush();
+ }
+
  public function newProgeny($data)
  {
   $level_progeny_table = $this->getLevelProgenyTable();
@@ -64,6 +73,7 @@ class ProgenyTable
   $progeny = new Progeny();
 
   $progeny->exchangeArray($data);
+  $progeny->setFinalGameHighScore(0);
   $progeny->setUser($this->sm->get('User\Service\User'));
 
   $this->em->persist($progeny);

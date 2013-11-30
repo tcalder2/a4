@@ -53,6 +53,7 @@ class Progeny
    'id' => $this->getId(),
    'time_allowed' => $this->getTimeAllowed(),
    'level' => $this->getLevel(),
+   'final_game_high_score' => $this->getFinalGameHighScore(),
   );
  }
 
@@ -181,6 +182,21 @@ class Progeny
   return $this->level;
  }
 
+ /**
+  * @param mixed $final_game_high_score
+  */
+ public function setFinalGameHighScore($final_game_high_score)
+ {
+  $this->final_game_high_score = $final_game_high_score;
+ }
+
+ /**
+  * @return mixed
+  */
+ public function getFinalGameHighScore()
+ {
+  return $this->final_game_high_score;
+ }
 
  /**
   * @ORM\Id
@@ -209,6 +225,9 @@ class Progeny
 
  /** @ORM\Column(type="integer") */
  protected $level;
+
+ /** @ORM\Column(type="integer") */
+ protected $final_game_high_score;
 
 }
 

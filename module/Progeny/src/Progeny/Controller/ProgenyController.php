@@ -78,6 +78,23 @@ class ProgenyController extends AbstractActionController
   return new JsonModel(array('success' => true, 'progeny' => $progeny_table->getProgenyDataArray($progeny)));
  }
 
+ public function saveFinalGameAction()
+ {
+  $score = $this->params()->fromQuery('score');
+  $score_validator = new Digits();
+
+  if(!$score_validator->isValid($score))
+   return new JsonModel(array('success' => false, 'messages' => $score_validator->getMessages()));
+
+  $progeny_table = $this->getProgenyTable();
+  $progeny = $progeny_table->getProgeny($this->params()->fromQuery('progeny_id'));
+
+  if(!$progeny)
+   return new JsonModel(array('success' => false, 'message' => 'Could not find a progeny with that ID'));
+
+  return new JsonModel(array('success' => true, 'progeny' => $progeny));
+ }
+
  public function changeTimeAllowedAction()
  {
   $progeny_table = $this->getProgenyTable();
