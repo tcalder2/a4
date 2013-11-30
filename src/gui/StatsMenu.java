@@ -46,8 +46,7 @@ import ttable.User;
  * The class StatsMenu, a populated BackgroundPanel.
  * 
  * @author James Anderson
- * @author Chuhan Qin
- * @author Taylor Calder
+ * @authot Yaqzan Ali
  * @version 1.2
  */
 @SuppressWarnings("serial")
