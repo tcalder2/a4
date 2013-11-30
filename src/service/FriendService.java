@@ -9,7 +9,6 @@ import org.json.simple.JSONValue;
 
 import settings.Settings;
 import ttable.Friend;
-import ttable.LevelProgeny;
 import ttable.Progeny;
 import json.JSONFailureException;
 import json.Json;

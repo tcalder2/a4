@@ -1,6 +1,5 @@
 package service;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -10,7 +9,6 @@ import org.json.simple.JSONObject;
 import json.JSONFailureException;
 import json.Json;
 import ttable.Level;
-import ttable.Progeny;
 
 public class LevelService {
 
