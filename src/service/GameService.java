@@ -35,11 +35,8 @@ public class GameService {
 	{
 		levelProgeny.setAttempts(Integer.parseInt(level_progeny_data.get("attempts").toString()));
 		levelProgeny.setMistakes(Integer.parseInt(level_progeny_data.get("final_mistakes").toString()));
-		levelProgeny.setLevelHighScore(Integer.parseInt(level_progeny_data.get("high_score").toString()));
 		levelProgeny.setLevelNumber(Integer.parseInt(level_progeny_data.get("level").toString()));
 		levelProgeny.setCompletionTime(Integer.parseInt(level_progeny_data.get("final_completion_time").toString()));
-		levelProgeny.setCumulativeScore(Integer.parseInt(level_progeny_data.get("cumulative_score").toString()));
-		
 	}
 
 	public static void saveFinalGame(Progeny progeny, int score) throws JSONFailureException

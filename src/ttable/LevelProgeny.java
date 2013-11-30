@@ -20,13 +20,8 @@ public class LevelProgeny {
 	/** The number of times the drill has been attempted. */
 	private int attempts;
 
-	/** The current high score for the level game. */
-	private int levelHighScore;
-
 	/** The time it took to complete the drill on the first time it was passed. */
 	private int completionTime;
-
-	private int cumulativeScore;
 
 	/**
 	 * Instantiates a new level progeny.
@@ -92,25 +87,6 @@ public class LevelProgeny {
 	}
 
 	/**
-	 * Gets The current high score for the level game.
-	 * 
-	 * @return The current high score for the level game.
-	 */
-	public int getLevelHighScore() {
-		return levelHighScore;
-	}
-
-	/**
-	 * Sets the level game high score.
-	 * 
-	 * @param levelHighScore
-	 *            the new level game high score.
-	 */
-	public void setLevelHighScore(int levelHighScore) {
-		this.levelHighScore = levelHighScore;
-	}
-
-	/**
 	 * Gets the time it took to complete the drill on the first time it was
 	 * passed.
 	 * 
@@ -133,14 +109,6 @@ public class LevelProgeny {
 		this.completionTime = completionTime;
 	}
 
-	public int getCumulativeScore() {
-		return cumulativeScore;
-	}
-
-	public void setCumulativeScore(int cumulativeScore) {
-		this.cumulativeScore = cumulativeScore;
-	}
-
 	/**
 	 * Compares the class variables to the class variables of the level progeny
 	 * passed as an argument.
@@ -153,11 +121,9 @@ public class LevelProgeny {
 		if (getLevelNumber() == level.getLevelNumber()) {
 			if (getMistakes() == level.getMistakes()) {
 				if (getAttempts() == level.getAttempts()) {
-					if (getLevelHighScore() == level.getLevelHighScore()) {
 						if (getCompletionTime() == level.getCompletionTime()) {
 							return true;
 						}
-					}
 				}
 			}
 		}

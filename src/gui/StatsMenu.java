@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +31,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+
 import java.util.Iterator;
 
 import json.JSONFailureException;
@@ -262,7 +264,7 @@ public class StatsMenu extends BackgroundPanel {
 				ImageIcon pic = (new ImageIcon(getScaledImage(img, 55, 55)));
 				array[i][0] = pic;
 			} catch (IOException e) {
-				array[i][0] = "no picture available";
+				array[i][0] = "";
 			}
 
 			// Name
@@ -370,7 +372,7 @@ public class StatsMenu extends BackgroundPanel {
 						getScaledImage(img, 55, 55)));
 				tab.add(picFirst2, c);
 			} catch (IOException e) {
-				picFirst2.setText("no picture available");
+				picFirst2.setText("");
 				tab.add(picFirst2, c);
 				c.gridy += 2;
 			}
@@ -381,7 +383,7 @@ public class StatsMenu extends BackgroundPanel {
 						55)));
 				tab.add(picSecond2, c);
 			} catch (IOException e) {
-				picSecond2.setText("no picture available");
+				picSecond2.setText("");
 				tab.add(picSecond2, c);
 				c.gridy += 2;
 			}
@@ -392,7 +394,7 @@ public class StatsMenu extends BackgroundPanel {
 						getScaledImage(img, 55, 55)));
 				tab.add(picThird2, c);
 			} catch (IOException e) {
-				picThird2.setText("no picture available");
+				picThird2.setText("");
 				tab.add(picThird2, c);
 				c.gridy += 2;
 			}
@@ -514,7 +516,7 @@ public class StatsMenu extends BackgroundPanel {
 			picFirst1 = new JLabel(new ImageIcon(getScaledImage(img, 55, 55)));
 			tab.add(picFirst1, c);
 		} catch (IOException e) {
-			picFirst1.setText("no picture available");
+			picFirst1.setText("");
 			tab.add(picFirst1, c);
 			c.gridy += 2;
 		}
@@ -524,7 +526,7 @@ public class StatsMenu extends BackgroundPanel {
 			picSecond1 = new JLabel(new ImageIcon(getScaledImage(img, 55, 55)));
 			tab.add(picSecond1, c);
 		} catch (IOException e) {
-			picSecond1.setText("no picture available");
+			picSecond1.setText("");
 			tab.add(picSecond1, c);
 			c.gridy += 2;
 		}
@@ -534,7 +536,7 @@ public class StatsMenu extends BackgroundPanel {
 			picThird1 = new JLabel(new ImageIcon(getScaledImage(img, 55, 55)));
 			tab.add(picThird1, c);
 		} catch (IOException e) {
-			picThird1.setText("no picture available");
+			picThird1.setText("");
 			tab.add(picThird1, c);
 			c.gridy += 2;
 		}
@@ -686,37 +688,62 @@ public class StatsMenu extends BackgroundPanel {
 		ageFirst.setText(topThree.get(1));
 		timeFirst.setText(topThree.get(2));
 		parentFirst1.setText(topThree.get(3));
-		picFirst1.setText(topThree.get(4));
-		//
+		try {
+			picFirst1.setIcon(new ImageIcon(getScaledImage(ImageIO.read(new URL(topThree.get(4))), 55, 55)));
+		} catch (IOException e) {
+			picFirst1.setText("");
+		}
+		
 		nameSecond.setText(topThree.get(5));
 		ageSecond.setText(topThree.get(6));
 		timeSecond.setText(topThree.get(7));
 		parentSecond1.setText(topThree.get(8));
-		picSecond1.setText(topThree.get(9));
+		try {
+			picSecond1.setIcon(new ImageIcon(getScaledImage(ImageIO.read(new URL(topThree.get(9))), 55, 55)));
+		} catch (IOException e) {
+			picSecond1.setText("");
+		}
+		
 		//
 		nameThird.setText(topThree.get(10));
 		ageThird.setText(topThree.get(11));
 		timeThird.setText(topThree.get(12));
 		parentThird1.setText(topThree.get(13));
-		picThird1.setText(topThree.get(14));
+		try {
+			picThird1.setIcon(new ImageIcon(getScaledImage(ImageIO.read(new URL(topThree.get(14))), 55, 55)));
+		} catch (IOException e) {
+			picThird1.setText("");
+		}
 
 		nameFirst2.setText(topThree.get(0));
 		ageFirst2.setText(topThree.get(1));
 		timeFirst2.setText(topThree.get(2));
 		parentFirst2.setText(topThree.get(3));
-		picFirst2.setText(topThree.get(4));
+		try {
+			picFirst2.setIcon(new ImageIcon(getScaledImage(ImageIO.read(new URL(topThree.get(4))), 55, 55)));
+		} catch (IOException e) {
+			picFirst2.setText("");
+		}
 		//
 		nameSecond2.setText(topThree.get(5));
 		ageSecond2.setText(topThree.get(6));
 		timeSecond2.setText(topThree.get(7));
 		parentSecond2.setText(topThree.get(8));
-		picSecond2.setText(topThree.get(9));
+		try {
+			picSecond2.setIcon(new ImageIcon(getScaledImage(ImageIO.read(new URL(topThree.get(9))), 55, 55)));
+		} catch (IOException e) {
+			picSecond2.setText("");
+		}
 		//
 		nameThird2.setText(topThree.get(10));
 		ageThird2.setText(topThree.get(11));
 		timeThird2.setText(topThree.get(12));
 		parentThird2.setText(topThree.get(13));
-		picThird2.setText(topThree.get(14));
+		try {
+			picThird2.setIcon(new ImageIcon(getScaledImage(ImageIO.read(new URL(topThree.get(14))), 55, 55)));
+		} catch (IOException e) {
+			picThird2.setText("");
+		}
 
 	}
 
@@ -734,7 +761,7 @@ public class StatsMenu extends BackgroundPanel {
 		// level)
 		// ****************************************************************************
 
-		String firstName, firstAge, firstTime, secondName, secondAge, secondTime, thirdName, thirdAge, thirdTime, firstPic, secondPic, thirdPic, firstParent, secondParent, thirdParent;
+		String firstName = null, firstAge = null, firstTime = null, secondName = null, secondAge = null, secondTime = null, thirdName = null, thirdAge = null, thirdTime = null, firstPic = null, secondPic = null, thirdPic = null, firstParent = null, secondParent = null, thirdParent = null;
 
 		Progeny first = null, second = null, third = null;
 		Friend firstFriend = null, secondFriend = null, thirdFriend = null;
@@ -742,9 +769,9 @@ public class StatsMenu extends BackgroundPanel {
 		// Level temp1, temp2;
 		// holdTime = 0;
 		// compareTime = 0;
-		//int firstT = 0;
-		//int secondT = 0;
-		//int thirdT = 0;
+		// int firstT = 0;
+		// int secondT = 0;
+		// int thirdT = 0;
 		//
 		// ArrayList<Friend> friends = new ArrayList<Friend>();
 		// try {
@@ -851,9 +878,9 @@ public class StatsMenu extends BackgroundPanel {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 		LinkedHashMap<Progeny, Friend> topThreeHash = null;
-		
+
 		try {
 			topThreeHash = FriendService
 					.getHighTopThreeProgeniesPerParentByLevel(friends, level);
@@ -864,36 +891,86 @@ public class StatsMenu extends BackgroundPanel {
 		Iterator<Progeny> progeny = topThreeHash.keySet().iterator();
 
 		first = progeny.next();
-		second = progeny.next();
-		third = progeny.next();
+		try {
+			second = progeny.next();
+		} catch (Exception e) {
+
+		}
+		try {
+			third = progeny.next();
+		} catch (Exception e) {
+
+		}
 
 		ArrayList<String> topThree = new ArrayList<String>();
 
 		firstFriend = topThreeHash.get(first);
 		secondFriend = topThreeHash.get(second);
 		thirdFriend = topThreeHash.get(third);
-
+		try {
 		firstName = first.getFirstName();
 		firstAge = ("" + ProgenyService.getAge(first.getBirthDate()));
 		firstTime = ("" + first.getLevelProgenys().get(level - 1)
 				.getCompletionTime());
+		}
+		catch (Exception e) {
+			firstName = "-";
+			firstAge = "-";
+			firstTime = "-";
+		}
+		
+		try {
 		secondName = (second.getFirstName());
 		secondAge = ("" + ProgenyService.getAge(second.getBirthDate()));
 		secondTime = ("" + second.getLevelProgenys().get(level - 1)
 				.getCompletionTime());
+		}
+		catch (Exception e) {
+			secondName = "-";
+			secondAge = "-";
+			secondTime = "-";
+		}
+		try {
 		thirdName = (third.getFirstName());
 		thirdAge = ("" + ProgenyService.getAge(third.getBirthDate()));
 		thirdTime = ("" + third.getLevelProgenys().get(level - 1)
 				.getCompletionTime());
+		}
+		catch (Exception e) {
+			thirdName = "-";
+			thirdAge = "-";
+			thirdTime = "-";
+		}
+		try {
 		firstParent = firstFriend.getFirstName();
-		secondParent = secondFriend.getFirstName();
-		thirdParent = thirdFriend.getFirstName();
 		firstPic = "http://graph.facebook.com/" + firstFriend.getFbId()
 				+ "/picture?type=large";
+		}
+		catch (Exception e) {
+			firstParent = "-";
+			firstPic = "-";
+		}
+		try {
+		secondParent = secondFriend.getFirstName();
 		secondPic = "http://graph.facebook.com/" + secondFriend.getFbId()
 				+ "/picture?type=large";
+		}
+		catch (Exception e) {
+			secondParent = "-";
+			secondPic = "-";
+		}
+		try {
+		thirdParent = thirdFriend.getFirstName();
 		thirdPic = "http://graph.facebook.com/" + thirdFriend.getFbId()
 				+ "/picture?type=large";
+		}
+		catch (Exception e) {
+			secondParent = "-";
+			secondPic = "-";
+		}
+		
+		
+		
 
 		topThree.add(firstName);
 		topThree.add(firstAge);

@@ -34,7 +34,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.text.AbstractDocument;
 
 import json.JSONFailureException;
-import service.GameService;
 import service.ProgenyService;
 import ttable.Progeny;
 
@@ -621,7 +620,7 @@ public class ChildSettingsTab extends JPanel {
 
 			// Update the screen
 			settings.changeTabContent(0, new ChildSettingsTab(settings));
-			settings.changeTabContent(1, new LevelSettingsTab(settings));
+			settings.changeTabContent(1, new GameSettingsTab(settings));
 
 			new GeneralDialogue("Child successfully added.", "Success!", 3);
 
@@ -656,7 +655,7 @@ public class ChildSettingsTab extends JPanel {
 				}
 				// Update the screen
 				settings.changeTabContent(0, new ChildSettingsTab(settings));
-				settings.changeTabContent(1, new LevelSettingsTab(settings));
+				settings.changeTabContent(1, new GameSettingsTab(settings));
 
 				new GeneralDialogue("Child successfully removed.", "Success!",
 						3);
@@ -988,6 +987,5 @@ class PressUpdate implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		childSettings.updateChild();
-		//Controller.refreshCurrentProgeny();
 	}
 }

@@ -57,9 +57,8 @@ public class Settings extends BackgroundPanel {
 		
 		//Populate the tabs
 		tabPane.add("Child Settings", new ChildSettingsTab(this));
-		tabPane.add("Level Settings", new LevelSettingsTab(this));
+		tabPane.add("Game Settings", new GameSettingsTab(this));
 		tabPane.add("Security Settings", new SecurityTab(this));
-		tabPane.add("Visual Settings", new ThemeTab(this));
 		
 		//Add the tab pane to the view
 		c.gridy = 1;

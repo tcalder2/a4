@@ -1,10 +1,12 @@
 package gui;
 
 import java.awt.Component;
+
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.TableCellRenderer;
 
+@SuppressWarnings("serial")
 public class JTextRenderer extends JTextArea implements TableCellRenderer {
 
   public JTextRenderer() {
