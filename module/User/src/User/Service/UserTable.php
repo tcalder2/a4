@@ -128,7 +128,7 @@ class UserTable
    $friend_array['last_name'] = $friend['last_name'];
    $friend_array['fb_id'] = $friend['uid'];
 
-   if(isset$progenies_array)
+   if(isset($progenies_array))
     unset($progenies_array);
 
    $progenies_array = array();
