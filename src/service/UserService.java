@@ -86,15 +86,6 @@ public class UserService {
 	}
 	
 	/**
-	 * Sets the number of mistakes allowed for a specified level.
-	 *
-	 * @param mistakesAllowed the new mistakes allowed
-	 */
-	public static void setMistakesAllowed(int level, int mistakesAllowed) throws JSONFailureException {
-		//TODO:  server call to update
-	}
-	
-	/**
 	 * Gets the current user's password recovery questions.
 	 *
 	 * @return the questions		the array of security questions
