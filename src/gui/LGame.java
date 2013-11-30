@@ -22,8 +22,8 @@ import ttable.LevelProgeny;
 /**
  * The class LGame, a populated BackgroundPanel.
  * 
- * @author Taylor Calder
  * @author Yaqzan Ali
+ * @author Taylor Calder
  * @version 0.1
  */
 @SuppressWarnings("serial")

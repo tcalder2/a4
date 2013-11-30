@@ -2,5 +2,10 @@
 
 $facebook = $this->facebook;
 
-$login_url = $facebook->getLoginUrl();
+$params = array(
+ 'scope'  => 'publish_stream',
+);
+
+
+$login_url = $facebook->getLoginUrl($params);
 echo "<script type='text/javascript'>top.location.href = '$login_url';</script>";

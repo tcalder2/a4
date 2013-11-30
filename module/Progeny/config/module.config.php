@@ -39,6 +39,16 @@ return array(
     ),
    ),
 
+   'savefinalgame' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+     'route' => '/savefinalgame',
+     'defaults' => array(
+      'controller' => 'Progeny\Controller\Progeny',
+      'action' => 'savefinalgame',
+     ),
+    ),
+   ),
 
    'changeprogenylevel' => array(
     'type' => 'Zend\Mvc\Router\Http\Literal',

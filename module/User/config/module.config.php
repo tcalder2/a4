@@ -41,6 +41,17 @@ return array(
     ),
    ),
 
+   'postmessage' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+     'route' => '/postmessage',
+     'defaults' => array(
+      'controller' => 'User\Controller\User',
+      'action' => 'postmessage',
+     ),
+    ),
+   ),
+
    'login' => array(
     'type' => 'Zend\Mvc\Router\Http\Literal',
     'options' => array(

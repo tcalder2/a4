@@ -161,9 +161,9 @@ public class Progeny {
 		this.levels = levels;
 	}
 
-	public int getLevelNumber() {
-		return 0;
-	}
+//	public int getLevelNumber() {
+//		return 0;
+//	}
 
 	/**
 	 * Changes the current level, removing all levels above current level.

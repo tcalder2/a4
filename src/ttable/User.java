@@ -89,13 +89,13 @@ public final class User {
 			 drillSkin = 0;
 		}
 		else if (theme == 1) {
-			background = "http://jbaron6.cs2212.ca/img/themes/theme1_bg.png";
-			backgroundMenu = "http://jbaron6.cs2212.ca/img/themes/theme1_bg.png";
+			background = "http://jbaron6.cs2212.ca/img/themes/theme_1/level_background.png";
+			backgroundMenu = "http://jbaron6.cs2212.ca/img/themes/theme_1/level_background.png";
 			drillSkin = 1;
 		}
 		else if (theme == 2) {
-			 background = "http://jbaron6.cs2212.ca/img/themes/theme2_bg.png";
-			 backgroundMenu = "http://jbaron6.cs2212.ca/img/themes/theme2_bg.png";
+			 background = "http://jbaron6.cs2212.ca/img/themes/theme_2/level_background.png";
+			 backgroundMenu = "http://jbaron6.cs2212.ca/img/themes/theme_2/level_background.png";
 			 drillSkin = 2;
 		}
 		

@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
+import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -46,7 +47,9 @@ import ttable.User;
 @SuppressWarnings("serial")
 public class StatsMenu extends BackgroundPanel {
 
-	private String path, progNames, progAges, progLevels;
+	private String path;
+	private ArrayList<String> progNames, progAges, progLevels;
+	private ArrayList<Progeny> age3, age4, age5, age6, age7, age8, age9, age10, ageOther;
 	JComboBox<String> levels, ages;
 	JLabel nameFirst, nameSecond, nameThird, nameFirst2, nameSecond2, nameThird2;
 	JLabel ageFirst, ageSecond, ageThird, ageFirst2, ageSecond2, ageThird2;
@@ -170,6 +173,10 @@ public class StatsMenu extends BackgroundPanel {
 		// set cell 1 to display pictures
 		table.getColumnModel().getColumn(0).setCellRenderer(table.getDefaultRenderer(ImageIcon.class));
 		
+		//table.getColumnModel().getColumn(2).setCellRenderer(table.getDefaultRenderer(String.class));
+		//table.getColumnModel().getColumn(3).setCellRenderer(table.getDefaultRenderer(String.class));
+		//table.getColumnModel().getColumn(4).setCellRenderer(table.getDefaultRenderer(String.class));
+		
 		// set column widths
 		table.getColumnModel().getColumn(0).setPreferredWidth(75);
 		table.getColumnModel().getColumn(0).setMaxWidth(75);
@@ -234,29 +241,29 @@ public class StatsMenu extends BackgroundPanel {
 			
 			m = progenies.size();
 			
-			progNames = "";
+			progNames = new ArrayList<String>();
 			// Children Names
 			
-			for (i = 0; i < m; i++) {
-				progNames = (progNames + progenies.get(i).getFirstName() + '\n');
+			for (int j = 0; j < m; j++) {
+				progNames.add(progenies.get(j).getFirstName());
 			}
 			array[i][2] = progNames;
 			
-			progAges = "";
+			progAges = new ArrayList<String>();
 			// Children Ages
 			
-			for (i = 0; i < m; i++) {
-				progAges = (progAges + ProgenyService.getAge(progenies.get(i).getBirthDate()) + '\n');
+			for (int j = 0; j < m; j++) {
+				progAges.add("" + ProgenyService.getAge(progenies.get(j).getBirthDate()));
 			}
-			array[i][3] = progNames;
+			array[i][3] = progAges;
 			
 			
-			progLevels = "";
+			progLevels = new ArrayList<String>();
 			// Children Levels
-			for (i = 0; i < m; i++) {
-				progLevels = (progNames + progenies.get(i).getLevelNumber() + '\n');
+			for (int j = 0; j < m; j++) {
+				progLevels.add("" + progenies.get(j).getLevel());
 			}
-			array[i][5] = progNames;
+			array[i][4] = progLevels;
 		}
 		
 		scroll = new JScrollPane(table);
@@ -522,16 +529,100 @@ public class StatsMenu extends BackgroundPanel {
 		return resizedImg;
 	}
 	
+	private void processFriends(ArrayList<Friend> friends) {
+		
+		int n = friends.size();
+		int m, age;
+		Friend temp;
+		ArrayList<Progeny> progList;
+		Progeny prog;
+		
+		for (int i = 0; i < n; i++) {
+			
+			temp = friends.get(i);
+			progList = temp.getProgenies();
+			
+			m = progList.size();
+			
+			for (int j = 0; j < m; j++) {
+				
+				prog = progList.get(j);
+				age = ProgenyService.getAge(prog.getBirthDate());
+				
+				if (age == 3) {
+					age3.add(prog);
+				}
+				else if (age == 4) {
+					age4.add(prog);
+				}
+				else if (age == 5) {
+					age5.add(prog);
+				}
+				else if (age == 6) {
+					age6.add(prog);
+				}
+				else if (age == 7) {
+					age7.add(prog);
+				}
+				else if (age == 8) {
+					age8.add(prog);
+				}
+				else if (age == 9) {
+					age9.add(prog);
+				}
+				else if (age == 10) {
+					age10.add(prog);
+				}
+				else { 
+					ageOther.add(prog);
+				}
+				
+			}
+			
+		}
+		
+	}
+	
 	/**
 	 * Updates the list of children based on current level/age selected
 	 */
 	private void updateList() {
 		
+		ArrayList<Progeny> progList;
+		
 		int age, level;
 		age = Integer.parseInt((String) ages.getSelectedItem());
 		level = Integer.parseInt((String) levels.getSelectedItem());
 		
-		ArrayList<String> topThree = getTopThree(age, level);
+		if (age == 3) {
+			progList = age3;
+		}
+		else if (age == 4) {
+			progList = age4;
+		}
+		else if (age == 5) {
+			progList = age5;
+		}
+		else if (age == 6) {
+			progList = age6;
+		}
+		else if (age == 7) {
+			progList = age7;
+		}
+		else if (age == 8) {
+			progList = age8;
+		}
+		else if (age == 9) {
+			progList = age9;
+		}
+		else if (age == 10) {
+			progList = age10;
+		}
+		else {
+			progList = ageOther;
+		}
+		
+		ArrayList<String> topThree = getTopThree(progList, level);
 		
 		nameFirst.setText(topThree.get(0));
 		ageFirst.setText(topThree.get(1));
@@ -560,26 +651,87 @@ public class StatsMenu extends BackgroundPanel {
 	 * @param age
 	 * @param level
 	 */
-	private ArrayList<String> getTopThree(int age, int level) {
+	private ArrayList<String> getTopThree(ArrayList<Progeny> progList, int level) {
 	
 		String firstName, firstAge, firstTime, secondName, secondAge, secondTime, thirdName, thirdAge, thirdTime;
 		
+		Progeny first = null, second = null, third = null, prog;
+		int holdTime, compareTime, size;
+		Level temp1, temp2;
+		holdTime = 0;
+		compareTime = 0;
+		int firstT = 0;
+		int secondT = 0;
+		int thirdT = 0;
+		
+		try {
+			size = progList.size();
+		}
+		catch (NullPointerException e) {
+			new GeneralDialogue(e.getMessage(), "No Progeny Meet that Criteria!", 1);
+			return null;
+		}
+		
+		
+		for (int i = 0; i < size; i++) {
+			
+			prog = progList.get(i);
+			try {
+				holdTime = prog.getLevels().get(level).getCompletionTime();
+			}
+			catch (NullPointerException e) {
+				
+			}
+			if (holdTime > firstT) {
+				try {
+					third = second;
+					thirdT = secondT;
+				}
+				catch (NullPointerException e) {
+					;
+				}
+				try {
+					second = first;
+					secondT = firstT;
+				}
+				catch (NullPointerException e) {
+					;
+				}
+				first = prog;
+				firstT = prog.getLevels().get(level).getCompletionTime();
+			}
+			
+			else if (holdTime > secondT) {
+				try {
+					third = second;
+					thirdT = secondT;
+				}
+				catch (NullPointerException e) {
+					;
+				}
+				second = prog;
+				secondT = prog.getLevels().get(level).getCompletionTime();
+			}
+			
+			else if (holdTime > thirdT) {
+
+				third = prog;
+				thirdT = prog.getLevels().get(level).getCompletionTime();
+			}
+			
+		}
+		
 		ArrayList<String> topThree = new ArrayList<String>();
-		
-		// Time the child took to complete the level on seconds
-		int time;
-		
-		//TODO Make JSON call to get top 3 children
 	
-		firstName = ("Molly");
-		firstAge = ("" + age);
-		firstTime = ("0:19");
-		secondName = ("Case");
-		secondAge = ("" + age);
-		secondTime = ("0:22");
-		thirdName = ("Armitage");
-		thirdAge = ("" + age);
-		thirdTime = ("0:23");
+		firstName = (first.getFirstName());
+		firstAge = ("" + ProgenyService.getAge(first.getBirthDate()));
+		firstTime = ("" + firstT);
+		secondName = (second.getFirstName());
+		secondAge = ("" + ProgenyService.getAge(second.getBirthDate()));
+		secondTime = ("" + secondT);
+		thirdName = (third.getFirstName());
+		thirdAge = ("" + ProgenyService.getAge(third.getBirthDate()));
+		thirdTime = ("" + thirdT);
 		
 		topThree.add(firstName);
 		topThree.add(firstAge);
