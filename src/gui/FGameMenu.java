@@ -13,6 +13,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
@@ -23,6 +25,11 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+
+import json.JSONFailureException;
+import service.FriendService;
+import ttable.Friend;
+import ttable.Progeny;
 
 /**
  * The class FGameMenu, a populated BackgroundPanel.
@@ -109,27 +116,88 @@ public class FGameMenu extends BackgroundPanel {
 
 		//Create the high scores table
 		//DefaultTableModel tableModel = new DefaultTableModel(highScores, columnNames);
-		String[] header = {"Friend", "Child", "Times"};
-		Object[][] array = new Object[3][3];
 		
 		//TODO get high scores, names, parent pics as per 4.f.2
 		
-		for (int i= 0; i < 3; i++) {
-		try	{
-			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/profilePictures/1.jpg"));
-			ImageIcon pic = (new ImageIcon(getScaledImage(img, 55,55)));
-			array[i][0] = pic;
-		} catch (IOException e) {
-			array[i][0] = "no picture available";
-		}
-		}
-		array[0][1] = "Molly";
-		array[1][1] = "Case";
-		array[2][1] = "Armitage";
-		array[0][2] = "11050";
-		array[1][2] = "11000";
-		array[2][2] = "09001";
+//		for (int i= 0; i < 3; i++) {
+//		try	{
+//			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/profilePictures/1.jpg"));
+//			ImageIcon pic = (new ImageIcon(getScaledImage(img, 55,55)));
+//			array[i][0] = pic;
+//		} catch (IOException e) {
+//			array[i][0] = "no picture available";
+//		}
+//		}
+//		array[0][1] = "Molly";
+//		array[1][1] = "Case";
+//		array[2][1] = "Armitage";
+//		array[0][2] = "11050";
+//		array[1][2] = "11000";
+//		array[2][2] = "09001";
 
+		LinkedHashMap<Progeny, Friend> butts;
+		try {
+			butts =  FriendService.getHighTopThreeProgeniesPerParentForFinal(FriendService.getFriends());
+		} catch (JSONFailureException e) {
+			new GeneralDialogue(e.getMessage(), "JSON Error", 1);
+			butts = null;
+		}
+		
+		
+		String[] header = {"Friend", "Child", "Times"};
+		Object[][] array = new Object[3][3];
+		
+		Iterator<Progeny> progeny = butts.keySet().iterator();
+
+		Progeny prog1 = null, prog2 = null, prog3 = null;
+		Friend friend1 = null, friend2 = null, friend3 = null;
+		
+		try {
+			prog1 = progeny.next();
+			friend1 = butts.get(prog1);
+			Image img = ImageIO.read(new URL("http://graph.facebook.com/" + friend1.getFbId()
+					+ "/picture?type=large"));
+			ImageIcon pic = (new ImageIcon(getScaledImage(img, 55,55)));
+			array[0][0] = pic;
+			array[0][1] = (friend1.getFirstName() + " " + friend1.getLastName());
+			array[0][2] = prog1.getFirstName();
+		}
+		catch (Exception e) {
+			array[0][0] = "--";
+			array[0][1] = "--";
+			array[0][2] = "--";
+			}
+	
+		try {
+			prog2 = progeny.next();
+			friend2 = butts.get(prog1);
+			Image img = ImageIO.read(new URL("http://graph.facebook.com/" + friend2.getFbId()
+					+ "/picture?type=large"));
+			ImageIcon pic = (new ImageIcon(getScaledImage(img, 55,55)));
+			array[1][0] = pic;
+			array[1][1] = (friend2.getFirstName() + " " + friend2.getLastName());
+			array[1][2] = prog2.getFirstName();
+		}
+		catch (Exception e) {
+			array[1][0] = "--";
+			array[1][1] = "--";
+			array[1][2] = "--";		}
+		
+		try {
+			prog3 = progeny.next();
+			friend3 = butts.get(prog1);
+			Image img = ImageIO.read(new URL("http://graph.facebook.com/" + friend3.getFbId()
+					+ "/picture?type=large"));
+			ImageIcon pic = (new ImageIcon(getScaledImage(img, 55,55)));
+			array[2][0] = pic;
+			array[2][1] = (friend3.getFirstName() + " " + friend3.getLastName());
+			array[2][2] = prog3.getFirstName();
+		}
+		catch (Exception e) {
+			array[2][0] = "--";
+			array[2][1] = "--";
+			array[2][2] = "--";
+		}
 		
 		
 		//tableModel.setRowCount(4);
