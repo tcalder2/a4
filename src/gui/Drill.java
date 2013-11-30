@@ -393,10 +393,12 @@ public class Drill extends BackgroundPanel {
 		}
 		
 		if (lives <= 0) {
+			clock.stop();
 			Controller.setScreen(new ScoreReport(false, getTimeMax(), getTimeLeft(), level.getLevelNumber(), incorrect));
 		}
 		
 		if (isEnd()) {
+			clock.stop();
 			Controller.setScreen(new ScoreReport(isWin(), getTimeMax(), getTimeLeft(), level.getLevelNumber(), incorrect));
 		}
 		else {
