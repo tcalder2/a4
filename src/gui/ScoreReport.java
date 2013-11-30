@@ -146,17 +146,17 @@ public class ScoreReport extends BackgroundPanel {
 	class ToLevelGame implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-
-			LGame screen;
+			Instructions inst;
 			try {
-				screen = new LGame(Controller.getCurrentProgeny().getLevels()
+			inst = new Instructions(Controller.getCurrentProgeny().getLevels()
 						.get(ScoreReport.getLevel() - 1));
-			} catch (Exception e2) {
+			}
+			catch (Exception e2) {
 				LevelProgeny prog = new LevelProgeny();
 				prog.setLevelNumber(ScoreReport.getLevel());
-				screen = new LGame(prog);
+				inst = new Instructions(prog);
 			}
-			Controller.setScreen(screen);
+			Controller.setScreen(inst);
 		}
 
 	}

@@ -124,15 +124,15 @@ class SelectLGame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		LGame screen;
+		Instructions inst;
 		try {
-		screen = new LGame(Controller.getCurrentProgeny().getLevels().get(level - 1));
+		inst = new Instructions(Controller.getCurrentProgeny().getLevels().get(level - 1));
 		}
 		catch (Exception e2) {
 			LevelProgeny prog = new LevelProgeny();
 			prog.setLevelNumber(level);
-			screen = new LGame(prog);
+			inst = new Instructions(prog);
 		}
-		Controller.setScreen(screen);
+		Controller.setScreen(inst);
 	}
 }
