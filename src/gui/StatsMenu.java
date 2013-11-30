@@ -198,18 +198,17 @@ public class StatsMenu extends BackgroundPanel {
 		// create table to display friend info
 		table = new JTable(array, header);
 
-		// set cell 1 to display pictures
+		// set column 1 to display pictures
 		table.getColumnModel().getColumn(0)
 				.setCellRenderer(table.getDefaultRenderer(ImageIcon.class));
 
+		// columns 3, 4, and 5 are multi-line displays
 		table.getColumnModel().getColumn(2)
 				.setCellRenderer(new JTextRenderer());
 		table.getColumnModel().getColumn(3)
 				.setCellRenderer(new JTextRenderer());
 		table.getColumnModel().getColumn(4)
 				.setCellRenderer(new JTextRenderer());
-		// table.getColumnModel().getColumn(3).setCellRenderer(table.getDefaultRenderer(String.class));
-		// table.getColumnModel().getColumn(4).setCellRenderer(table.getDefaultRenderer(String.class));
 
 		// set column widths
 		table.getColumnModel().getColumn(0).setPreferredWidth(75);
