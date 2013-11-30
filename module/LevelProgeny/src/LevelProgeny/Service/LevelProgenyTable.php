@@ -38,6 +38,7 @@ class LevelProgenyTable
   if ($score > $level_progeny->getHighScore())
    $level_progeny->setHighScore($score);
 
+  $level_progeny->setCumlativeScore($level_progeny->getCumlativeScore() + $score);
   $level_progeny->setFinalCompletionTime($time);
   $level_progeny->setFinalMistakes($mistakes);
 
@@ -64,6 +65,9 @@ class LevelProgenyTable
    $levelProgeny->setUser($user);
    $levelProgeny->setProgeny($progeny);
    $levelProgeny->setLevel($x);
+   $levelProgeny->setHighScore(0);
+   $levelProgeny->setCumlativeScore(0);
+   $levelProgeny->setAttempts(0);
 
    $this->em->persist($levelProgeny);
   }
