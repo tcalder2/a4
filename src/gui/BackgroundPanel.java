@@ -43,12 +43,8 @@ public class BackgroundPanel extends JPanel {
 		    setMaximumSize(d);
 		    setSize(d);
 		} catch (IOException e) {
-			//If there is an error loading the graphic, set the background white and display an error message
-			setBackground(Color.WHITE);
-			JLabel message = (new JLabel("<html>Oops!<br>"
-					+ "It seems we are having trouble communicating!</html>"));
-			message.setFont(new Font("Serif", Font.BOLD, 35));
-			add(message);
+			new GeneralDialogue("Oops! It seems we are having trouble communicating!",
+					"Communication Error", 1);
 		}
 	}
 	
@@ -75,12 +71,8 @@ public class BackgroundPanel extends JPanel {
 			Image img = ImageIO.read(new URL(imgURL));
 			background = new ImageIcon(img).getImage();
 		} catch (IOException e) {
-			//If there is an error loading the graphic, set the background white and display an error message
-			setBackground(Color.WHITE);
-			JLabel message = (new JLabel("<html>Oops!<br>"
-					+ "It seems we are having trouble communicating!</html>"));
-			message.setFont(new Font("Serif", Font.BOLD, 35));
-			add(message);
+			new GeneralDialogue("Oops! It seems we are having trouble communicating!", 
+					"Communication Error", 1);
 		}
 	    
 	    //Set the layout manger to the specified type

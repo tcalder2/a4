@@ -43,7 +43,7 @@ public class GameSettingsTab extends JPanel {
 
 	/** The drop down for setting the errors allowed for that level. */
 	private JComboBox<String> errors;
-	
+
 	/** The drop down containing the possible themes. */
 	private JComboBox<String> themes;
 
@@ -78,8 +78,8 @@ public class GameSettingsTab extends JPanel {
 		// Creates a list of times in 5 second intervals for populating time
 		// limit drop down
 		Vector<String> t = new Vector<String>();
-		for (int i = 5; i <= 120; i += 5) {
-			t.add(i + " sec");
+		for (int i = 0; i < 24; i++) {
+			t.add(((i + 1) * 5) + " sec");
 		}
 
 		// Creates a list of numbers from 0 to 5 for populating allowable errors
@@ -88,7 +88,7 @@ public class GameSettingsTab extends JPanel {
 		for (int i = 0; i <= 5; i++) {
 			err.add("" + i);
 		}
-		
+
 		//Creates a list of themes
 		Vector<String> tList = new Vector<String>();
 		tList.add("Default");
@@ -175,9 +175,8 @@ public class GameSettingsTab extends JPanel {
 		add(testingLabel, c);		
 
 		c.gridx = 3;
-		//c.insets = new Insets(0,50,0,0);
 		add(themeLabel, c);
-		
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30, 0, 0, 0);
 		c.gridx = 1;
@@ -185,10 +184,10 @@ public class GameSettingsTab extends JPanel {
 
 		c.gridx = 2;
 		add(testOn, c);
-		
+
 		c.gridx = 4;
 		add(themes, c);
-		
+
 		c.insets = new Insets(0, 0, 0, 50);
 		c.gridx = 3;
 		c.gridy = 1;
@@ -215,9 +214,12 @@ public class GameSettingsTab extends JPanel {
 	void setTimeSelection() {
 		Progeny child;
 		try {
-			child = ProgenyService.getProgenies().get(
-					childSelector.getSelectedIndex());
-			time.setSelectedItem(child.getTimeAllowed() + " sec");
+
+			if (childSelector.getSelectedIndex() > -1) {
+				child = ProgenyService.getProgenies().get(childSelector.getSelectedIndex());
+				time.setSelectedItem(child.getTimeAllowed() + " sec");
+			}
+
 		} catch (JSONFailureException e1) {
 			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		}
@@ -226,14 +228,20 @@ public class GameSettingsTab extends JPanel {
 	void setErrorsSelection() {
 		Level level;
 		try {
-			level = LevelService.getLevels().get(
-					levelSelector.getSelectedIndex());
-			errors.setSelectedItem(level.getMistakesAllowed());
+			ArrayList<Level> levels = LevelService.getLevels();
+			if (levels.size() > 0) {	
+				level = levels.get(levelSelector.getSelectedIndex());
+				errors.setSelectedItem(level.getMistakesAllowed());
+			}
+			else {
+				new GeneralDialogue("Ooops! It appears we are having trouble communicating:(",
+						"Communication Error", 1);
+			}
 		} catch (JSONFailureException e1) {
 			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		}
 	}
-	
+
 	void updateTheme() {
 		String selectedTheme = (String) themes.getSelectedItem();
 		if (selectedTheme.equals("Default")) {
@@ -374,7 +382,7 @@ class PressUpdate1 implements ActionListener {
 			if (child.getTimeAllowed() != newTime) {
 				ProgenyService.setTimeAllowed(child, newTime);
 			}
-			
+
 			Controller.refreshCurrentProgeny();
 
 			// childSelector.setSelectedIndex(0);
@@ -434,8 +442,6 @@ class PressUpdate2 implements ActionListener {
 			int newMistakesAllowed = errors.getSelectedIndex();
 			if (level.getMistakesAllowed() != newMistakesAllowed) {
 				LevelService.changeMistakesAllowed(level, newMistakesAllowed);
-				// Update the current progeny's information
-				Controller.refreshCurrentProgeny();
 			}
 			// levelSelector.setSelectedIndex(0);
 			new GeneralDialogue("Mistakes allowed was updated successfully.",
