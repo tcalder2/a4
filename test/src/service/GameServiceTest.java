@@ -95,6 +95,7 @@ public class GameServiceTest {
 
 		try {
 			GameService.saveGame(progeny, 4, 5, 21, 84);
+			GameService.saveGame(progeny, 4, 5, 27, 84);
 		} catch (JSONFailureException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
