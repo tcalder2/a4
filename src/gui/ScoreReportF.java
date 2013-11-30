@@ -31,7 +31,8 @@ public class ScoreReportF extends BackgroundPanel {
 	 */
 	
 	private static int score;
-	public String scoreStr;
+	private int highscore;
+	public String scoreStr, highScoreStr;
 	public Font font;
 	
 	
@@ -43,15 +44,33 @@ public class ScoreReportF extends BackgroundPanel {
 		font = new Font(Font.SERIF, Font.BOLD, 60);
 		
 		score = s;
-		
+
 		//Create the components
 		JLabel score1 = new JLabel("Your score is:");
-
 		scoreStr = String.format("%05d", score);
-
-		repaint();
+		highScoreStr = "";
 		
-		JLabel score2 = new JLabel("Congrats!");
+		try {
+			highscore = Controller.getCurrentProgeny().getFinalGameHighScore();
+		}
+		catch (NullPointerException e) {
+			highscore = -1;
+		}
+		
+		if (score > highscore && highscore >= 0) {
+			Controller.getCurrentProgeny().setFinalGameHighScore(score);
+			//Controller.refreshCurrentProgeny();
+			highScoreStr = ("You beat your old high score! (" + String.format("%05d", highscore) + ")");
+		}
+		else if (score <= highscore && highscore >= 0){
+			highScoreStr = ("Try to beat your high score next time. (" + String.format("%05d", highscore) + ")");
+		}
+		else {
+			highScoreStr = ("Try to beat your high score next time.");
+		}
+		
+		JLabel score2 = new JLabel(highScoreStr);
+		repaint();
 		
 		JButton fbB = new JButton("Post your score to Facebook!");
 

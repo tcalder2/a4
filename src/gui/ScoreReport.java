@@ -52,7 +52,7 @@ public class ScoreReport extends BackgroundPanel {
 			}
 		}
 
-		if (levelArg >= Controller.getCurrentProgeny().getLevel()) {
+		if (levelArg >= Controller.getCurrentProgeny().getLevel() && win && levelArg != 12) {
 			try {
 				ProgenyService.changeLevel(Controller.getCurrentProgeny(), levelArg+1);
 			} catch (JSONFailureException e) {
