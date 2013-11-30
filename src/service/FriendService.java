@@ -1,6 +1,8 @@
 package service;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.json.simple.JSONArray;
@@ -15,6 +17,21 @@ import json.Json;
 
 public class FriendService {
 
+	public static HashMap<Progeny, Friend> getProgenyFriendDictionary(ArrayList<Friend> friends)
+	{
+		HashMap<Progeny, Friend> progeny_friend_dictoinary = new HashMap<Progeny,Friend>();
+
+		for(Friend friend : friends)
+		{
+			for(Progeny progeny : friend.getProgenies())
+			{
+				progeny_friend_dictoinary.put(progeny, friend);
+			}
+		}
+		
+		return progeny_friend_dictoinary;
+	}
+	
 	public static ArrayList<Friend> getFriends() throws JSONFailureException
 	{
 		Json json = new Json();
