@@ -17,6 +17,7 @@ import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 
 import service.UserService;
+import ttable.User;
 import json.JSONFailureException;
 
 /**
@@ -206,7 +207,7 @@ public class PasswordReset extends BackgroundPanel {
 				}
 			}
 		} catch (Exception e) {
-			JPanel screen = new JPanel();
+			BackgroundPanel screen = new BackgroundPanel(User.background);
 			JLabel error = new JLabel(e.getMessage());
 			error.setForeground(Color.RED);
 			error.setFont(Controller.getFont().deriveFont(Font.PLAIN, 18));

@@ -8,7 +8,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
-import javax.swing.JComponent;
 import javax.swing.JSplitPane;
 
 import json.JSONFailureException;
@@ -34,7 +33,6 @@ public class Controller {
 	
 	/** Status of test mode. */
 	private static boolean testMode;
-
 	
 	/**
 	 * Initialises the Controller variables.
@@ -71,16 +69,20 @@ public class Controller {
 	 *
 	 * @param banner	the new banner
 	 */
-	public static void setBanner(JComponent banner) {
+	public static void setBanner(BackgroundPanel banner) {
 		splitPane.setTopComponent(banner);
 	}
 	
 	/**
-	 * Sets the main screen panel.
+	 * Sets the main screen panel and whether the new screen has a close action.
 	 *
 	 * @param screen	the new screen panel
 	 */
-	public static void setScreen(JComponent screen) {
+	public static void setScreen(BackgroundPanel screen) {
+		BackgroundPanel current = (BackgroundPanel) splitPane.getBottomComponent();
+		if (current != null) {
+			current.close();
+		}
 		splitPane.setBottomComponent(screen);
 	}
 	

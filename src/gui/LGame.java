@@ -295,6 +295,16 @@ public class LGame extends BackgroundPanel implements KeyListener{
 			e.consume();
 		}
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see gui.BackgroundPanel#close()
+	 */
+	@Override
+	public void close() {
+		tmrBomb.stop();
+		tmrDelay.stop();
+	}
 
 }
 class DelayTimer implements ActionListener{

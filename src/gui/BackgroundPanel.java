@@ -110,4 +110,11 @@ public class BackgroundPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		g.drawImage(background, 0, 0, null);
 	}
+	
+	/**
+	 * 
+	 */
+	public void close() {
+		//Null method to be overwritten by screens requiring extra actions on close.
+	}
 }
