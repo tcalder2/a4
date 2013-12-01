@@ -92,6 +92,10 @@ public class StatsMenu extends BackgroundPanel {
 		JPanel tab1 = new JPanel();
 		JPanel tab2 = new JPanel();
 		JPanel tab3 = new JPanel();
+		
+		tab1.setOpaque(false);
+		tab2.setOpaque(false);
+		tab3.setOpaque(false);
 
 		nameFirst = new JLabel();
 		nameSecond = new JLabel();
@@ -177,14 +181,6 @@ public class StatsMenu extends BackgroundPanel {
 
 		int n = friends.size();
 
-		// array of friend data
-		// -------------------------------------------------------------------------------------------------
-		// Column 1 - picture
-		// Column 2 - name
-		// Column 3 - chidren's names
-		// Column 4 - children's ages
-		// Column 5 - children's levels
-		// -------------------------------------------------------------------------------------------------
 		Object[][] array = new Object[n][5];
 
 		// create table to display friend info
@@ -223,18 +219,14 @@ public class StatsMenu extends BackgroundPanel {
 		// table.getColumnModel().getColumn(4).setMaxWidth(55);
 		// table.getColumnModel().getColumn(4).setMinWidth(55);
 
-		table.setEnabled(false);
-
 		// set row height
 		table.setRowHeight(65);
 
 		// set table to not be editable
-		// table.setDragEnabled(false);
+		table.setEnabled(false);
+		table.setDragEnabled(false);
 		table.setShowVerticalLines(false);
-		// table.setRowSelectionAllowed(false);
-		// table.setColumnSelectionAllowed(false);
-		// table.setCellSelectionEnabled(false);
-		// table.getTableHeader().setReorderingAllowed(false);
+		table.getTableHeader().setReorderingAllowed(false);
 
 		// ***********************************************************
 		// STORE FRIEND INFORMATION IN THE ARRAY
