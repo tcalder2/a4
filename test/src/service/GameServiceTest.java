@@ -43,7 +43,7 @@ public class GameServiceTest {
 	public void testGetFinalHighScores()
 	{
 		try {
-			ArrayList<Friend> friends = FriendService.getFriends();
+			ArrayList<Friend> friends = FriendService.getAllFbUsers();
  			LinkedHashMap<Progeny, Friend> top_progenies = FriendService.getHighTopThreeProgeniesPerParentForFinal(friends);
 
 			for(Progeny progeny : top_progenies.keySet())
