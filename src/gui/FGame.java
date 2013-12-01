@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
@@ -15,13 +14,13 @@ import java.net.URL;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
 /**
  * The class FGame, a populated BackgroundPanel.
  * 
  * @author Taylor Calder
+ * @author James Anderson
  * @version 1.0
  */
 @SuppressWarnings("serial")
@@ -29,8 +28,6 @@ public class FGame extends BackgroundPanel implements Runnable {
 
 	private int x, y, op1, op2, a1, a2, ansCorrect, a1x, a1y, a2x, a2y, a3x,
 			a3y, score, cooldowm, timeLeft;
-	final private int MIN_X = 100;
-	final private int MIN_Y = 100;
 	private Random rand = new Random();
 	private boolean left, right, up, down;
 	int fallCount = 0;
@@ -38,9 +35,8 @@ public class FGame extends BackgroundPanel implements Runnable {
 	private boolean answerRight, answerWrong;
 	private Font font = new Font(Font.SERIF, Font.BOLD, 30);
 	private Timer clock;
-
-	/** The background graphic. */
-	private Image background;
+	private Image bird = null;
+	private Image berries = null;
 
 	/**
 	 * Instantiates a FGame instance.
@@ -53,6 +49,20 @@ public class FGame extends BackgroundPanel implements Runnable {
 		this.setFocusable(true);
 		this.requestFocusInWindow();
 
+		try {
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/bird.png"));
+			bird = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+		} catch (IOException e) {
+			bird = null;
+		}
+		
+		try {
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/berries.png"));
+			berries = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+		} catch (IOException e) {
+			berries = null;
+		}
+		
 		timeLeft = 60;
 		cooldowm = 0; // the cool down between when you can select answers
 		score = 0;
@@ -60,23 +70,6 @@ public class FGame extends BackgroundPanel implements Runnable {
 		scoreCounter = ("Score: " + scoreStr);
 		timeCounter = ("Time: " + timeLeft + "s");
 		clock = new Timer(1000, new TimerActionF(this, timeLeft));
-/*
-		try {
-			// Load the graphic and set the dimensions of the panel
-			Image img = ImageIO.read(new URL(
-					"http://jbaron6.cs2212.ca/img/default_background.png"));
-			background = new ImageIcon(img).getImage();
-			Dimension d = new Dimension(background.getWidth(null),
-					background.getHeight(null));
-			setPreferredSize(d);
-			setMinimumSize(d);
-			setMaximumSize(d);
-			setSize(d);
-		} catch (IOException e) {
-			new GeneralDialogue("Ooop! It seems we are having trouble communicating:S",
-					"Communication Error", 1);
-		}
-		*/
 
 		newQuestion();
 
@@ -101,30 +94,39 @@ public class FGame extends BackgroundPanel implements Runnable {
 		a1 = (op1 + (rand.nextInt(2) + 1)) * op2;
 		a2 = ansCorrect - (rand.nextInt(6) + 3);
 
-		// A3 is the correct answer
-		a3x = rand.nextInt(600) + 50;
-		a3y = rand.nextInt(300) + 100;
-
 		// Generate Question Positions
-
-		a3x = rand.nextInt(600) + 50;
-		a3y = rand.nextInt(300) + 100;
+		a1x = rand.nextInt(600) + 50;
+		a1y = rand.nextInt(300) + 100;
 
 		a2x = rand.nextInt(600) + 50;
 		a2y = rand.nextInt(300) + 100;
-
-		while (((a3x - a2x) < MIN_X && (a3x - a2x) > -MIN_X)
-				&& ((a3y - a2y) < MIN_Y && (a3y - a2y) > -MIN_Y)) {
+		
+		a3x = rand.nextInt(600) + 50;
+		a3y = rand.nextInt(300) + 100;
+		
+		//If a2 overlaps with a1 change position
+		while ((a1x < a2x) && (a2x < (a1x + 50))) {
 			a2x = rand.nextInt(600) + 50;
-			a2y = rand.nextInt(300) + 100;
+			System.out.print("stuck1");
 		}
+		
+		while ((a1y < a2y) && (a2y < (a1y + 50))) {
+			a2y = rand.nextInt(300) + 100;
+			System.out.print("stuck2");
 
-		a1x = rand.nextInt(600) + 50;
-		a1y = rand.nextInt(300) + 100;
-		while ((((a3x - a1x) < MIN_X && (a3x - a1x) > -MIN_X) && ((a2x - a1x) < MIN_X && (a2x - a1x) > -MIN_X))
-				&& (((a3y - a1y) < MIN_Y && (a3y - a1y) > -MIN_Y) && ((a2y - a1y) < MIN_Y && (a2y - a1y) > -MIN_Y))) {
-			a1x = rand.nextInt(600) + 50;
-			a1y = rand.nextInt(300) + 100;
+		}
+		
+		//If a3 overlaps with a1 or a2 change position
+		while ((a1x < a3x) && (a3x < (a1x + 50)) || (a2x < a3x) && (a3x < (a2x + 50))) {
+			a3x = rand.nextInt(600) + 50;
+			System.out.print("stuck3");
+
+		}
+		
+		while ((a1y < a3y) && (a3y < (a1y + 50)) || (a2y < a3y) && (a3y < (a2y + 50))) {
+			a3y = rand.nextInt(300) + 100;
+			System.out.print("stuck4");
+
 		}
 
 		ans1 = ("" + a1);
@@ -327,24 +329,35 @@ public class FGame extends BackgroundPanel implements Runnable {
 
 	/**
 	 * Repaints the graphics
+	 * @throws IOException 
 	 */
 	public void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
 		g.setFont(font);
-		g.drawImage(background, 0, 0, null);
 		g.setColor(Color.black);
-		g.drawRect(x, y, 20, 20);
+		if (bird != null) {
+			g.drawImage(bird ,x, y, null);
+		}
+		else {
+			g.drawRect(x, y, 20, 20);
+		}
 
 		g.fillRect(112, 31, 180, 30); // score
 		g.fillRect(532, 31, 160, 30); // mistakes
 		g.fillRect(359, 31, 95, 30); // question
 
-		g.drawString(ans1, a1x, a1y);
-		g.drawString(ans2, a2x, a2y);
-		g.drawString(ans3, a3x, a3y);
+		g.drawImage(berries,a1x, a1y, null);
+		g.drawImage(berries,a2x, a2y, null);
+		g.drawImage(berries,a3x, a3y, null);
+		
+		//g.setColor(Color.RED);
 
-		g.setColor(Color.white);
+		g.drawString(ans1, a1x + 20, a1y + 45);
+		g.drawString(ans2, a2x + 20, a2y + 45);
+		g.drawString(ans3, a3x + 20, a3y + 45);
+
+		g.setColor(Color.WHITE);
 		g.drawString(question, 365, 55);
 		g.drawString(scoreCounter, 120, 55);
 
