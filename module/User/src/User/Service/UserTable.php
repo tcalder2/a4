@@ -128,7 +128,7 @@ class UserTable
 
   array_push($friends, array(
    'first_name' => $user->getFirstName(),
-   'last_name' => $user->getFirstName(),
+   'last_name' => $user->getLastName(),
    'fb_id' => $user->getFbId(),
   ));
 
@@ -144,7 +144,7 @@ class UserTable
 
    $friend_array['first_name'] = $friend['first_name'];
    $friend_array['last_name'] = $friend['last_name'];
-   $friend_array['fb_id'] = $friend['uid'];
+   $friend_array['fb_id'] = $friend['fb_id'];
 
    if(isset($progenies_array))
     unset($progenies_array);
