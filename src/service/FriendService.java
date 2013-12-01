@@ -18,6 +18,72 @@ public class FriendService {
 
 	// holy shit that's a long ass method name
 
+	public static int getAverageDrillTime(int level, int age) {
+
+		int average = 0, count = 0;
+		ArrayList<Friend> friends;
+		Progeny prog;
+		try {
+			friends = FriendService.getFriends();
+		} catch (JSONFailureException e) {
+			return -1;
+		}
+
+		LinkedHashMap<Progeny, Friend> progHash = getProgenyFriendHashMap(friends);
+
+		Iterator<Progeny> progIt = progHash.keySet().iterator();
+
+		while (progIt.hasNext()) {
+
+			prog = progIt.next();
+			if (ProgenyService.getAge(prog.getBirthDate()) == age) {
+				try {
+					if (!(prog.getLevels().get(level - 1).getCompletionTime() == 0)) {
+						average += prog.getLevels().get(level - 1)
+								.getCompletionTime();
+						count++;
+					}
+				} catch (Exception e) {
+
+				}
+
+			}
+
+		}
+
+		ArrayList<Progeny> yourKids = null;
+
+		try {
+			yourKids = ProgenyService.getProgenies();
+		} catch (JSONFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Progeny kid;
+		
+		for (Progeny yourCrotchSpawn : yourKids) {
+			//try {
+			kid = yourCrotchSpawn;
+			
+				if (!(yourCrotchSpawn.getLevelProgenys().get(level - 1)
+						.getCompletionTime() == 0)) {
+					average = average + kid.getLevelProgenys().get(level - 1).getCompletionTime();
+					count++;
+				}
+
+			//} catch (Exception e) {
+
+			//}
+		}
+		if (count == 0) {
+			return 0;
+		} else {
+			return (average / count);
+		}
+
+	}
+
 	public static LinkedHashMap<Progeny, Friend> getHighTopThreeProgeniesPerParentByLevel(
 			ArrayList<Friend> friends, int level) {
 
@@ -165,8 +231,6 @@ public class FriendService {
 			friends_data = (JSONArray) ((JSONObject) JSONValue
 					.parse("{\"success\":true,\"friends\":[{\"first_name\":\"Taylor\",\"last_name\":\"Joseph\",\"fb_id\":\"89907980\",\"progenies\":[]},{\"first_name\":\"Crystal\",\"last_name\":\"Keenan\",\"fb_id\":\"508430727\",\"progenies\":[{\"first_name\":\"Rob\",\"birth_date\":\"1980-03-05\",\"id\":265,\"time_allowed\":40,\"level\":12,\"final_game_high_score\":1250,\"level_progenys\":[{\"id\":1527,\"attempts\":4,\"final_mistakes\":0,\"final_completion_time\":26,\"level\":1},{\"id\":1528,\"attempts\":1,\"final_mistakes\":0,\"final_completion_time\":12,\"level\":2},{\"id\":1529,\"attempts\":1,\"final_mistakes\":0,\"final_completion_time\":25,\"level\":3},{\"id\":1530,\"attempts\":1,\"final_mistakes\":0,\"final_completion_time\":25,\"level\":4},{\"id\":1531,\"attempts\":1,\"final_mistakes\":0,\"final_completion_time\":24,\"level\":5},{\"id\":1532,\"attempts\":1,\"final_mistakes\":0,\"final_completion_time\":25,\"level\":6},{\"id\":1533,\"attempts\":1,\"final_mistakes\":0,\"final_completion_time\":24,\"level\":7},{\"id\":1534,\"attempts\":1,\"final_mistakes\":0,\"final_completion_time\":24,\"level\":8},{\"id\":1535,\"attempts\":1,\"final_mistakes\":0,\"final_completion_time\":23,\"level\":9},{\"id\":1536,\"attempts\":1,\"final_mistakes\":0,\"final_completion_time\":24,\"level\":10},{\"id\":1537,\"attempts\":1,\"final_mistakes\":0,\"final_completion_time\":25,\"level\":11},{\"id\":1538,\"attempts\":1,\"final_mistakes\":0,\"final_completion_time\":25,\"level\":12}]},{\"first_name\":\"Bill\",\"birth_date\":\"2013-01-01\",\"id\":356,\"time_allowed\":30,\"level\":1,\"final_game_high_score\":0,\"level_progenys\":[{\"id\":2595,\"attempts\":0,\"final_mistakes\":0,\"final_completion_time\":0,\"level\":1},{\"id\":2596,\"attempts\":0,\"final_mistakes\":0,\"final_completion_time\":0,\"level\":2},{\"id\":2597,\"attempts\":0,\"final_mistakes\":0,\"final_completion_time\":0,\"level\":3},{\"id\":2598,\"attempts\":0,\"final_mistakes\":0,\"final_completion_time\":0,\"level\":4},{\"id\":2599,\"attempts\":0,\"final_mistakes\":0,\"final_completion_time\":0,\"level\":5},{\"id\":2600,\"attempts\":0,\"final_mistakes\":0,\"final_completion_time\":0,\"level\":6},{\"id\":2601,\"attempts\":0,\"final_mistakes\":0,\"final_completion_time\":0,\"level\":7},{\"id\":2602,\"attempts\":0,\"final_mistakes\":0,\"final_completion_time\":0,\"level\":8},{\"id\":2603,\"attempts\":0,\"final_mistakes\":0,\"final_completion_time\":0,\"level\":9},{\"id\":2604,\"attempts\":0,\"final_mistakes\":0,\"final_completion_time\":0,\"level\":10},{\"id\":2605,\"attempts\":0,\"final_mistakes\":0,\"final_completion_time\":0,\"level\":11},{\"id\":2606,\"attempts\":0,\"final_mistakes\":0,\"final_completion_time\":0,\"level\":12}]}]},{\"first_name\":\"Yaqzan\",\"last_name\":\"Ali\",\"fb_id\":\"671305884\",\"progenies\":[]},{\"first_name\":\"James\",\"last_name\":\"Baron\",\"fb_id\":\"100001201459747\",\"progenies\":[]}]}"))
 					.get("friends");
-		
-		
 
 		ArrayList<Friend> friends = new ArrayList<Friend>();
 		Iterator<?> friendsIt = friends_data.iterator();
