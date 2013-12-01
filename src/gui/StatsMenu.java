@@ -171,8 +171,7 @@ public class StatsMenu extends BackgroundPanel {
 		try {
 			friends = FriendService.getFriends();
 		} catch (JSONFailureException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		}
 
 		int n = friends.size();
@@ -561,8 +560,7 @@ public class StatsMenu extends BackgroundPanel {
 		try {
 			friends = FriendService.getFriends();
 		} catch (JSONFailureException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 		}
 
 		LinkedHashMap<Progeny, Friend> topThreeHash = null;
@@ -692,7 +690,6 @@ public class StatsMenu extends BackgroundPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 			menu.updateList();
 		}
 
