@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
@@ -21,6 +20,7 @@ import javax.swing.Timer;
  * The class FGame, a populated BackgroundPanel.
  * 
  * @author Taylor Calder
+ * @author James Anderson
  * @version 1.0
  */
 @SuppressWarnings("serial")
@@ -28,8 +28,6 @@ public class FGame extends BackgroundPanel implements Runnable {
 
 	private int x, y, op1, op2, a1, a2, ansCorrect, a1x, a1y, a2x, a2y, a3x,
 			a3y, score, cooldowm, timeLeft;
-	final private int MIN_X = 100;
-	final private int MIN_Y = 100;
 	private Random rand = new Random();
 	private boolean left, right, up, down;
 	int fallCount = 0;
@@ -96,30 +94,39 @@ public class FGame extends BackgroundPanel implements Runnable {
 		a1 = (op1 + (rand.nextInt(2) + 1)) * op2;
 		a2 = ansCorrect - (rand.nextInt(6) + 3);
 
-		// A3 is the correct answer
-		a3x = rand.nextInt(600) + 50;
-		a3y = rand.nextInt(300) + 100;
-
 		// Generate Question Positions
-
-		a3x = rand.nextInt(600) + 50;
-		a3y = rand.nextInt(300) + 100;
+		a1x = rand.nextInt(600) + 50;
+		a1y = rand.nextInt(300) + 100;
 
 		a2x = rand.nextInt(600) + 50;
 		a2y = rand.nextInt(300) + 100;
-
-		while (((a3x - a2x) < MIN_X && (a3x - a2x) > -MIN_X)
-				&& ((a3y - a2y) < MIN_Y && (a3y - a2y) > -MIN_Y)) {
+		
+		a3x = rand.nextInt(600) + 50;
+		a3y = rand.nextInt(300) + 100;
+		
+		//If a2 overlaps with a1 change position
+		while ((a1x < a2x) && (a2x < (a1x + 50))) {
 			a2x = rand.nextInt(600) + 50;
-			a2y = rand.nextInt(300) + 100;
+			System.out.print("stuck1");
 		}
+		
+		while ((a1y < a2y) && (a2y < (a1y + 50))) {
+			a2y = rand.nextInt(300) + 100;
+			System.out.print("stuck2");
 
-		a1x = rand.nextInt(600) + 50;
-		a1y = rand.nextInt(300) + 100;
-		while ((((a3x - a1x) < MIN_X && (a3x - a1x) > -MIN_X) && ((a2x - a1x) < MIN_X && (a2x - a1x) > -MIN_X))
-				&& (((a3y - a1y) < MIN_Y && (a3y - a1y) > -MIN_Y) && ((a2y - a1y) < MIN_Y && (a2y - a1y) > -MIN_Y))) {
-			a1x = rand.nextInt(600) + 50;
-			a1y = rand.nextInt(300) + 100;
+		}
+		
+		//If a3 overlaps with a1 or a2 change position
+		while ((a1x < a3x) && (a3x < (a1x + 50)) || (a2x < a3x) && (a3x < (a2x + 50))) {
+			a3x = rand.nextInt(600) + 50;
+			System.out.print("stuck3");
+
+		}
+		
+		while ((a1y < a3y) && (a3y < (a1y + 50)) || (a2y < a3y) && (a3y < (a2y + 50))) {
+			a3y = rand.nextInt(300) + 100;
+			System.out.print("stuck4");
+
 		}
 
 		ans1 = ("" + a1);
