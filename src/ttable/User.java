@@ -253,19 +253,19 @@ public final class User {
 		User.drillSkin = drillSkin;
 	}
 
-	public static int getBackgroundMenu() {
+	public static int getBackgroundMenuCode() {
 		return backgroundMenuCode;
 	}
 
-	public static void setBackgroundMenu(int code) {
+	public static void setBackgroundMenuCode(int code) {
 		User.backgroundMenuCode = code;
 	}
 
-	public static int getBackground() {
+	public static int getBackgroundCode() {
 		return backgroundCode;
 	}
 
-	public static void setBackground(int code) {
+	public static void setBackgroundCode(int code) {
 		User.backgroundCode = code;
 	}
 

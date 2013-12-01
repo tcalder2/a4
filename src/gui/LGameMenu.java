@@ -35,7 +35,7 @@ public class LGameMenu extends BackgroundPanel {
 	public LGameMenu() {
 
 		//Calls superclass constructor to create the background panel
-		super(User.getBackground(), new GridBagLayout());
+		super(User.getBackgroundCode(), new GridBagLayout());
 
 		//Creates a GridBagConstraints instance to control layout
 		GridBagConstraints c = new GridBagConstraints();

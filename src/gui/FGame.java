@@ -60,7 +60,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 		scoreCounter = ("Score: " + scoreStr);
 		timeCounter = ("Time: " + timeLeft + "s");
 		clock = new Timer(1000, new TimerActionF(this, timeLeft));
-
+/*
 		try {
 			// Load the graphic and set the dimensions of the panel
 			Image img = ImageIO.read(new URL(
@@ -76,6 +76,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 			new GeneralDialogue("Ooop! It seems we are having trouble communicating:S",
 					"Communication Error", 1);
 		}
+		*/
 
 		newQuestion();
 
