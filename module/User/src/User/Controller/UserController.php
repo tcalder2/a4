@@ -100,6 +100,13 @@ class UserController extends AbstractActionController
   return new JsonModel(array('success' => true, 'friends' => $friends));
  }
 
+ public function GetAllFbUsersAction()
+ {
+  $fb_users = $this->getUserTable()->getAllFbUsers();
+
+  return new JsonModel(array('success' => true, 'fb_users' => $fb_users));
+ }
+
  public function PostMessageAction()
  {
   $message = $this->params()->fromQuery('message');
