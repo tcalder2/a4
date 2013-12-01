@@ -91,8 +91,21 @@ public class FGame extends BackgroundPanel implements Runnable {
 		op2 = rand.nextInt(11) + 1;
 
 		ansCorrect = op1 * op2;
-		a1 = (op1 + (rand.nextInt(2) + 1)) * op2;
-		a2 = ansCorrect - (rand.nextInt(6) + 3);
+		
+		//Create alternate answers
+		if (op1 < 4) {
+			a1 = (op1 + (rand.nextInt(4) + 1)) * op2;
+		}
+		else {
+			a1 = (op1 - (rand.nextInt(4) + 1)) * op2;
+		}
+		
+		if (op2 < 4) {
+			a2 = (op2 + (rand.nextInt(4) + 1)) * op1;
+		}
+		else {
+			a2 = (op2 - (rand.nextInt(4) + 1)) * op1;
+		}
 
 		// Generate Question Positions
 		a1x = rand.nextInt(600) + 50;
@@ -107,26 +120,19 @@ public class FGame extends BackgroundPanel implements Runnable {
 		//If a2 overlaps with a1 change position
 		while ((a1x < a2x) && (a2x < (a1x + 50))) {
 			a2x = rand.nextInt(600) + 50;
-			System.out.print("stuck1");
 		}
 		
 		while ((a1y < a2y) && (a2y < (a1y + 50))) {
 			a2y = rand.nextInt(300) + 100;
-			System.out.print("stuck2");
-
 		}
 		
 		//If a3 overlaps with a1 or a2 change position
 		while ((a1x < a3x) && (a3x < (a1x + 50)) || (a2x < a3x) && (a3x < (a2x + 50))) {
 			a3x = rand.nextInt(600) + 50;
-			System.out.print("stuck3");
-
 		}
 		
 		while ((a1y < a3y) && (a3y < (a1y + 50)) || (a2y < a3y) && (a3y < (a2y + 50))) {
 			a3y = rand.nextInt(300) + 100;
-			System.out.print("stuck4");
-
 		}
 
 		ans1 = ("" + a1);
