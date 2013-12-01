@@ -187,7 +187,9 @@ public class SecurityTab extends JPanel {
 					UserService.setQuestion(("" + questions.getSelectedIndex()), oldPwdS);
 					UserService.setAnswer(answer, oldPwdS);
 					UserService.setPassword(oldPwdS, newPwdS);
-
+					
+					new GeneralDialogue("Security information updated successfully.", "Success!", 3);
+					
 					oldPwdS = "000000";
 					newPwdS = "000000";
 					retypePwdS = "000000";
