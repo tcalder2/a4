@@ -348,7 +348,9 @@ public class FGame extends BackgroundPanel implements Runnable {
 		else {
 			g.drawRect(x, y, 20, 20);
 		}
-
+		
+		g.setColor(Color.WHITE);
+		
 		g.fillRect(112, 31, 180, 30); // score
 		g.fillRect(532, 31, 160, 30); // mistakes
 		g.fillRect(359, 31, 95, 30); // question
@@ -357,13 +359,11 @@ public class FGame extends BackgroundPanel implements Runnable {
 		g.drawImage(berries,a2x, a2y, null);
 		g.drawImage(berries,a3x, a3y, null);
 		
-		//g.setColor(Color.RED);
-
+		g.setColor(Color.BLACK);
 		g.drawString(ans1, a1x + 20, a1y + 45);
 		g.drawString(ans2, a2x + 20, a2y + 45);
 		g.drawString(ans3, a3x + 20, a3y + 45);
 
-		g.setColor(Color.WHITE);
 		g.drawString(question, 365, 55);
 		g.drawString(scoreCounter, 120, 55);
 
