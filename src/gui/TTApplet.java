@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import javax.swing.JApplet;
 
+
 /**
  * The class TTApplet, a JApplet.
  * 

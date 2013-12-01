@@ -83,6 +83,8 @@ public class ScoreReport extends BackgroundPanel {
 			score1 = new JLabel("You didn't manage to finish...");
 		}
 		
+		// looks like
+		
 		average = FriendService.getAverageDrillTime(level, ProgenyService.getAge(Controller.getCurrentProgeny().getBirthDate()));
 		
 		if (average > 0) {
@@ -142,11 +144,10 @@ public class ScoreReport extends BackgroundPanel {
 		add(levelB, c); // Level game button
 
 	}
-
-	private static int getLevel() {
-		// TODO Auto-generated method stub
-		return level;
-	}
+//	private static int getLevel() {
+//		// TODO Auto-generated method stub
+//		return level;
+//	}
 
 	/**
 	 * The class ToLevelGame, an action listener.
