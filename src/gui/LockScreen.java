@@ -38,7 +38,7 @@ public class LockScreen extends BackgroundPanel {
 	public LockScreen() {
 
 		//Calls superclass constructor to create the background panel
-		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
+		super(0, new GridBagLayout());
 		
 		//Add the components to the panel
 		this.setup();  
@@ -55,7 +55,7 @@ public class LockScreen extends BackgroundPanel {
 	public LockScreen(ArrayList<String> errors) {
 
 		//Calls superclass constructor to create the background panel
-		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
+		super(0, new GridBagLayout());
 
 		//Add the components to the panel
 		setup();

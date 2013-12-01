@@ -15,7 +15,6 @@ import service.GameService;
 import service.ProgenyService;
 import service.UserService;
 import ttable.LevelProgeny;
-import ttable.User;
 
 /**
  * The class ScoreREport, a populated BackgroundPanel.
@@ -31,14 +30,14 @@ public class ScoreReport extends BackgroundPanel {
 	 * 
 	 */
 
-	private static int level, time, timeLeft, average;
+	@SuppressWarnings("unused")
+	private int level, time, timeLeft, average;
 
 	public ScoreReport(boolean win, int timeArg, int timeLeftArg, int levelArg,
 			int incorrect) {
 
 		// Calls superclass constructor to create the background panel
-		super("http://jbaron6.cs2212.ca/img/default_background.png",
-				new GridBagLayout());
+		super(0, new GridBagLayout());
 
 		
 		
@@ -58,7 +57,6 @@ public class ScoreReport extends BackgroundPanel {
 			try {
 				ProgenyService.changeLevel(Controller.getCurrentProgeny(), levelArg+1);
 			} catch (JSONFailureException e) {
-				// TODO Auto-generated catch block
 				new GeneralDialogue(e.getMessages(), "Couldn't Update Level :(", 1);
 			}
 			Controller.refreshCurrentProgeny();
@@ -72,10 +70,6 @@ public class ScoreReport extends BackgroundPanel {
 		average = 31;
 
 		// Create the components
-		int max = 12;
-		if (Controller.getTestMode()) {
-			max = 4;
-		}
 		JLabel score1;
 		if (win) {
 			score1 = new JLabel("You finished in " + (timeArg - timeLeftArg)
@@ -134,11 +128,6 @@ public class ScoreReport extends BackgroundPanel {
 
 	}
 
-	private static int getLevel() {
-		// TODO Auto-generated method stub
-		return level;
-	}
-
 	/**
 	 * The class ToLevelGame, an action listener.
 	 * 
@@ -151,11 +140,11 @@ public class ScoreReport extends BackgroundPanel {
 			Instructions inst;
 			try {
 			inst = new Instructions(Controller.getCurrentProgeny().getLevels()
-						.get(ScoreReport.getLevel() - 1));
+						.get(level - 1));
 			}
 			catch (Exception e2) {
 				LevelProgeny prog = new LevelProgeny();
-				prog.setLevelNumber(ScoreReport.getLevel());
+				prog.setLevelNumber(level);
 				inst = new Instructions(prog);
 			}
 			Controller.setScreen(inst);
@@ -197,11 +186,11 @@ public class ScoreReport extends BackgroundPanel {
 			Drill screen;
 			try {
 				screen = new Drill(Controller.getCurrentProgeny().getLevels()
-						.get(levelNum - 1), User.background);
+						.get(levelNum - 1));
 			} catch (Exception e2) {
 				LevelProgeny prog = new LevelProgeny();
 				prog.setLevelNumber(levelNum);
-				screen = new Drill(prog, User.background);
+				screen = new Drill(prog);
 			}
 			Controller.setScreen(screen);
 		}
@@ -223,9 +212,8 @@ public class ScoreReport extends BackgroundPanel {
 		public void actionPerformed(ActionEvent e) {
 			
 			try {
-				UserService.postMessage(new String("" + Controller.getCurrentProgeny().getFirstName() + " just mastered the number " + scoreReport.level + " times table!"));
+				UserService.postMessage(new String("" + Controller.getCurrentProgeny().getFirstName() + " just mastered the number " + level + " times table!"));
 			} catch (JSONFailureException e1) {
-				// TODO Auto-generated catch block
 				new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 			}
 			

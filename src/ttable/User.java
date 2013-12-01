@@ -40,10 +40,10 @@ public final class User {
 	public static int drillSkin = 0;
 	
 	/** URL to the current drill game menu background **/
-	public static String backgroundMenu = "http://jbaron6.cs2212.ca/img/level_background.png";
+	public static int backgroundMenuCode = 20;
 
 	/** URL to the current drill game background **/
-	public static String background = "http://jbaron6.cs2212.ca/img/default_background.png";
+	public static int backgroundCode = 0;
 	
 	
 	/**
@@ -85,18 +85,18 @@ public final class User {
 	public static void updateTheme(int theme) {
 		
 		if (theme == 0) {
-			 backgroundMenu = "http://jbaron6.cs2212.ca/img/level_background.png";
-			 background = "http://jbaron6.cs2212.ca/img/default_background.png";
+			 backgroundMenuCode = 20;
+			 backgroundCode = 0;
 			 drillSkin = 0;
 		}
 		else if (theme == 1) {
-			background = "http://jbaron6.cs2212.ca/img/themes/theme_1/level_background.png";
-			backgroundMenu = "http://jbaron6.cs2212.ca/img/themes/theme_1/level_background.png";
+			backgroundCode = 21;
+			backgroundMenuCode = 21;
 			drillSkin = 1;
 		}
 		else if (theme == 2) {
-			 background = "http://jbaron6.cs2212.ca/img/themes/theme_2/level_background.png";
-			 backgroundMenu = "http://jbaron6.cs2212.ca/img/themes/theme_2/level_background.png";
+			 backgroundCode = 22;
+			 backgroundMenuCode = 22;
 			 drillSkin = 2;
 		}
 		
@@ -253,20 +253,20 @@ public final class User {
 		User.drillSkin = drillSkin;
 	}
 
-	public static String getBackgroundMenu() {
-		return backgroundMenu;
+	public static int getBackgroundMenu() {
+		return backgroundMenuCode;
 	}
 
-	public static void setBackgroundMenu(String backgroundMenu) {
-		User.backgroundMenu = backgroundMenu;
+	public static void setBackgroundMenu(int code) {
+		User.backgroundMenuCode = code;
 	}
 
-	public static String getBackground() {
-		return background;
+	public static int getBackground() {
+		return backgroundCode;
 	}
 
-	public static void setBackground(String background) {
-		User.background = background;
+	public static void setBackground(int code) {
+		User.backgroundCode = code;
 	}
 
 	public static void setInstance(User instance) {
