@@ -8,7 +8,7 @@ package settings;
  */
 public class Settings {
 
-	private static boolean fb_test = false;
+	private static boolean fb_test = true;
 	private static boolean testMode = false;
 	
 	public static boolean isTestMode() {
