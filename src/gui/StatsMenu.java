@@ -145,8 +145,7 @@ public class StatsMenu extends BackgroundPanel {
 		tab2.setLayout(new GridBagLayout());
 		tab3.setLayout(new GridBagLayout());
 		fillTabFriends(tab1, scroll, table);
-		fillTabAge(tab2, c);
-		fillTabLevels(tab3, c);
+		fillTabLevels(tab2, c);
 
 		// Add the tabs
 		tabs.addTab("Friends", tab1);
