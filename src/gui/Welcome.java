@@ -35,7 +35,7 @@ public class Welcome extends BackgroundPanel {
 	 * 
 	 */
 	public Welcome() {
-		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
+		super(0, new GridBagLayout());
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;

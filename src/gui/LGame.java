@@ -58,7 +58,7 @@ public class LGame extends BackgroundPanel implements KeyListener{
 	public LGame(LevelProgeny level) {
 
 		//Calls superclass constructor to create the background panel
-		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
+		super(0, new GridBagLayout());
 
 		this.level = level;
 		
@@ -280,7 +280,9 @@ public class LGame extends BackgroundPanel implements KeyListener{
 				}
 
 			}
-		} catch (Exception e3){}
+		} catch (Exception e3){
+			//NULL BODY
+		}
 		
 	}
 	@Override

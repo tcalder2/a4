@@ -173,6 +173,66 @@ class UserTable
   return $friends_array;
  }
 
+ public function getAllFbUsers()
+ {
+
+  $users = $this->em->getRepository('\User\Entity\User')->findAll();
+
+
+  $friends_array = array();
+  $friends = array();
+
+  foreach($users as $fb_user)
+  {
+   /** @var \User\Entity\User $fb_user */
+   array_push($friends, array(
+    'first_name' => $fb_user->getFirstName(),
+    'last_name' => $fb_user->getLastName(),
+    'fb_id' => $fb_user->getFbId(),
+   ));
+  }
+
+  $user_repository = $this->em->getRepository('User\Entity\User');
+  $progeny_repository = $this->em->getRepository('Progeny\Entity\Progeny');
+
+  /** @var \Progeny\Service\ProgenyTable $progeny_table */
+  $progeny_table = $this->sm->get('Progeny\Service\ProgenyTable');
+
+  foreach($friends as $friend)
+  {
+   $friend_array = array();
+
+   $friend_array['first_name'] = $friend['first_name'];
+   $friend_array['last_name'] = $friend['last_name'];
+   $friend_array['fb_id'] = $friend['fb_id'];
+
+   if(isset($progenies_array))
+    unset($progenies_array);
+
+   $progenies_array = array();
+
+   /** @var \User\Entity\User $friend */
+   $friend_obj = $user_repository->findBy(array('fb_id' => $friend['fb_id']));
+
+   if(!$friend_obj) continue;
+
+   $progenies = $progeny_repository->findBy(array('user' => $friend_obj));
+
+   foreach($progenies as $progeny)
+   {
+    /** @var \Progeny\Entity\Progeny $progeny */
+
+    array_push($progenies_array, $progeny_table->getProgenyDataArray($progeny));
+   }
+
+   $friend_array['progenies'] = $progenies_array;
+
+   array_push($friends_array, $friend_array);
+  }
+
+  return $friends_array;
+ }
+
  public function newUser($data)
  {
   //create a new user from the incomming data

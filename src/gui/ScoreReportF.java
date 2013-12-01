@@ -15,7 +15,6 @@ import javax.swing.*;
 import json.JSONFailureException;
 import service.GameService;
 import service.UserService;
-import ttable.User;
 
 /**
  * The class ScoreREport, a populated BackgroundPanel.
@@ -31,7 +30,7 @@ public class ScoreReportF extends BackgroundPanel {
 	 * 
 	 */
 	
-	private static int score;
+	private int score;
 	private int highscore;
 	public String scoreStr, highScoreStr;
 	public Font font;
@@ -40,7 +39,7 @@ public class ScoreReportF extends BackgroundPanel {
 	public ScoreReportF(FGame game, int s) {
 
 		//Calls superclass constructor to create the background panel
-		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
+		super(0, new GridBagLayout());
 
 		font = new Font(Font.SERIF, Font.BOLD, 60);
 		
@@ -65,8 +64,7 @@ public class ScoreReportF extends BackgroundPanel {
 				GameService.saveFinalGame(Controller.getCurrentProgeny(), score);
 				Controller.refreshCurrentProgeny();
 			} catch (JSONFailureException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				new GeneralDialogue(e.getMessages(), "JSON Error", 1);
 			}
 		}
 		else if (score <= highscore && highscore >= 0){
@@ -148,9 +146,8 @@ public class ScoreReportF extends BackgroundPanel {
 		public void actionPerformed(ActionEvent e) {
 			
 			try {
-				UserService.postMessage(new String("" + Controller.getCurrentProgeny().getFirstName() + " just scored " + scoreReport.score + " points on the final game!"));
+				UserService.postMessage(new String("" + Controller.getCurrentProgeny().getFirstName() + " just scored " + score + " points on the final game!"));
 			} catch (JSONFailureException e1) {
-				// TODO Auto-generated catch block
 				new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 			}
 			

@@ -16,7 +16,6 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.Timer;
 
 /**
@@ -49,8 +48,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 	 */
 	public FGame() {
 		// Calls superclass constructor to create the background panel
-		super("http://jbaron6.cs2212.ca/img/default_background.png",
-				new GridBagLayout());
+		super(0, new GridBagLayout());
 
 		this.setFocusable(true);
 		this.requestFocusInWindow();
@@ -75,13 +73,8 @@ public class FGame extends BackgroundPanel implements Runnable {
 			setMaximumSize(d);
 			setSize(d);
 		} catch (IOException e) {
-			// If there is an error loading the graphic, set the background
-			// white and display an error message
-			setBackground(Color.WHITE);
-			JLabel message = (new JLabel("<html>Oops!<br>"
-					+ "It seems we are having trouble communicating!</html>"));
-			message.setFont(new Font("Serif", Font.BOLD, 35));
-			add(message);
+			new GeneralDialogue("Ooop! It seems we are having trouble communicating:S",
+					"Communication Error", 1);
 		}
 
 		newQuestion();

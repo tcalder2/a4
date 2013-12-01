@@ -9,7 +9,6 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import ttable.User;
 import gui.Controller;
 
 /**
@@ -32,7 +31,7 @@ public class MainMenu extends BackgroundPanel {
 	public MainMenu() {
 		
 		//Calls superclass constructor to create the background panel
-		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
+		super(0, new GridBagLayout());
 		
 		//Create a new GridBagConstraints instance to control the layout
 		GridBagConstraints c = new GridBagConstraints();
@@ -46,7 +45,7 @@ public class MainMenu extends BackgroundPanel {
 			fGameLock = (Controller.getCurrentProgeny().getLevelProgenys().get(11).getCompletionTime() == 0);
 		}
 		catch (NullPointerException e) {
-			;
+			//NULL BODY
 		}
 		
 		try	{
@@ -166,7 +165,7 @@ class PressDrill implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		//Swap screen for the drill menu
-		Controller.setScreen(new DrillMenu(User.backgroundMenu));
+		Controller.setScreen(new DrillMenu());
 	}
 }
 

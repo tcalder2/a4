@@ -34,7 +34,7 @@ public class Instructions extends BackgroundPanel{
 	public Instructions(LevelProgeny level) {
 
 		//Calls superclass constructor to create the background panel
-		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
+		super(0, new GridBagLayout());
 		
 		this.level = level;
 		GridBagConstraints c = new GridBagConstraints();
