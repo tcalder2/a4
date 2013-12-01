@@ -9,7 +9,6 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import ttable.User;
 import gui.Controller;
 
 /**

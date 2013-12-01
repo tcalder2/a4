@@ -14,9 +14,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import ttable.LevelProgeny;
-import ttable.User;
+
 /**
- * The class ScoreREport, a populated BackgroundPanel.
+ * The class ScoreReport, a populated BackgroundPanel.
  * 
  * @author Yaqzan Ali
  * @version 1.0

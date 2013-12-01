@@ -30,7 +30,8 @@ public class ScoreReport extends BackgroundPanel {
 	 * 
 	 */
 
-	private static int level, time, timeLeft, average;
+	@SuppressWarnings("unused")
+	private int level, time, timeLeft, average;
 
 	public ScoreReport(boolean win, int timeArg, int timeLeftArg, int levelArg,
 			int incorrect) {
@@ -127,10 +128,6 @@ public class ScoreReport extends BackgroundPanel {
 
 	}
 
-	private static int getLevel() {
-		return level;
-	}
-
 	/**
 	 * The class ToLevelGame, an action listener.
 	 * 
@@ -143,11 +140,11 @@ public class ScoreReport extends BackgroundPanel {
 			Instructions inst;
 			try {
 			inst = new Instructions(Controller.getCurrentProgeny().getLevels()
-						.get(ScoreReport.getLevel() - 1));
+						.get(level - 1));
 			}
 			catch (Exception e2) {
 				LevelProgeny prog = new LevelProgeny();
-				prog.setLevelNumber(ScoreReport.getLevel());
+				prog.setLevelNumber(level);
 				inst = new Instructions(prog);
 			}
 			Controller.setScreen(inst);
@@ -215,7 +212,7 @@ public class ScoreReport extends BackgroundPanel {
 		public void actionPerformed(ActionEvent e) {
 			
 			try {
-				UserService.postMessage(new String("" + Controller.getCurrentProgeny().getFirstName() + " just mastered the number " + scoreReport.getLevel() + " times table!"));
+				UserService.postMessage(new String("" + Controller.getCurrentProgeny().getFirstName() + " just mastered the number " + level + " times table!"));
 			} catch (JSONFailureException e1) {
 				new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 			}

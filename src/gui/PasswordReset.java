@@ -17,7 +17,6 @@ import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 
 import service.UserService;
-import ttable.User;
 import json.JSONFailureException;
 
 /**
