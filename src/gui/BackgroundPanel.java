@@ -22,21 +22,6 @@ public class BackgroundPanel extends JPanel {
 
 	/** The background to display. */
 	private Image background;
-	
-	/** The default background graphic. */
-	private static Image defaultBackground = null;
-	
-	/** The title pane graphic. */
-	private static Image titleBackground = null;
-
-	/** The default level menu background graphic. */
-	private static Image defaultLevelMenu = null;
-
-	/** The planes level menu background graphic. */
-	private static Image planesLevelMenu = null;
-
-	/** The planes level menu background graphic. */
-	private static Image castlesLevelMenu = null;
 
 	/**
 	 * Constructor requiring the image URL be passed as an argument.
@@ -47,7 +32,7 @@ public class BackgroundPanel extends JPanel {
 
 		try	{
 			//Load the graphic and set the dimensions of the panel
-			background = loadImage(imageCode);
+			background = Controller.loadBackground(imageCode);
 			Dimension d = new Dimension(background.getWidth(null), background.getHeight(null));
 			setPreferredSize(d);
 			setMinimumSize(d);
@@ -78,7 +63,7 @@ public class BackgroundPanel extends JPanel {
 		setSize(d);
 
 		try	{
-			background = loadImage(imageCode);
+			background = Controller.loadBackground(imageCode);
 		} catch (IOException e) {
 			new GeneralDialogue("Oops! It seems we are having trouble communicating!", 
 					"Communication Error", 1);
@@ -101,47 +86,6 @@ public class BackgroundPanel extends JPanel {
 
 		//Set the layout manager to the specified type
 		setLayout(layout);
-	}
-
-	public static Image loadImage(int imageCode) throws IOException {
-		switch(imageCode) {
-		case 0:
-			if (defaultBackground == null) {
-				Image img = ImageIO.read(new URL(
-						"http://jbaron6.cs2212.ca/img/default_background.png"));
-				defaultBackground = new ImageIcon(img).getImage();
-			}
-			return defaultBackground;
-		case 1:
-			if (titleBackground == null) {
-				Image img = ImageIO.read(new URL(
-						"http://jbaron6.cs2212.ca/img/topbanner.png"));
-				titleBackground = new ImageIcon(img).getImage();
-			}
-			return titleBackground;
-		case 20:
-			if (defaultLevelMenu == null) {
-				Image img = ImageIO.read(new URL(
-						"http://jbaron6.cs2212.ca/img/level_background.png"));
-				defaultLevelMenu = new ImageIcon(img).getImage();
-			}
-			return defaultBackground;
-		case 21:
-			if (planesLevelMenu == null) {
-				Image img = ImageIO.read(new URL(
-						"http://jbaron6.cs2212.ca/img/themes/theme_1/level_background.png"));
-				planesLevelMenu = new ImageIcon(img).getImage();
-			}
-			return planesLevelMenu;
-		case 22:
-			if (castlesLevelMenu == null) {
-				Image img = ImageIO.read(new URL(
-						"http://jbaron6.cs2212.ca/img/themes/theme_2/level_background.png"));
-				castlesLevelMenu = new ImageIcon(img).getImage();
-			}
-			return castlesLevelMenu;
-		}
-		throw new IOException();
 	}
 
 	/*
