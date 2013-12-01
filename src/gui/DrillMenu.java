@@ -30,11 +30,11 @@ public class DrillMenu extends BackgroundPanel {
 	 * Instantiates a new drill menu.
 	 *
 	 */
-	public DrillMenu(String background) {
+	public DrillMenu() {
 
 		//Calls superclass constructor to create the background panel
 		
-		super(background, new GridBagLayout());
+		super(User.backgroundMenuCode, new GridBagLayout());
 
 		//Create a GridBagConstraints instance to control layout
 		GridBagConstraints c = new GridBagConstraints();
@@ -142,12 +142,12 @@ class StartDrill implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Drill screen;
 		try {
-		screen = new Drill(Controller.getCurrentProgeny().getLevels().get(levelNum - 1), User.background);
+		screen = new Drill(Controller.getCurrentProgeny().getLevels().get(levelNum - 1));
 		}
 		catch (Exception e2) {
 			LevelProgeny prog = new LevelProgeny();
 			prog.setLevelNumber(levelNum);
-			screen = new Drill(prog, User.background);
+			screen = new Drill(prog);
 		}
 		Controller.setScreen(screen);
 	}
