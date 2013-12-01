@@ -267,7 +267,7 @@ public class PasswordReset extends BackgroundPanel {
 					UserService.resetPassword(answer, newPwdS);
 				}
 				
-				new GeneralDialogue("Password was successfully reset.", "Success", 3);
+				new GeneralDialogue("Password was successfully reset.", "Success!", 3);
 				
 				oldPwdS = "000000";
 				newPwdS = "000000";
