@@ -1,5 +1,7 @@
 package service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -54,7 +56,12 @@ public class UserService {
 	public static boolean postMessage(String message) throws JSONFailureException
 	{
 		Json json = new Json();
-		json.sendRequest("https://jbaron6.cs2212.ca/postmessage?message=" + message);
+		try {
+			json.sendRequest("https://jbaron6.cs2212.ca/postmessage?message=" + URLEncoder.encode(message, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return true;
 	}
