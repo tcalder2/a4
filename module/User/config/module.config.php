@@ -52,6 +52,17 @@ return array(
     ),
    ),
 
+   'getallfbusers' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+     'route' => '/getallfbusers',
+     'defaults' => array(
+      'controller' => 'User\Controller\User',
+      'action' => 'getallfbusers',
+     ),
+    ),
+   ),
+
    'postmessage' => array(
     'type' => 'Zend\Mvc\Router\Http\Literal',
     'options' => array(
