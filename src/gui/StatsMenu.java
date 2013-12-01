@@ -649,8 +649,7 @@ public class StatsMenu extends BackgroundPanel {
 
 		ArrayList<Progeny> progList;
 
-		int age, level;
-		age = Integer.parseInt((String) ages.getSelectedItem());
+		int level;
 		level = Integer.parseInt((String) levels.getSelectedItem());
 		//
 		// if (age == 3) {
@@ -681,7 +680,7 @@ public class StatsMenu extends BackgroundPanel {
 		// progList = ageOther;
 		// }
 
-		ArrayList<String> topThree = getTopThree(age, level);
+		ArrayList<String> topThree = getTopThree(level);
 
 		nameFirst.setText(topThree.get(0));
 		ageFirst.setText(topThree.get(1));
@@ -750,9 +749,8 @@ public class StatsMenu extends BackgroundPanel {
 	 * Returns the top three children for a given age and level
 	 * 
 	 * @param age
-	 * @param level
 	 */
-	private ArrayList<String> getTopThree(int age, int level) {
+	private ArrayList<String> getTopThree(int level) {
 
 		// ****************************************************************************
 		// This is a bunch of fucking bullshit and has been replace with
