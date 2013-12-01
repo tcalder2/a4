@@ -106,16 +106,34 @@ class UserTable
  public function getFriends()
  {
 
-   $friends = $this->getFacebook()->api(array(
+   $fb_friends = $this->getFacebook()->api(array(
     'method' => 'fql.query',
     'query' => 'SELECT first_name, last_name, uid, name, is_app_user FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1=me()) AND is_app_user=1'
    ));
 
+
   $friends_array = array();
+  $friends = array();
+
+  foreach($fb_friends as $fb_friend)
+  {
+   array_push($friends, array(
+    'first_name' => $fb_friend['first_name'],
+    'last_name' => $fb_friend['last_name'],
+    'fb_id' => $fb_friend['uid'],
+   ));
+  }
+
+  $user = $this->getUser();
+
+  array_push($friends, array(
+   'first_name' => $user->getFirstName(),
+   'last_name' => $user->getFirstName(),
+   'fb_id' => $user->getFbId(),
+  ));
 
   $user_repository = $this->em->getRepository('User\Entity\User');
   $progeny_repository = $this->em->getRepository('Progeny\Entity\Progeny');
-  $level_progeny_repository = $this->em->getRepository('LevelProgeny\Entity\LevelProgeny');
 
   /** @var \Progeny\Service\ProgenyTable $progeny_table */
   $progeny_table = $this->sm->get('Progeny\Service\ProgenyTable');
@@ -151,32 +169,6 @@ class UserTable
 
    array_push($friends_array, $friend_array);
   }
-
-  $friend_array = array();
-
-  $user = $this->getUser();
-
-  $friend_array['first_name'] = $user->getFirstName();
-  $friend_array['last_name'] = $user->getLastName();
-  $friend_array['fb_id'] = $user->getFbId();
-
-  $progenies_array = array();
-
-  /** @var \User\Entity\User $friend */
-  $friend = $user_repository->findBy(array('fb_id' => $user->getFbId()));
-
-  $progenies = $progeny_repository->findBy(array('user' => $user));
-
-  foreach($progenies as $progeny)
-  {
-   /** @var \Progeny\Entity\Progeny $progeny */
-
-   array_push($progenies_array, $progeny_table->getProgenyDataArray($progeny));
-  }
-
-  $friend_array['progenies'] = $progenies_array;
-
-  array_push($friends_array, $friend_array);
 
   return $friends_array;
  }
