@@ -59,8 +59,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 		}
 		
 		try {
-			//TODO: Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/berries.png"));
-			Image img = ImageIO.read(new File("/Users/james/git/gitttable/public/img/berries.png"));
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/berries.png"));
 			berries = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 		} catch (IOException e) {
 			berries = null;
