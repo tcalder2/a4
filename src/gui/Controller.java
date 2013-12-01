@@ -217,7 +217,7 @@ public class Controller {
 						"http://jbaron6.cs2212.ca/img/level_background.png"));
 				defaultLevelMenu = new ImageIcon(img).getImage();
 			}
-			return defaultLevelMenu;
+			return defaultBackground;
 		case 21:
 			if (planesLevelMenu == null) {
 				Image img = ImageIO.read(new URL(

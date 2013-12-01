@@ -77,7 +77,7 @@ public class BackgroundPanel extends JPanel {
 	 * @param layout	the layout for the new background panel.
 	 */
 	public BackgroundPanel(int imageCode, LayoutManager layout) {
-
+//check if your changes are in here
 		//Call the basic constructor
 		this(imageCode);
 

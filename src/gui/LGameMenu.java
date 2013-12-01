@@ -35,7 +35,7 @@ public class LGameMenu extends BackgroundPanel {
 	public LGameMenu() {
 
 		//Calls superclass constructor to create the background panel
-		super(User.getBackgroundCode(), new GridBagLayout());
+		super(User.getBackground(), new GridBagLayout());
 
 		//Creates a GridBagConstraints instance to control layout
 		GridBagConstraints c = new GridBagConstraints();
@@ -53,7 +53,7 @@ public class LGameMenu extends BackgroundPanel {
 			allUnlocked = !(Controller.getCurrentProgeny().getLevelProgenys().get(11).getCompletionTime() == 0);
 		}
 		catch (NullPointerException e) {
-			//NULL BODY
+			;
 		}
 		
 		//Loads and adds the level game menu title graphic

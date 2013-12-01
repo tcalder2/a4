@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import javax.swing.JApplet;
 
+
 /**
  * The class TTApplet, a JApplet.
  * 
@@ -39,8 +40,9 @@ public class TTApplet extends JApplet {
 		//If there is a communication error display a panel with an error message
 		} catch (Exception e) {
 			String error = e.getMessage();
-			if (error == null | error.equals("" + -1)) {
-				error = "Oops! It seems something funky is going on:S";
+			if (error == null) {
+				error = "Oops! It appears we are having some issues! Make sure you"
+						+ " are logged into Facebook and try again.";
 			}
 			new GeneralDialogue(error, "Unknown Error!", 1);
 		}

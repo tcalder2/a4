@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import json.JSONFailureException;
+import service.FriendService;
 import service.GameService;
 import service.ProgenyService;
 import service.UserService;
@@ -29,9 +30,13 @@ public class ScoreReport extends BackgroundPanel {
 	 * Instantiates a PasswordReset instance.
 	 * 
 	 */
+	
+	// does it need to be done for every file with a black
+	// star? no just the arrows
 
 	@SuppressWarnings("unused")
 	private int level, time, timeLeft, average;
+	private String averageMessage;
 
 	public ScoreReport(boolean win, int timeArg, int timeLeftArg, int levelArg,
 			int incorrect) {
@@ -39,7 +44,7 @@ public class ScoreReport extends BackgroundPanel {
 		// Calls superclass constructor to create the background panel
 		super(0, new GridBagLayout());
 
-		
+//merge and i'll watch you
 		
 		// Save the game state
 		if (win) {
@@ -77,8 +82,20 @@ public class ScoreReport extends BackgroundPanel {
 		} else {
 			score1 = new JLabel("You didn't manage to finish...");
 		}
-		JLabel score2 = new JLabel("The average time is " + average
-				+ " seconds.");
+		
+		// looks like
+		
+		average = FriendService.getAverageDrillTime(level, ProgenyService.getAge(Controller.getCurrentProgeny().getBirthDate()));
+		
+		if (average > 0) {
+			averageMessage = ("The average time for your age and this level is " + average
+					+ " seconds.");
+		}
+		else {
+			averageMessage = ("Sorry, we weren't able to compare to you anyone!");
+		}
+		
+		JLabel score2 = new JLabel(averageMessage);
 
 		JButton fbB = new JButton("Post this to Facebook!");
 		JButton levelB;
@@ -127,6 +144,10 @@ public class ScoreReport extends BackgroundPanel {
 		add(levelB, c); // Level game button
 
 	}
+//	private static int getLevel() {
+//		// TODO Auto-generated method stub
+//		return level;
+//	}
 
 	/**
 	 * The class ToLevelGame, an action listener.

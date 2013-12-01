@@ -12,3 +12,5 @@ vendor/bin
 /gui
 /json
 /ttable
+/
+src/settings/Settings.java

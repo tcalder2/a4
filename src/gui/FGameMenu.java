@@ -94,7 +94,7 @@ public class FGameMenu extends BackgroundPanel {
 		c.gridy = 2;
 		c.insets = new Insets(10,150,0,150);
 		try	{
-			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/highscores.png"));
+			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/titles/highscores.png"));
 			add(new JLabel(new ImageIcon(img)), c);
 		} catch (IOException e) {
 			add(new JLabel("High Scores"), c);
