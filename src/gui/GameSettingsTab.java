@@ -125,18 +125,10 @@ public class GameSettingsTab extends JPanel {
 		} else {
 			testOff.setSelected(true);
 		}
-		try {
+		
 			setTimeSelection();
-		}
-		catch (Exception e) {
-			
-		}
-		try {
 			setErrorsSelection();
-		}
-		catch (Exception e) {
-			
-		}
+
 		themes.setSelectedIndex(User.drillSkin);
 
 		// Add action listeners
@@ -232,6 +224,8 @@ public class GameSettingsTab extends JPanel {
 
 		} catch (JSONFailureException e1) {
 			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
+		} catch (Exception e) {
+			new GeneralDialogue("Oops! Something funky is going on:S", "Unknown Error", 1);
 		}
 	}
 
@@ -249,6 +243,8 @@ public class GameSettingsTab extends JPanel {
 			}
 		} catch (JSONFailureException e1) {
 			new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
+		} catch (Exception e) {
+			new GeneralDialogue("Oops! Something funky is going on:S", "Unknown Error", 1);
 		}
 	}
 
