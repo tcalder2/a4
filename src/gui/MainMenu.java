@@ -45,7 +45,7 @@ public class MainMenu extends BackgroundPanel {
 			fGameLock = (Controller.getCurrentProgeny().getLevelProgenys().get(11).getCompletionTime() == 0);
 		}
 		catch (NullPointerException e) {
-			;
+			//NULL BODY
 		}
 		
 		try	{

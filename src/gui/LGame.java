@@ -280,7 +280,9 @@ public class LGame extends BackgroundPanel implements KeyListener{
 				}
 
 			}
-		} catch (Exception e3){}
+		} catch (Exception e3){
+			//NULL BODY
+		}
 		
 	}
 	@Override

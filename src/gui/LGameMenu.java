@@ -53,7 +53,7 @@ public class LGameMenu extends BackgroundPanel {
 			allUnlocked = !(Controller.getCurrentProgeny().getLevelProgenys().get(11).getCompletionTime() == 0);
 		}
 		catch (NullPointerException e) {
-			;
+			//NULL BODY
 		}
 		
 		//Loads and adds the level game menu title graphic

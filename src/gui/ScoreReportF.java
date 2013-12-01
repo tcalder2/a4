@@ -64,8 +64,7 @@ public class ScoreReportF extends BackgroundPanel {
 				GameService.saveFinalGame(Controller.getCurrentProgeny(), score);
 				Controller.refreshCurrentProgeny();
 			} catch (JSONFailureException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				new GeneralDialogue(e.getMessages(), "JSON Error", 1);
 			}
 		}
 		else if (score <= highscore && highscore >= 0){
@@ -149,7 +148,6 @@ public class ScoreReportF extends BackgroundPanel {
 			try {
 				UserService.postMessage(new String("" + Controller.getCurrentProgeny().getFirstName() + " just scored " + score + " points on the final game!"));
 			} catch (JSONFailureException e1) {
-				// TODO Auto-generated catch block
 				new GeneralDialogue(e1.getMessages(), "JSON Error", 1);
 			}
 			
