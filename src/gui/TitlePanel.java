@@ -27,7 +27,7 @@ public class TitlePanel extends BackgroundPanel {
 	 */
 	public TitlePanel() {
 		
-		super("http://jbaron6.cs2212.ca/img/topbanner.png", new BorderLayout());
+		super(1, new BorderLayout());
 
 		JButton toMain = new JButton();
 		toMain.setContentAreaFilled(false);
@@ -118,8 +118,7 @@ class PressSettings implements ActionListener {
 		//On first login go to the screen to change password and the security question
 		try {
 			if (UserService.getQuestionIndex() == (-1)) {
-				BackgroundPanel screen = new BackgroundPanel("http://jbaron6.cs2212.ca/img/default_background.png",
-						new BorderLayout());
+				BackgroundPanel screen = new BackgroundPanel(0, new BorderLayout());
 				screen.add(new SecurityTab(null), BorderLayout.CENTER);
 				Controller.setScreen(screen);
 			}

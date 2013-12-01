@@ -75,8 +75,7 @@ public class StatsMenu extends BackgroundPanel {
 	public StatsMenu() {
 
 		// Calls superclass constructor to create the background panel
-		super("http://jbaron6.cs2212.ca/img/default_background.png",
-				new GridBagLayout());
+		super(0, new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		// -------------------------------------------------------------------------------------------------
 		// Add the logo
@@ -145,8 +144,7 @@ public class StatsMenu extends BackgroundPanel {
 		tab2.setLayout(new GridBagLayout());
 		tab3.setLayout(new GridBagLayout());
 		fillTabFriends(tab1, scroll, table);
-		fillTabAge(tab2, c);
-		fillTabLevels(tab3, c);
+		fillTabLevels(tab2, c);
 
 		// Add the tabs
 		tabs.addTab("Friends", tab1);
@@ -650,8 +648,7 @@ public class StatsMenu extends BackgroundPanel {
 
 		ArrayList<Progeny> progList;
 
-		int age, level;
-		age = Integer.parseInt((String) ages.getSelectedItem());
+		int level;
 		level = Integer.parseInt((String) levels.getSelectedItem());
 		//
 		// if (age == 3) {
@@ -682,7 +679,7 @@ public class StatsMenu extends BackgroundPanel {
 		// progList = ageOther;
 		// }
 
-		ArrayList<String> topThree = getTopThree(age, level);
+		ArrayList<String> topThree = getTopThree(level);
 
 		nameFirst.setText(topThree.get(0));
 		ageFirst.setText(topThree.get(1));
@@ -751,9 +748,8 @@ public class StatsMenu extends BackgroundPanel {
 	 * Returns the top three children for a given age and level
 	 * 
 	 * @param age
-	 * @param level
 	 */
-	private ArrayList<String> getTopThree(int age, int level) {
+	private ArrayList<String> getTopThree(int level) {
 
 		// ****************************************************************************
 		// This is a bunch of fucking bullshit and has been replace with

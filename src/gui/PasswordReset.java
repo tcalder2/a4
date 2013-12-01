@@ -56,7 +56,7 @@ public class PasswordReset extends BackgroundPanel {
 	public PasswordReset(int version, ArrayList<String> errors) throws IllegalArgumentException {
 
 		//Calls superclass constructor to create the background panel
-		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
+		super(0, new GridBagLayout());
 		
 		//Confirm version is valid
 		if (version < 1 || version > 2) {
@@ -207,12 +207,7 @@ public class PasswordReset extends BackgroundPanel {
 				}
 			}
 		} catch (Exception e) {
-			BackgroundPanel screen = new BackgroundPanel(User.background);
-			JLabel error = new JLabel(e.getMessage());
-			error.setForeground(Color.RED);
-			error.setFont(Controller.getFont().deriveFont(Font.PLAIN, 18));
-			screen.add(error);
-			Controller.setScreen(screen);
+			new GeneralDialogue(e.getMessage(), "Error", 1);
 		}
 	}
 

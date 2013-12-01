@@ -34,7 +34,7 @@ public class ScoreReportL extends BackgroundPanel {
 	private int level;
 	
 	public ScoreReportL(boolean pass, int level){
-		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
+		super(0, new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		this.level = level;
 		//Result
@@ -103,7 +103,7 @@ public class ScoreReportL extends BackgroundPanel {
 	}
 	class MoreDrills implements ActionListener {
 		public void actionPerformed(ActionEvent e){
-			Controller.setScreen(new DrillMenu(User.backgroundMenu));
+			Controller.setScreen(new DrillMenu());
 		}
 		
 	}

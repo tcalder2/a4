@@ -15,6 +15,7 @@ import javax.swing.text.AbstractDocument;
 import json.JSONFailureException;
 import service.LevelService;
 import ttable.LevelProgeny;
+import ttable.User;
 
 /**
  * The class Drill, a populated BackgroundPanel.
@@ -108,8 +109,8 @@ public class Drill extends BackgroundPanel {
 	 *
 	 * @param level the level
 	 */
-	public Drill(LevelProgeny level, String background) {
-		super(background, new GridBagLayout());
+	public Drill(LevelProgeny level) {
+		super(User.backgroundCode, new GridBagLayout());
 		
 		// Refresh child values
 		Controller.refreshCurrentProgeny();

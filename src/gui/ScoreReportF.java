@@ -40,7 +40,7 @@ public class ScoreReportF extends BackgroundPanel {
 	public ScoreReportF(FGame game, int s) {
 
 		//Calls superclass constructor to create the background panel
-		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
+		super(0, new GridBagLayout());
 
 		font = new Font(Font.SERIF, Font.BOLD, 60);
 		
