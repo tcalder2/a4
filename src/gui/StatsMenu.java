@@ -321,6 +321,7 @@ public class StatsMenu extends BackgroundPanel {
 		for (int i = 1; i < 13; i++) {
 			m.add(Integer.toString(i));
 		}
+		m.add("Final Game");
 		levels = new JComboBox<String>(m);
 		levels.addActionListener(box);
 		c.gridx = 2;
