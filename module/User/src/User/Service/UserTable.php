@@ -152,7 +152,7 @@ class UserTable
    $progenies_array = array();
 
    /** @var \User\Entity\User $friend */
-   $friend_obj = $user_repository->findBy(array('fb_id' => $friend['uid']));
+   $friend_obj = $user_repository->findBy(array('fb_id' => $friend['fb_id']));
 
    if(!$friend_obj) continue;
 
