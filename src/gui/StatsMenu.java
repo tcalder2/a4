@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,35 +11,28 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Vector;
-import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 
 import java.util.Iterator;
 
 import json.JSONFailureException;
 import service.FriendService;
 import service.ProgenyService;
-import service.UserService;
 import ttable.Friend;
 import ttable.Progeny;
-import ttable.User;
 
 /**
  * The class StatsMenu, a populated BackgroundPanel.
@@ -75,8 +67,7 @@ public class StatsMenu extends BackgroundPanel {
 	public StatsMenu() {
 
 		// Calls superclass constructor to create the background panel
-		super("http://jbaron6.cs2212.ca/img/default_background.png",
-				new GridBagLayout());
+		super(0, new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		// -------------------------------------------------------------------------------------------------
 		// Add the logo
@@ -647,7 +638,7 @@ public class StatsMenu extends BackgroundPanel {
 	 */
 	private void updateList() {
 
-		ArrayList<Progeny> progList;
+		//ArrayList<Progeny> progList;
 
 		int level;
 		level = Integer.parseInt((String) levels.getSelectedItem());

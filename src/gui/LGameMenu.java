@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import ttable.LevelProgeny;
+import ttable.User;
 
 /**
  * The class LGameMenu, a populated BackgroundPanel.
@@ -34,7 +35,7 @@ public class LGameMenu extends BackgroundPanel {
 	public LGameMenu() {
 
 		//Calls superclass constructor to create the background panel
-		super("http://jbaron6.cs2212.ca/img/level_background.png", new GridBagLayout());
+		super(User.getBackground(), new GridBagLayout());
 
 		//Creates a GridBagConstraints instance to control layout
 		GridBagConstraints c = new GridBagConstraints();

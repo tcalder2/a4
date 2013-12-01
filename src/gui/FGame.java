@@ -49,8 +49,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 	 */
 	public FGame() {
 		// Calls superclass constructor to create the background panel
-		super("http://jbaron6.cs2212.ca/img/default_background.png",
-				new GridBagLayout());
+		super(0, new GridBagLayout());
 
 		this.setFocusable(true);
 		this.requestFocusInWindow();

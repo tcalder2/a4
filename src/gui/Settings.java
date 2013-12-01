@@ -32,7 +32,7 @@ public class Settings extends BackgroundPanel {
 	public Settings() {
 		
 		//Calls superclass constructor to create the background panel
-		super("http://jbaron6.cs2212.ca/img/default_background.png", new GridBagLayout());
+		super(0, new GridBagLayout());
 		
 		//Create a new GridBagLayout instance to control the layout
 		GridBagConstraints c = new GridBagConstraints();

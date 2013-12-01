@@ -3,11 +3,14 @@ package gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JSplitPane;
 
 import json.JSONFailureException;
@@ -33,6 +36,22 @@ public class Controller {
 
 	/** Status of test mode. */
 	private static boolean testMode;
+	
+	
+	/** The default background graphic. */
+	private static Image defaultBackground = null;
+	
+	/** The title pane graphic. */
+	private static Image titleBackground = null;
+
+	/** The default level menu background graphic. */
+	private static Image defaultLevelMenu = null;
+
+	/** The planes level menu background graphic. */
+	private static Image planesLevelMenu = null;
+
+	/** The planes level menu background graphic. */
+	private static Image castlesLevelMenu = null;
 
 	/**
 	 * Initialises the Controller variables.
@@ -174,5 +193,46 @@ public class Controller {
 	 */
 	public static void toggleTestMode() {
 		testMode = !testMode;
+	}
+	
+	public static Image loadBackground(int imageCode) throws IOException {
+		switch(imageCode) {
+		case 0:
+			if (defaultBackground == null) {
+				Image img = ImageIO.read(new URL(
+						"http://jbaron6.cs2212.ca/img/default_background.png"));
+				defaultBackground = new ImageIcon(img).getImage();
+			}
+			return defaultBackground;
+		case 1:
+			if (titleBackground == null) {
+				Image img = ImageIO.read(new URL(
+						"http://jbaron6.cs2212.ca/img/topbanner.png"));
+				titleBackground = new ImageIcon(img).getImage();
+			}
+			return titleBackground;
+		case 20:
+			if (defaultLevelMenu == null) {
+				Image img = ImageIO.read(new URL(
+						"http://jbaron6.cs2212.ca/img/level_background.png"));
+				defaultLevelMenu = new ImageIcon(img).getImage();
+			}
+			return defaultBackground;
+		case 21:
+			if (planesLevelMenu == null) {
+				Image img = ImageIO.read(new URL(
+						"http://jbaron6.cs2212.ca/img/themes/theme_1/level_background.png"));
+				planesLevelMenu = new ImageIcon(img).getImage();
+			}
+			return planesLevelMenu;
+		case 22:
+			if (castlesLevelMenu == null) {
+				Image img = ImageIO.read(new URL(
+						"http://jbaron6.cs2212.ca/img/themes/theme_2/level_background.png"));
+				castlesLevelMenu = new ImageIcon(img).getImage();
+			}
+			return castlesLevelMenu;
+		}
+		throw new IOException();
 	}
 }
