@@ -60,6 +60,8 @@ public class StatsMenu extends BackgroundPanel {
 	JLabel picFirst1, picFirst2, picSecond1, picSecond2, picThird1, picThird2;
 	BoxListener box;
 
+	// WHO FUCKED THIS UP?
+	
 	/**
 	 * Instantiates a StatsMenu instance.
 	 * 
@@ -360,10 +362,10 @@ public class StatsMenu extends BackgroundPanel {
 				Image img = ImageIO.read(new URL(""));
 				picFirst2 = new JLabel(new ImageIcon(
 						getScaledImage(img, 55, 55)));
-				tab.add(picFirst2, c);
+				tab.add(picFirst1, c);
 			} catch (IOException e) {
 				picFirst2.setText("");
-				tab.add(picFirst2, c);
+				tab.add(picFirst1, c);
 				c.gridy += 2;
 			}
 
@@ -371,10 +373,10 @@ public class StatsMenu extends BackgroundPanel {
 				Image img = ImageIO.read(new URL(""));
 				picSecond2 = new JLabel(new ImageIcon(getScaledImage(img, 55,
 						55)));
-				tab.add(picSecond2, c);
+				tab.add(picSecond1, c);
 			} catch (IOException e) {
 				picSecond2.setText("");
-				tab.add(picSecond2, c);
+				tab.add(picSecond1, c);
 				c.gridy += 2;
 			}
 
@@ -382,10 +384,10 @@ public class StatsMenu extends BackgroundPanel {
 				Image img = ImageIO.read(new URL(""));
 				picThird2 = new JLabel(new ImageIcon(
 						getScaledImage(img, 55, 55)));
-				tab.add(picThird2, c);
+				tab.add(picThird1, c);
 			} catch (IOException e) {
 				picThird2.setText("");
-				tab.add(picThird2, c);
+				tab.add(picThird1, c);
 				c.gridy += 2;
 			}
 
@@ -441,147 +443,6 @@ public class StatsMenu extends BackgroundPanel {
 
 				c.gridy += 2;
 			}
-		}
-
-	}
-
-	/**
-	 * Fill tab age.
-	 * 
-	 * @param tab
-	 *            the tab
-	 * @param c
-	 *            the c
-	 */
-	private void fillTabAge(JPanel tab, GridBagConstraints c) {
-		c = new GridBagConstraints();
-		c.insets = new Insets(0, 10, 0, 10);
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.gridx = 1;
-		c.gridy = 0;
-		tab.add(new JLabel("Age "), c);
-
-		// -------------------------------------------------------------------------------------------------
-		// Age Combo Box
-		Vector<String> m = new Vector<String>();
-		for (int i = 3; i < 14; i++) {
-			m.add(Integer.toString(i));
-		}
-		ages = new JComboBox<String>(m);
-		ages.addActionListener(box);
-		c.gridx = 2;
-		tab.add(ages, c);
-		// ------------------------------------------------------------------------
-		// Rank
-		c.gridx = 0;
-		c.gridy = 3;
-		for (int i = 1; i < 4; i++) {
-			c.gridy += 2;
-			tab.add(new JLabel(Integer.toString(i)), c);
-		}
-		// ------------------------------------------------------------------------
-		// Headers
-		c.gridx = 1;
-		c.gridy = 3;
-		tab.add(new JLabel("Friends"), c);
-		c.gridx = 0;
-		tab.add(new JLabel("Rank"), c);
-		c.gridx = 3;
-		tab.add(new JLabel("Child"), c);
-		c.gridx = 4;
-		tab.add(new JLabel("Age"), c);
-		c.gridx = 5;
-		tab.add(new JLabel("Fastest Time"), c);
-		// ------------------------------------------------------------------------
-		// Profile Pictures
-		c.insets = new Insets(0, 5, 0, 5);
-		c.gridx = 1;
-		c.gridy = 5;
-		c.gridheight = 1;
-		c.ipady = 30;
-
-		try {
-			Image img = ImageIO.read(new URL(""));
-			picFirst1 = new JLabel(new ImageIcon(getScaledImage(img, 55, 55)));
-			tab.add(picFirst1, c);
-		} catch (IOException e) {
-			picFirst1.setText("");
-			tab.add(picFirst1, c);
-			c.gridy += 2;
-		}
-
-		try {
-			Image img = ImageIO.read(new URL(""));
-			picSecond1 = new JLabel(new ImageIcon(getScaledImage(img, 55, 55)));
-			tab.add(picSecond1, c);
-		} catch (IOException e) {
-			picSecond1.setText("");
-			tab.add(picSecond1, c);
-			c.gridy += 2;
-		}
-
-		try {
-			Image img = ImageIO.read(new URL(""));
-			picThird1 = new JLabel(new ImageIcon(getScaledImage(img, 55, 55)));
-			tab.add(picThird1, c);
-		} catch (IOException e) {
-			picThird1.setText("");
-			tab.add(picThird1, c);
-			c.gridy += 2;
-		}
-
-		// ------------------------------------------------------------------------
-		// Friends Names
-		c.gridx = 2;
-		c.gridy = 5;
-		c.ipady = 0;
-		tab.add(parentFirst2, c);
-		c.gridy += 2;
-		tab.add(parentSecond2, c);
-		c.gridy += 2;
-		tab.add(parentThird2, c);
-		// ------------------------------------------------------------------------
-		// Child Names
-		c.gridx = 3;
-		c.gridy = 5;
-		tab.add(nameFirst2, c);
-		c.gridy += 2;
-		tab.add(nameSecond2, c);
-		c.gridy += 2;
-		tab.add(nameThird2, c);
-		// ------------------------------------------------------------------------
-		// Ages
-		c.gridx = 4;
-		c.gridy = 5;
-		tab.add(ageFirst2, c);
-		c.gridy += 2;
-		tab.add(ageSecond2, c);
-		c.gridy += 2;
-		tab.add(ageThird2, c);
-		// ------------------------------------------------------------------------
-		// Fastest Times
-		c.gridx = 5;
-		c.gridy = 5;
-		tab.add(timeFirst2, c);
-		c.gridy += 2;
-		tab.add(timeSecond2, c);
-		c.gridy += 2;
-		tab.add(timeThird2, c);
-		// -------------------------------------------------------------------------------------------------
-		// Separators
-		c.insets = new Insets(0, 0, 0, 0);
-		c.gridwidth = 5;
-		c.gridx = 0;
-		c.gridy = 2;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		for (int i = 1; i < 5; i++) {
-			JSeparator sep = new JSeparator(JSeparator.HORIZONTAL);
-			sep.setPreferredSize(new Dimension(1, 30));
-
-			tab.add(sep, c);
-
-			c.gridy += 2;
 		}
 
 	}
@@ -753,111 +614,6 @@ public class StatsMenu extends BackgroundPanel {
 
 		Progeny first = null, second = null, third = null;
 		Friend firstFriend = null, secondFriend = null, thirdFriend = null;
-		// int holdTime, compareTime, size;
-		// Level temp1, temp2;
-		// holdTime = 0;
-		// compareTime = 0;
-		// int firstT = 0;
-		// int secondT = 0;
-		// int thirdT = 0;
-		//
-		// ArrayList<Friend> friends = new ArrayList<Friend>();
-		// try {
-		// friends = FriendService.getFriends();
-		// } catch (JSONFailureException e1) {
-		// // TODO Auto-generated catch block
-		// e1.printStackTrace();
-		// }
-		//
-		// int n = friends.size();
-		// int m;
-		// Friend temp;
-		// ArrayList<Progeny> progList;
-		//
-		// for (int i = 0; i < n; i++) {
-		//
-		// progList = friends.get(i).getProgenies();
-		//
-		// m = progList.size();
-		//
-		// for (int j = 0; j < m; j++) {
-		//
-		// prog = progList.get(i);
-		// try {
-		// holdTime = prog.getLevels().get(level).getCompletionTime();
-		// } catch (NullPointerException e) {
-		//
-		// }
-		//
-		// if (ProgenyService.getAge(prog.getBirthDate()) == age) {
-		//
-		// if (holdTime > firstT) {
-		// try {
-		// third = second;
-		// thirdFriend = secondFriend;
-		// thirdT = secondT;
-		// } catch (NullPointerException e) {
-		// ;
-		// }
-		// try {
-		// second = first;
-		// secondFriend = firstFriend;
-		// secondT = firstT;
-		// } catch (NullPointerException e) {
-		// ;
-		// }
-		// first = prog;
-		// firstFriend = friends.get(i);
-		// firstT = prog.getLevels().get(level)
-		// .getCompletionTime();
-		// }
-		//
-		// else if (holdTime > secondT) {
-		// try {
-		// third = second;
-		// thirdFriend = secondFriend;
-		// thirdT = secondT;
-		// } catch (NullPointerException e) {
-		// ;
-		// }
-		// second = prog;
-		// secondFriend = friends.get(i);
-		// secondT = prog.getLevels().get(level)
-		// .getCompletionTime();
-		// }
-		//
-		// else if (holdTime > thirdT) {
-		//
-		// third = prog;
-		// thirdFriend = friends.get(i);
-		// thirdT = prog.getLevels().get(level)
-		// .getCompletionTime();
-		// }
-		// }
-		// }
-		// }
-		//
-		// ArrayList<String> topThree = new ArrayList<String>();
-		//
-		// try {
-		// firstName = (first.getFirstName());
-		// firstAge = ("" + ProgenyService.getAge(first.getBirthDate()));
-		// firstTime = ("" + firstT);
-		// secondName = (second.getFirstName());
-		// secondAge = ("" + ProgenyService.getAge(second.getBirthDate()));
-		// secondTime = ("" + secondT);
-		// thirdName = (third.getFirstName());
-		// thirdAge = ("" + ProgenyService.getAge(third.getBirthDate()));
-		// thirdTime = ("" + thirdT);
-		// firstParent = firstFriend.getFirstName();
-		// secondParent = secondFriend.getFirstName();
-		// thirdParent = thirdFriend.getFirstName();
-		// firstPic = "http://graph.facebook.com/" + firstFriend.getFbId()
-		// + "/picture?type=large";
-		// secondPic = "http://graph.facebook.com/" + secondFriend.getFbId()
-		// + "/picture?type=large";
-		// thirdPic = "http://graph.facebook.com/" + thirdFriend.getFbId()
-		// + "/picture?type=large";
 
 		ArrayList<Friend> friends = new ArrayList<Friend>();
 		try {
