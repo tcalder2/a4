@@ -241,7 +241,7 @@ public class GameSettingsTab extends JPanel {
 			ArrayList<Level> levels = LevelService.getLevels();
 			if (levels.size() > 0) {	
 				level = levels.get(levelSelector.getSelectedIndex());
-				errors.setSelectedItem(level.getMistakesAllowed());
+				errors.setSelectedItem("" + level.getMistakesAllowed());
 			}
 			else {
 				new GeneralDialogue("Ooops! It appears we are having trouble communicating:(",
