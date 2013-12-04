@@ -40,7 +40,7 @@ import ttable.Progeny;
 public class FGameMenu extends BackgroundPanel {
 
 	/**
-	 * Instantiates a FGame instance.
+	 * Instantiates the menu for the final game
 	 *
 	 */
 	public FGameMenu() {
@@ -109,26 +109,28 @@ public class FGameMenu extends BackgroundPanel {
 			highScores.add(v);
 		}
 
-		LinkedHashMap<Progeny, Friend> butts;
+		// Get all progeny of friends, search for high scores
+		LinkedHashMap<Progeny, Friend> friendList;
 		try {
-			butts =  FriendService.getHighTopThreeProgeniesPerParentForFinal(FriendService.getFriends());
+			friendList =  FriendService.getHighTopThreeProgeniesPerParentForFinal(FriendService.getFriends());
 		} catch (JSONFailureException e) {
 			new GeneralDialogue(e.getMessage(), "JSON Error", 1);
-			butts = null;
+			friendList = null;
 		}
 		
-		
+		// Setup the high score table
 		String[] header = {"Friend", "Child", "Times"};
 		Object[][] array = new Object[3][3];
 		
-		Iterator<Progeny> progeny = butts.keySet().iterator();
+		Iterator<Progeny> progeny = friendList.keySet().iterator();
 
 		Progeny prog1 = null, prog2 = null, prog3 = null;
 		Friend friend1 = null, friend2 = null, friend3 = null;
 		
+		// Insert data intp the table
 		try {
 			prog1 = progeny.next();
-			friend1 = butts.get(prog1);
+			friend1 = friendList.get(prog1);
 			Image img = ImageIO.read(new URL("http://graph.facebook.com/" + friend1.getFbId()
 					+ "/picture?type=large"));
 			ImageIcon pic = (new ImageIcon(getScaledImage(img, 55,55)));
@@ -144,7 +146,7 @@ public class FGameMenu extends BackgroundPanel {
 	
 		try {
 			prog2 = progeny.next();
-			friend2 = butts.get(prog1);
+			friend2 = friendList.get(prog1);
 			Image img = ImageIO.read(new URL("http://graph.facebook.com/" + friend2.getFbId()
 					+ "/picture?type=large"));
 			ImageIcon pic = (new ImageIcon(getScaledImage(img, 55,55)));
@@ -159,7 +161,7 @@ public class FGameMenu extends BackgroundPanel {
 		
 		try {
 			prog3 = progeny.next();
-			friend3 = butts.get(prog1);
+			friend3 = friendList.get(prog1);
 			Image img = ImageIO.read(new URL("http://graph.facebook.com/" + friend3.getFbId()
 					+ "/picture?type=large"));
 			ImageIcon pic = (new ImageIcon(getScaledImage(img, 55,55)));
@@ -173,6 +175,7 @@ public class FGameMenu extends BackgroundPanel {
 			array[2][2] = "--";
 		}
 		
+		// Create the table
 		JTable table = new JTable(array, header);
 
 		//Set the high scores table display attributes

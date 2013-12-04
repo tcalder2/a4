@@ -294,15 +294,24 @@ public class Drill extends BackgroundPanel {
 		}
 	}
 
+	/**
+	 * Checks to see if the string in the answer box is a valid answer
+	 * (valid answers are positive integers > 0)
+	 * @param answer the answer tect
+	 * @return true if valid, else false
+	 */
 	public boolean isValid (String answer){
 		int answerInt = 0;
 		
+			// Try to parse as int
 		   try{
 		      answerInt = Integer.parseInt(answer);
 		   } catch (NumberFormatException nfe) {
-		      return false;
+		      // If string cannot be parsed as an int, it is not a valid answer
+			   return false;
 		   }
 		   
+		   // If string is an in but <= 0, it is not a valid answer
 		   if (answerInt > 0) {
 			   return true;
 		   }
@@ -312,6 +321,10 @@ public class Drill extends BackgroundPanel {
 		   
 		}
 	
+	/**
+	 * Set whether the player has won the game
+	 * @param win true if player won the game, false if they lost the game
+	 */
 	public void setWin(boolean win) {
 		this.win = win;
 	}
@@ -480,26 +493,50 @@ public class Drill extends BackgroundPanel {
 		return incorrect;
 	}
 
+	/**
+	 * Get the amount of time left
+	 * @return the time left
+	 */
 	public int getTimeLeft() {
 		return timeLeft;
 	}
 
+	/**
+	 * Set the amount of time left
+	 * @param timeLeft the amount of time
+	 */
 	public void setTimeLeft(int timeLeft) {
 		this.timeLeft = timeLeft;
 	}
 
+	/**
+	 * Get the max time the player has for this level
+	 * @return the max time
+	 */
 	public int getTimeMax() {
 		return timeMax;
 	}
 
+	/**
+	 * Set the max time the player has for this level
+	 * @param timeMax the max time
+	 */
 	public void setTimeMax(int timeMax) {
 		this.timeMax = timeMax;
 	}
 
+	/**
+	 * Get whether the player completed the level or not
+	 * @return true if they completed it, else false
+	 */
 	public boolean isWin() {
 		return win;
 	}
 
+	/**
+	 * The timer for the drill game
+	 * @author Taylor Calder
+	 */
 	class AnswerTimer implements ActionListener{
 
 		private int time;
@@ -509,6 +546,10 @@ public class Drill extends BackgroundPanel {
 			this.time = ANSWER_TIME;
 		}
 		@Override
+		/*
+		 * (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		public void actionPerformed(ActionEvent e) {
 			if (time > 0) {
 				time--;
@@ -519,6 +560,9 @@ public class Drill extends BackgroundPanel {
 				tmrAnswer.stop();
 			}
 		}
+		/**
+		 * Reset the time
+		 */
 		public void reset(){
 			this.time = ANSWER_TIME;
 		}

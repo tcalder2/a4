@@ -143,7 +143,8 @@ public class ChildProgress extends JPanel {
 			}
 			
 		}
-		
+
+		// Set table settings
 		table.setOpaque(false);
 		table.setRowHeight(18);
 		table.setShowGrid(false);

@@ -183,6 +183,9 @@ public class LGame extends BackgroundPanel implements KeyListener{
 		lblScoreNeeded.setText("Need "+ SCORE_NEEDED);
 	}
 	
+	/**
+	 * Generates a new question
+	 */
 	public void newQuestion(){
 
 		int currentQ = rnd.nextInt(11)+1;
@@ -198,6 +201,11 @@ public class LGame extends BackgroundPanel implements KeyListener{
 		}
 		
 	}
+	
+	/**
+	 * Sets the time left for the bomb timer
+	 * @param time the timer left
+	 */
 	public void setBombTime(int time) {
 		lblBombTimer.setText("0:"+ time);
 		if (time == 0) {
@@ -205,6 +213,10 @@ public class LGame extends BackgroundPanel implements KeyListener{
 			Controller.setScreen(new ScoreReportL(false, level.getLevelNumber()));
 		}
 	}
+	
+	/**
+	 * Calculates the score
+	 */
 	public void calculateScore(){
 		score = score + ((BASIC_SCORE)*multiplier);
 		lblScore.setText(""+score);
@@ -218,27 +230,65 @@ public class LGame extends BackgroundPanel implements KeyListener{
 		bar.setValue(score);
 	}
 	
+	/**
+	 * Gets the amount of time left on the bomb
+	 * @return BOMB_TIME the time left
+	 */
 	public static int getBombTime(){
 		return BOMB_TIME;
 	}
+	/**
+	 * Gets the bomb timer
+	 * @return tmrBomb the bomb's timer
+	 */
 	public Timer getBombTimer(){
 		return tmrBomb;
 	}
+	
+	/**
+	 * Gets the delay timer
+	 * @return tmrDelay the delay timer
+	 */
 	public Timer getDelayTimer(){
 		return tmrDelay;
 	}
+	
+	/**
+	 * Gets the bomb label
+	 * @return the bomb label
+	 */
 	public JLabel getBombLabel(){
 		return lblBombTimer;
 	}
+	
+	/**
+	 * Sets the current score multiplier
+	 * @param i the multiplier
+	 */
 	public void setMultiplier(int i){
 		multiplier = i;
 	}
+	
+	/**
+	 * Gets the multiplier label
+	 * @return the JLabel
+	 */
 	public JLabel getMultiplierLabel(){
 		return lblMultiplier;
 	}
+	
+	/**
+	 * Gets the label that displays a lit bomb
+	 * @return the JLabel
+	 */
 	public JLabel getBombLit(){
 		return lblBombLit;
 	}
+	
+	/**
+	 * Gets the label that displays a frozen bomb
+	 * @return the JLabel
+	 */
 	public JLabel getBombFrz(){
 		return lblBombFrz;
 	}
@@ -249,6 +299,9 @@ public class LGame extends BackgroundPanel implements KeyListener{
 		
 	}
 	@Override
+	/**
+	 * Check for correct answer when the player is not pressing a key
+	 */
 	public void keyReleased(KeyEvent e) {
 		try{
 			int text = Integer.valueOf(txtAnswer.getText());
@@ -303,6 +356,11 @@ public class LGame extends BackgroundPanel implements KeyListener{
 	}
 
 }
+
+/**
+ * The delay timer, an ActionListener
+ * @author Yaqzan
+ */
 class DelayTimer implements ActionListener{
 	private LGame lgame;
 	private int time;
@@ -326,9 +384,15 @@ class DelayTimer implements ActionListener{
 			lgame.getBombFrz().setVisible(false);
 		}
 	}
+	/**
+	 * Increase the time of the delay
+	 */
 	public void increaseTime(){
 		this.time+= (DELAY_TIME/2);
 	}
+	/**
+	 * Start the delay
+	 */
 	public void start(){
 		this.time = DELAY_TIME;
 	}

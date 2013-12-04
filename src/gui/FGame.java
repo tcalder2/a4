@@ -27,7 +27,7 @@ import javax.swing.Timer;
 public class FGame extends BackgroundPanel implements Runnable {
 
 	private int x, y, op1, op2, a1, a2, ansCorrect, a1x, a1y, a2x, a2y, a3x,
-			a3y, score, cooldowm, timeLeft;
+			a3y, score, cooldown, timeLeft;
 	private Random rand = new Random();
 	private boolean left, right, up, down;
 	int fallCount = 0;
@@ -49,6 +49,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 		this.setFocusable(true);
 		this.requestFocusInWindow();
 
+		// Set player character image
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/bird.png"));
 			bird = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
@@ -56,6 +57,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 			bird = null;
 		}
 		
+		// Set answers image
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/berries.png"));
 			berries = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
@@ -63,16 +65,19 @@ public class FGame extends BackgroundPanel implements Runnable {
 			berries = null;
 		}
 		
+		
 		timeLeft = 60;
-		cooldowm = 0; // the cool down between when you can select answers
+		cooldown= 0; // the cool down between when you can select answers
 		score = 0;
 		scoreStr = String.format("%05d", score);
 		scoreCounter = ("Score: " + scoreStr);
 		timeCounter = ("Time: " + timeLeft + "s");
 		clock = new Timer(1000, new TimerActionF(this, timeLeft));
 
+		// Generate the first question
 		newQuestion();
 
+		// Set player starting position
 		x = 300;
 		y = 300;
 		this.addKeyListener(new ButtonHandler());
@@ -82,17 +87,18 @@ public class FGame extends BackgroundPanel implements Runnable {
 	}
 
 	/**
-	 * Setup the game state
-	 * 
+	 * Generate a new question
 	 */
 	public void newQuestion() {
 
+		// Generate 2 random operands
 		op1 = rand.nextInt(11) + 1;
 		op2 = rand.nextInt(11) + 1;
 
+		// Calculate the correct answer
 		ansCorrect = op1 * op2;
 		
-		//Create alternate answers
+		//Create alternate incorrect answers
 		if (op1 < 4) {
 			a1 = (op1 + (rand.nextInt(4) + 1)) * op2;
 		}
@@ -135,14 +141,20 @@ public class FGame extends BackgroundPanel implements Runnable {
 			a3y = rand.nextInt(300) + 100;
 		}
 
+		// Set labels
 		ans1 = ("" + a1);
 		ans2 = ("" + a2);
 		ans3 = ("" + ansCorrect);
 
+		// Set question String
 		question = (op1 + " x " + op2);
 
 	}
 
+	/**
+	 * Sets the number of seconds listed on the timer display
+	 * @param time seconds remaining
+	 */
 	public void setTime(int time) {
 		timeLeft = time;
 
@@ -156,8 +168,8 @@ public class FGame extends BackgroundPanel implements Runnable {
 
 		// After answering a question there is a cooldown before the next question can be answered
 		// Helps prevent you accidentally selecting an answer that spawns close to you
-		if (cooldowm > 0) {
-			cooldowm--;
+		if (cooldown > 0) {
+			cooldown--;
 		}
 		
 		// Update timer
@@ -198,22 +210,22 @@ public class FGame extends BackgroundPanel implements Runnable {
 
 		// Collision detection
 		if (((x - a3x) < 60 && (x - a3x) > -30)
-				&& ((y - a3y) < 20 && (y - a3y) > -50) && cooldowm == 0) {
+				&& ((y - a3y) < 20 && (y - a3y) > -50) && cooldown == 0) {
 			answerRight = true;
 			answerWrong = false;
-			cooldowm = 80;
+			cooldown = 80;
 			newQuestion();
 		} else if (((x - a2x) < 60 && (x - a2x) > -30)
-				&& ((y - a2y) < 20 && (y - a2y) > -50) && cooldowm == 0) {
+				&& ((y - a2y) < 20 && (y - a2y) > -50) && cooldown == 0) {
 			answerRight = false;
 			answerWrong = true;
-			cooldowm = 80;
+			cooldown = 80;
 			newQuestion();
 		} else if (((x - a1x) < 60 && (x - a1x) > -30)
-				&& ((y - a1y) < 20 && (y - a1y) > -50) && cooldowm == 0) {
+				&& ((y - a1y) < 20 && (y - a1y) > -50) && cooldown == 0) {
 			answerRight = false;
 			answerWrong = true;
-			cooldowm = 80;
+			cooldown = 80;
 			newQuestion();
 		}
 
@@ -272,6 +284,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 			down = true;
 		}
 
+		// Boundary checking
 		if (x > 750) {
 			x = 750;
 		}
@@ -288,7 +301,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 	}
 
 	/**
-	 * Runs the game state
+	 * The game loop. Updates the game state and redraws the screen every 10 ms.
 	 */
 	public void run() {
 		while (true) {
@@ -301,6 +314,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 			this.setFocusable(true);
 			this.requestFocusInWindow();
 
+			// Gravity sitmulation
 			// The player moves 1 pixel down every 3 tics or 30ms
 			if (fallCount <= 0) {
 				y++;
@@ -367,7 +381,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 		g.drawString(question, 365, 55);
 		g.drawString(scoreCounter, 120, 55);
 
-		// Timer turns red if the player has 10 seconds or less left
+		// Timer turns red if the player has <= 10 seconds left
 		if (timeLeft <= 10) {
 			
 			
@@ -399,8 +413,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 
 		}
 
-		// This function will be used as soon as a key is released.
-
+		// When a key is pressed
 		public void keyPressed(KeyEvent key) {
 
 			switch (key.getKeyCode()) {
@@ -419,8 +432,7 @@ public class FGame extends BackgroundPanel implements Runnable {
 			}
 		}
 
-		// This function will be used as soon as a key is released. they
-		// KeyEvent key we can use to determine what key we just released
+		// When a key is released
 		public void keyReleased(KeyEvent key) {
 			switch (key.getKeyCode()) {
 			case KeyEvent.VK_UP:

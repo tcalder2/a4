@@ -213,6 +213,9 @@ public class GameSettingsTab extends JPanel {
 		add(update2, c);
 	}
 
+	/**
+	 * Select the time per level
+	 */
 	void setTimeSelection() {
 		Progeny child;
 		try {
@@ -229,6 +232,9 @@ public class GameSettingsTab extends JPanel {
 		}
 	}
 
+	/**
+	 * Select the number of errors allowed
+	 */
 	void setErrorsSelection() {
 		Level level;
 		try {
@@ -248,6 +254,9 @@ public class GameSettingsTab extends JPanel {
 		}
 	}
 
+	/**
+	 * Select the theme
+	 */
 	void updateTheme() {
 		String selectedTheme = (String) themes.getSelectedItem();
 		if (selectedTheme.equals("Default")) {
