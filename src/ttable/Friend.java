@@ -2,13 +2,15 @@ package ttable;
 
 import java.util.ArrayList;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Friend.
+ * The class representing a Facebook friends.
+ * 
+ * @author James Baron
+ * @version 1.0
  */
 public class Friend {
 
-	/** The fb_id. */
+	/** The Facebook id. */
 	private String fbId;
 	
 	/** The first_name. */

@@ -1,6 +1,5 @@
 package ttable;
 
-// TODO: Auto-generated Javadoc
 /**
  * The class responsible for holding child specific level settings and data. In
  * other words the child's progress details and the level settings that are set

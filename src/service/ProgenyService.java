@@ -16,7 +16,6 @@ import json.Json;
 import ttable.LevelProgeny;
 import ttable.Progeny;
 
-
 /**
  * The services related to server calls for setting and getting Progeny class information.
  * 
@@ -26,9 +25,9 @@ import ttable.Progeny;
  */
 public class ProgenyService {
 
+	/** The Birthday Format **/
 	static SimpleDateFormat birthDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-	
 	/**
 	 * Gets an array of progenies.
 	 *
@@ -168,7 +167,6 @@ public class ProgenyService {
 				
 	}
 
-	
 	/**
 	 * Calculates the child's current age.
 	 *

@@ -3,7 +3,6 @@ package ttable;
 import java.util.ArrayList;
 import java.util.Date;
 
-// TODO: Auto-generated Javadoc
 /**
  * The class Progeny.
  * 
@@ -32,8 +31,14 @@ public class Progeny {
 	 */
 	private int[] highScores;
 	
+	/**
+	 * Array of the child's level progeny
+	 */
 	private ArrayList<LevelProgeny> levelProgenys;
 	
+	/**
+	 * The child's high score on the final game
+	 */
 	private int finalGameHighScore;
 	
 	/** 
@@ -46,6 +51,9 @@ public class Progeny {
 	 */
 	private ArrayList<LevelProgeny> levels;
 
+	/**
+	 * The child's current level
+	 */
 	private int level;
 	
 	/**
@@ -204,7 +212,9 @@ public class Progeny {
 	}
 
 	/**
-	 * @param levelProgenys
+	 * Sets the level progeny.
+	 * 
+	 * @param levelProgenys	the new level progenies
 	 */
 	public void setLevelProgenys(ArrayList<LevelProgeny> levelProgenys) {
 		this.levelProgenys = levelProgenys;
@@ -213,7 +223,7 @@ public class Progeny {
 	/**
 	 * Sets the levels.
 	 *
-	 * @param levels the new levels
+	 * @param levels		the new levels
 	 */
 	public void setLevels(ArrayList<LevelProgeny> levels) {
 		this.levels = levels;
@@ -222,7 +232,7 @@ public class Progeny {
 	/**
 	 * Sets the time allowed for a level.
 	 *
-	 * @param timeAllowed the new time allowed
+	 * @param timeAllowed	the new time allowed
 	 */
 	public void setTimeAllowed(int timeAllowed) {
 		this.timeAllowed = timeAllowed;

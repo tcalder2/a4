@@ -1,6 +1,5 @@
 package ttable;
 
-// TODO: Auto-generated Javadoc
 /**
  * The class responsible for holding user specific level settings that are shared for
  * all children playing on that users account.
@@ -10,7 +9,7 @@ package ttable;
  */
 public class Level {
 
-	/** The level between 1 and 12 inclusive. */
+	/** The level number between 1 and 12 inclusive. */
 	private int level;
 	
 	/** The number of mistakes allowed to still complete the drill level. */
