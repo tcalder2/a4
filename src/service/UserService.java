@@ -13,6 +13,7 @@ import ttable.User;
 import json.JSONFailureException;
 import json.Json;
 /**
+ * The services related to server calls for setting and getting User class information.
  * 
  * @author James Baron
  * @author James Anderson
@@ -21,21 +22,28 @@ import json.Json;
 public class UserService {
 	
 	/**
-	 * Sets the answer to the user's password recovery question.
+	 * Authenticate the user.
 	 *
-	 * @param answer the answer
-	 * @param password the password
-	 * @return true, if successful
+	 * @param password 				the password to authenticate with
+	 * @return 						true, if successful
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static boolean setAnswer(String answer, String password) throws JSONFailureException
+	public static boolean authenticate(String password) throws JSONFailureException
 	{
 		Json json = new Json();
-		json.sendRequest("https://jbaron6.cs2212.ca/setanswer?answer=" + answer + "&password=" + password);
+		
+		//Will throw error if success fail.  That error will have messages.
+		json.sendRequest("https://jbaron6.cs2212.ca/authenticate?password=" + password);
 		
 		return true;
 	}
 
+	/**
+	 * Changes the skin used for drill mode
+	 * 
+	 * @param skin					number between 0 and 2 representing the skin
+	 * @throws JSONFailureException	the JSON exception
+	 */
 	public static void changeSkin(int skin) throws JSONFailureException
 	{
 		Json json = new Json();
@@ -45,58 +53,52 @@ public class UserService {
 	}
 	
 	/**
-	 * Posts a message to Facebook to indicate a child's score
+	 * Gets a friend's progeny.
 	 *
-	 * @param name	the child's name
-	 * @param score	the score
-	 * @param level	the level
-	 * @return true, if successful
+	 * @return 						an array of progeny
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static boolean postMessage(String message) throws JSONFailureException
+	public static ArrayList<Progeny> getFriendProgeny() throws JSONFailureException 
 	{
-		Json json = new Json();
-		try {
-			json.sendRequest("https://jbaron6.cs2212.ca/postmessage?message=" + URLEncoder.encode(message, "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		ArrayList<Progeny> progenyList;
+
+		progenyList = new ArrayList<Progeny>();
 		
-		return true;
+		// TODO: make server call and parse list
+		
+		return progenyList;
 	}
 	
 	/**
-	 * Sets the user's password.
+	 * Gets the users friends list
 	 *
-	 * @param oldPassword the old password
-	 * @param newPassword the new password
-	 * @return true, if successful
+	 * @return 						an array of friends
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static boolean setPassword(String oldPassword, String newPassword) throws JSONFailureException
+	public static ArrayList<String> getFriends() throws JSONFailureException 
 	{
-		Json json = new Json();
+		ArrayList<String> friendList;
+
+		friendList = new ArrayList<String>();
 		
-		json.sendRequest("https://jbaron6.cs2212.ca/setpassword?new_password=" + newPassword + "&old_password=" + oldPassword);
+		// TODO: make server call and parse list
 		
-		return true;
+		return friendList;
 	}
 	
 	/**
-	 * Sets the user's password recovery question.
-	 *
-	 * @param question the question
-	 * @param password the password
-	 * @return true, if successful
-	 * @throws JSONFailureException the jSON failure exception
+	 * Gets the security question number chosen by the current user.  The index will be a number
+	 * between 0 and 2 inclusive.
+	 * 
+	 * @return						the index of the user's chosen security question.
+	 * @throws JSONFailureException	the exception thrown if there is an issue retrieving the index.
 	 */
-	public static boolean setQuestion(String questionNumber, String password) throws JSONFailureException
+	public static int getQuestionIndex() throws JSONFailureException
 	{
 		Json json = new Json();
-		json.sendRequest("https://jbaron6.cs2212.ca/setquestion?question=" + questionNumber + "&password=" + password);		
+		JSONObject result =  json.sendRequest("https://jbaron6.cs2212.ca/getquestionindex");
 		
-		return true;
+		return result.get("question_index") == null ? -1 : Integer.parseInt((String)result.get("question_index"));
 	}
 	
 	/**
@@ -124,40 +126,25 @@ public class UserService {
 	}
 	
 	/**
-	 * Authenticate the user.
+	 * Posts a message to Facebook to indicate a child's score
 	 *
-	 * @param password the password
-	 * @return true, if successful
+	 * @param name					the child's name
+	 * @param score					the score
+	 * @param level					the level
+	 * @return true, 				if successful
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static boolean authenticate(String password) throws JSONFailureException
+	public static boolean postMessage(String message) throws JSONFailureException
 	{
 		Json json = new Json();
-		
-		//Will throw error if success fail.  That error will have messages.
-		json.sendRequest("https://jbaron6.cs2212.ca/authenticate?password=" + password);
+		try {
+			json.sendRequest("https://jbaron6.cs2212.ca/postmessage?message=" + URLEncoder.encode(message, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		
 		return true;
 	}
-	
-	/**
-	 * Gets the users friends list
-	 *
-	 * @return 						an array of friends
-	 * @throws JSONFailureException the jSON failure exception
-	 */
-	public static ArrayList<String> getFriends() throws JSONFailureException 
-	{
-		ArrayList<String> friendList;
-
-		friendList = new ArrayList<String>();
-		
-		// TODO: make server call and parse list
-		
-		return friendList;
-	}
-	
-	
 	
 	/**
 	 *  Resets the user's password using the security question for validation.  If the
@@ -177,66 +164,54 @@ public class UserService {
 		return true;
 	}
 	
+	
 	/**
-	 * Gets the security question number chosen by the current user.  The index will be a number
-	 * between 0 and 2 inclusive.
-	 * 
-	 * @return						the index of the user's chosen security question.
-	 * @throws JSONFailureException	the exception thrown if there is an issue retrieving the index.
+	 * Sets the answer to the user's password recovery question.
+	 *
+	 * @param answer 				the answer
+	 * @param password 				the password
+	 * @return 						true, if successful
+	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static int getQuestionIndex() throws JSONFailureException
+	public static boolean setAnswer(String answer, String password) throws JSONFailureException
 	{
 		Json json = new Json();
-		JSONObject result =  json.sendRequest("https://jbaron6.cs2212.ca/getquestionindex");
+		json.sendRequest("https://jbaron6.cs2212.ca/setanswer?answer=" + answer + "&password=" + password);
 		
-		return result.get("question_index") == null ? -1 : Integer.parseInt((String)result.get("question_index"));
+		return true;
 	}
 	
 	/**
-	 * Gets a friend's progeny.
+	 * Sets the user's password.
 	 *
-	 * @return 						an array of progeny
+	 * @param oldPassword 			the old password
+	 * @param newPassword 			the new password
+	 * @return 						true, if successful
 	 * @throws JSONFailureException the jSON failure exception
 	 */
-	public static ArrayList<Progeny> getFriendProgeny() throws JSONFailureException 
+	public static boolean setPassword(String oldPassword, String newPassword) throws JSONFailureException
 	{
-		ArrayList<Progeny> progenyList;
-
-		progenyList = new ArrayList<Progeny>();
+		Json json = new Json();
 		
-		// TODO: make server call and parse list
+		json.sendRequest("https://jbaron6.cs2212.ca/setpassword?new_password=" + newPassword + "&old_password=" + oldPassword);
 		
-		return progenyList;
+		return true;
+	}
+	
+	/**
+	 * Sets the user's password recovery question.
+	 *
+	 * @param question 				the question
+	 * @param password 				the password
+	 * @return 						true, if successful
+	 * @throws JSONFailureException the jSON failure exception
+	 */
+	public static boolean setQuestion(String questionNumber, String password) throws JSONFailureException
+	{
+		Json json = new Json();
+		json.sendRequest("https://jbaron6.cs2212.ca/setquestion?question=" + questionNumber + "&password=" + password);		
+		
+		return true;
 	}
 
-	// ** NOTE ** //
-		/**
-		 * This is a dummy method that emulates how getFriends will work I'm
-		 * including it in lieu of just creating a string array in the StatsMenu2
-		 * file.
-		 * 
-		 * @return an array of friends
-		 * @throws JSONFailureException
-		 *             the jSON failure exception
-		 */
-		public static ArrayList<String> getFriendsTest()
-				throws JSONFailureException {
-			ArrayList<String> friendList = new ArrayList<String>();
-
-			friendList
-					.add("James Anderson;http://jbaron6.cs2212.ca/img/profilePictures/1.jpg");
-			friendList
-					.add("Yaqzan Ali;http://jbaron6.cs2212.ca/img/profilePictures/2.jpg");
-			friendList
-					.add("Chuhann Frank;http://jbaron6.cs2212.ca/img/profilePictures/3.jpg");
-			friendList
-					.add("Taylor Joseph;http://jbaron6.cs2212.ca/img/profilePictures/4.jpg");
-			friendList
-					.add("James Baron;http://jbaron6.cs2212.ca/img/profilePictures/5.jpg");
-
-			// TODO: make server call and parse list
-
-			return friendList;
-		}
-	}	
-
+}	

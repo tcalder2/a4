@@ -3,7 +3,6 @@ package ttable;
 import java.util.ArrayList;
 import java.util.Date;
 
-// TODO: Auto-generated Javadoc
 /**
  * The class Progeny.
  * 
@@ -32,8 +31,14 @@ public class Progeny {
 	 */
 	private int[] highScores;
 	
+	/**
+	 * Array of the child's level progeny
+	 */
 	private ArrayList<LevelProgeny> levelProgenys;
 	
+	/**
+	 * The child's high score on the final game
+	 */
 	private int finalGameHighScore;
 	
 	/** 
@@ -46,124 +51,15 @@ public class Progeny {
 	 */
 	private ArrayList<LevelProgeny> levels;
 
+	/**
+	 * The child's current level
+	 */
 	private int level;
 	
 	/**
 	 * Instantiates a new progeny.
 	 */
 	public Progeny() {}
-
-	/**
-	 * Gets the id.
-	 *
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * Sets the id.
-	 *
-	 * @param id the new id
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	/**
-	 * Gets the first name.
-	 *
-	 * @return the first name
-	 */
-	public String getFirstName() {
-		return firstName;
-	}
-
-	/**
-	 * Sets the first name.
-	 *
-	 * @param firstName the new first name
-	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	/**
-	 * Gets the birth date.
-	 *
-	 * @return the birth date
-	 */
-	public Date getBirthDate() {
-		return birthDate;
-	}
-
-	/**
-	 * Sets the birth date.
-	 *
-	 * @param birthDate the new birth date
-	 */
-	public void setBirthdate(Date birthDate) {
-		this.birthDate = birthDate;
-	}
-
-	/**
-	 * Gets the high scores.
-	 *
-	 * @return the high scores
-	 */
-	public int[] getHighScores() {
-		return highScores;
-	}
-
-	/**
-	 * Sets the high scores.
-	 *
-	 * @param highScores the new high scores
-	 */
-	public void setHighScores(int[] highScores) {
-		this.highScores = highScores;
-	}
-
-	/**
-	 * Gets the time allowed.
-	 *
-	 * @return the time allowed
-	 */
-	public int getTimeAllowed() {
-		return timeAllowed;
-	}
-
-	/**
-	 * Sets the time allowed.
-	 *
-	 * @param timeAllowed the new time allowed
-	 */
-	public void setTimeAllowed(int timeAllowed) {
-		this.timeAllowed = timeAllowed;
-	}
-
-	/**
-	 * Gets the levels.
-	 *
-	 * @return the levels
-	 */
-	public ArrayList<LevelProgeny> getLevels() {
-		return levels;
-	}
-
-	/**
-	 * Sets the levels.
-	 *
-	 * @param levels the new levels
-	 */
-	public void setLevels(ArrayList<LevelProgeny> levels) {
-		this.levels = levels;
-	}
-
-//	public int getLevelNumber() {
-//		return 0;
-//	}
 
 	/**
 	 * Changes the current level, removing all levels above current level.
@@ -181,17 +77,48 @@ public class Progeny {
 	}
 
 	/**
-	 * @return
+	 * Gets the birth date.
+	 *
+	 * @return the birth date
 	 */
-	public ArrayList<LevelProgeny> getLevelProgenys() {
-		return levelProgenys;
+	public Date getBirthDate() {
+		return birthDate;
 	}
 
 	/**
-	 * @param levelProgenys
+	 * Gets the child's score on the final game.
+	 * 
+	 * @return	the final game high score
 	 */
-	public void setLevelProgenys(ArrayList<LevelProgeny> levelProgenys) {
-		this.levelProgenys = levelProgenys;
+	public int getFinalGameHighScore() {
+		return finalGameHighScore;
+	}
+
+	/**
+	 * Gets the first name.
+	 *
+	 * @return the first name
+	 */
+	public String getFirstName() {
+		return firstName;
+	}
+
+	/**
+	 * Gets the high scores.
+	 *
+	 * @return the high scores
+	 */
+	public int[] getHighScores() {
+		return highScores;
+	}
+
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
 	}
 
 	/**
@@ -204,6 +131,78 @@ public class Progeny {
 	}
 
 	/**
+	 * Gets the LevelProgeny of a child
+	 * 
+	 * @return	ArrayList of LevelProgeny
+	 */
+	public ArrayList<LevelProgeny> getLevelProgenys() {
+		return levelProgenys;
+	}
+
+	/**
+	 * Gets the levels.
+	 *
+	 * @return the levels
+	 */
+	public ArrayList<LevelProgeny> getLevels() {
+		return levels;
+	}
+
+	/**
+	 * Gets the time allowed.
+	 *
+	 * @return the time allowed
+	 */
+	public int getTimeAllowed() {
+		return timeAllowed;
+	}
+
+	/**
+	 * Sets the birth date.
+	 *
+	 * @param birthDate the new birth date
+	 */
+	public void setBirthdate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	/**
+	 * Sets the child's high score for the final game
+	 * 
+	 * @param finalGameHighScore	the high score
+	 */
+	public void setFinalGameHighScore(int finalGameHighScore) {
+		this.finalGameHighScore = finalGameHighScore;
+	}
+
+	/**
+	 * Sets the first name.
+	 *
+	 * @param firstName the new first name
+	 */
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	/**
+	 * Sets the high scores.
+	 *
+	 * @param highScores the new high scores
+	 */
+	public void setHighScores(int[] highScores) {
+		this.highScores = highScores;
+	}
+
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
 	 * Sets the level.
 	 *
 	 * @param level the new level
@@ -212,12 +211,30 @@ public class Progeny {
 		this.level = level;
 	}
 
-	public int getFinalGameHighScore() {
-		return finalGameHighScore;
+	/**
+	 * Sets the level progeny.
+	 * 
+	 * @param levelProgenys	the new level progenies
+	 */
+	public void setLevelProgenys(ArrayList<LevelProgeny> levelProgenys) {
+		this.levelProgenys = levelProgenys;
 	}
 
-	public void setFinalGameHighScore(int finalGameHighScore) {
-		this.finalGameHighScore = finalGameHighScore;
+	/**
+	 * Sets the levels.
+	 *
+	 * @param levels		the new levels
+	 */
+	public void setLevels(ArrayList<LevelProgeny> levels) {
+		this.levels = levels;
+	}
+
+	/**
+	 * Sets the time allowed for a level.
+	 *
+	 * @param timeAllowed	the new time allowed
+	 */
+	public void setTimeAllowed(int timeAllowed) {
+		this.timeAllowed = timeAllowed;
 	}
 }
-

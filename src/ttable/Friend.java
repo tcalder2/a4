@@ -2,13 +2,15 @@ package ttable;
 
 import java.util.ArrayList;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Friend.
+ * The class representing a Facebook friends.
+ * 
+ * @author James Baron
+ * @version 1.0
  */
 public class Friend {
 
-	/** The fb_id. */
+	/** The Facebook id. */
 	private String fbId;
 	
 	/** The first_name. */
@@ -21,21 +23,12 @@ public class Friend {
 	private ArrayList<Progeny> progenies;
 
 	/**
-	 * Gets the fb id.
+	 * Gets the Facebook id of the friend
 	 *
 	 * @return the fb id
 	 */
 	public String getFbId() {
 		return fbId;
-	}
-
-	/**
-	 * Sets the fb id.
-	 *
-	 * @param fbId the new fb id
-	 */
-	public void setFbId(String fbId) {
-		this.fbId = fbId;
 	}
 
 	/**
@@ -48,21 +41,39 @@ public class Friend {
 	}
 
 	/**
-	 * Sets the first name.
-	 *
-	 * @param firstName the new first name
-	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	/**
 	 * Gets the last name.
 	 *
 	 * @return the last name
 	 */
 	public String getLastName() {
 		return lastName;
+	}
+
+	/**
+	 * Gets the progenies (children) of a friend.
+	 *
+	 * @return the progenies
+	 */
+	public ArrayList<Progeny> getProgenies() {
+		return progenies;
+	}
+
+	/**
+	 * Sets the Facebook id of the friend
+	 *
+	 * @param fbId the new Facebook id
+	 */
+	public void setFbId(String fbId) {
+		this.fbId = fbId;
+	}
+
+	/**
+	 * Sets the first name.
+	 *
+	 * @param firstName the new first name
+	 */
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 	/**
@@ -75,22 +86,12 @@ public class Friend {
 	}
 
 	/**
-	 * Gets the progenies.
-	 *
-	 * @return the progenies
-	 */
-	public ArrayList<Progeny> getProgenies() {
-		return progenies;
-	}
-
-	/**
-	 * Sets the progenies.
+	 * Sets the progenies (children) of a friend.
 	 *
 	 * @param progenies the new progenies
 	 */
 	public void setProgenies(ArrayList<Progeny> progenies) {
 		this.progenies = progenies;
 	}
-	
 	
 }

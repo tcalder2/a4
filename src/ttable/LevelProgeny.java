@@ -1,6 +1,5 @@
 package ttable;
 
-// TODO: Auto-generated Javadoc
 /**
  * The class responsible for holding child specific level settings and data. In
  * other words the child's progress details and the level settings that are set
@@ -30,92 +29,11 @@ public class LevelProgeny {
 	}
 
 	/**
-	 * Gets the level number between 1 and 12 inclusive.
-	 * 
-	 * @return the level number between 1 and 12 inclusive.
-	 */
-	public int getLevelNumber() {
-		return levelNum;
-	}
-
-	/**
-	 * Sets the level number.
-	 * 
-	 * @param number
-	 *            the level number between 1 and 12 inclusive.
-	 */
-	public void setLevelNumber(int number) {
-		this.levelNum = number;
-	}
-
-	/**
-	 * Gets the number of mistakes made during the latest drill attempt.
-	 * 
-	 * @return the number of mistakes made during the latest drill attempt.
-	 */
-	public int getMistakes() {
-		return mistakes;
-	}
-
-	/**
-	 * Sets the number of mistakes made during the latest drill attempt.
-	 * 
-	 * @param mistakes
-	 *            the number of mistakes made during latest drill attempt.
-	 */
-	public void setMistakes(int mistakes) {
-		this.mistakes = mistakes;
-	}
-
-	/**
-	 * Gets the number of times the drill has been attempted.
-	 * 
-	 * @return the number of times the drill has been attempted.
-	 */
-	public int getAttempts() {
-		return attempts;
-	}
-
-	/**
-	 * Sets the number of times the drill has been attempted.
-	 * 
-	 * @param attempts
-	 *            the number of times the drill has been attempted.
-	 */
-	public void setAttempts(int attempts) {
-		this.attempts = attempts;
-	}
-
-	/**
-	 * Gets the time it took to complete the drill on the first time it was
-	 * passed.
-	 * 
-	 * @return the time it took to complete the drill on the first time it was
-	 *         passed.
-	 */
-	public int getCompletionTime() {
-		return completionTime;
-	}
-
-	/**
-	 * Sets the time it took to complete the drill on the first time it was
-	 * passed.
-	 * 
-	 * @param completionTime
-	 *            the time it took to complete the drill on the first time it
-	 *            was passed.
-	 */
-	public void setCompletionTime(int completionTime) {
-		this.completionTime = completionTime;
-	}
-
-	/**
 	 * Compares the class variables to the class variables of the level progeny
 	 * passed as an argument.
 	 * 
-	 * @param level
-	 *            the level progeny object to be compared with.
-	 * @return true if the objects are equal, false if they are not.
+	 * @param level		the level progeny object to be compared with.
+	 * @return 			true if the objects are equal, false if they are not.
 	 */
 	public boolean equals(LevelProgeny level) {
 		if (getLevelNumber() == level.getLevelNumber()) {
@@ -128,5 +46,81 @@ public class LevelProgeny {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Gets the number of times the drill has been attempted.
+	 * 
+	 * @return 	the number of times the drill has been attempted.
+	 */
+	public int getAttempts() {
+		return attempts;
+	}
+
+	/**
+	 * Gets the time it took to complete the drill on the first time it was
+	 * passed.
+	 * 
+	 * @return 	the time it took to complete the drill on the first time it was
+	 *         	passed.
+	 */
+	public int getCompletionTime() {
+		return completionTime;
+	}
+
+	/**
+	 * Gets the level number between 1 and 12 inclusive.
+	 * 
+	 * @return 	the level number between 1 and 12 inclusive.
+	 */
+	public int getLevelNumber() {
+		return levelNum;
+	}
+
+	/**
+	 * Gets the number of mistakes made during the latest drill attempt.
+	 * 
+	 * @return 	the number of mistakes made during the latest drill attempt.
+	 */
+	public int getMistakes() {
+		return mistakes;
+	}
+
+	/**
+	 * Sets the number of times the drill has been attempted.
+	 * 
+	 * @param attempts 	the number of times the drill has been attempted.
+	 */
+	public void setAttempts(int attempts) {
+		this.attempts = attempts;
+	}
+
+	/**
+	 * Sets the time it took to complete the drill on the first time it was
+	 * passed.
+	 * 
+	 * @param completionTime	the time it took to complete the drill on the first time it
+	 *           				was passed.
+	 */
+	public void setCompletionTime(int completionTime) {
+		this.completionTime = completionTime;
+	}
+
+	/**
+	 * Sets the level number.
+	 * 
+	 * @param number			the level number between 1 and 12 inclusive.
+	 */
+	public void setLevelNumber(int number) {
+		this.levelNum = number;
+	}
+
+	/**
+	 * Sets the number of mistakes made during the latest drill attempt.
+	 * 
+	 * @param mistakes			the number of mistakes made during latest drill attempt.
+	 */
+	public void setMistakes(int mistakes) {
+		this.mistakes = mistakes;
 	}
 }

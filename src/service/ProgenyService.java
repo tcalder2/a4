@@ -17,16 +17,17 @@ import ttable.LevelProgeny;
 import ttable.Progeny;
 
 /**
- * The Class ProgenyService.
+ * The services related to server calls for setting and getting Progeny class information.
  * 
  * @author James Baron
  * @author James Anderson
+ * @version 1.0
  */
 public class ProgenyService {
 
+	/** The Birthday Format **/
 	static SimpleDateFormat birthDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-	
 	/**
 	 * Gets an array of progenies.
 	 *
@@ -58,11 +59,11 @@ public class ProgenyService {
 	}
 	
 	/**
-	 * Adds the progeny.
+	 * Adds a child to the database.
 	 *
-	 * @param name the name
-	 * @param birthDate the birth date
-	 * @return the progeny
+	 * @param name 					the name
+	 * @param birthDate 			the birth date
+	 * @return 						the Progeny added
 	 * @throws JSONFailureException the jSON failure exception
 	 */
 	public static Progeny addProgeny(String name, Date birthDate, int timeAllowed)
@@ -80,6 +81,13 @@ public class ProgenyService {
 		return progeny;
 	}
 	
+	/**
+	 * Changes a child's level, determines what level of game they can play
+	 * 
+	 * @param progeny				the child
+	 * @param level					the new level
+	 * @throws JSONFailureException the JSON failure exception
+	 */
 	public static void changeLevel(Progeny progeny, int level) throws JSONFailureException
 	{
 		Json json = new Json();
@@ -88,6 +96,12 @@ public class ProgenyService {
 		fillProgeny(progeny, progeny_data);
 	}
 	
+	/**
+	 * Fills a pProgeny's data into a Progeny object
+	 * 
+	 * @param progeny		the Progeny
+	 * @param progeny_data	the data to fill the Progeny with
+	 */
 	public static void fillProgeny(Progeny progeny, JSONObject progeny_data)
 	{
 		progeny.setFirstName((String)progeny_data.get("first_name"));
@@ -119,6 +133,13 @@ public class ProgenyService {
 		progeny.setLevelProgenys(levelProgenys);
 	}
 	
+	/**
+	 * Changes the birth date for a child
+	 * 
+	 * @param progeny				the child
+	 * @param birthDate				the new birth date
+	 * @throws JSONFailureException	the JSON failure exception
+	 */
 	public static void changeBirthDate(Progeny progeny, Date birthDate) throws JSONFailureException
 	{
 		SimpleDateFormat birth_date_format = new SimpleDateFormat("yyyy-MM-dd");
@@ -132,9 +153,9 @@ public class ProgenyService {
 	/**
 	 * Sets the specified progeny's time allowed per level.
 	 * 
-	 * @param progeny
-	 * @param timeAllowed
-	 * @throws JSONFailureException
+	 * @param progeny				the child
+	 * @param timeAllowed			the new amount of time allowed (seconds)
+	 * @throws JSONFailureException	the JSON failure exception
 	 */
 	public static void setTimeAllowed(Progeny progeny, int timeAllowed) throws JSONFailureException
 	{
@@ -146,7 +167,6 @@ public class ProgenyService {
 				
 	}
 
-	
 	/**
 	 * Calculates the child's current age.
 	 *
