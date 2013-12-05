@@ -8,6 +8,10 @@ use Zend\Validator\Digits;
 use Zend\Validator\ValidatorChain;
 use Zend\View\Model\JsonModel;
 
+/**
+ * Class UserController
+ * @package User\Controller
+ */
 class UserController extends AbstractActionController
 {
 
@@ -16,6 +20,9 @@ class UserController extends AbstractActionController
   */
  protected $facebook = null;
 
+ /**
+  * @var null
+  */
  protected $fb_id = null;
 
  /**
@@ -23,6 +30,9 @@ class UserController extends AbstractActionController
   */
  protected $userTable = null;
 
+ /**
+  * @return JsonModel
+  */
  public function AuthenticateAction()
  {
   $success = false;
@@ -51,12 +61,18 @@ class UserController extends AbstractActionController
 
  }
 
+ /**
+  * @return JsonModel
+  */
  public function GetQuestionsAction()
  {
   // dump the preset questions to the JSON response
   return new JsonModel(array('success' => true, 'questions' => $this->getUserTable()->getQuestions()));
  }
 
+ /**
+  * @return JsonModel
+  */
  public function SetQuestionAction()
  {
   $question = $this->params()->fromQuery('question');
@@ -85,6 +101,9 @@ class UserController extends AbstractActionController
   return new JsonModel(array('success' => true));
  }
 
+ /**
+  * @return JsonModel
+  */
  public function GetUserAction()
  {
   //get the user singleton and dump the fields to JSON
@@ -93,6 +112,9 @@ class UserController extends AbstractActionController
   return new JsonModel(array('success' => true, 'user' => $user->toArray()));
  }
 
+ /**
+  * @return JsonModel
+  */
  public function GetFriendsAction()
  {
   $friends = $this->getUserTable()->getFriends();
@@ -100,6 +122,9 @@ class UserController extends AbstractActionController
   return new JsonModel(array('success' => true, 'friends' => $friends));
  }
 
+ /**
+  * @return JsonModel
+  */
  public function GetAllFbUsersAction()
  {
   $fb_users = $this->getUserTable()->getAllFbUsers();
@@ -107,6 +132,9 @@ class UserController extends AbstractActionController
   return new JsonModel(array('success' => true, 'fb_users' => $fb_users));
  }
 
+ /**
+  * @return JsonModel
+  */
  public function PostMessageAction()
  {
   $message = $this->params()->fromQuery('message');
@@ -118,6 +146,9 @@ class UserController extends AbstractActionController
   return new JsonModel(array('success' => true));
  }
 
+ /**
+  * @return JsonModel
+  */
  public function ChangeSkinAction()
  {
   $skin = $this->params()->fromQuery('skin');
@@ -134,6 +165,9 @@ class UserController extends AbstractActionController
   return new JsonModel(array('success' => true));
  }
 
+ /**
+  * @return JsonModel
+  */
  public function ResetPasswordAction()
  {
   $answer = $this->params()->fromQuery('answer');
@@ -160,6 +194,9 @@ class UserController extends AbstractActionController
   return new JsonModel(array('success' => true));
  }
 
+ /**
+  * @return JsonModel
+  */
  public function SetAnswerAction()
  {
   $answer = $this->params()->fromQuery('answer');
@@ -187,11 +224,17 @@ class UserController extends AbstractActionController
   return new JsonModel(array('success' => true));
  }
 
+ /**
+  * @return JsonModel
+  */
  public function GetQuestionIndexAction()
  {
   return new JsonModel(array('success' => true, 'question_index' => $this->getUserTable()->getUser()->getQuestion()));
  }
 
+ /**
+  * @return JsonModel
+  */
  public function SetPasswordAction()
  {
   $user = $this->getUserTable()->getUser();
@@ -228,6 +271,9 @@ class UserController extends AbstractActionController
   return $this->facebook;
  }
 
+ /**
+  * @return array|null|object
+  */
  public function getFbId()
  {
   if ($this->fb_id) return $this->fb_id;

@@ -99,6 +99,7 @@ class LevelTable
   /** @var \User\Entity\User $user */
   $user = $this->sm->get('User\Service\User');
 
+  //Add all twelve levels
   for($x = 1; $x < 13; ++$x)
   {
    $level = new Level();
@@ -127,6 +128,7 @@ class LevelTable
 
   $results = Array();
 
+  //Calling functions expect to nest this array
   foreach ($levels as $level)
   {
    /** @var Level $level */

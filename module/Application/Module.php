@@ -51,6 +51,7 @@ class Module
 
     'Application\Service\FbId' => function ($sm) {
 
+       //fake the data if we're in test mode
       if(array_key_exists('fb_test', $_GET) && $_GET['fb_test'])
        return '508430727';
 
@@ -67,6 +68,7 @@ class Module
 
       /** @var \Zend\ServiceManager\ServiceManager $sm */
 
+       //fake the data if we're in test mode
       if(array_key_exists('fb_test', $_GET) && $_GET['fb_test'])
        return array(
         "id" => "508430727",

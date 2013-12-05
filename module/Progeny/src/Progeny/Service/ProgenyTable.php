@@ -28,6 +28,8 @@ class ProgenyTable
  public function removeProgeny(Progeny $progeny)
  {
   $level_progenys = $this->em->getRepository('LevelProgeny\Entity\LevelProgeny')->findBy(array('progeny' => $progeny));
+
+  //Have to delete all the level_progenys first
   foreach($level_progenys as $level_progeny)
   {
    $this->em->remove($level_progeny);
@@ -79,6 +81,7 @@ class ProgenyTable
   $this->em->persist($progeny);
   $this->em->flush();
 
+  //Add the 12 level_progenys
   $level_progeny_table->newLevelProgenys($progeny);
 
   return $progeny;
