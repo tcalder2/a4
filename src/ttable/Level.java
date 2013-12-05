@@ -16,7 +16,6 @@ public class Level {
 	/** The number of mistakes allowed to still complete the drill level. */
 	private int mistakesAllowed = 3;
 
-
 	/** The server object ID for the level. */
 	private String id;
 		

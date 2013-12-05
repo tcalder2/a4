@@ -212,12 +212,21 @@ public class Progeny {
 		this.level = level;
 	}
 
+	/**
+	 * Gets the child's score on the final game.
+	 * 
+	 * @return	the final game high score
+	 */
 	public int getFinalGameHighScore() {
 		return finalGameHighScore;
 	}
 
+	/**
+	 * Sets the child's high score for the final game
+	 * 
+	 * @param finalGameHighScore	the high score
+	 */
 	public void setFinalGameHighScore(int finalGameHighScore) {
 		this.finalGameHighScore = finalGameHighScore;
 	}
 }
-

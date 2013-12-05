@@ -21,7 +21,7 @@ public class Friend {
 	private ArrayList<Progeny> progenies;
 
 	/**
-	 * Gets the fb id.
+	 * Gets the Facebook id of the friend
 	 *
 	 * @return the fb id
 	 */
@@ -30,9 +30,9 @@ public class Friend {
 	}
 
 	/**
-	 * Sets the fb id.
+	 * Sets the Facebook id of the friend
 	 *
-	 * @param fbId the new fb id
+	 * @param fbId the new Facebook id
 	 */
 	public void setFbId(String fbId) {
 		this.fbId = fbId;
@@ -75,7 +75,7 @@ public class Friend {
 	}
 
 	/**
-	 * Gets the progenies.
+	 * Gets the progenies (children) of a friend.
 	 *
 	 * @return the progenies
 	 */
@@ -84,13 +84,12 @@ public class Friend {
 	}
 
 	/**
-	 * Sets the progenies.
+	 * Sets the progenies (children) of a friend.
 	 *
 	 * @param progenies the new progenies
 	 */
 	public void setProgenies(ArrayList<Progeny> progenies) {
 		this.progenies = progenies;
 	}
-	
 	
 }

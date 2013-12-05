@@ -237,41 +237,86 @@ public final class User {
 		return null;
 	}
 
+	/**
+	 * Gets the user's Facebook id
+	 * 
+	 * @return the FB id
+	 */
 	public String getFbID() {
 		return fbID;
 	}
 
+	/**
+	 * Set's the user's Facebook ID
+	 * @param fbID	the new FB id
+	 */
 	public void setFbID(String fbID) {
 		this.fbID = fbID;
 	}
 
+	/**
+	 * Gets the current skin for the Drill mode
+	 * 
+	 * @return	an int between 0 and 2 (inclusive), representing one of
+	 * 			the three skins
+	 */
 	public static int getDrillSkin() {
 		return drillSkin;
 	}
 
+	/**
+	 * Sets the skin used for the Drill mode
+	 * 
+	 * @param	an int between 0 and 2 (inclusive), representing one of
+	 * 			the three skins
+	 */
 	public static void setDrillSkin(int drillSkin) {
 		User.drillSkin = drillSkin;
 	}
 
+	/**
+	 * Returns a code indicating the background image currently used for the menus
+	 * 
+	 * @return	the background image code
+	 */
 	public static int getBackgroundMenu() {
 		return backgroundMenuCode;
 	}
 
+	/**
+	 * Sets the current background image for the menus
+	 * 
+	 * @param code	a code indicating the background image
+	 */
 	public static void setBackgroundMenu(int code) {
 		User.backgroundMenuCode = code;
 	}
 
+	/** 
+	 * Returns a code indicating the background image currently used
+	 * 
+	 * @return	the background image code
+	 */
 	public static int getBackground() {
 		return backgroundCode;
 	}
 
+	/**
+	 * Sets the current background image
+	 * 
+	 * @param code	a code indicating the background image
+	 */
 	public static void setBackground(int code) {
 		User.backgroundCode = code;
 	}
 
+	/**
+	 * Sets an instance of the User class
+	 * 
+	 * @param instance	the current instance of the User
+	 */
 	public static void setInstance(User instance) {
 		User.instance = instance;
 	}
-	
 	
 }
