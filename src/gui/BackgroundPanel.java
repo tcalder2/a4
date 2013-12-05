@@ -28,7 +28,7 @@ public class BackgroundPanel extends JPanel {
 	public BackgroundPanel(int imageCode) {
 
 		try	{
-			//Load the graphic and set the dimensions of the panel
+			//Attempt to load the graphic and set the dimensions of the panel
 			background = Controller.loadBackground(imageCode);
 			Dimension d = new Dimension(background.getWidth(null), background.getHeight(null));
 			setPreferredSize(d);
@@ -59,6 +59,7 @@ public class BackgroundPanel extends JPanel {
 		setMaximumSize(d);
 		setSize(d);
 
+		//Attempt to load the background image, if can't throw exception
 		try	{
 			background = Controller.loadBackground(imageCode);
 		} catch (IOException e) {
@@ -77,7 +78,7 @@ public class BackgroundPanel extends JPanel {
 	 * @param layout	the layout for the new background panel.
 	 */
 	public BackgroundPanel(int imageCode, LayoutManager layout) {
-//check if your changes are in here
+
 		//Call the basic constructor
 		this(imageCode);
 
@@ -91,11 +92,14 @@ public class BackgroundPanel extends JPanel {
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
+
+		//Paint the background
 		g.drawImage(background, 0, 0, null);
 	}
 
 	/**
-	 * 
+	 * Close method, by default no action is performed on close. Subclasses must override
+	 * this method if they require actions to be performed on close.
 	 */
 	public void close() {
 		//Null method to be overwritten by screens requiring extra actions on close.

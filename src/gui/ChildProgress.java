@@ -9,8 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -20,7 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import ttable.LevelProgeny;
@@ -53,7 +50,7 @@ public class ChildProgress extends JPanel {
 
 		//Set the panel to be transparent
 		setOpaque(false);
-		
+
 		//Create instance of GridBagConstraints to control layout
 		GridBagConstraints c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.WEST;
@@ -63,7 +60,7 @@ public class ChildProgress extends JPanel {
 		c.gridx = 0;
 		c.gridy = 0;
 
-		//Create the back button (with back arrow graphic) to allow quick return to the child settings tab
+		//Add the back button to allow quick return to the child settings tab
 		JButton backArrow = new JButton();
 		backArrow.setContentAreaFilled(false);
 		backArrow.setBorderPainted(false);
@@ -84,20 +81,11 @@ public class ChildProgress extends JPanel {
 		c.gridy = 1;
 		add(title, c);
 
-		//Create vector of column headers
-		Vector<String> columnNames = new Vector<String>(Arrays.asList(new String[]{"Level","Attempts","Final Time","Final Mistakes"}));
-
-		//Create a vector structure containing the child's progress details
-		Vector<Vector<String>> progress = new Vector<Vector<String>>();
-		
 		//Create and populate table showing details of child progress
-		DefaultTableModel tableModel = new DefaultTableModel(progress, columnNames);
-		tableModel.setNumRows(12);
-		
 		Object[][] array = new Object[12][4];
 		String[] header = {"Level","Attempts","Final Time","Final Mistakes"};
 		JTable table = new JTable(array, header);
-		
+
 		//Set table appearance attributes
 		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 		renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
@@ -108,52 +96,45 @@ public class ChildProgress extends JPanel {
 			col.setCellRenderer(renderer);
 			col.setWidth(100);
 		}
-		
+
+		//Create the array of data for the table
 		LevelProgeny hold = null;
-		
-		// I don't know how any of that vectorized string shit works so I'm just using an array
-		// Sorry for overwriting some of your work :-/
-		
 		for (int i = 0; i < 12; i++) {
-			
+
+			//Get the level data
 			hold = child.getLevelProgenys().get(i);
-			// Level
+
+			//Add the level
 			array[i][0] = new String("" + (i+1));
-			
-			// Attempts
+
+			//Add the number of attempts attempts
 			array[i][1] = new String("" + hold.getAttempts());
-			
-			// Final Time
+
+			//Add the final completion time
 			if (hold.getCompletionTime() == 0) {
 				array[i][2] = new String("-");
-
 			}
 			else {
-				array[i][2] = new String("" + (hold.getCompletionTime()/60) + ":" + (hold.getCompletionTime()%60));
+				array[i][2] = new String("" + (hold.getCompletionTime()/60) + ":" + 
+						(hold.getCompletionTime()%60));
 			}
-				
-						
-			// Final Mistakes
+
+			//Add the final number of mistakes
 			if (hold.getCompletionTime() == 0) {
 				array[i][3] = new String("-");
 			}
 			else {
 				array[i][3] = new String("" + hold.getMistakes());
-				
 			}
-			
 		}
 
-		// Set table settings
+		//Set table attributes
 		table.setOpaque(false);
 		table.setRowHeight(18);
 		table.setShowGrid(false);
 		table.setDragEnabled(false);
 		table.setRowSorter(null);
-		table.setRowSelectionAllowed(false);
-		table.setColumnSelectionAllowed(false);
 		table.setEnabled(false);
-		table.setCellSelectionEnabled(false);
 		table.setFont(new Font("Serif", Font.PLAIN, 14));
 		table.getTableHeader().setReorderingAllowed(false);
 		table.getTableHeader().setDefaultRenderer(renderer);
@@ -193,7 +174,7 @@ class BackToSettings implements ActionListener {
 	 * child settings tab be passed as arguments.
 	 * 
 	 * @param settingsPane		the current settings pane instance
-	 * @param childSettings	the current child settings tab instance
+	 * @param childSettings		the current child settings tab instance
 	 */
 	public BackToSettings(Settings settingsPane, ChildSettingsTab childSettings) {
 		super();
@@ -207,6 +188,8 @@ class BackToSettings implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		//Change the tab back to the child settings screen
 		settingsPane.changeTabContent(0, childSettingsTab);
 	}
 }

@@ -37,21 +37,22 @@ import service.ProgenyService;
 import ttable.Progeny;
 
 /**
- * The Class ChildSettingsTab.
+ * The class ChildSettingsTab, a populated JPanel responsible for setting all settings under
+ * parents mode that relate to the child instances (as compared to the level instances).
  * 
  * @author James Anderson
- * @version 2.0
+ * @version 2.1
  */
 @SuppressWarnings("serial")
 public class ChildSettingsTab extends JPanel {
 
-	/** The settings pane. */
+	/** The settings pane that contains this tab. */
 	private Settings settings;
 
 	/** The list of currently added progeny. */
 	private ArrayList<Progeny> progenyList;
 
-	/** The name input field for adding a new child. */
+	/** The name input text field for adding a new child. */
 	private JTextField nameInput;
 
 	/** The birth-year drop down for adding new children. */
@@ -85,12 +86,9 @@ public class ChildSettingsTab extends JPanel {
 	private DefaultTableModel tableModel;
 
 	/**
-	 * Instantiates an ChildSettingsTab instance.
+	 * Constructor requiring the settings pane that contains this tab as a parameter.
 	 * 
-	 * @param Controller
-	 *            the Controller
-	 * @param settings
-	 *            the settings pane
+	 * @param settings			the settings pane that contains this tab.
 	 */
 	public ChildSettingsTab(Settings settings) {
 
@@ -178,8 +176,8 @@ public class ChildSettingsTab extends JPanel {
 			table.getTableHeader().setDefaultRenderer(renderer);
 			table.getTableHeader().setFont(new Font("Sarif", Font.BOLD, 14));
 
-			// Put the table into a scroll pane to allow scrolling when the
-			// table is too large to fit
+			//Put the table into a scroll pane to allow scrolling when the
+			//table is too large to fit
 			JScrollPane scroll = new JScrollPane(table);
 			scroll.setOpaque(false);
 			scroll.getViewport().setOpaque(false);
@@ -686,10 +684,8 @@ class PressProgress implements ActionListener {
 	/**
 	 * Instantiates a new PressProgress action listener.
 	 * 
-	 * @param settingsPane
-	 *            the current settings panes instance.
-	 * @param childSelect
-	 *            the child selection drop down list by name.
+	 * @param settingsPane		the current settings panes instance.
+	 * @param childSelect		the child selection drop down list by name.
 	 */
 	public PressProgress(Settings settingsPane, ChildSettingsTab childSettings,
 			JComboBox<String> childSelect) {
@@ -846,7 +842,9 @@ class YearSelected implements ActionListener {
 }
 
 /**
- * The class ChildSelected, an action listener.
+ * The class ChildSelected, an action listener responsible for listening for when a new child
+ * is selected and then calling the methods responsible for updating selections in the drop
+ * down lists.
  * 
  * @author James Anderson
  * @version 1.0
@@ -857,11 +855,10 @@ class ChildSelected implements ActionListener {
 	private ChildSettingsTab childSettings;
 
 	/**
-	 * Instantiates a ChildSelected instance.
+	 * Constructor requiring the child settings display that the action listener is associated
+	 * with to be passed as an argument.
 	 * 
-	 * @param childSettings
-	 *            the child settings tab of the settings pane.
-	 * 
+	 * @param childSettings		 the child settings tab of the settings pane.
 	 */
 	public ChildSelected(ChildSettingsTab childSettings) {
 		super();
@@ -886,7 +883,8 @@ class ChildSelected implements ActionListener {
 }
 
 /**
- * The class PressAdd, an action listener.
+ * The class PressAdd, an action listener responsible for for calling the method to add a new child
+ * on button click.
  * 
  * @author James Anderson
  * @version 1.0
@@ -916,12 +914,15 @@ class PressAdd implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		//Call method to add the child
 		childSettings.addChild();
 	}
 }
 
 /**
- * The class PressRemove, an action listener.
+ * The class PressRemove, an action listener responsible for calling the method to remove
+ * a child on button click.
  * 
  * @author James Anderson
  * @version 1.0
