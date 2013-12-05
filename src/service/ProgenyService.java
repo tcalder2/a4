@@ -16,11 +16,13 @@ import json.Json;
 import ttable.LevelProgeny;
 import ttable.Progeny;
 
+
 /**
- * The Class ProgenyService.
+ * The services related to server calls for setting and getting Progeny class information.
  * 
  * @author James Baron
  * @author James Anderson
+ * @version 1.0
  */
 public class ProgenyService {
 

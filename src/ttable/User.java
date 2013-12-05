@@ -17,24 +17,6 @@ import json.Json;
  * @version 2.1
  */
 public final class User {
-
-	/** The instance. */
-	private static User instance = null;
-	
-	/** The user's Facebook ID. */
-	private String fbID;
-
-	/** The user's first name. */
-	private String firstName;
-	
-	/** The user's last name. */
-	private String lastName;
-	
-	/** The array of progeny. */
-	private ArrayList<Progeny> progenyList;
-	
-	/** The array of levels. */
-	private ArrayList<Level> levels;
 	
 	/** The current Drill Game skin **/
 	public static int drillSkin = 0;
@@ -45,6 +27,24 @@ public final class User {
 	/** URL to the current drill game background **/
 	public static int backgroundCode = 0;
 	
+	/** The user's Facebook ID. */
+	private String fbID;
+
+	/** The user's first name. */
+	private String firstName;
+	
+	/** The user's last name. */
+	private String lastName;
+	
+	/** The instance. */
+	private static User instance = null;
+	
+	/** The array of progeny. */
+	private ArrayList<Progeny> progenyList;
+	
+	/** The array of levels. */
+	private ArrayList<Level> levels;
+	
 	
 	/**
 	 * Instantiates a new user.
@@ -53,55 +53,34 @@ public final class User {
 		// Exists to defeat foreign instantiation
 	}
 
-	/**
-	 * Gets the single instance of User.
+	/** 
+	 * Returns a code indicating the background image currently used
 	 * 
-	 * @return single instance of User
+	 * @return	the background image code
 	 */
-	public static User getInstance() throws JSONFailureException {
-		if (instance == null) {
-			Json json = new Json();
-
-			JSONObject jsonObj = json.sendRequest("https://jbaron6.cs2212.ca/getuser");
-
-			JSONObject userObj = (JSONObject) jsonObj.get("user");
-
-			instance = new User();
-			instance.setFbId((String) userObj.get("fb_id"));
-			instance.setFirstName((String) userObj.get("first_name"));
-			instance.setLastName((String) userObj.get("last_name"));
-			instance.setProgenyList(ProgenyService.getProgenies());
-			
-			instance.setLevels(LevelService.getLevels());
-		}
-		return instance;
+	public static int getBackground() {
+		return backgroundCode;
 	}
 
 	/**
-	 * Method updates the theme for the drill game
+	 * Returns a code indicating the background image currently used for the menus
 	 * 
-	 * @param theme	the theme - 0 = default, 1 = airplanes, 2 = castles
+	 * @return	the background image code
 	 */
-	public static void updateTheme(int theme) {
-		
-		if (theme == 0) {
-			 backgroundMenuCode = 20;
-			 backgroundCode = 0;
-			 drillSkin = 0;
-		}
-		else if (theme == 1) {
-			backgroundCode = 21;
-			backgroundMenuCode = 21;
-			drillSkin = 1;
-		}
-		else if (theme == 2) {
-			 backgroundCode = 22;
-			 backgroundMenuCode = 22;
-			 drillSkin = 2;
-		}
-		
+	public static int getBackgroundMenu() {
+		return backgroundMenuCode;
 	}
 	
+	/**
+	 * Gets the current skin for the Drill mode
+	 * 
+	 * @return	an int between 0 and 2 (inclusive), representing one of
+	 * 			the three skins
+	 */
+	public static int getDrillSkin() {
+		return drillSkin;
+	}
+
 	// ** NOTE ** //
 	/**
 	 * This is a dummy method that emulates how getFriends will work I'm
@@ -139,16 +118,16 @@ public final class User {
 	public String getFbId() {
 		return fbID;
 	}
-
+	
 	/**
-	 * Sets the id.
+	 * Gets the user's Facebook id
 	 * 
-	 * @param fbID		the user's Facebook ID
+	 * @return the FB id
 	 */
-	private void setFbId(String fbID) {
-		this.fbID = fbID;
+	public String getFbID() {
+		return fbID;
 	}
-
+	
 	/**
 	 * Gets the first name.
 	 * 
@@ -157,15 +136,29 @@ public final class User {
 	public String getFirstName() {
 		return firstName;
 	}
-
+	
 	/**
-	 * Sets the first name.
+	 * Gets the single instance of User.
 	 * 
-	 * @param firstName
-	 *            the new first name
+	 * @return single instance of User
 	 */
-	private void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public static User getInstance() throws JSONFailureException {
+		if (instance == null) {
+			Json json = new Json();
+
+			JSONObject jsonObj = json.sendRequest("https://jbaron6.cs2212.ca/getuser");
+
+			JSONObject userObj = (JSONObject) jsonObj.get("user");
+
+			instance = new User();
+			instance.setFbId((String) userObj.get("fb_id"));
+			instance.setFirstName((String) userObj.get("first_name"));
+			instance.setLastName((String) userObj.get("last_name"));
+			instance.setProgenyList(ProgenyService.getProgenies());
+			
+			instance.setLevels(LevelService.getLevels());
+		}
+		return instance;
 	}
 
 	/**
@@ -177,53 +170,6 @@ public final class User {
 		return lastName;
 	}
 
-	/**
-	 * Sets the last name.
-	 * 
-	 * @param lastName
-	 *            the new last name
-	 */
-	private void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	/**
-	 * Gets the progeny list.
-	 * 
-	 * @return the progeny list
-	 */
-	public ArrayList<Progeny> getProgenyList() {
-		return progenyList;
-	}
-
-	/**
-	 * Sets the progeny list.
-	 * 
-	 * @param progenyList
-	 *            the new progeny list
-	 */
-	public void setProgenyList(ArrayList<Progeny> progenyList) {
-		this.progenyList = progenyList;
-	}
-	
-	/**
-	 * Gets an array of the levels (ie. global level settings).
-	 * 
-	 * @return 						an array of the levels 
-	 */
-	public ArrayList<Level> getLevels() {
-		return levels;
-	}
-	
-	/**
-	 * Sets the array of levels.
-	 * 
-	 * @param levels	the array of levels
-	 */
-	public void setLevels(ArrayList<Level> levels) {
-		this.levels = levels;
-	}
-	
 	/**
 	 * Gets the specified level.
 	 * 
@@ -238,30 +184,39 @@ public final class User {
 	}
 
 	/**
-	 * Gets the user's Facebook id
+	 * Gets an array of the levels (ie. global level settings).
 	 * 
-	 * @return the FB id
+	 * @return 						an array of the levels 
 	 */
-	public String getFbID() {
-		return fbID;
+	public ArrayList<Level> getLevels() {
+		return levels;
 	}
 
 	/**
-	 * Set's the user's Facebook ID
-	 * @param fbID	the new FB id
+	 * Gets the progeny list.
+	 * 
+	 * @return the progeny list
 	 */
-	public void setFbID(String fbID) {
-		this.fbID = fbID;
+	public ArrayList<Progeny> getProgenyList() {
+		return progenyList;
+	}
+	
+	/**
+	 * Sets the current background image
+	 * 
+	 * @param code	a code indicating the background image
+	 */
+	public static void setBackground(int code) {
+		User.backgroundCode = code;
 	}
 
 	/**
-	 * Gets the current skin for the Drill mode
+	 * Sets the current background image for the menus
 	 * 
-	 * @return	an int between 0 and 2 (inclusive), representing one of
-	 * 			the three skins
+	 * @param code	a code indicating the background image
 	 */
-	public static int getDrillSkin() {
-		return drillSkin;
+	public static void setBackgroundMenu(int code) {
+		User.backgroundMenuCode = code;
 	}
 
 	/**
@@ -275,48 +230,93 @@ public final class User {
 	}
 
 	/**
-	 * Returns a code indicating the background image currently used for the menus
+	 * Sets the id.
 	 * 
-	 * @return	the background image code
+	 * @param fbID		the user's Facebook ID
 	 */
-	public static int getBackgroundMenu() {
-		return backgroundMenuCode;
+	private void setFbId(String fbID) {
+		this.fbID = fbID;
 	}
 
 	/**
-	 * Sets the current background image for the menus
-	 * 
-	 * @param code	a code indicating the background image
+	 * Set's the user's Facebook ID
+	 * @param fbID	the new FB id
 	 */
-	public static void setBackgroundMenu(int code) {
-		User.backgroundMenuCode = code;
-	}
-
-	/** 
-	 * Returns a code indicating the background image currently used
-	 * 
-	 * @return	the background image code
-	 */
-	public static int getBackground() {
-		return backgroundCode;
+	public void setFbID(String fbID) {
+		this.fbID = fbID;
 	}
 
 	/**
-	 * Sets the current background image
+	 * Sets the first name.
 	 * 
-	 * @param code	a code indicating the background image
+	 * @param firstName
+	 *            the new first name
 	 */
-	public static void setBackground(int code) {
-		User.backgroundCode = code;
+	private void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	/**
+		/**
 	 * Sets an instance of the User class
 	 * 
 	 * @param instance	the current instance of the User
 	 */
 	public static void setInstance(User instance) {
 		User.instance = instance;
+	}
+
+	/**
+	 * Sets the last name.
+	 * 
+	 * @param lastName
+	 *            the new last name
+	 */
+	private void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	/**
+	 * Sets the array of levels.
+	 * 
+	 * @param levels	the array of levels
+	 */
+	public void setLevels(ArrayList<Level> levels) {
+		this.levels = levels;
+	}
+
+	/**
+	 * Sets the progeny list.
+	 * 
+	 * @param progenyList
+	 *            the new progeny list
+	 */
+	public void setProgenyList(ArrayList<Progeny> progenyList) {
+		this.progenyList = progenyList;
+	}
+	
+	/**
+	 * Method updates the theme for the drill game
+	 * 
+	 * @param theme	the theme - 0 = default, 1 = airplanes, 2 = castles
+	 */
+	public static void updateTheme(int theme) {
+		
+		if (theme == 0) {
+			 backgroundMenuCode = 20;
+			 backgroundCode = 0;
+			 drillSkin = 0;
+		}
+		else if (theme == 1) {
+			backgroundCode = 21;
+			backgroundMenuCode = 21;
+			drillSkin = 1;
+		}
+		else if (theme == 2) {
+			 backgroundCode = 22;
+			 backgroundMenuCode = 22;
+			 drillSkin = 2;
+		}
+		
 	}
 	
 }

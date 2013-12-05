@@ -10,55 +10,16 @@ import json.JSONFailureException;
 import json.Json;
 import ttable.Level;
 
+/**
+ * The services related to server calls for setting and getting Level class information.
+ * 
+ * @author James Baron
+ * @author James Anderson
+ * @version 1.0
+ */
+
 public class LevelService {
 
-	/**
-	 * Gets an array of the levels (ie. global level settings).
-	 * 
-	 * @return 						an array of the levels 
-	 * @throws JSONFailureException	the JSON failure exception
-	 */
-	public static ArrayList<Level> getLevels() throws JSONFailureException {
-		
-		ArrayList<Level> levels = new ArrayList<Level>();
-		
-		Json json = new Json();
-		JSONObject jsonObj = json.sendRequest("https://jbaron6.cs2212.ca/getlevels");
-		
-		JSONArray levelsArray = (JSONArray) jsonObj.get("levels");
-		
-		Iterator<?> levelsIt = levelsArray.iterator();
-		
-		while(levelsIt.hasNext())
-		{
-			JSONObject levelObj = (JSONObject)levelsIt.next();
-			
-			Level level = new Level();
-			fillLevel(level, levelObj);
-			levels.add(level);
-		}
-		
-		return levels;
-	}
-	
-	/**
-	 * Return a level object for a given level number
-	 * 
-	 * @param level_number			the number of the level(1 to 12)
-	 * @return						the level object
-	 * @throws JSONFailureException the JSON failure exception
-	 */
-	public static Level getLevel(int level_number) throws JSONFailureException
-	{
-		Json json = new Json();
-		JSONObject jsonObj = json.sendRequest("https://jbaron6.cs2212.ca/getlevel?level=" + level_number);
-		
-		Level level = new Level();
-		fillLevel(level, (JSONObject)jsonObj.get("level"));
-		
-		return level;
-	}
-	
 	/**
 	 * Change the number of mistakes allowed for a given Drill level
 	 * 
@@ -87,5 +48,51 @@ public class LevelService {
 		level.setId(level_data.get("id").toString());
 	}
 	
+	/**
+	 * Return a level object for a given level number
+	 * 
+	 * @param level_number			the number of the level(1 to 12)
+	 * @return						the level object
+	 * @throws JSONFailureException the JSON failure exception
+	 */
+	public static Level getLevel(int level_number) throws JSONFailureException
+	{
+		Json json = new Json();
+		JSONObject jsonObj = json.sendRequest("https://jbaron6.cs2212.ca/getlevel?level=" + level_number);
+		
+		Level level = new Level();
+		fillLevel(level, (JSONObject)jsonObj.get("level"));
+		
+		return level;
+	}
+	
+	/**
+	 * Gets an array of the levels (ie. global level settings).
+	 * 
+	 * @return 						an array of the levels 
+	 * @throws JSONFailureException	the JSON failure exception
+	 */
+	public static ArrayList<Level> getLevels() throws JSONFailureException {
+		
+		ArrayList<Level> levels = new ArrayList<Level>();
+		
+		Json json = new Json();
+		JSONObject jsonObj = json.sendRequest("https://jbaron6.cs2212.ca/getlevels");
+		
+		JSONArray levelsArray = (JSONArray) jsonObj.get("levels");
+		
+		Iterator<?> levelsIt = levelsArray.iterator();
+		
+		while(levelsIt.hasNext())
+		{
+			JSONObject levelObj = (JSONObject)levelsIt.next();
+			
+			Level level = new Level();
+			fillLevel(level, levelObj);
+			levels.add(level);
+		}
+		
+		return levels;
+	}
 	
 }
