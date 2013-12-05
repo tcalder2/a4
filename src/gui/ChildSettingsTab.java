@@ -556,6 +556,9 @@ public class ChildSettingsTab extends JPanel {
 		}
 	}
 
+	/**
+	 * Add a progeny
+	 */
 	public void addChild() {
 		String firstName = "";
 		year.setForeground(Color.RED);

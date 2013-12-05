@@ -11,13 +11,15 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import json.JSONFailureException;
+import service.FriendService;
 import service.GameService;
 import service.ProgenyService;
 import service.UserService;
 import ttable.LevelProgeny;
 
 /**
- * The class ScoreREport, a populated BackgroundPanel.
+ * The class ScoreReport, a populated BackgroundPanel.
+ * Displays the results of a drill game
  * 
  * @author Taylor Calder
  * @version 1.0
@@ -26,12 +28,12 @@ import ttable.LevelProgeny;
 public class ScoreReport extends BackgroundPanel {
 
 	/**
-	 * Instantiates a PasswordReset instance.
+	 * Instantiates a ScoreReport instance.
 	 * 
 	 */
-
 	@SuppressWarnings("unused")
 	private int level, time, timeLeft, average;
+	private String averageMessage;
 
 	public ScoreReport(boolean win, int timeArg, int timeLeftArg, int levelArg,
 			int incorrect) {
@@ -39,9 +41,8 @@ public class ScoreReport extends BackgroundPanel {
 		// Calls superclass constructor to create the background panel
 		super(0, new GridBagLayout());
 
-		
-		
-		// Save the game state
+
+		// If the player beat the level, try to update progress
 		if (win) {
 			try {
 				GameService.saveGame(Controller.getCurrentProgeny(), levelArg,
@@ -53,6 +54,7 @@ public class ScoreReport extends BackgroundPanel {
 			}
 		}
 
+		// Update the progeny's level if they beat a level higher than their current level
 		if (levelArg >= Controller.getCurrentProgeny().getLevel() && win && levelArg != 12) {
 			try {
 				ProgenyService.changeLevel(Controller.getCurrentProgeny(), levelArg+1);
@@ -66,9 +68,6 @@ public class ScoreReport extends BackgroundPanel {
 		time = timeArg;
 		timeLeft = timeLeftArg;
 
-		// TODO server call to get average score
-		average = 31;
-
 		// Create the components
 		JLabel score1;
 		if (win) {
@@ -77,12 +76,25 @@ public class ScoreReport extends BackgroundPanel {
 		} else {
 			score1 = new JLabel("You didn't manage to finish...");
 		}
-		JLabel score2 = new JLabel("The average time is " + average
-				+ " seconds.");
+		
+		// Calculate average time for this level for the progeny's age group
+		average = FriendService.getAverageDrillTime(level, ProgenyService.getAge(Controller.getCurrentProgeny().getBirthDate()));
+		
+		if (average > 0) {
+			averageMessage = ("The average time for your age and this level is " + average
+					+ " seconds.");
+		}
+		else {
+			averageMessage = ("Sorry, we weren't able to compare to you anyone!");
+		}
+		
+		// Display message with the average
+		JLabel score2 = new JLabel(averageMessage);
 
 		JButton fbB = new JButton("Post this to Facebook!");
 		JButton levelB;
 
+		// Allow progeny to play the level game only if they beat the drill game
 		if (win) {
 			levelB = new JButton("Play the Level Game!");
 			levelB.addActionListener(new ToLevelGame());
@@ -91,10 +103,12 @@ public class ScoreReport extends BackgroundPanel {
 			levelB.addActionListener(new TryAgain(level));
 		}
 
+		// Setup level game button
 		levelB.setMaximumSize(new Dimension(200, 20));
 		levelB.setMinimumSize(new Dimension(200, 20));
 		levelB.setPreferredSize(new Dimension(200, 20));
 
+		// Setup post to facebook button
 		fbB.setMaximumSize(new Dimension(200, 20));
 		fbB.setMinimumSize(new Dimension(200, 20));
 		fbB.setPreferredSize(new Dimension(200, 20));
@@ -127,6 +141,10 @@ public class ScoreReport extends BackgroundPanel {
 		add(levelB, c); // Level game button
 
 	}
+//	private static int getLevel() {
+//		// TODO Auto-generated method stub
+//		return level;
+//	}
 
 	/**
 	 * The class ToLevelGame, an action listener.

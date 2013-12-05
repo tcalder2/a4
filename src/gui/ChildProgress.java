@@ -70,7 +70,7 @@ public class ChildProgress extends JPanel {
 		backArrow.addActionListener(new BackToSettings(settingsPane, childSettings));
 		try {
 			Image img = ImageIO.read(new URL("http://jbaron6.cs2212.ca/img/b_arrow.png"));
-			backArrow.setIcon(new ImageIcon(img.getScaledInstance(40, 40, Image.SCALE_DEFAULT)));
+			backArrow.setIcon(new ImageIcon(img.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
 		} catch (IOException e) {
 			backArrow.setText("<--");
 		}
@@ -143,7 +143,8 @@ public class ChildProgress extends JPanel {
 			}
 			
 		}
-		
+
+		// Set table settings
 		table.setOpaque(false);
 		table.setRowHeight(18);
 		table.setShowGrid(false);

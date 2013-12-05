@@ -18,6 +18,8 @@ import service.UserService;
 
 /**
  * The class ScoreREport, a populated BackgroundPanel.
+ * Displays a report of the child's score on the final4
+ * game
  * 
  * @author Taylor Calder
  * @version 1.0
@@ -26,10 +28,8 @@ import service.UserService;
 public class ScoreReportF extends BackgroundPanel {
 
 	/**
-	 * Instantiates a PasswordReset instance.
-	 * 
+	 * Instantiates a ScoreReportF
 	 */
-	
 	private int score;
 	private int highscore;
 	public String scoreStr, highScoreStr;
@@ -50,6 +50,7 @@ public class ScoreReportF extends BackgroundPanel {
 		scoreStr = String.format("%05d", score);
 		highScoreStr = "";
 		
+		// Gets theoir current high score if applicable
 		try {
 			highscore = Controller.getCurrentProgeny().getFinalGameHighScore();
 		}
@@ -57,6 +58,7 @@ public class ScoreReportF extends BackgroundPanel {
 			highscore = -1;
 		}
 		
+		// Choses appropriate message depending on progeny performance
 		if (score > highscore && highscore >= 0) {
 			Controller.getCurrentProgeny().setFinalGameHighScore(score);
 			highScoreStr = ("You beat your old high score! (" + String.format("%05d", highscore) + ")");
@@ -115,6 +117,9 @@ public class ScoreReportF extends BackgroundPanel {
 
 	}
 	
+	/**
+	 * Draws the progeny's score
+	 */
 	public void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
